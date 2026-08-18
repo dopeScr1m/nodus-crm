@@ -1079,23 +1079,7 @@
                                 </div>
                             </div>
 
-                            <div class="tier-cards-grid four-cols">
-                                <!-- Option 0: Only licenses (No integration) -->
-                                <div class="tier-card" data-nodus-plan="none">
-                                    <div class="card-top-row">
-                                        <span class="tier-card-name">Без внедрения</span>
-                                        <div class="tier-check-badge">✓</div>
-                                    </div>
-                                    <div class="tier-card-price">0 ₸</div>
-                                    <div class="tier-card-term">Срок: 15 минут (выдача доступов)</div>
-                                    <ul class="tier-bullets-list">
-                                        <li><b>Только лицензии софта</b> со всеми скидками</li>
-                                        <li>Активация и передача ключей за 15 мин</li>
-                                        <li>Договор, ЭСФ и акты для бухгалтерии</li>
-                                        <li>Для тех, у кого уже есть штатный админ CRM</li>
-                                    </ul>
-                                </div>
-
+                            <div class="tier-cards-grid three-cols">
                                 <!-- Option 1: Basic -->
                                 <div class="tier-card" data-nodus-plan="basic">
                                     <div class="card-top-row">
@@ -1399,6 +1383,23 @@
         </div>
     </div>
 
+        <!-- Secret Easter Egg Modal -->
+    <div class="modal-overlay" id="easter-egg-modal">
+        <div class="modal-content glass" style="max-width: 440px; text-align: center; padding: 32px 24px; border: 1.5px solid rgba(99, 102, 241, 0.4); box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+            <button class="modal-close" id="easter-close-btn">&times;</button>
+            <div style="font-size: 2.2rem; margin-bottom: 6px;">🐱🚽</div>
+            <h3 class="modal-title" style="font-size: 1.35rem; margin-bottom: 6px;">Секретная пасхалка NODUS!</h3>
+            <p style="font-size: 0.88rem; color: var(--color-text-muted); margin-bottom: 16px; line-height: 1.45;">
+                Поздравляем, ты чертовски дотошный и внимательный клиент! Держи секретный артефакт:
+            </p>
+            <div style="border-radius: 16px; overflow: hidden; border: 1.5px solid var(--color-border); margin-bottom: 18px; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+                <img src="images/easter_egg.jpg" alt="Секретная пасхалка NODUS" style="width: 100%; display: block; object-fit: contain;">
+            </div>
+            <button type="button" class="btn btn-primary w-full" id="easter-flush-btn" style="background: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);">
+                🚿 Смыть (Закрыть)
+            </button>
+        </div>
+    </div>
     <!-- Modal Form for Requisites -->
     <div class="modal-overlay" id="requisites-modal">
         <div class="modal-content glass modal-req">
@@ -1495,6 +1496,7 @@
     <script src="app.js"></script>
 </body>
 </html>
+
 
 
 

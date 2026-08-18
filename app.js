@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tg:  { start: 6000, inbox: 12000, pro: 24000, max: 36000 },
         vk:  { free: 0, max: 24000 }
     };
-    const NODUS_PRICES = { none: 0, basic: 100000, standard: 250000, vip: 500000 };
+    const NODUS_PRICES = { basic: 100000, standard: 250000, vip: 500000 };
 
     // Calculator State
     const state = {
@@ -948,6 +948,77 @@ document.addEventListener('DOMContentLoaded', () => {
             updateThemeState(next);
         });
     });
+    // =========================================================================
+    // 13. SECRET MEME EASTER EGG
+    // =========================================================================
+    const easterModal = getEl('easter-egg-modal');
+    const easterClose = getEl('easter-close-btn');
+    const easterFlush = getEl('easter-flush-btn');
+
+    const openEasterEgg = () => {
+        if (easterModal) {
+            easterModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+
+    const closeEasterEgg = () => {
+        if (easterModal) {
+            easterModal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    };
+
+    if (easterClose) easterClose.addEventListener('click', closeEasterEgg);
+    if (easterFlush) easterFlush.addEventListener('click', closeEasterEgg);
+    if (easterModal) {
+        easterModal.addEventListener('click', e => { if (e.target === easterModal) closeEasterEgg(); });
+    }
+
+    // Trigger 1: Click 5 times on the logo dot "."
+    let dotClicks = 0;
+    let dotTimer = null;
+    document.querySelectorAll('.logo-dot').forEach(dot => {
+        dot.style.cursor = 'pointer';
+        dot.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            dotClicks++;
+            clearTimeout(dotTimer);
+            dotTimer = setTimeout(() => { dotClicks = 0; }, 1500);
+            if (dotClicks >= 5) {
+                dotClicks = 0;
+                openEasterEgg();
+            }
+        });
+    });
+
+    // Trigger 2: Click 5 times on footer copyright
+    let copyClicks = 0;
+    let copyTimer = null;
+    const footerCopy = document.querySelector('.footer-copy');
+    if (footerCopy) {
+        footerCopy.style.cursor = 'pointer';
+        footerCopy.addEventListener('click', () => {
+            copyClicks++;
+            clearTimeout(copyTimer);
+            copyTimer = setTimeout(() => { copyClicks = 0; }, 1500);
+            if (copyClicks >= 5) {
+                copyClicks = 0;
+                openEasterEgg();
+            }
+        });
+    }
+
+    // Trigger 3: Secret keyboard code "cat" or "nodus"
+    let typedKeys = '';
+    document.addEventListener('keydown', e => {
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+        typedKeys += e.key.toLowerCase();
+        if (typedKeys.length > 10) typedKeys = typedKeys.slice(-10);
+        if (typedKeys.endsWith('cat') || typedKeys.endsWith('nodus') || typedKeys.endsWith('мем')) {
+            openEasterEgg();
+            typedKeys = '';
+        }
+    });
 });
-
-
