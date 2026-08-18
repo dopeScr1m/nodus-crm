@@ -1,0 +1,39 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#070913"/>
+    </linearGradient>
+    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="dotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <!-- Rounded Squircle Background -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)"/>
+  <rect width="500" height="500" x="6" y="6" rx="124" fill="none" stroke="url(#neonGrad)" stroke-width="8" opacity="0.65"/>
+  
+  <!-- Glowing Monogram NODUS "N" with Interconnected Nodes -->
+  <g filter="url(#glow)">
+    <!-- Left vertical bar -->
+    <line x1="140" y1="372" x2="140" y2="140" stroke="url(#neonGrad)" stroke-width="46" stroke-linecap="round"/>
+    <!-- Diagonal connector -->
+    <line x1="140" y1="140" x2="372" y2="372" stroke="url(#neonGrad)" stroke-width="46" stroke-linecap="round"/>
+    <!-- Right vertical bar -->
+    <line x1="372" y1="372" x2="372" y2="140" stroke="url(#neonGrad)" stroke-width="46" stroke-linecap="round"/>
+    <!-- Connected glowing nodes -->
+    <circle cx="140" cy="140" r="32" fill="url(#dotGrad)"/>
+    <circle cx="372" cy="372" r="32" fill="url(#dotGrad)"/>
+    <circle cx="140" cy="372" r="26" fill="#6366f1"/>
+    <circle cx="372" cy="140" r="26" fill="#06b6d4"/>
+  </g>
+</svg>

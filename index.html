@@ -775,7 +775,10 @@
                                 <div class="slider-box">
                                     <div class="slider-top-row">
                                         <span class="cfg-section-label">Количество пользователей CRM:</span>
-                                        <span class="slider-number-badge"><span id="lbl-amo-users">5</span> сотрудников</span>
+                                        <span class="slider-number-badge">
+                                            <input type="number" id="inp-amo-users" min="1" max="500" value="5" class="stepper-num-input" aria-label="Количество пользователей">
+                                            <span>сотрудников</span>
+                                        </span>
                                     </div>
                                     <input type="range" id="rng-amo-users" min="1" max="100" value="5" class="range-slider">
                                     <div class="slider-ticks">
@@ -890,7 +893,7 @@
                                             <span class="counter-label">Каналов:</span>
                                             <div class="stepper-box">
                                                 <button type="button" class="step-btn" id="btn-wa-minus">−</button>
-                                                <span class="step-value" id="val-wa-count">0</span>
+                                                <input type="number" class="step-input" id="val-wa-count" value="0" min="0" max="100" aria-label="Количество каналов WhatsApp">
                                                 <button type="button" class="step-btn" id="btn-wa-plus">+</button>
                                             </div>
                                         </div>
@@ -915,7 +918,7 @@
                                             <span class="counter-label">Каналов:</span>
                                             <div class="stepper-box">
                                                 <button type="button" class="step-btn" id="btn-ig-minus">−</button>
-                                                <span class="step-value" id="val-ig-count">0</span>
+                                                <input type="number" class="step-input" id="val-ig-count" value="0" min="0" max="100" aria-label="Количество каналов Instagram">
                                                 <button type="button" class="step-btn" id="btn-ig-plus">+</button>
                                             </div>
                                         </div>
@@ -942,7 +945,7 @@
                                             <span class="counter-label">Каналов:</span>
                                             <div class="stepper-box">
                                                 <button type="button" class="step-btn" id="btn-tg-minus">−</button>
-                                                <span class="step-value" id="val-tg-count">0</span>
+                                                <input type="number" class="step-input" id="val-tg-count" value="0" min="0" max="100" aria-label="Количество каналов Telegram">
                                                 <button type="button" class="step-btn" id="btn-tg-plus">+</button>
                                             </div>
                                         </div>
@@ -967,7 +970,7 @@
                                             <span class="counter-label">Каналов:</span>
                                             <div class="stepper-box">
                                                 <button type="button" class="step-btn" id="btn-vk-minus">−</button>
-                                                <span class="step-value" id="val-vk-count">0</span>
+                                                <input type="number" class="step-input" id="val-vk-count" value="0" min="0" max="100" aria-label="Количество каналов VK">
                                                 <button type="button" class="step-btn" id="btn-vk-plus">+</button>
                                             </div>
                                         </div>
@@ -1043,7 +1046,7 @@
                                     <span class="cfg-section-label">Количество пользователей телефонии:</span>
                                     <div class="stepper-box">
                                         <button type="button" class="step-btn" id="btn-sp-minus">−</button>
-                                        <span class="step-value" id="val-sp-users">0</span>
+                                        <input type="number" class="step-input" id="val-sp-users" value="0" min="0" max="500" aria-label="Количество пользователей телефонии">
                                         <button type="button" class="step-btn" id="btn-sp-plus">+</button>
                                     </div>
                                 </div>
@@ -1332,7 +1335,16 @@
                     <input type="text" id="lead-company" placeholder="ТОО Nodus-Технолоджи">
                 </div>
 
-                <button type="submit" class="btn btn-primary w-full form-submit-btn">Отправить заявку</button>
+                                <button type="submit" class="btn btn-primary w-full form-submit-btn">Отправить заявку</button>
+                
+                <div class="modal-messenger-buttons">
+                    <a href="https://wa.me/77758071695" target="_blank" rel="noopener noreferrer" class="btn-msg-wa">
+                        💬 WhatsApp
+                    </a>
+                    <a href="https://t.me/DopeScr1m" target="_blank" rel="noopener noreferrer" class="btn-msg-tg">
+                        ✈️ Telegram
+                    </a>
+                </div>
             </form>
             <div class="modal-success-msg" id="success-message">
                 <div class="success-icon">✓</div>
@@ -1472,8 +1484,8 @@
 
             <div class="footer-links">
                 <h4>Связь с нами</h4>
-                <a href="https://t.me/nodus_crm" target="_blank" rel="noopener noreferrer" class="social-link Telegram">Telegram: @nodus_crm</a>
-                <a href="https://wa.me/77071234567" target="_blank" rel="noopener noreferrer" class="social-link Whatsapp">WhatsApp: +7 (707) 123-45-67</a>
+                <a href="https://t.me/DopeScr1m" target="_blank" rel="noopener noreferrer" class="social-link Telegram">Telegram: @DopeScr1m</a>
+                <a href="https://wa.me/77758071695" target="_blank" rel="noopener noreferrer" class="social-link Whatsapp">WhatsApp: +7 (775) 807-16-95</a>
                 <button type="button" class="btn-footer-req" id="open-req-btn">Реквизиты компании</button>
             </div>
         </div>
@@ -1483,6 +1495,7 @@
     <script src="app.js"></script>
 </body>
 </html>
+
 
 
 

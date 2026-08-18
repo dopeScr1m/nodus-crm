@@ -418,13 +418,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ── Bind AmoCRM Users Slider ──
+    // ── Bind AmoCRM Users Slider & Direct Number Input ──
     const rngAmoUsers = getEl('rng-amo-users');
-    const lblAmoUsers = getEl('lbl-amo-users');
-    if (rngAmoUsers) {
+    const inpAmoUsers = getEl('inp-amo-users');
+    if (rngAmoUsers && inpAmoUsers) {
         rngAmoUsers.addEventListener('input', e => {
             state.amoUsers = parseInt(e.target.value) || 1;
-            if (lblAmoUsers) lblAmoUsers.textContent = state.amoUsers;
+            inpAmoUsers.value = state.amoUsers;
+            calculateEstimate();
+        });
+
+        inpAmoUsers.addEventListener('input', () => {
+            let v = parseInt(inpAmoUsers.value);
+            if (isNaN(v) || v < 1) v = 1;
+            if (v > 500) v = 500;
+            state.amoUsers = v;
+            rngAmoUsers.value = Math.min(v, 100);
+            calculateEstimate();
+        });
+
+        inpAmoUsers.addEventListener('blur', () => {
+            let v = parseInt(inpAmoUsers.value);
+            if (isNaN(v) || v < 1) v = 1;
+            if (v > 500) v = 500;
+            inpAmoUsers.value = v;
+            state.amoUsers = v;
+            rngAmoUsers.value = Math.min(v, 100);
             calculateEstimate();
         });
     }
@@ -481,31 +500,51 @@ document.addEventListener('DOMContentLoaded', () => {
     if (selTgTier) selTgTier.addEventListener('change', e => { state.tgTier = e.target.value; calculateEstimate(); });
     if (selVkTier) selVkTier.addEventListener('change', e => { state.vkTier = e.target.value; calculateEstimate(); });
 
-    // ── Stepper helper ──
-    const bindStepper = (minusId, plusId, valId, getVal, setVal, min = 0, max = 50) => {
+    // ── Stepper helper with Click + Direct Input Typing Support ──
+    const bindStepper = (minusId, plusId, inputId, getVal, setVal, min = 0, max = 500) => {
         const minus = getEl(minusId);
         const plus  = getEl(plusId);
-        const valEl = getEl(valId);
-        if (!minus || !plus || !valEl) return;
+        const input = getEl(inputId);
+        if (!minus || !plus || !input) return;
+
+        const updateDisplay = () => {
+            input.value = getVal();
+            calculateEstimate();
+        };
 
         minus.addEventListener('click', e => {
             e.preventDefault();
-            const cur = getVal();
+            const cur = parseInt(input.value) || getVal();
             if (cur > min) {
                 setVal(cur - 1);
-                valEl.textContent = getVal();
-                calculateEstimate();
+                updateDisplay();
             }
         });
 
         plus.addEventListener('click', e => {
             e.preventDefault();
-            const cur = getVal();
+            const cur = parseInt(input.value) || getVal();
             if (cur < max) {
                 setVal(cur + 1);
-                valEl.textContent = getVal();
-                calculateEstimate();
+                updateDisplay();
             }
+        });
+
+        input.addEventListener('input', () => {
+            let v = parseInt(input.value);
+            if (isNaN(v)) v = min;
+            if (v > max) v = max;
+            setVal(v);
+            calculateEstimate();
+        });
+
+        input.addEventListener('blur', () => {
+            let v = parseInt(input.value);
+            if (isNaN(v) || v < min) v = min;
+            if (v > max) v = max;
+            input.value = v;
+            setVal(v);
+            calculateEstimate();
         });
     };
 
@@ -925,3 +964,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+

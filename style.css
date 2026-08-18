@@ -3544,3 +3544,138 @@ select:focus-visible {
 [data-theme="light"] .faq-answer {
     color: #475569;
 }
+
+/* Numeric Editable Stepper Inputs */
+.step-input {
+    width: 42px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    padding: 0;
+    margin: 0;
+    -moz-appearance: textfield;
+    outline: none;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.step-input:focus {
+    background: rgba(99, 102, 241, 0.15);
+}
+
+.step-input::-webkit-outer-spin-button,
+.step-input::-webkit-inner-spin-button,
+.stepper-num-input::-webkit-outer-spin-button,
+.stepper-num-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.stepper-num-input {
+    width: 48px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    text-align: center;
+    color: var(--color-cyan);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 800;
+    -moz-appearance: textfield;
+    outline: none;
+    margin-right: 4px;
+}
+
+.stepper-num-input:focus {
+    border-color: var(--color-primary);
+    background: rgba(99, 102, 241, 0.15);
+}
+
+[data-theme="light"] .stepper-num-input {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: #4f46e5;
+}
+
+/* Header Centered Layout on Mobile */
+.header-center-theme {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-center-theme {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-actions .theme-toggle-btn {
+        display: none;
+    }
+}
+
+/* Quick Messenger Consultation Buttons */
+.modal-messenger-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.btn-msg-wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    color: #22c55e;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-msg-wa:hover {
+    background: #22c55e;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
+}
+
+.btn-msg-tg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    color: #38bdf8;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-msg-tg:hover {
+    background: #0284c7;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+}
