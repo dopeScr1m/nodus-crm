@@ -3829,3 +3829,103 @@ select:focus-visible {
     cursor: pointer;
     display: inline-block;
 }
+
+/* =========================================================================
+   LASER-ALIGNED HEADER ACTIONS & THEME TOGGLE
+   ========================================================================= */
+.header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.header-actions .theme-toggle-btn,
+.theme-toggle-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid var(--color-border) !important;
+    color: var(--color-text-main) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    font-size: 1.2rem !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1 !important;
+    vertical-align: middle !important;
+    flex-shrink: 0 !important;
+    transition: var(--transition) !important;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(99, 102, 241, 0.5) !important;
+    transform: translateY(-1px) !important;
+}
+
+[data-theme="light"] .theme-toggle-btn {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+.header-actions .nav-btn,
+.nav-btn {
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    padding: 0 22px !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    vertical-align: middle !important;
+    flex-shrink: 0 !important;
+}
+
+/* Mobile Dead-Center Theme Toggle */
+.mobile-theme-center {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        position: relative !important;
+        height: 72px !important;
+    }
+
+    .mobile-theme-center {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        z-index: 150 !important;
+    }
+
+    .header-actions .theme-toggle-btn,
+    .header-actions .nav-btn,
+    .nav {
+        display: none !important;
+    }
+
+    .mobile-toggle {
+        display: flex !important;
+    }
+}
