@@ -949,7 +949,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     // =========================================================================
-    // 13. SECRET MEME EASTER EGG
+    // 13. SECRET MEME EASTER EGG (ONLY FOOTER COPYRIGHT 5 CLICKS)
     // =========================================================================
     const easterModal = getEl('easter-egg-modal');
     const easterClose = getEl('easter-close-btn');
@@ -974,51 +974,41 @@ document.addEventListener('DOMContentLoaded', () => {
     if (easterModal) {
         easterModal.addEventListener('click', e => { if (e.target === easterModal) closeEasterEgg(); });
     }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEasterEgg(); });
 
-    // Trigger 1: Click 5 times on the logo dot "."
-    let dotClicks = 0;
-    let dotTimer = null;
-    document.querySelectorAll('.logo-dot').forEach(dot => {
-        dot.style.cursor = 'pointer';
-        dot.addEventListener('click', e => {
-            e.preventDefault();
-            e.stopPropagation();
-            dotClicks++;
-            clearTimeout(dotTimer);
-            dotTimer = setTimeout(() => { dotClicks = 0; }, 1500);
-            if (dotClicks >= 5) {
-                dotClicks = 0;
-                openEasterEgg();
-            }
-        });
-    });
-
-    // Trigger 2: Click 5 times on footer copyright
+    // Trigger: 5 rapid clicks on footer copyright (works 100% on PC & Mobile)
     let copyClicks = 0;
     let copyTimer = null;
-    const footerCopy = document.querySelector('.footer-copy');
-    if (footerCopy) {
-        footerCopy.style.cursor = 'pointer';
-        footerCopy.addEventListener('click', () => {
+    const footerCopies = document.querySelectorAll('.footer-copy');
+    footerCopies.forEach(el => {
+        el.style.userSelect = 'none';
+        el.style.webkitUserSelect = 'none';
+        el.style.cursor = 'pointer';
+        el.style.display = 'inline-block';
+        el.style.transition = 'transform 0.15s ease';
+
+        const handleCopyClick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             copyClicks++;
+            
+            // Visual feedback bounce on each click
+            el.style.transform = 'scale(0.95)';
+            setTimeout(() => { el.style.transform = 'scale(1)'; }, 120);
+
             clearTimeout(copyTimer);
-            copyTimer = setTimeout(() => { copyClicks = 0; }, 1500);
+            copyTimer = setTimeout(() => { copyClicks = 0; }, 3500);
+
             if (copyClicks >= 5) {
                 copyClicks = 0;
                 openEasterEgg();
             }
-        });
-    }
+        };
 
-    // Trigger 3: Secret keyboard code "cat" or "nodus"
-    let typedKeys = '';
-    document.addEventListener('keydown', e => {
-        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
-        typedKeys += e.key.toLowerCase();
-        if (typedKeys.length > 10) typedKeys = typedKeys.slice(-10);
-        if (typedKeys.endsWith('cat') || typedKeys.endsWith('nodus') || typedKeys.endsWith('мем')) {
-            openEasterEgg();
-            typedKeys = '';
-        }
+        el.addEventListener('click', handleCopyClick);
+        el.addEventListener('pointerdown', e => {
+            if (e.pointerType === 'mouse') e.preventDefault();
+        });
     });
 });
+
