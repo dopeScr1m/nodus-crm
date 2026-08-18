@@ -1,0 +1,7 @@
+﻿*.ps1
+raw_fetched.html
+cases_raw.html
+cases_section.html
+yessenjan_text.txt
+.DS_Store
+node_modules/

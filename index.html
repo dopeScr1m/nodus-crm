@@ -1,0 +1,1492 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NODUS — Интеграция CRM-систем (AmoCRM, Bitrix24, Wazzup, Sipuni) в Казахстане</title>
+    <meta name="description" content="NODUS — профессиональный интегратор CRM-систем в Казахстане. Настройка AmoCRM и Bitrix24, автоматизация воронок продаж и LTV, телефония Sipuni, интеграция мессенджеров Wazzup. Калькулятор стоимости онлайн.">
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website">
+    <meta property="og:title"       content="NODUS — CRM-интегратор нового поколения">
+    <meta property="og:description" content="Автоматизируем бизнес под ключ: AmoCRM, Bitrix24, Wazzup, Sipuni. Настройка воронок, LTV, роботов, телефонии. Калькулятор стоимости онлайн.">
+    <meta property="og:locale"      content="ru_KZ">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Immediate Theme Initialization -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('nodus-theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+</head>
+<body>
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Наверх">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
+    <!-- Mobile Floating Calculator Summary Bar -->
+    <div class="mobile-calc-bar" id="mobile-calc-bar">
+        <div class="mobile-calc-bar-inner">
+            <div class="mobile-calc-info">
+                <span class="m-calc-label">Итого по смете:</span>
+                <span class="m-calc-price" id="m-calc-total">445 970 ₸</span>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm m-calc-btn" id="m-calc-action-btn">
+                Смета / Заявка →
+            </button>
+        </div>
+    </div>
+
+    <!-- Background Glow Elements -->
+    <div class="glow-bg glow-purple"></div>
+    <div class="glow-bg glow-cyan"></div>
+
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span class="logo-text">NODUS</span><span class="logo-dot">.</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="#services" class="nav-link">Услуги</a>
+                <a href="#clients" class="nav-link">Клиенты</a>
+                <a href="#stages" class="nav-link">Этапы</a>
+                <a href="#pricing" class="nav-link">Тарифы</a>
+                <a href="#tariff-details" class="nav-link">Состав работ</a>
+                <a href="services.html" class="nav-link">База знаний</a>
+                <a href="#calculator" class="nav-link">Калькулятор</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Переключить тему" title="Переключить тему (светлая/тёмная)">
+                    <span class="theme-icon-dark">🌙</span>
+                    <span class="theme-icon-light">☀️</span>
+                </button>
+                <a href="#calculator" class="btn btn-primary nav-btn">Рассчитать проект</a>
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Открыть меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-drawer" id="mobile-drawer">
+        <div class="mobile-drawer-content">
+            <a href="#services" class="mobile-nav-link">Услуги</a>
+            <a href="#clients" class="mobile-nav-link">Клиенты</a>
+            <a href="#stages" class="mobile-nav-link">Этапы работы</a>
+            <a href="#pricing" class="mobile-nav-link">Тарифы</a>
+            <a href="#tariff-details" class="mobile-nav-link">Состав работ</a>
+            <a href="services.html" class="mobile-nav-link">База знаний</a>
+            <a href="#calculator" class="mobile-nav-link">Калькулятор</a>
+            <div class="mobile-theme-row">
+                <span>Тема оформления:</span>
+                <button class="theme-toggle-btn mobile-theme-btn" aria-label="Переключить тему">
+                    <span class="theme-icon-dark">🌙 Тёмная</span>
+                    <span class="theme-icon-light">☀️ Светлая</span>
+                </button>
+            </div>
+            <div class="mobile-drawer-actions">
+                <a href="#calculator" class="btn btn-primary w-full mobile-btn">Рассчитать стоимость</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-container">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span> Официальный партнер amoCRM и Bitrix24
+                </div>
+                <h1 class="hero-title">
+                    Внедряем CRM, которые <br><span class="text-gradient">увеличивают продажи</span> от 30%
+                </h1>
+                <p class="hero-subtitle">
+                    Автоматизируем воронки первого контакта и повторных продаж (LTV), подключаем WhatsApp, Instagram и умную IP-телефонию. Техническое сопровождение в подарок до 30 дней в подарок к каждому внедрению.
+                </p>
+                <div class="hero-actions">
+                    <a href="#calculator" class="btn btn-primary btn-lg">Рассчитать стоимость онлайн</a>
+                    <a href="#clients" class="btn btn-secondary btn-lg">Кейсы клиентов</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-num">от 100 000 ₸</div>
+                        <div class="stat-desc">Прозрачные тарифы под ключ</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-num">3–10 дней</div>
+                        <div class="stat-desc">Срок запуска системы</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-num">до 30 дней</div>
+                        <div class="stat-desc">Бесплатной поддержки после сдачи</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="badge">Что мы делаем</span>
+                    <h2 class="section-title">Комплексная автоматизация вашего бизнеса</h2>
+                    <p class="section-subtitle">Создаем надежную IT-инфраструктуру, устраняющую человеческий фактор и потерю клиентов на всех этапах воронки.</p>
+                </div>
+
+                <div class="services-grid">
+                    <!-- Service 1: amoCRM -->
+                    <div class="service-card glass">
+                        <div class="service-icon icon-amo">🅰</div>
+                        <h3>Внедрение AmoCRM</h3>
+                        <p>Идеальное решение для отдела продаж: прозрачные воронки лидов, Digital Pipeline, Salesbot и мобильное приложение для менеджеров.</p>
+                        <ul class="service-list">
+                            <li><span class="check-icon">✓</span> Основная воронка + воронка повторных продаж (LTV)</li>
+                            <li><span class="check-icon">✓</span> Автоматические задачи и автоответы роботов</li>
+                            <li><span class="check-icon">✓</span> Обучение менеджеров и регламенты</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 2: Bitrix24 -->
+                    <div class="service-card glass">
+                        <div class="service-icon icon-bitrix">📦</div>
+                        <h3>Настройка Bitrix24</h3>
+                        <p>Единый корпоративный портал для совместной работы: управление сделками, проектами, задачами, сотрудниками и базой знаний.</p>
+                        <ul class="service-list">
+                            <li><span class="check-icon">✓</span> Роботизация процессов и смарт-процессы</li>
+                            <li><span class="check-icon">✓</span> Генератор договоров и счетов в 1 клик</li>
+                            <li><span class="check-icon">✓</span> Учет рабочего времени и отчетность</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 3: Wazzup -->
+                    <div class="service-card glass">
+                        <div class="service-icon icon-wazzup">💬</div>
+                        <h3>Мессенджеры Wazzup</h3>
+                        <p>Интеграция WhatsApp, Instagram Direct, Telegram и VK прямо в карточку сделки CRM. Менеджеры переписываются из одного окна.</p>
+                        <ul class="service-list">
+                            <li><span class="check-icon">✓</span> Раздельные тарифы под каждый канал связи</li>
+                            <li><span class="check-icon">✓</span> Защита клиентской базы от увода сотрудниками</li>
+                            <li><span class="check-icon">✓</span> Расшифровка голосовых аудиосообщений</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 4: Sipuni -->
+                    <div class="service-card glass">
+                        <div class="service-icon icon-sipuni">📞</div>
+                        <h3>Телефония Sipuni</h3>
+                        <p>Умная облачная IP-АТС: авто-создание контактов при звонке, маршрутизация на ответственного менеджера и запись разговоров.</p>
+                        <ul class="service-list">
+                            <li><span class="check-icon">✓</span> Звонки из CRM в 1 клик и контроль пропущенных</li>
+                            <li><span class="check-icon">✓</span> Хранение записей до 1 года и речевая аналитика</li>
+                            <li><span class="check-icon">✓</span> До 6 месяцев подписки в подарок по акции</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients Section (Interactive Case Showcase) -->
+        <section id="clients" class="clients-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="badge">Наши кейсы</span>
+                    <h2 class="section-title">Нам доверяют лидеры рынка</h2>
+                    <p class="section-subtitle">Реализуем проекты для компаний разного масштаба. Нажмите на карточку любой компании, чтобы изучить внедренное решение и полученные результаты.</p>
+                </div>
+
+                <div class="clients-grid">
+                    <!-- 1. Underground Gym -->
+                    <div class="client-card glass" data-client-id="underground_gym">
+                        <div class="client-logo-wrapper">
+                            <img src="images/underground_gym.png" alt="Underground Gym" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">Underground Gym</h4>
+                        <span class="client-industry">Спортивный клуб</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 2. iGPS.KZ -->
+                    <div class="client-card glass" data-client-id="igps_kz">
+                        <div class="client-logo-wrapper">
+                            <img src="images/igps_kz.png" alt="iGPS.KZ" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">iGPS.KZ</h4>
+                        <span class="client-industry">GPS-трекеры для лошадей</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 3. Tabyn Trans -->
+                    <div class="client-card glass" data-client-id="tabyn_trans">
+                        <div class="client-logo-wrapper">
+                            <img src="images/tabyn_trans.png" alt="Tabyn Trans" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">Tabyn Trans</h4>
+                        <span class="client-industry">Грузоперевозки</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 4. RaiThai Spa -->
+                    <div class="client-card glass" data-client-id="raithai_spa">
+                        <div class="client-logo-wrapper">
+                            <img src="images/raithai_spa.jpg" alt="RaiThai Massage & Spa" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">RaiThai</h4>
+                        <span class="client-industry">Массаж & СПА</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 5. SAQ Clinic -->
+                    <div class="client-card glass" data-client-id="saq_clinic">
+                        <div class="client-logo-wrapper">
+                            <img src="images/saq_clinic.jpg" alt="SAQ Esthetic Clinic" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">SAQ Clinic</h4>
+                        <span class="client-industry">Эстетическая клиника</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 6. Cho Tam Show -->
+                    <div class="client-card glass" data-client-id="chotam_show">
+                        <div class="client-logo-wrapper">
+                            <img src="images/chotam_show.jpg" alt="Cho Tam Show" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">Cho Tam! Show</h4>
+                        <span class="client-industry">Организация шоу</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 7. Tengovka Karaoke -->
+                    <div class="client-card glass" data-client-id="tengovka_karaoke">
+                        <div class="client-logo-wrapper">
+                            <img src="images/tengovka_karaoke.jpg" alt="Караоке Тенговка" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">Tengovka</h4>
+                        <span class="client-industry">Караоке, баня, зона отдыха</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 8. Alucore Nutrition -->
+                    <div class="client-card glass" data-client-id="alucore_nutrition">
+                        <div class="client-logo-wrapper">
+                            <img src="images/alucore_nutrition.jpg" alt="Alucore Nutrition" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">Alucore</h4>
+                        <span class="client-industry">Производство и запуск БАДов</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 9. Status in Trade -->
+                    <div class="client-card glass" data-client-id="status_in_trade">
+                        <div class="client-logo-wrapper">
+                            <img src="images/status_in_trade.jpg" alt="Status in Trade" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">Status in Trade</h4>
+                        <span class="client-industry">Пластиковые окна</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 10. PVE Academy -->
+                    <div class="client-card glass" data-client-id="pve_academy">
+                        <div class="client-logo-wrapper">
+                            <img src="images/pve_academy.jpg" alt="PVE Киноакадемия" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">PVE Academy</h4>
+                        <span class="client-industry">Киноакадемия</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 11. Inflex -->
+                    <div class="client-card glass" data-client-id="inflex">
+                        <div class="client-logo-wrapper">
+                            <img src="images/inflex.jpg" alt="Inflex" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">Inflex</h4>
+                        <span class="client-industry">Стартапы на Kickstarter</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+
+                    <!-- 12. Cittadella -->
+                    <div class="client-card glass" data-client-id="cittadella">
+                        <div class="client-logo-wrapper">
+                            <img src="images/cittadella.jpg" alt="Мебельная фабрика Cittadella" class="client-logo-img">
+                        </div>
+                        <h4 class="client-name">Cittadella</h4>
+                        <span class="client-industry">Мебельная фабрика</span>
+                        <div class="client-card-hover-hint">Смотреть кейс ↗</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Stages Section -->
+        <section id="stages" class="stages">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="badge">Как мы работаем</span>
+                    <h2 class="section-title">Этапы внедрения CRM-системы</h2>
+                    <p class="section-subtitle">Проверенный пошаговый процесс, который гарантирует запуск системы в оговоренный срок без стресса для вашей команды.</p>
+                </div>
+
+                <div class="stages-timeline">
+                    <!-- Stage 1 -->
+                    <div class="stage-item">
+                        <div class="stage-num">01</div>
+                        <div class="stage-content">
+                            <h3>Аудит и Построение Архитектуры</h3>
+                            <p>Изучаем ваши текущие каналы заявок, сценарии работы менеджеров и ключевые точки потери клиентов. Составляем детальное ТЗ на внедрение.</p>
+                        </div>
+                    </div>
+
+                    <!-- Stage 2 -->
+                    <div class="stage-item">
+                        <div class="stage-num">02</div>
+                        <div class="stage-content">
+                            <h3>Настройка Воронок: Продажи + LTV</h3>
+                            <p>Создаем этапы сделок под первичные продажи и отдельную автоматизированную воронку допродаж и удержания постоянных клиентов (LTV).</p>
+                        </div>
+                    </div>
+
+                    <!-- Stage 3 -->
+                    <div class="stage-item">
+                        <div class="stage-num">03</div>
+                        <div class="stage-content">
+                            <h3>Подключение Мессенджеров &amp; Связи</h3>
+                            <p>Настраиваем бесшовную интеграцию Wazzup (WhatsApp, Instagram, Telegram) и IP-телефонии Sipuni. Все звонки и переписки пишутся в CRM.</p>
+                        </div>
+                    </div>
+
+                    <!-- Stage 4 -->
+                    <div class="stage-item">
+                        <div class="stage-num">04</div>
+                        <div class="stage-content">
+                            <h3>Автоматизация: Роботы и Боты</h3>
+                            <p>Внедряем авто-задачи, напоминания менеджерам, автоответы клиентам в нерабочее время и генерацию документов в 1 клик.</p>
+                        </div>
+                    </div>
+
+                    <!-- Stage 5 -->
+                    <div class="stage-item">
+                        <div class="stage-num">05</div>
+                        <div class="stage-content">
+                            <h3>Обучение Команды и Аттестация</h3>
+                            <p>Проводим практические видео-сессии для руководителей и менеджеров, предоставляем персональные регламенты и видеоинструкции.</p>
+                        </div>
+                    </div>
+
+                    <!-- Stage 6 -->
+                    <div class="stage-item">
+                        <div class="stage-num">06</div>
+                        <div class="stage-content">
+                            <h3>Запуск и Гарантийная Поддержка</h3>
+                            <p>Запускаем систему в боевой режим. Сопровождаем команду от 7 до 30 дней бесплатно в рамках периода сопровождения в подарок.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="badge">Прозрачные тарифы</span>
+                    <h2 class="section-title">Стоимость услуг интегратора и лицензий</h2>
+                    <p class="section-subtitle">Фиксированные пакеты внедрения с включенным сопровождением и официальные лицензии софта со скидками.</p>
+                </div>
+
+                <div class="pricing-tabs">
+                    <button class="tab-btn active" data-target="services-price">Пакеты внедрения NODUS</button>
+                    <button class="tab-btn" data-target="subscriptions-price">Лицензии софта (Amo / B24 / WZ / SP)</button>
+                </div>
+
+                <!-- Tab 1: Integration Services -->
+                <div id="services-price" class="tab-content active">
+                    <div class="pricing-grid">
+                        <!-- Package 1: Basic -->
+                        <div class="pricing-card glass">
+                            <div class="card-tag">Быстрый старт</div>
+                            <h3 class="card-title">Базовый старт</h3>
+                            <div class="card-price">100 000 ₸</div>
+                            <div class="card-term-badge">Срок: 3–5 рабочих дней</div>
+                            <p class="card-desc">Идеально для малого бизнеса и быстрых тестов: оцифровка первого контакта и запуск воронки повторных продаж.</p>
+                            <ul class="card-features">
+                                <li><b>1 основная воронка</b> + <b>1 воронка для LTV</b> (допродажи)</li>
+                                <li>Импорт базы клиентов и настройка полей (до 20)</li>
+                                <li>Интеграция 1 канала Wazzup (WhatsApp) или почты</li>
+                                <li>Обучение до 2 сотрудников с записью видео</li>
+                                <li class="feat-highlight">🎁 <b>Техподдержка 7 дней</b> после сдачи проекта</li>
+                            </ul>
+                            <a href="#calculator" class="btn btn-secondary card-btn" data-select-pkg="basic">Рассчитать в калькуляторе</a>
+                        </div>
+
+                        <!-- Package 2: Standard (Hit) -->
+                        <div class="pricing-card glass popular">
+                            <div class="popular-badge">⭐ Хит продаж</div>
+                            <div class="card-tag">Оптимально для роста</div>
+                            <h3 class="card-title">Оптимальный</h3>
+                            <div class="card-price">250 000 ₸</div>
+                            <div class="card-term-badge">Срок: 7–10 рабочих дней</div>
+                            <p class="card-desc">Полноценная автоматизация отдела продаж: связка CRM с WhatsApp, Instagram, Telegram и IP-телефонией.</p>
+                            <ul class="card-features">
+                                <li><b>До 3 основных воронок</b> + <b>воронка LTV / реанимации</b></li>
+                                <li>Связка <b>AmoCRM/Bitrix24</b> + <b>Wazzup</b> + <b>Sipuni</b></li>
+                                <li>Авто-задачи менеджерам, триггеры и роботы продаж</li>
+                                <li>Разграничение прав доступа и защита клиентской базы</li>
+                                <li>Обучение всей команды + регламенты работы</li>
+                                <li class="feat-highlight">🎁 <b>Техподдержка 14 дней</b> после сдачи проекта</li>
+                            </ul>
+                            <a href="#calculator" class="btn btn-primary card-btn" data-select-pkg="standard">Выбрать в калькуляторе</a>
+                        </div>
+
+                        <!-- Package 3: VIP -->
+                        <div class="pricing-card glass vip-card">
+                            <div class="vip-badge-tag">💎 VIP Премиум</div>
+                            <div class="card-tag">Максимальная сила</div>
+                            <h3 class="card-title">VIP Корпоративный</h3>
+                            <div class="card-price">500 000 ₸</div>
+                            <div class="card-term-badge">Срок: 14–20 рабочих дней</div>
+                            <p class="card-desc">Сквозная цифровизация крупного бизнеса: смарт-процессы, интеграции с 1C / Kaspi / сайтом и автогенерация КП.</p>
+                            <ul class="card-features">
+                                <li><b>Безлимит воронок</b> под все филиалы и направления + LTV</li>
+                                <li>Интеграция с <b>1С / Kaspi / Сайтом / кастомным API</b></li>
+                                <li>Авто-генерация документов (КП, счета, договоры в PDF)</li>
+                                <li>Сквозная аналитика окупаемости каналов и Lead Scoring</li>
+                                <li>Персональный CRM-архитектор и видео-регламенты</li>
+                                <li class="feat-highlight">🎁 <b>Техподдержка 30 дней</b> + Персональный менеджер</li>
+                            </ul>
+                            <a href="#calculator" class="btn btn-secondary card-btn" data-select-pkg="vip">Выбрать в калькуляторе</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Subscription Prices -->
+                <div id="subscriptions-price" class="tab-content">
+                    <div class="licenses-split-grid">
+                        
+                        <!-- AmoCRM License Card -->
+                        <div class="license-split-card glass">
+                            <div class="license-logo amo">AmoCRM</div>
+                            <div class="license-desc">Официальные тарифы за 1 пользователя (с подарочными месяцами от партнера)</div>
+                            <div class="license-plans-list">
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Базовый (5 199 ₸/мес)</span>
+                                    <span class="plan-price">6 мес: 31 194 ₸ · 9 мес: 41 592 ₸ · 12 мес: 51 990 ₸</span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Расширенный (9 899 ₸/мес)</span>
+                                    <span class="plan-price">6 мес: 59 394 ₸ · 9 мес: 79 192 ₸ · 12 мес: 98 990 ₸</span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Профессиональный (15 099 ₸/мес)</span>
+                                    <span class="plan-price">6 мес: 90 594 ₸ · 9 мес: 120 792 ₸ · 12 мес: 150 990 ₸</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bitrix24 License Card -->
+                        <div class="license-split-card glass">
+                            <div class="license-logo bitrix">Bitrix24</div>
+                            <div class="license-desc">Цены за весь портал компании (1 месяц / 12 месяцев со скидкой)</div>
+                            <div class="license-plans-list">
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Базовый (до 5 польз.)</span>
+                                    <span class="plan-price">1 мес: 15 080 ₸ · 12 мес: 144 768 ₸</span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Стандартный (до 50 польз.)</span>
+                                    <span class="plan-price">1 мес: 44 080 ₸ · 12 мес: 423 168 ₸</span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Профессиональный (до 100 польз.)</span>
+                                    <span class="plan-price">1 мес: 88 160 ₸ · 12 мес: 846 336 ₸</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wazzup License Card -->
+                        <div class="license-split-card glass">
+                            <div class="license-logo wazzup">Wazzup</div>
+                            <div class="license-desc">Интеграция WhatsApp/Telegram/Insta (скидка 10% на 6 мес, 20% на 12 мес)</div>
+                            <div class="license-plans-list">
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Start (50 диалогов, писать первым)</span>
+                                    <span class="plan-price">6 000 ₸ <small>/ мес</small></span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Inbox (500 диалогов, не писать первым)</span>
+                                    <span class="plan-price">12 000 ₸ <small>/ мес</small></span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Pro (500 диалогов, писать первым)</span>
+                                    <span class="plan-price">24 000 ₸ <small>/ мес</small></span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Max (Безлимит, аудио)</span>
+                                    <span class="plan-price">36 000 ₸ <small>/ мес</small></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sipuni License Card -->
+                        <div class="license-split-card glass">
+                            <div class="license-logo sipuni">Sipuni</div>
+                            <div class="license-desc">Умная IP-телефония (цена за 1 пользователя в месяц, до 6 мес в подарок!)</div>
+                            <div class="license-plans-list">
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Базовая (3 устройства, записи 3 мес)</span>
+                                    <span class="plan-price">3 200 ₸ <small>/ мес / польз.</small></span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Расширенная (4 устройства, записи 1 год)</span>
+                                    <span class="plan-price">6 400 ₸ <small>/ мес / польз.</small></span>
+                                </div>
+                                <div class="lic-plan-row">
+                                    <span class="plan-name">Профессиональная (5 устройств, безлимит)</span>
+                                    <span class="plan-price">9 600 ₸ <small>/ мес / польз.</small></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Tariff Explanation & Comparison Section -->
+        <section id="tariff-details" class="tariff-details-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="badge">Детальный состав услуг</span>
+                    <h2 class="section-title">Что именно вы получаете в каждом пакете</h2>
+                    <p class="section-subtitle">Сравнительный анализ возможностей внедрения, сроков сдачи и гарантий для принятия взвешенного решения.</p>
+                </div>
+
+                <!-- Comparison Table Matrix -->
+                <div class="comparison-matrix-card glass">
+                    <div class="matrix-table-wrap">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-feature">Параметр услуги</th>
+                                    <th class="col-pkg">Базовый старт (100k)</th>
+                                    <th class="col-pkg highlight">Оптимальный (250k)</th>
+                                    <th class="col-pkg">VIP Корпоративный (500k)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="feature-title">Для кого подходит</td>
+                                    <td>Стартапы, начинающие отделы продаж (1–3 чел)</td>
+                                    <td class="highlight-cell"><b>Растущий бизнес, отделы продаж от 3 до 20 чел</b></td>
+                                    <td>Крупные компании, сети, холдинги, сложные процессы</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-title">Количество воронок в CRM</td>
+                                    <td>1 основная воронка + 1 воронка для LTV</td>
+                                    <td class="highlight-cell">До 3 основных воронок + воронка LTV / реанимации</td>
+                                    <td>Безлимитное количество воронок и смарт-процессов</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-title">Мессенджеры (WhatsApp / TG / IG)</td>
+                                    <td>1 канал Wazzup (базовый)</td>
+                                    <td class="highlight-cell">Все каналы Wazzup (WhatsApp, Instagram, Telegram)</td>
+                                    <td>Все каналы Wazzup + чат-боты и авто-распределение</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-title">IP-Телефония (Sipuni)</td>
+                                    <td>По запросу</td>
+                                    <td class="highlight-cell">Полная настройка Sipuni с записью звонков</td>
+                                    <td>Sipuni + интеграция сложных коллтрекингов и АТС</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-title">Автоматизация &amp; Роботы</td>
+                                    <td>Базовые авто-задачи</td>
+                                    <td class="highlight-cell">Роботы смены этапов, автоответы, напоминания</td>
+                                    <td>Глубокая роботизация, авто-документы (КП, счета, акты)</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-title">Интеграция с 1С / Kaspi / Сайтом</td>
+                                    <td>Только 1 форма с сайта</td>
+                                    <td class="highlight-cell">Сайт + рекламные кабинеты (FB, Google)</td>
+                                    <td>Связка с 1С, Kaspi Магазином, складом и кастомным API</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-title">Срок сдачи проекта</td>
+                                    <td>3–5 рабочих дней</td>
+                                    <td class="highlight-cell">7–10 рабочих дней</td>
+                                    <td>14–20 рабочих дней</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-title">Техническое сопровождение в подарок</td>
+                                    <td><b>7 дней бесплатно</b></td>
+                                    <td class="highlight-cell"><b>14 дней бесплатно</b></td>
+                                    <td><b>30 дней бесплатно + Личный менеджер</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Turbo Express Speed Option Banner -->
+                <div class="turbo-banner-card glass">
+                    <div class="turbo-banner-left">
+                        <div class="turbo-icon-badge">⚡</div>
+                        <div>
+                            <h3 class="turbo-title">Нужно запуститься срочно? У нас есть «Турбо-запуск»</h3>
+                            <p class="turbo-desc">Мы можем сократить срок сдачи любого пакета <b>в 2 раза (запуск за 48–72 часа)</b>, выделив отдельную команду разработчиков под ваш проект.</p>
+                        </div>
+                    </div>
+                    <div class="turbo-banner-right">
+                        <div class="turbo-price-tag">+50 000 ₸ <span class="turbo-unit">к смете</span></div>
+                        <a href="#calculator" class="btn btn-primary turbo-btn">Выбрать в калькуляторе →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Support Section -->
+        <section id="support" class="support">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="badge">Постоянная поддержка</span>
+                    <h2 class="section-title">Техническое сопровождение после основного сопровождения</h2>
+                    <p class="section-subtitle">После завершения периода сопровождения в подарок (7/14/30 дней) вы можете выбрать удобный формат постоянного абонентского обслуживания.</p>
+                </div>
+
+                <div class="support-grid">
+                    <!-- Support Card 1: Unlimited Month -->
+                    <div class="support-card glass">
+                        <div class="support-icon-box cyan">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <h3>Абонентская плата</h3>
+                        <div class="support-price">100 000 ₸ <span class="period">/ месяц</span></div>
+                        <p class="support-desc">Идеально для компаний с постоянно меняющимися процессами. Мы выступаем в роли вашего штатного CRM-администратора.</p>
+                        <ul class="support-benefits">
+                            <li><span class="bullet"></span> Безлимитное число мелких доработок и новых полей</li>
+                            <li><span class="bullet"></span> Время реакции на критические задачи — до 1 часа</li>
+                            <li><span class="bullet"></span> Еженедельный аудит работы менеджеров и контроль зависших лидов</li>
+                            <li><span class="bullet"></span> Мониторинг стабильности интеграций Wazzup и Sipuni</li>
+                        </ul>
+                        <a href="#calculator" class="btn btn-secondary w-full" data-select-support="monthly">Выбрать в калькуляторе</a>
+                    </div>
+
+                    <!-- Support Card 2: Package by Request -->
+                    <div class="support-card glass">
+                        <div class="support-icon-box purple">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                        </div>
+                        <h3>Пакет «20 Обращений»</h3>
+                        <div class="support-price">100 000 ₸ <span class="period">/ на 90 дней</span></div>
+                        <p class="support-desc">Оптимально для стабильных систем, где настройки меняются редко. Платите только за реальные выполненные задачи.</p>
+                        <ul class="support-benefits">
+                            <li><span class="bullet"></span> 20 тикетов на точечные доработки или консультации</li>
+                            <li><span class="bullet"></span> Срок действия пакета — 3 месяца (90 дней)</li>
+                            <li><span class="bullet"></span> Возможность переноса неиспользованных тикетов при продлении</li>
+                            <li><span class="bullet"></span> Прямой рабочий Telegram-чат со специалистом</li>
+                        </ul>
+                        <a href="#calculator" class="btn btn-secondary w-full" data-select-support="package">Выбрать в калькуляторе</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section — NODUS v6 LUXURY -->
+        <section id="calculator" class="calculator-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="badge">Калькулятор проекта</span>
+                    <h2 class="section-title">Рассчитайте точную смету внедрения CRM</h2>
+                    <p class="section-subtitle">Сформируйте требования к вашей системе прямо сейчас: CRM, мессенджеры, телефония и услуги. Все скидки и бонусы считаются в реальном времени.</p>
+                </div>
+
+                <div class="calc-grid">
+                    <!-- LEFT COLUMN: Configurations -->
+                    <div class="calc-steps-col">
+
+                        <!-- ── STEP 1: CRM SYSTEM ── -->
+                        <div class="calc-card">
+                            <div class="calc-card-header">
+                                <div class="calc-step-icon">1</div>
+                                <div>
+                                    <h3 class="calc-step-title">Выбор CRM-системы</h3>
+                                    <p class="calc-step-desc">Выберите платформу, тариф и период лицензии</p>
+                                </div>
+                            </div>
+
+                            <!-- CRM Choice Buttons -->
+                            <div class="crm-selector-tabs">
+                                <button type="button" class="crm-tab-btn active" id="btn-crm-amocrm" data-crm="amocrm">
+                                    <span class="crm-tab-title">AmoCRM</span>
+                                    <span class="crm-tab-sub">Лидер в продажах и сделках</span>
+                                </button>
+                                <button type="button" class="crm-tab-btn" id="btn-crm-bitrix24" data-crm="bitrix24">
+                                    <span class="crm-tab-title">Bitrix24</span>
+                                    <span class="crm-tab-sub">Единая корпоративная среда</span>
+                                </button>
+                            </div>
+
+                            <!-- AmoCRM Config -->
+                            <div id="cfg-amocrm" class="crm-cfg-panel">
+                                <div class="cfg-section-label">Тариф AmoCRM (за пользователя в месяц):</div>
+                                <div class="tier-cards-grid three-cols">
+                                    <div class="tier-card active" data-amo-plan="basic">
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Базовый</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price">5 199 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">До 5 000 контактов, 1 воронка продаж, поиск дублей</div>
+                                    </div>
+                                    <div class="tier-card popular" data-amo-plan="advanced">
+                                        <div class="popular-ribbon">⭐ Хит продаж</div>
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Расширенный</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price">9 899 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">Digital Pipeline, авто-задачи, роботы в WhatsApp, Salesbot</div>
+                                    </div>
+                                    <div class="tier-card" data-amo-plan="enterprise">
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Профессиональный</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price">15 099 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">Сквозная аналитика, Lead Scoring, бэкапы, IP-безопасность</div>
+                                    </div>
+                                </div>
+
+                                <!-- Users Slider -->
+                                <div class="slider-box">
+                                    <div class="slider-top-row">
+                                        <span class="cfg-section-label">Количество пользователей CRM:</span>
+                                        <span class="slider-number-badge"><span id="lbl-amo-users">5</span> сотрудников</span>
+                                    </div>
+                                    <input type="range" id="rng-amo-users" min="1" max="100" value="5" class="range-slider">
+                                    <div class="slider-ticks">
+                                        <span>1</span>
+                                        <span>10</span>
+                                        <span>25</span>
+                                        <span>50</span>
+                                        <span>100+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Duration Selector -->
+                                <div class="duration-box">
+                                    <span class="cfg-section-label">Срок покупки лицензии AmoCRM:</span>
+                                    <div class="pill-group">
+                                        <button type="button" class="pill-btn active" data-amo-term="6">6 месяцев <span class="badge-bonus">+1 мес в подарок</span></button>
+                                        <button type="button" class="pill-btn" data-amo-term="9">9 месяцев <span class="badge-bonus">+1 мес (оплата 8 мес)</span></button>
+                                        <button type="button" class="pill-btn" data-amo-term="12">12 месяцев <span class="badge-bonus">+2 мес (оплата 10 мес)</span></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bitrix24 Config -->
+                            <div id="cfg-bitrix24" class="crm-cfg-panel hidden">
+                                <div class="cfg-section-label">Тариф Bitrix24 (за весь портал компании):</div>
+                                <div class="tier-cards-grid three-cols">
+                                    <!-- Bitrix Basic -->
+                                    <div class="tier-card active" data-bx-plan="basic">
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Базовый</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price" id="bx-price-basic">15 080 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">До 5 пользователей, CRM, задачи, чаты, облачный диск 24 ГБ</div>
+                                    </div>
+
+                                    <!-- Bitrix Standard -->
+                                    <div class="tier-card popular" data-bx-plan="standard">
+                                        <div class="popular-ribbon">⭐ Хит продаж</div>
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Стандартный</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price" id="bx-price-standard">44 080 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">До 50 пользователей, CRM-маркетинг, документы в 1 клик, 100 ГБ</div>
+                                    </div>
+
+                                    <!-- Bitrix Pro -->
+                                    <div class="tier-card" data-bx-plan="professional">
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Профессиональный</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price" id="bx-price-professional">88 160 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">До 100 пользователей, смарт-процессы, сквозная аналитика, 1 ТБ</div>
+                                    </div>
+                                </div>
+
+                                <!-- Duration Selector Bitrix -->
+                                <div class="duration-box">
+                                    <span class="cfg-section-label">Срок покупки лицензии Bitrix24:</span>
+                                    <div class="pill-group">
+                                        <button type="button" class="pill-btn active" data-bx-term="1">1 месяц</button>
+                                        <button type="button" class="pill-btn" data-bx-term="12">12 месяцев <span class="badge-discount">Скидка −20%</span></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 1 Subtotal -->
+                            <div class="step-subtotal-bar">
+                                <span class="subtotal-lbl">Подытог за лицензии CRM:</span>
+                                <span class="subtotal-val" id="subtotal-crm">155 970 ₸</span>
+                            </div>
+                        </div>
+
+                        <!-- ── STEP 2: WAZZUP MESSENGERS ── -->
+                        <div class="calc-card">
+                            <div class="calc-card-header">
+                                <div class="calc-step-icon">2</div>
+                                <div>
+                                    <h3 class="calc-step-title">Мессенджеры — Wazzup24</h3>
+                                    <p class="calc-step-desc">Интеграция WhatsApp, Instagram, Telegram и VK прямо в CRM</p>
+                                </div>
+                                <div class="header-toggle-wrap">
+                                    <label class="switch-control">
+                                        <input type="checkbox" id="chk-wz-toggle" checked>
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="box-wz-content" class="collapse-box">
+                                <div class="wz-channels-container">
+                                    <!-- WhatsApp -->
+                                    <div class="channel-row-item">
+                                        <div class="channel-main-info">
+                                            <div class="channel-avatar wa">💬</div>
+                                            <div class="channel-texts">
+                                                <div class="channel-title">WhatsApp</div>
+                                                <div class="channel-subtitle">Личный или бизнес номер</div>
+                                            </div>
+                                        </div>
+                                        <div class="channel-tier-select-wrap">
+                                            <select id="sel-wz-wa-tier" class="calc-dropdown">
+                                                <option value="start">Start (50 диалогов) — 6 000 ₸/мес</option>
+                                                <option value="inbox">Inbox (500 входящих) — 12 000 ₸/мес</option>
+                                                <option value="pro" selected>Pro (500 диалогов, писать первым) — 24 000 ₸/мес</option>
+                                                <option value="max">Max (Безлимит + аудио) — 36 000 ₸/мес</option>
+                                            </select>
+                                        </div>
+                                        <div class="channel-counter-wrap">
+                                            <span class="counter-label">Каналов:</span>
+                                            <div class="stepper-box">
+                                                <button type="button" class="step-btn" id="btn-wa-minus">−</button>
+                                                <span class="step-value" id="val-wa-count">0</span>
+                                                <button type="button" class="step-btn" id="btn-wa-plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Instagram -->
+                                    <div class="channel-row-item">
+                                        <div class="channel-main-info">
+                                            <div class="channel-avatar ig">📸</div>
+                                            <div class="channel-texts">
+                                                <div class="channel-title">Instagram Direct</div>
+                                                <div class="channel-subtitle">Директ и комментарии</div>
+                                            </div>
+                                        </div>
+                                        <div class="channel-tier-select-wrap">
+                                            <select id="sel-wz-ig-tier" class="calc-dropdown">
+                                                <option value="inbox" selected>Inbox (500 входящих) — 12 000 ₸/мес</option>
+                                                <option value="max">Max (Безлимит + аудио) — 24 000 ₸/мес</option>
+                                            </select>
+                                        </div>
+                                        <div class="channel-counter-wrap">
+                                            <span class="counter-label">Каналов:</span>
+                                            <div class="stepper-box">
+                                                <button type="button" class="step-btn" id="btn-ig-minus">−</button>
+                                                <span class="step-value" id="val-ig-count">0</span>
+                                                <button type="button" class="step-btn" id="btn-ig-plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Telegram -->
+                                    <div class="channel-row-item">
+                                        <div class="channel-main-info">
+                                            <div class="channel-avatar tg">✈️</div>
+                                            <div class="channel-texts">
+                                                <div class="channel-title">Telegram Personal</div>
+                                                <div class="channel-subtitle">Личный номер сотрудника</div>
+                                            </div>
+                                        </div>
+                                        <div class="channel-tier-select-wrap">
+                                            <select id="sel-wz-tg-tier" class="calc-dropdown">
+                                                <option value="start">Start (50 диалогов) — 6 000 ₸/мес</option>
+                                                <option value="inbox">Inbox (500 входящих) — 12 000 ₸/мес</option>
+                                                <option value="pro" selected>Pro (500 диалогов, писать первым) — 24 000 ₸/мес</option>
+                                                <option value="max">Max (Безлимит + аудио) — 36 000 ₸/мес</option>
+                                            </select>
+                                        </div>
+                                        <div class="channel-counter-wrap">
+                                            <span class="counter-label">Каналов:</span>
+                                            <div class="stepper-box">
+                                                <button type="button" class="step-btn" id="btn-tg-minus">−</button>
+                                                <span class="step-value" id="val-tg-count">0</span>
+                                                <button type="button" class="step-btn" id="btn-tg-plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- VK -->
+                                    <div class="channel-row-item">
+                                        <div class="channel-main-info">
+                                            <div class="channel-avatar vk">🔵</div>
+                                            <div class="channel-texts">
+                                                <div class="channel-title">ВКонтакте</div>
+                                                <div class="channel-subtitle">Сообщения сообщества</div>
+                                            </div>
+                                        </div>
+                                        <div class="channel-tier-select-wrap">
+                                            <select id="sel-wz-vk-tier" class="calc-dropdown">
+                                                <option value="free" selected>Free (500 диалогов) — 0 ₸/мес</option>
+                                                <option value="max">Max (Безлимит + аудио) — 24 000 ₸/мес</option>
+                                            </select>
+                                        </div>
+                                        <div class="channel-counter-wrap">
+                                            <span class="counter-label">Каналов:</span>
+                                            <div class="stepper-box">
+                                                <button type="button" class="step-btn" id="btn-vk-minus">−</button>
+                                                <span class="step-value" id="val-vk-count">0</span>
+                                                <button type="button" class="step-btn" id="btn-vk-plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Wazzup Term -->
+                                <div class="duration-box">
+                                    <span class="cfg-section-label">Срок подписки Wazzup:</span>
+                                    <div class="pill-group">
+                                        <button type="button" class="pill-btn active" data-wz-term="1">1 месяц</button>
+                                        <button type="button" class="pill-btn" data-wz-term="6">6 месяцев <span class="badge-discount">Скидка −10%</span></button>
+                                        <button type="button" class="pill-btn" data-wz-term="12">12 месяцев <span class="badge-discount">Скидка −20%</span></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2 Subtotal -->
+                            <div class="step-subtotal-bar">
+                                <span class="subtotal-lbl">Подытог за мессенджеры Wazzup:</span>
+                                <span class="subtotal-val" id="subtotal-wz">0 ₸</span>
+                            </div>
+                        </div>
+
+                        <!-- ── STEP 3: SIPUNI TELEPHONY ── -->
+                        <div class="calc-card">
+                            <div class="calc-card-header">
+                                <div class="calc-step-icon">3</div>
+                                <div>
+                                    <h3 class="calc-step-title">IP-Телефония — Sipuni</h3>
+                                    <p class="calc-step-desc">Звонки из CRM в 1 клик, запись разговоров, авто-создание лидов</p>
+                                </div>
+                                <div class="header-toggle-wrap">
+                                    <label class="switch-control">
+                                        <input type="checkbox" id="chk-sp-toggle" checked>
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="box-sp-content" class="collapse-box">
+                                <div class="cfg-section-label">Тариф Sipuni (за пользователя в месяц):</div>
+                                <div class="tier-cards-grid three-cols">
+                                    <div class="tier-card active" data-sp-plan="basic">
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Базовая</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price">3 200 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">3 устройства на польз., хранение записей 3 месяца, звонки в 1 клик</div>
+                                    </div>
+                                    <div class="tier-card popular" data-sp-plan="advanced">
+                                        <div class="popular-ribbon">⭐ Хит</div>
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Расширенная</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price">6 400 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">4 устройства, записи 1 год, авто-распределение по данным CRM</div>
+                                    </div>
+                                    <div class="tier-card" data-sp-plan="pro">
+                                        <div class="card-top-row">
+                                            <span class="tier-card-name">Профессиональная</span>
+                                            <div class="tier-check-badge">✓</div>
+                                        </div>
+                                        <div class="tier-card-price">9 600 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="tier-card-info">5 устройств, безлимитные записи, речевая аналитика и статистика</div>
+                                    </div>
+                                </div>
+
+                                <!-- Users Counter -->
+                                <div class="flex-counter-row">
+                                    <span class="cfg-section-label">Количество пользователей телефонии:</span>
+                                    <div class="stepper-box">
+                                        <button type="button" class="step-btn" id="btn-sp-minus">−</button>
+                                        <span class="step-value" id="val-sp-users">0</span>
+                                        <button type="button" class="step-btn" id="btn-sp-plus">+</button>
+                                    </div>
+                                </div>
+
+                                <!-- Duration Selector Sipuni -->
+                                <div class="duration-box">
+                                    <span class="cfg-section-label">Срок подписки Sipuni:</span>
+                                    <div class="pill-group">
+                                        <button type="button" class="pill-btn active" data-sp-term="1">1 месяц</button>
+                                        <button type="button" class="pill-btn" data-sp-term="6">6 месяцев <span class="badge-bonus">+2 нед в подарок</span></button>
+                                        <button type="button" class="pill-btn" data-sp-term="12">12 месяцев <span class="badge-bonus">+2 мес в подарок</span></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3 Subtotal -->
+                            <div class="step-subtotal-bar">
+                                <span class="subtotal-lbl">Подытог за телефонию Sipuni:</span>
+                                <span class="subtotal-val" id="subtotal-sp">0 ₸</span>
+                            </div>
+                        </div>
+
+                        <!-- ── STEP 4: NODUS SERVICES ── -->
+                        <div class="calc-card">
+                            <div class="calc-card-header">
+                                <div class="calc-step-icon">4</div>
+                                <div>
+                                    <h3 class="calc-step-title">Пакет внедрения NODUS</h3>
+                                    <p class="calc-step-desc">Профессиональная настройка воронок, LTV, интеграций и обучение вашей команды</p>
+                                </div>
+                            </div>
+
+                            <div class="tier-cards-grid four-cols">
+                                <!-- Option 0: Only licenses (No integration) -->
+                                <div class="tier-card" data-nodus-plan="none">
+                                    <div class="card-top-row">
+                                        <span class="tier-card-name">Без внедрения</span>
+                                        <div class="tier-check-badge">✓</div>
+                                    </div>
+                                    <div class="tier-card-price">0 ₸</div>
+                                    <div class="tier-card-term">Срок: 15 минут (выдача доступов)</div>
+                                    <ul class="tier-bullets-list">
+                                        <li><b>Только лицензии софта</b> со всеми скидками</li>
+                                        <li>Активация и передача ключей за 15 мин</li>
+                                        <li>Договор, ЭСФ и акты для бухгалтерии</li>
+                                        <li>Для тех, у кого уже есть штатный админ CRM</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Option 1: Basic -->
+                                <div class="tier-card" data-nodus-plan="basic">
+                                    <div class="card-top-row">
+                                        <span class="tier-card-name">Базовый старт</span>
+                                        <div class="tier-check-badge">✓</div>
+                                    </div>
+                                    <div class="tier-card-price">100 000 ₸</div>
+                                    <div class="tier-card-term">Срок: 3–5 рабочих дней</div>
+                                    <ul class="tier-bullets-list">
+                                        <li><b>1 основная воронка</b> + <b>1 воронка для LTV</b></li>
+                                        <li>Импорт базы клиентов и полей</li>
+                                        <li>Интеграция 1 канала Wazzup / почты</li>
+                                        <li>Обучение 2 сотрудников</li>
+                                        <li class="bullet-highlight">🎁 <b>Сопровождение 7 дней</b></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Option 2: Standard (Hit) -->
+                                <div class="tier-card popular active" data-nodus-plan="standard">
+                                    <div class="popular-ribbon">⭐ Хит продаж</div>
+                                    <div class="card-top-row">
+                                        <span class="tier-card-name">Оптимальный</span>
+                                        <div class="tier-check-badge">✓</div>
+                                    </div>
+                                    <div class="tier-card-price">250 000 ₸</div>
+                                    <div class="tier-card-term">Срок: 7–10 рабочих дней</div>
+                                    <ul class="tier-bullets-list">
+                                        <li><b>До 3 воронок</b> + <b>воронка LTV / реанимации</b></li>
+                                        <li>Связка CRM + Wazzup + Sipuni</li>
+                                        <li>Авто-задачи и роботы продаж</li>
+                                        <li>Обучение всей команды + регламенты</li>
+                                        <li class="bullet-highlight">🎁 <b>Сопровождение 14 дней</b></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Option 3: VIP -->
+                                <div class="tier-card vip" data-nodus-plan="vip">
+                                    <div class="vip-ribbon">💎 VIP Премиум</div>
+                                    <div class="card-top-row">
+                                        <span class="tier-card-name">VIP Корпоративный</span>
+                                        <div class="tier-check-badge">✓</div>
+                                    </div>
+                                    <div class="tier-card-price">500 000 ₸</div>
+                                    <div class="tier-card-term">Срок: 14–20 рабочих дней</div>
+                                    <ul class="tier-bullets-list">
+                                        <li><b>Безлимит воронок</b> + смарт-процессы + LTV</li>
+                                        <li>Интеграция 1C / Kaspi / Сайт / API</li>
+                                        <li>Авто-документы (КП, счета, акты в PDF)</li>
+                                        <li>Сквозная аналитика и Lead Scoring</li>
+                                        <li class="bullet-highlight">🎁 <b>Сопровождение 30 дней + Куратор</b></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Additional Options Row -->
+                            <div class="addons-selection-grid">
+                                <!-- Turbo Express Addon -->
+                                <div class="addon-check-card turbo-card">
+                                    <label class="checkbox-label-wrap">
+                                        <input type="checkbox" id="chk-turbo-addon">
+                                        <span class="custom-chk-box"></span>
+                                        <div class="addon-chk-texts">
+                                            <div class="addon-chk-title">⚡ Турбо-запуск за 48–72 часа (+50 000 ₸)</div>
+                                            <div class="addon-chk-desc">Выделяем отдельную бригаду интеграторов и запускаем систему в 2 раза быстрее стандартного срока</div>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- Deep Automation Addon -->
+                                <div class="addon-check-card">
+                                    <label class="checkbox-label-wrap">
+                                        <input type="checkbox" id="chk-auto-addon">
+                                        <span class="custom-chk-box"></span>
+                                        <div class="addon-chk-texts">
+                                            <div class="addon-chk-title">⚙️ Глубокая автоматизация и автодокументы (+150 000 ₸)</div>
+                                            <div class="addon-chk-desc">Сложные роботы, триггеры, авто-генерация договоров и счетов в PDF прямо из карточки сделки</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Technical Support Choices -->
+                            <div class="support-choices-box">
+                                <div class="cfg-section-label">Техническое сопровождение после основного сопровождения:</div>
+                                <div class="support-cards-grid">
+                                    <div class="support-item-card active" data-support-val="none">
+                                        <div class="support-item-name">Базовое сопровождение</div>
+                                        <div class="support-item-price">0 ₸</div>
+                                        <div class="support-item-desc">Включено в пакет (7, 14 или 30 дней сопровождения)</div>
+                                    </div>
+                                    <div class="support-item-card" data-support-val="monthly">
+                                        <div class="support-item-name">Абонентская плата</div>
+                                        <div class="support-item-price">100 000 ₸ <span class="tier-unit">/ мес</span></div>
+                                        <div class="support-item-desc">Безлимит правок, реакция до 1 часа</div>
+                                    </div>
+                                    <div class="support-item-card" data-support-val="package">
+                                        <div class="support-item-name">Пакет «20 заявок»</div>
+                                        <div class="support-item-price">100 000 ₸</div>
+                                        <div class="support-item-desc">Срок 90 дней, чат поддержки</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4 Subtotal -->
+                            <div class="step-subtotal-bar">
+                                <span class="subtotal-lbl">Подытог за услуги и сопровождение:</span>
+                                <span class="subtotal-val" id="subtotal-services">250 000 ₸</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT COLUMN: Sticky Summary Sidebar -->
+                    <div class="calc-summary-col">
+                        <div class="sticky-estimate-card">
+                            <div class="estimate-header">
+                                <span class="estimate-icon">📋</span>
+                                <h3 class="estimate-title">Ваша смета</h3>
+                            </div>
+
+                            <!-- Section 1: CRM -->
+                            <div class="estimate-block">
+                                <div class="estimate-block-title">1. Лицензии CRM</div>
+                                <div class="estimate-row">
+                                    <span class="est-label" id="est-crm-name">AmoCRM «Базовый» (5 польз. · 6 мес)</span>
+                                    <span class="est-value" id="est-crm-price">155 970 ₸</span>
+                                </div>
+                            </div>
+
+                            <!-- Section 2: Wazzup -->
+                            <div class="estimate-block" id="est-wz-block">
+                                <div class="estimate-block-title">2. Мессенджеры Wazzup</div>
+                                <div id="est-wz-list">
+                                    <div class="estimate-row">
+                                        <span class="est-label">WhatsApp Pro (1 кан. · 1 мес)</span>
+                                        <span class="est-value">24 000 ₸</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Section 3: Sipuni -->
+                            <div class="estimate-block" id="est-sp-block">
+                                <div class="estimate-block-title">3. Телефония Sipuni</div>
+                                <div class="estimate-row">
+                                    <span class="est-label" id="est-sp-name">Базовая (5 польз. · 1 мес)</span>
+                                    <span class="est-value" id="est-sp-price">16 000 ₸</span>
+                                </div>
+                            </div>
+
+                            <!-- Discount Row -->
+                            <div class="estimate-block discount-block" id="est-discount-block" style="display:none">
+                                <div class="estimate-row text-success">
+                                    <span class="est-label">🎁 Скидка за период софта:</span>
+                                    <span class="est-value" id="est-discount-val">−0 ₸</span>
+                                </div>
+                            </div>
+
+                            <div class="estimate-divider"></div>
+
+                            <!-- Section 4: NODUS Services -->
+                            <div class="estimate-block">
+                                <div class="estimate-block-title">4. Услуги внедрения NODUS</div>
+                                <div class="estimate-row">
+                                    <span class="est-label" id="est-nodus-name">Пакет «Оптимальный» (сопровождение 14 дней в подарок)</span>
+                                    <span class="est-value" id="est-nodus-price">250 000 ₸</span>
+                                </div>
+                                <div class="estimate-row" id="est-turbo-row" style="display:none">
+                                    <span class="est-label">⚡ Турбо-запуск за 48–72 часа</span>
+                                    <span class="est-value">50 000 ₸</span>
+                                </div>
+                                <div class="estimate-row" id="est-auto-row" style="display:none">
+                                    <span class="est-label">⚙️ Глубокая автоматизация</span>
+                                    <span class="est-value">150 000 ₸</span>
+                                </div>
+                                <div class="estimate-row" id="est-support-row" style="display:none">
+                                    <span class="est-label" id="est-support-name">Сопровождение</span>
+                                    <span class="est-value" id="est-support-price">100 000 ₸</span>
+                                </div>
+                            </div>
+
+                            <div class="estimate-divider highlight"></div>
+
+                            <!-- Grand Total -->
+                            <div class="estimate-total-box">
+                                <div class="est-total-label">Итого к оплате (Лицензии + Внедрение):</div>
+                                <div class="est-total-price" id="calc-grand-total">445 970 ₸</div>
+                            </div>
+
+                            <button type="button" class="btn btn-primary w-full btn-submit-estimate" id="btn-open-lead-modal">
+                                Зафиксировать расчет и обсудить →
+                            </button>
+                            <div class="estimate-footnote">
+                                Смета формируется в тенге (KZT). Наш эксперт свяжется с вами для согласования деталей.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Form for Lead Capture -->
+    <div class="modal-overlay" id="lead-modal">
+        <div class="modal-content glass">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            <h3 class="modal-title">Обсудить проект</h3>
+            <p class="modal-subtitle">Мы сохранили параметры вашего расчета. Заполните контакты, чтобы зафиксировать стоимость и получить финальную смету.</p>
+            
+            <form id="lead-form" class="modal-form">
+                <!-- Hidden inputs for calculator state -->
+                <input type="hidden" id="form-crm" name="crm" value="amocrm">
+                <input type="hidden" id="form-crm-plan" name="crm_plan" value="basic">
+                <input type="hidden" id="form-users" name="users" value="5">
+                <input type="hidden" id="form-term" name="term" value="6">
+                <input type="hidden" id="form-wazzup" name="wazzup" value="true">
+                <input type="hidden" id="form-wazzup-plan" name="wazzup_plan" value="pro">
+                <input type="hidden" id="form-sipuni" name="sipuni" value="true">
+                <input type="hidden" id="form-sipuni-plan" name="sipuni_plan" value="basic">
+                <input type="hidden" id="form-turbo" name="turbo" value="false">
+                <input type="hidden" id="form-automation" name="automation" value="false">
+                <input type="hidden" id="form-support" name="support" value="none">
+                <input type="hidden" id="form-services-total" name="services_total" value="250000">
+                <input type="hidden" id="form-licenses-total" name="licenses_total" value="195970">
+                <input type="hidden" id="form-total" name="total" value="445970">
+
+                <div class="form-group">
+                    <label for="lead-name">Ваше имя</label>
+                    <input type="text" id="lead-name" placeholder="Константин" required>
+                </div>
+                <div class="form-group">
+                    <label for="lead-phone">Номер телефона (WhatsApp)</label>
+                    <input type="tel" id="lead-phone" placeholder="+7 (707) 123-4567" required>
+                </div>
+                <div class="form-group">
+                    <label for="lead-company">Название компании</label>
+                    <input type="text" id="lead-company" placeholder="ТОО Nodus-Технолоджи">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full form-submit-btn">Отправить заявку</button>
+            </form>
+            <div class="modal-success-msg" id="success-message">
+                <div class="success-icon">✓</div>
+                <h4>Заявка успешно зафиксирована!</h4>
+                <p>Параметры вашего расчета сохранены. Наш специалист свяжется с вами в течение 15 минут в WhatsApp или по телефону.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lightbox for Client Cases -->
+    <div class="modal-overlay" id="client-modal">
+        <div class="modal-content glass client-case-modal">
+            <button class="modal-close" id="client-modal-close-btn">&times;</button>
+            <div class="client-modal-body">
+                <div class="client-modal-logo-box">
+                    <img src="" alt="Client Logo" id="cm-logo" class="client-modal-logo-img">
+                </div>
+                <div class="client-modal-details">
+                    <div class="client-modal-tag" id="cm-industry">Спортивный клуб</div>
+                    <h3 class="client-modal-title" id="cm-title">Underground Gym</h3>
+                    
+                    <div class="client-modal-section">
+                        <div class="cm-sec-title">Внедренное решение:</div>
+                        <div class="cm-stack-badges" id="cm-stack">
+                            <span class="stack-badge amo">AmoCRM</span>
+                            <span class="stack-badge wazzup">Wazzup WhatsApp</span>
+                            <span class="stack-badge sipuni">Sipuni</span>
+                        </div>
+                    </div>
+
+                    <div class="client-modal-section">
+                        <div class="cm-sec-title">Что было сделано:</div>
+                        <p class="cm-desc" id="cm-desc">
+                            Настроена сквозная воронка первичных обращений и воронка LTV для продления абонементов. Подключен WhatsApp для авто-напоминаний о тренировках и Sipuni для записи звонков.
+                        </p>
+                    </div>
+
+                    <div class="client-modal-section">
+                        <div class="cm-sec-title">Результаты внедрения:</div>
+                        <ul class="cm-results-list" id="cm-results">
+                            <li>Рост повторных продаж (LTV) на +42% в первые 2 месяца</li>
+                            <li>100% фиксация заявок из Instagram и WhatsApp без потери лидов</li>
+                            <li>Время реакции на нового клиента сократилось с 40 минут до 2 минут</li>
+                        </ul>
+                    </div>
+
+                    <div class="client-modal-actions">
+                        <button type="button" class="btn btn-primary w-full" id="cm-cta-btn">Хочу такой же результат →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Form for Requisites -->
+    <div class="modal-overlay" id="requisites-modal">
+        <div class="modal-content glass modal-req">
+            <button class="modal-close" id="req-close-btn">&times;</button>
+            <h3 class="modal-title">Реквизиты компании</h3>
+            <p class="modal-subtitle">ИП NODUS — Карточка предприятия для договоров и счетов.</p>
+            
+            <div class="requisites-list">
+                <div class="req-item">
+                    <span class="req-label">Название организации</span>
+                    <div class="req-value-row">
+                        <span class="req-value" id="req-name">ИП NODUS</span>
+                        <button class="copy-btn" data-target="req-name">Копировать</button>
+                    </div>
+                </div>
+                <div class="req-item">
+                    <span class="req-label">БИН (ИИН)</span>
+                    <div class="req-value-row">
+                        <span class="req-value" id="req-bin">010618550536</span>
+                        <button class="copy-btn" data-target="req-bin">Копировать</button>
+                    </div>
+                </div>
+                <div class="req-item">
+                    <span class="req-label">Адрес</span>
+                    <div class="req-value-row">
+                        <span class="req-value" id="req-address">Петропавловск Г.А., Петропавловск, УЛИЦА 1-Я ЗАРЕЧНАЯ, дом 109, кв/офис 2</span>
+                        <button class="copy-btn" data-target="req-address">Копировать</button>
+                    </div>
+                </div>
+                <div class="req-item">
+                    <span class="req-label">Банк</span>
+                    <div class="req-value-row">
+                        <span class="req-value" id="req-bank">АО "Kaspi Bank"</span>
+                        <button class="copy-btn" data-target="req-bank">Копировать</button>
+                    </div>
+                </div>
+                <div class="req-item flex-row-split">
+                    <div class="split-col">
+                        <span class="req-label">КБе</span>
+                        <div class="req-value-row">
+                            <span class="req-value" id="req-kbe">19</span>
+                            <button class="copy-btn" data-target="req-kbe">Копировать</button>
+                        </div>
+                    </div>
+                    <div class="split-col">
+                        <span class="req-label">БИК</span>
+                        <div class="req-value-row">
+                            <span class="req-value" id="req-bik">CASPKZKA</span>
+                            <button class="copy-btn" data-target="req-bik">Копировать</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="req-item">
+                    <span class="req-label">Номер счета (IBAN)</span>
+                    <div class="req-value-row">
+                        <span class="req-value text-monospace" id="req-account">KZ03722S000045101199</span>
+                        <button class="copy-btn" data-target="req-account">Копировать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">NODUS<span class="logo-dot">.</span></a>
+                <p class="footer-brand-text">Разработка и интеграция эффективных CRM-систем для малого, среднего и крупного бизнеса. Официальный партнер AmoCRM и Bitrix24 в Казахстане.</p>
+                <div class="footer-copy">&copy; 2026 ИП NODUS. Все права защищены.</div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Навигация</h4>
+                <a href="#services">Услуги</a>
+                <a href="#clients">Кейсы клиентов</a>
+                <a href="#stages">Этапы работы</a>
+                <a href="#pricing">Тарифы</a>
+                <a href="#tariff-details">Состав работ</a>
+                <a href="services.html">База знаний &amp; Сервисы</a>
+                <a href="#calculator">Калькулятор</a>
+            </div>
+
+            <div class="footer-links">
+                <h4>Связь с нами</h4>
+                <a href="https://t.me/nodus_crm" target="_blank" rel="noopener noreferrer" class="social-link Telegram">Telegram: @nodus_crm</a>
+                <a href="https://wa.me/77071234567" target="_blank" rel="noopener noreferrer" class="social-link Whatsapp">WhatsApp: +7 (707) 123-45-67</a>
+                <button type="button" class="btn-footer-req" id="open-req-btn">Реквизиты компании</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App Script -->
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

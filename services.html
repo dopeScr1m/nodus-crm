@@ -1,0 +1,673 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подробное описание сервисов и тарифов — NODUS CRM Integrator</title>
+    <meta name="description" content="Полный разбор тарифов и возможностей AmoCRM, Bitrix24, Wazzup, Sipuni и пакетов услуг интегратора NODUS. Примеры воронок, сроки сдачи и техническое сопровождение.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional Service Page Styles */
+        .service-page-hero {
+            padding: 140px 0 60px;
+            text-align: center;
+        }
+        .service-detail-section {
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .service-detail-section:last-of-type {
+            border-bottom: none;
+        }
+        .service-head-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        .service-head-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .service-head-title h2 {
+            font-size: 2rem;
+            margin-bottom: 4px;
+        }
+        .service-head-title p {
+            color: var(--color-text-muted);
+            font-size: 1rem;
+        }
+        .service-plans-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .sp-card {
+            background: rgba(13, 17, 33, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+        }
+        .sp-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .sp-card-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .sp-card-price {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #a5b4fc;
+        }
+        .sp-card-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-bottom: 16px;
+            line-height: 1.45;
+        }
+        .sp-card-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        .sp-card-list li {
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            position: relative;
+            padding-left: 16px;
+        }
+        .sp-card-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: 700;
+        }
+        .sp-case-example {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid var(--color-cyan);
+            border-radius: 0 12px 12px 0;
+            padding: 14px 16px;
+            margin-top: auto;
+        }
+        .sp-case-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-cyan);
+            margin-bottom: 4px;
+        }
+        .sp-case-text {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+        }
+        .service-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .sf-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+        .sf-item h4 {
+            font-size: 0.95rem;
+            color: #fff;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sf-item p {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+        }
+        .back-nav-bar {
+            padding: 20px 0 0;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #a5b4fc;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .back-link:hover {
+            color: #fff;
+            transform: translateX(-4px);
+        }
+    </style>
+    <!-- Immediate Theme Initialization -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('nodus-theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+</head>
+<body>
+    <!-- Background Glow -->
+    <div class="glow-bg glow-purple"></div>
+    <div class="glow-bg glow-cyan"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">NODUS</span><span class="logo-dot">.</span>
+            </a>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="index.html#services" class="nav-link">Услуги</a>
+                <a href="index.html#clients" class="nav-link">Кейсы</a>
+                <a href="index.html#pricing" class="nav-link">Тарифы</a>
+                <a href="services.html" class="nav-link active">База знаний</a>
+                <a href="index.html#calculator" class="nav-link">Калькулятор</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="theme-toggle-btn" id="theme-toggle" aria-label="Переключить тему" title="Переключить тему (светлая/тёмная)">
+                    <span class="theme-icon-dark">🌙</span>
+                    <span class="theme-icon-light">☀️</span>
+                </button>
+                <a href="index.html#calculator" class="btn btn-primary nav-btn">Рассчитать проект</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Back Link -->
+        <div class="back-nav-bar">
+            <a href="index.html" class="back-link">← Вернуться на главную</a>
+        </div>
+
+        <!-- Hero -->
+        <section class="service-page-hero">
+            <span class="badge">База знаний &amp; Экспертиза</span>
+            <h1 class="hero-title">Гид по CRM-системам, мессенджерам и телефонии</h1>
+            <p class="hero-subtitle">
+                Подробный разбор каждого тарифного плана AmoCRM, Bitrix24, Wazzup и Sipuni. Узнайте, что входит в стоимость, для кого подходит тариф и посмотрите реальные примеры работы.
+            </p>
+            <div style="margin-top: 24px;">
+                <a href="index.html#calculator" class="btn btn-primary btn-lg">Перейти в калькулятор онлайн →</a>
+            </div>
+        </section>
+
+        <!-- 1. AmoCRM Section -->
+        <section class="service-detail-section" id="amo-guide">
+            <div class="service-head-row">
+                <div class="service-head-icon icon-amo">🅰</div>
+                <div class="service-head-title">
+                    <h2>AmoCRM — Лидер в продажах и конверсиях</h2>
+                    <p>Простая и мощная CRM для отделов продаж. Учит менеджеров закрывать больше сделок и не терять повторные продажи (LTV).</p>
+                </div>
+            </div>
+
+            <div class="service-plans-cards">
+                <!-- Only Lic 0k -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Без внедрения</div>
+                        <div class="sp-card-price">0 ₸</div>
+                    </div>
+                    <div class="card-term-badge">Срок: 15 минут (выдача доступов)</div>
+                    <ul class="sp-card-list">
+                        <li><b>Официальные лицензии AmoCRM, Bitrix24, Wazzup, Sipuni</b></li>
+                        <li>Сохранение всех скидок и бонусных месяцев от вендоров</li>
+                        <li>Официальный договор, ЭСФ и акты выполненных работ</li>
+                        <li>Для компаний с собственным штатным администратором CRM</li>
+                    </ul>
+                </div>
+                <!-- Amo Basic -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Базовый</div>
+                        <div class="sp-card-price">5 199 ₸ <small class="tier-unit">/ мес / чел</small></div>
+                    </div>
+                    <p class="sp-card-desc">Для небольших команд, которым нужно систематизировать контакты и избавиться от Excel.</p>
+                    <ul class="sp-card-list">
+                        <li>До 5 000 контактов и сделок в базе</li>
+                        <li>1 воронка продаж + поиск дублей контактов</li>
+                        <li>Интеграция почты и форм с сайта</li>
+                        <li>Мобильное приложение для iOS и Android</li>
+                    </ul>
+                    <div class="sp-case-example">
+                        <div class="sp-case-label">Пример использования:</div>
+                        <div class="sp-case-text">Бутик одежды или шоурум с 2 продавцами: фиксация покупателей, ведение истории примерок и звонков.</div>
+                    </div>
+                </div>
+
+                <!-- Amo Advanced -->
+                <div class="sp-card" style="border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.06);">
+                    <div class="sp-card-header">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px">Хит продаж</span>
+                            <div class="sp-card-name">Расширенный</div>
+                        </div>
+                        <div class="sp-card-price">9 899 ₸ <small class="tier-unit">/ мес / чел</small></div>
+                    </div>
+                    <p class="sp-card-desc">Идеальный выбор для 90% растущих компаний с активными продажами и переписками в WhatsApp.</p>
+                    <ul class="sp-card-list">
+                        <li><b>Digital Pipeline:</b> автоматическая смена этапов сделок</li>
+                        <li><b>Salesbot:</b> чат-бот, который сам квалифицирует клиентов в WhatsApp</li>
+                        <li>Авто-постановка задач менеджерам («Позвонить через 2 дня»)</li>
+                        <li>Безлимитное количество воронок (первичные продажи + LTV)</li>
+                    </ul>
+                    <div class="sp-case-example">
+                        <div class="sp-case-label">Пример использования:</div>
+                        <div class="sp-case-text">Торговая компания или клиника: лид оставляет заявку в Instagram -> Salesbot мгновенно пишет в WhatsApp -> менеджеру ставится задача на звонок.</div>
+                    </div>
+                </div>
+
+                <!-- Amo Pro -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Профессиональный</div>
+                        <div class="sp-card-price">15 099 ₸ <small class="tier-unit">/ мес / чел</small></div>
+                    </div>
+                    <p class="sp-card-desc">Для зрелых отделов продаж, где критически важна безопасность базы и глубокая аналитика.</p>
+                    <ul class="sp-card-list">
+                        <li><b>Сквозная аналитика:</b> учет ROI и окупаемости каждого рекламного тенге</li>
+                        <li><b>Lead Scoring:</b> авто-оценка вероятности покупки клиентом</li>
+                        <li>Ограничение входа по IP-адресам и защита от копирования базы</li>
+                        <li>Автоматическое регулярное резервное копирование данных</li>
+                    </ul>
+                    <div class="sp-case-example">
+                        <div class="sp-case-label">Пример использования:</div>
+                        <div class="sp-case-text">Оптовый дистрибьютор или автосалон с 15+ менеджерами: жесткий контроль доступа, анализ конверсий каждого источника трафика.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Bitrix24 Section -->
+        <section class="service-detail-section" id="bitrix-guide">
+            <div class="service-head-row">
+                <div class="service-head-icon icon-bitrix">📦</div>
+                <div class="service-head-title">
+                    <h2>Bitrix24 — Единая корпоративная среда для всей компании</h2>
+                    <p>Комплексная платформа для ведения проектов, задач, учета рабочего времени, документооборота и продаж. Цены указаны за весь портал компании.</p>
+                </div>
+            </div>
+
+            <div class="service-plans-cards">
+                <!-- Only Lic 0k -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Без внедрения</div>
+                        <div class="sp-card-price">0 ₸</div>
+                    </div>
+                    <div class="card-term-badge">Срок: 15 минут (выдача доступов)</div>
+                    <ul class="sp-card-list">
+                        <li><b>Официальные лицензии AmoCRM, Bitrix24, Wazzup, Sipuni</b></li>
+                        <li>Сохранение всех скидок и бонусных месяцев от вендоров</li>
+                        <li>Официальный договор, ЭСФ и акты выполненных работ</li>
+                        <li>Для компаний с собственным штатным администратором CRM</li>
+                    </ul>
+                </div>
+                <!-- Bitrix Basic -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Базовый (до 5 польз.)</div>
+                        <div class="sp-card-price">15 080 ₸ <small class="tier-unit">/ мес (12 мес: 144 768 ₸)</small></div>
+                    </div>
+                    <p class="sp-card-desc">Для небольших проектных команд и стартапов до 5 человек.</p>
+                    <ul class="sp-card-list">
+                        <li>CRM, контакт-центр и управление сделками</li>
+                        <li>Задачи и проекты (диаграмма Ганта, Канбан)</li>
+                        <li>Общий корпоративный чат, видеозвонки в HD</li>
+                        <li>Облачный диск 24 ГБ для файлов и документов</li>
+                    </ul>
+                    <div class="sp-case-example">
+                        <div class="sp-case-label">Пример использования:</div>
+                        <div class="sp-case-text">Маркетинговое агентство или юридическая фирма: совместная работа над проектами и фиксация клиентов.</div>
+                    </div>
+                </div>
+
+                <!-- Bitrix Standard -->
+                <div class="sp-card" style="border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.06);">
+                    <div class="sp-card-header">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px">Хит продаж</span>
+                            <div class="sp-card-name">Стандартный (до 50 польз.)</div>
+                        </div>
+                        <div class="sp-card-price">44 080 ₸ <small class="tier-unit">/ мес (12 мес: 423 168 ₸)</small></div>
+                    </div>
+                    <p class="sp-card-desc">Оптимальный портал для средних компаний со штатом до 50 сотрудников.</p>
+                    <ul class="sp-card-list">
+                        <li><b>CRM-маркетинг:</b> рассылки по сегментам базы</li>
+                        <li>Генератор счетов, КП и договоров в PDF в 1 клик</li>
+                        <li>Учет рабочего времени сотрудников и отчеты за день</li>
+                        <li>Облачный диск 100 ГБ и разграничение прав доступа</li>
+                    </ul>
+                    <div class="sp-case-example">
+                        <div class="sp-case-label">Пример использования:</div>
+                        <div class="sp-case-text">Производственная компания: менеджеры ведут сделки, инженеры получают задачи, бухгалтерия генерирует акты в 1 клик.</div>
+                    </div>
+                </div>
+
+                <!-- Bitrix Pro -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Профессиональный (до 100 польз.)</div>
+                        <div class="sp-card-price">88 160 ₸ <small class="tier-unit">/ мес (12 мес: 846 336 ₸)</small></div>
+                    </div>
+                    <p class="sp-card-desc">Максимальный функционал автоматизации для средних и крупных предприятий.</p>
+                    <ul class="sp-card-list">
+                        <li><b>Смарт-процессы:</b> согласование договоров, оплат и отпусков</li>
+                        <li>Глубокая сквозная аналитика и BI-конструктор отчетов</li>
+                        <li>Складской учет и автоматизация службы логистики</li>
+                        <li>Облачный диск 1 024 ГБ (1 ТБ)</li>
+                    </ul>
+                    <div class="sp-case-example">
+                        <div class="sp-case-label">Пример использования:</div>
+                        <div class="sp-case-text">Сеть сервисных центров или логистический холдинг: сквозные смарт-процессы между 5 филиалами.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Wazzup24 Section -->
+        <section class="service-detail-section" id="wazzup-guide">
+            <div class="service-head-row">
+                <div class="service-head-icon icon-wazzup">💬</div>
+                <div class="service-head-title">
+                    <h2>Wazzup24 — Мультиканальные мессенджеры в CRM</h2>
+                    <p>Бесшовная интеграция WhatsApp, Instagram Direct, Telegram и VK прямо в карточку сделки. Менеджер пишет первым, переписка не теряется.</p>
+                </div>
+            </div>
+
+            <div class="service-plans-cards">
+                <!-- Only Lic 0k -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Без внедрения</div>
+                        <div class="sp-card-price">0 ₸</div>
+                    </div>
+                    <div class="card-term-badge">Срок: 15 минут (выдача доступов)</div>
+                    <ul class="sp-card-list">
+                        <li><b>Официальные лицензии AmoCRM, Bitrix24, Wazzup, Sipuni</b></li>
+                        <li>Сохранение всех скидок и бонусных месяцев от вендоров</li>
+                        <li>Официальный договор, ЭСФ и акты выполненных работ</li>
+                        <li>Для компаний с собственным штатным администратором CRM</li>
+                    </ul>
+                </div>
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Start (WhatsApp / Telegram)</div>
+                        <div class="sp-card-price">6 000 ₸ <small class="tier-unit">/ мес / канал</small></div>
+                    </div>
+                    <p class="sp-card-desc">Для небольших объемов переписок: 50 новых диалогов в месяц. Доступна возможность писать первым.</p>
+                </div>
+
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Inbox (WA / IG / TG)</div>
+                        <div class="sp-card-price">12 000 ₸ <small class="tier-unit">/ мес / канал</small></div>
+                    </div>
+                    <p class="sp-card-desc">До 500 входящих диалогов в месяц. Идеально для каналов, куда клиенты пишут сами (например, Instagram Direct).</p>
+                </div>
+
+                <div class="sp-card" style="border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.06);">
+                    <div class="sp-card-header">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px">Хит продаж</span>
+                            <div class="sp-card-name">Pro (WA / TG)</div>
+                        </div>
+                        <div class="sp-card-price">24 000 ₸ <small class="tier-unit">/ мес / канал</small></div>
+                    </div>
+                    <p class="sp-card-desc">500 диалогов в месяц + возможность писать первым любому клиенту по номеру телефона.</p>
+                </div>
+
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Max (WA / IG / TG / VK)</div>
+                        <div class="sp-card-price">36 000 ₸ <small class="tier-unit">/ мес / канал</small></div>
+                    </div>
+                    <p class="sp-card-desc">Полный безлимит диалогов, групповые чаты и автоматическая расшифровка аудиосообщений в текст.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Sipuni Section -->
+        <section class="service-detail-section" id="sipuni-guide">
+            <div class="service-head-row">
+                <div class="service-head-icon icon-sipuni">📞</div>
+                <div class="service-head-title">
+                    <h2>Sipuni — Умная облачная IP-телефония для CRM</h2>
+                    <p>Связывает мобильные и городские номера с CRM-системой. Обеспечивает 100% фиксацию звонков и контроль работы отдела продаж.</p>
+                </div>
+            </div>
+
+            <div class="service-plans-cards">
+                <!-- Only Lic 0k -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Без внедрения</div>
+                        <div class="sp-card-price">0 ₸</div>
+                    </div>
+                    <div class="card-term-badge">Срок: 15 минут (выдача доступов)</div>
+                    <ul class="sp-card-list">
+                        <li><b>Официальные лицензии AmoCRM, Bitrix24, Wazzup, Sipuni</b></li>
+                        <li>Сохранение всех скидок и бонусных месяцев от вендоров</li>
+                        <li>Официальный договор, ЭСФ и акты выполненных работ</li>
+                        <li>Для компаний с собственным штатным администратором CRM</li>
+                    </ul>
+                </div>
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Базовая</div>
+                        <div class="sp-card-price">3 200 ₸ <small class="tier-unit">/ мес / польз.</small></div>
+                    </div>
+                    <ul class="sp-card-list">
+                        <li>До 3 устройств у каждого сотрудника (SIP, мобильный, ПК)</li>
+                        <li>Хранение записей разговоров — 3 месяца</li>
+                        <li>Звонки из карточки CRM в один клик</li>
+                        <li>Авто-создание сделки и контакта при входящем звонке</li>
+                    </ul>
+                </div>
+
+                <div class="sp-card" style="border-color: rgba(99,102,241,0.4); background: rgba(99,102,241,0.06);">
+                    <div class="sp-card-header">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px">Хит</span>
+                            <div class="sp-card-name">Расширенная</div>
+                        </div>
+                        <div class="sp-card-price">6 400 ₸ <small class="tier-unit">/ мес / польз.</small></div>
+                    </div>
+                    <ul class="sp-card-list">
+                        <li>До 4 устройств на каждого менеджера</li>
+                        <li>Хранение записей разговоров — <b>1 год</b></li>
+                        <li><b>Умная маршрутизация:</b> звонок сразу идет на ответственного менеджера</li>
+                        <li>Авто-создание задач при пропущенных звонках</li>
+                    </ul>
+                </div>
+
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Профессиональная</div>
+                        <div class="sp-card-price">9 600 ₸ <small class="tier-unit">/ мес / польз.</small></div>
+                    </div>
+                    <ul class="sp-card-list">
+                        <li>До 5 устройств на сотрудника</li>
+                        <li><b>Безлимитное хранение</b> всех записей разговоров</li>
+                        <li>Глубокая статистика разговоров и речевая аналитика</li>
+                        <li>Оценка качества работы менеджеров и контроль скрипта</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. NODUS Packages Breakdown -->
+        <section class="service-detail-section" id="nodus-packages-guide">
+            <div class="section-header text-center">
+                <span class="badge">Услуги интегратора NODUS</span>
+                <h2 class="section-title">Пакеты внедрения под ключ</h2>
+                <p class="section-subtitle">Гарантированный запуск за фиксированную стоимость без скрытых платежей. В каждый пакет включено бесплатное техническое сопровождение.</p>
+            </div>
+
+            <div class="service-plans-cards">
+                <!-- Only Lic 0k -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Без внедрения</div>
+                        <div class="sp-card-price">0 ₸</div>
+                    </div>
+                    <div class="card-term-badge">Срок: 15 минут (выдача доступов)</div>
+                    <ul class="sp-card-list">
+                        <li><b>Официальные лицензии AmoCRM, Bitrix24, Wazzup, Sipuni</b></li>
+                        <li>Сохранение всех скидок и бонусных месяцев от вендоров</li>
+                        <li>Официальный договор, ЭСФ и акты выполненных работ</li>
+                        <li>Для компаний с собственным штатным администратором CRM</li>
+                    </ul>
+                </div>
+                <!-- Basic 100k -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div class="sp-card-name">Базовый старт</div>
+                        <div class="sp-card-price">100 000 ₸</div>
+                    </div>
+                    <div class="card-term-badge">Срок сдачи: 3–5 рабочих дней</div>
+                    <ul class="sp-card-list">
+                        <li><b>1 основная воронка продаж + 1 воронка для LTV</b> (повторные продажи)</li>
+                        <li>Импорт существующей базы клиентов (до 5 000 строк)</li>
+                        <li>Настройка карточек сделок и до 20 пользовательских полей</li>
+                        <li>Подключение 1 канала Wazzup (WhatsApp) или корпоративной почты</li>
+                        <li>Обучение 2 сотрудников с предоставлением видеозаписи</li>
+                        <li style="color: #86efac; font-weight: 700;">🎁 Техническое сопровождение 7 дней в подарок</li>
+                    </ul>
+                </div>
+
+                <!-- Standard 250k -->
+                <div class="sp-card popular" style="border-color: var(--color-primary); background: rgba(99,102,241,0.08);">
+                    <div class="sp-card-header">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px">⭐ Хит продаж</span>
+                            <div class="sp-card-name">Оптимальный</div>
+                        </div>
+                        <div class="sp-card-price">250 000 ₸</div>
+                    </div>
+                    <div class="card-term-badge">Срок сдачи: 7–10 рабочих дней</div>
+                    <ul class="sp-card-list">
+                        <li><b>До 3 основных воронок + воронка LTV / реанимации</b></li>
+                        <li>Полная связка <b>CRM + Wazzup (WA, IG, TG) + Sipuni</b></li>
+                        <li>Авто-задачи менеджерам, роботы смены статусов и автоответы</li>
+                        <li>Разграничение прав доступа и защита базы от копирования</li>
+                        <li>Обучение всей команды + регламенты работы менеджеров</li>
+                        <li style="color: #86efac; font-weight: 700;">🎁 Техническое сопровождение 14 дней в подарок</li>
+                    </ul>
+                </div>
+
+                <!-- VIP 500k -->
+                <div class="sp-card">
+                    <div class="sp-card-header">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px; background: rgba(6,182,212,0.2); color: #38bdf8;">💎 VIP</span>
+                            <div class="sp-card-name">VIP Корпоративный</div>
+                        </div>
+                        <div class="sp-card-price">500 000 ₸</div>
+                    </div>
+                    <div class="card-term-badge">Срок сдачи: 14–20 рабочих дней</div>
+                    <ul class="sp-card-list">
+                        <li><b>Безлимит воронок</b> под все филиалы и направления бизнеса + LTV</li>
+                        <li>Интеграция с <b>1С, Kaspi Магазином, сайтом и кастомным API</b></li>
+                        <li>Авто-генерация документов (КП, договоры, счета, акты в PDF)</li>
+                        <li>Сквозная аналитика окупаемости каналов и Lead Scoring</li>
+                        <li>Персональный CRM-архитектор и видео-регламенты под компанию</li>
+                        <li style="color: #86efac; font-weight: 700;">🎁 Техническое сопровождение 30 дней + Персональный менеджер</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Call to action block -->
+            <div class="turbo-banner-card glass" style="margin-top: 32px;">
+                <div class="turbo-banner-left">
+                    <div class="turbo-icon-badge">⚡</div>
+                    <div>
+                        <h3 class="turbo-title">Нужно рассчитать точную смету под вашу компанию?</h3>
+                        <p class="turbo-desc">Используйте наш интерактивный калькулятор — настройте нужные сервисы и получите готовую смету за 30 секунд.</p>
+                    </div>
+                </div>
+                <div class="turbo-banner-right">
+                    <a href="index.html#calculator" class="btn btn-primary btn-lg turbo-btn">Открыть калькулятор проекта →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 80px;">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">NODUS<span class="logo-dot">.</span></a>
+                <p class="footer-brand-text">Разработка и интеграция эффективных CRM-систем для малого, среднего и крупного бизнеса. Официальный партнер AmoCRM и Bitrix24 в Казахстане.</p>
+                <div class="footer-copy">&copy; 2026 ИП NODUS. Все права защищены.</div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Навигация</h4>
+                <a href="index.html">Главная</a>
+                <a href="index.html#services">Услуги</a>
+                <a href="index.html#clients">Кейсы клиентов</a>
+                <a href="services.html">База знаний</a>
+                <a href="index.html#calculator">Онлайн-калькулятор</a>
+            </div>
+
+            <div class="footer-links">
+                <h4>Связь с нами</h4>
+                <a href="https://t.me/nodus_crm" target="_blank" rel="noopener noreferrer" class="social-link Telegram">Telegram: @nodus_crm</a>
+                <a href="https://wa.me/77071234567" target="_blank" rel="noopener noreferrer" class="social-link Whatsapp">WhatsApp: +7 (707) 123-45-67</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const themeBtn = document.getElementById('theme-toggle');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('nodus-theme', next);
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+

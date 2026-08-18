@@ -1,0 +1,12 @@
+﻿{
+  "name": "nodus-website",
+  "version": "2.0.0",
+  "description": "NODUS CRM Integrator Website and Multi-vendor Calculator",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve -s . -l 8080"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}
