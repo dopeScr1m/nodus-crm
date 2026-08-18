@@ -3418,8 +3418,8 @@ select:focus-visible {
 
 /* Theme Switcher Button */
 .theme-toggle-btn {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--color-border);
@@ -3428,8 +3428,9 @@ select:focus-visible {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     transition: var(--transition);
+    flex-shrink: 0;
 }
 
 .theme-toggle-btn:hover {
@@ -3678,4 +3679,40 @@ select:focus-visible {
     color: #ffffff;
     transform: translateY(-2px);
     box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+}
+
+/* Mobile Header Dead-Center Theme Toggle */
+.mobile-theme-center {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        height: 72px;
+    }
+
+    .mobile-theme-center {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 100;
+    }
+
+    .header-actions .desktop-theme-btn,
+    .header-actions .nav-btn,
+    .nav {
+        display: none !important;
+    }
+
+    .mobile-toggle {
+        display: flex !important;
+    }
 }

@@ -500,21 +500,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (selTgTier) selTgTier.addEventListener('change', e => { state.tgTier = e.target.value; calculateEstimate(); });
     if (selVkTier) selVkTier.addEventListener('change', e => { state.vkTier = e.target.value; calculateEstimate(); });
 
-    // ── Stepper helper with Click + Direct Input Typing Support ──
-    const bindStepper = (minusId, plusId, inputId, getVal, setVal, min = 0, max = 500) => {
+    // ── Stepper helper with +/- clicks ──
+    const bindStepper = (minusId, plusId, valId, getVal, setVal, min = 0, max = 500) => {
         const minus = getEl(minusId);
         const plus  = getEl(plusId);
-        const input = getEl(inputId);
-        if (!minus || !plus || !input) return;
+        const el    = getEl(valId);
+        if (!minus || !plus || !el) return;
 
         const updateDisplay = () => {
-            input.value = getVal();
+            const v = getVal();
+            if (el.tagName === 'INPUT') el.value = v;
+            else el.textContent = v;
             calculateEstimate();
         };
 
         minus.addEventListener('click', e => {
             e.preventDefault();
-            const cur = parseInt(input.value) || getVal();
+            const cur = getVal();
             if (cur > min) {
                 setVal(cur - 1);
                 updateDisplay();
@@ -523,28 +525,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         plus.addEventListener('click', e => {
             e.preventDefault();
-            const cur = parseInt(input.value) || getVal();
+            const cur = getVal();
             if (cur < max) {
                 setVal(cur + 1);
                 updateDisplay();
             }
-        });
-
-        input.addEventListener('input', () => {
-            let v = parseInt(input.value);
-            if (isNaN(v)) v = min;
-            if (v > max) v = max;
-            setVal(v);
-            calculateEstimate();
-        });
-
-        input.addEventListener('blur', () => {
-            let v = parseInt(input.value);
-            if (isNaN(v) || v < min) v = min;
-            if (v > max) v = max;
-            input.value = v;
-            setVal(v);
-            calculateEstimate();
         });
     };
 
@@ -964,4 +949,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
 
