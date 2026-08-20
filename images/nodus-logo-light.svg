@@ -1,0 +1,40 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="neonNodusGradLt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="cyanPurpleDotLt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#4f46e5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon (Left) -->
+  <g transform="translate(48, 30)">
+    <!-- Squircle container -->
+    <rect width="180" height="180" rx="44" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+    
+    <!-- Monogram N with connected nodes -->
+    <g transform="translate(180, 180) scale(0.35) translate(-256, -256)">
+      <line x1="140" y1="372" x2="140" y2="140" stroke="url(#neonNodusGradLt)" stroke-width="46" stroke-linecap="round"/>
+      <line x1="140" y1="140" x2="372" y2="372" stroke="url(#neonNodusGradLt)" stroke-width="46" stroke-linecap="round"/>
+      <line x1="372" y1="372" x2="372" y2="140" stroke="url(#neonNodusGradLt)" stroke-width="46" stroke-linecap="round"/>
+      <circle cx="140" cy="140" r="32" fill="url(#cyanPurpleDotLt)"/>
+      <circle cx="372" cy="372" r="32" fill="url(#cyanPurpleDotLt)"/>
+      <circle cx="140" cy="372" r="26" fill="#4f46e5"/>
+      <circle cx="372" cy="140" r="26" fill="#0284c7"/>
+    </g>
+  </g>
+
+  <!-- Typography (Right) -->
+  <g transform="translate(264, 134)">
+    <text font-family="Plus Jakarta Sans, Montserrat, Inter, -apple-system, sans-serif" font-weight="900" font-size="88" letter-spacing="-3" fill="#0f172a">
+      NODUS<tspan fill="url(#neonNodusGradLt)">.</tspan>
+    </text>
+    <text y="42" x="4" font-family="Plus Jakarta Sans, Montserrat, Inter, -apple-system, sans-serif" font-weight="700" font-size="18" letter-spacing="7" fill="#64748b" text-transform="uppercase">
+      CRM &amp; TELEPHONY INTEGRATION
+    </text>
+  </g>
+</svg>
