@@ -1010,5 +1010,69 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.pointerType === 'mouse') e.preventDefault();
         });
     });
-});
+    // =========================================================================
+    // 14. FAQ ACCORDION INTERACTION
+    // =========================================================================
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const btn = item.querySelector('.faq-question');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                const wasActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        }
+    });
 
+    // =========================================================================
+    // 15. LIVE ACTIVITY TOAST NOTIFICATION ROTATOR
+    // =========================================================================
+    const liveToast  = document.getElementById('live-toast');
+    const toastTitle = document.getElementById('toast-title-text');
+    const toastBody  = document.getElementById('toast-body-text');
+    const toastClose = document.getElementById('toast-close-btn');
+
+    if (liveToast && toastTitle && toastBody) {
+        const toastItems = [
+            { icon: '🚀', title: 'Кейс клиента: Алматы', text: 'Underground Gym увеличил повторные продажи (LTV) на +42%' },
+            { icon: '⚡', title: 'Новый расчет сметы', text: 'Пользователь из Астаны рассчитал интеграцию amoCRM + WhatsApp' },
+            { icon: '🏥', title: 'Кейс клиента: Медицина', text: 'Saq Clinic сократил время ответа на заявку с 40 до 1.5 минут' },
+            { icon: '💬', title: 'Активность в калькуляторе', text: 'Зафиксирована смета для оптовой компании: Bitrix24 + Sipuni' },
+            { icon: '💎', title: 'Кейс клиента: Ресторан', text: 'Cittadella автоматизировала брони столов через WhatsApp-робота' }
+        ];
+
+        let toastIdx = 0;
+        let toastHidden = false;
+
+        const showToast = () => {
+            if (toastHidden) return;
+            const item = toastItems[toastIdx % toastItems.length];
+            toastIdx++;
+            const avatar = liveToast.querySelector('.toast-avatar');
+            if (avatar) avatar.textContent = item.icon;
+            toastTitle.textContent = item.title;
+            toastBody.textContent  = item.text;
+            liveToast.classList.add('visible');
+
+            setTimeout(() => {
+                liveToast.classList.remove('visible');
+            }, 6000);
+        };
+
+        // First trigger after 6 seconds, then every 20 seconds
+        setTimeout(() => {
+            showToast();
+            setInterval(showToast, 20000);
+        }, 6000);
+
+        if (toastClose) {
+            toastClose.addEventListener('click', () => {
+                liveToast.classList.remove('visible');
+                toastHidden = true;
+            });
+        }
+    }
+});
