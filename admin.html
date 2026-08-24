@@ -184,7 +184,7 @@
         /* MAIN GRID */
         .workspace-grid {
             display: grid;
-            grid-template-columns: 560px 1fr;
+            grid-template-columns: 580px 1fr;
             gap: 26px;
             align-items: start;
         }
@@ -274,6 +274,15 @@
             color: #fff;
             border-color: #6366f1;
         }
+        .btn-preset-clear {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #f87171;
+        }
+        .btn-preset-clear:hover {
+            background: #ef4444;
+            color: #fff;
+        }
 
         /* MODULE CARDS */
         .mod-card {
@@ -281,7 +290,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             padding: 12px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             transition: all 0.2s ease;
         }
         .mod-card.active {
@@ -320,6 +329,34 @@
         .b-wz  { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
         .b-sip { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
         .b-nodus { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+        /* WAZZUP SUB-CHANNELS */
+        .wz-channel-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 8px;
+            transition: all 0.2s;
+        }
+        .wz-channel-box.active {
+            border-color: rgba(74, 222, 128, 0.4);
+            background: rgba(34, 197, 94, 0.05);
+        }
+        .wz-channel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .wz-ch-label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+        }
 
         .price-tuning-box {
             display: flex;
@@ -489,7 +526,6 @@
             min-height: 1000px;
         }
         
-        /* Enforce dark text on white sheet everywhere */
         .doc-sheet,
         .doc-sheet *,
         .doc-sheet div,
@@ -735,21 +771,22 @@
                         <button type="button" class="btn-preset" id="pre-trade">🪟 Status in Trade (250k)</button>
                         <button type="button" class="btn-preset" id="pre-vip">🚚 Tabyn Trans VIP (500k)</button>
                         <button type="button" class="btn-preset" id="pre-spa">💆 RaiThai Spa (250k)</button>
+                        <button type="button" class="btn-preset btn-preset-clear" id="pre-clear">❌ Сбросить всё</button>
                     </div>
                 </div>
 
                 <!-- 2. Modules & Pricing Configurator -->
                 <div class="section-box">
                     <div class="section-title">
-                        <span>🛠️ Модули ПО и Услуг (Прайс с сайта)</span>
-                        <span style="font-size:0.72rem; color:#38bdf8;">100% прайс в счет</span>
+                        <span>🛠️ Модули ПО и Услуг (По умолчанию выключены)</span>
+                        <span style="font-size:0.72rem; color:#38bdf8;">Выбирай нужное</span>
                     </div>
 
                     <!-- amoCRM -->
-                    <div class="mod-card active" id="card-amo">
+                    <div class="mod-card" id="card-amo">
                         <div class="mod-header">
                             <label class="mod-title">
-                                <input type="checkbox" class="mod-checkbox" id="chk-amo" checked>
+                                <input type="checkbox" class="mod-checkbox" id="chk-amo">
                                 <span class="badge-vendor b-amo">amoCRM (35% партнерка)</span>
                             </label>
                         </div>
@@ -795,10 +832,10 @@
                             <div class="form-group">
                                 <label>Тариф:</label>
                                 <select id="sel-bx-tariff" class="c-select">
-                                    <option value="basic">Базовый (5 польз)</option>
-                                    <option value="standard" selected>Стандартный (50 польз)</option>
-                                    <option value="professional">Профессиональный (100 польз)</option>
-                                    <option value="enterprise">Энтерпрайз (250 польз)</option>
+                                    <option value="basic">Базовый (5 польз / 144k)</option>
+                                    <option value="standard" selected>Стандартный (50 польз / 423k)</option>
+                                    <option value="professional">Профессиональный (100 польз / 846k)</option>
+                                    <option value="enterprise">Энтерпрайз (250 польз / 1.69m)</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -817,50 +854,178 @@
                         </div>
                     </div>
 
-                    <!-- Wazzup -->
-                    <div class="mod-card active" id="card-wz">
+                    <!-- WAZZUP MULTI-CHANNEL SUITE -->
+                    <div class="mod-card" id="card-wz-suite">
                         <div class="mod-header">
-                            <label class="mod-title">
-                                <input type="checkbox" class="mod-checkbox" id="chk-wz" checked>
-                                <span class="badge-vendor b-wz">Wazzup WhatsApp &amp; IG (50% партнерка)</span>
-                            </label>
+                            <span class="mod-title">
+                                <span class="badge-vendor b-wz">Wazzup Мессенджеры (50% партнерка)</span>
+                            </span>
+                            <span style="font-size:0.7rem; color:#4ade80;">WA / IG / TG / VK</span>
                         </div>
-                        <div class="grid-3">
-                            <div class="form-group">
-                                <label>Канал и тариф:</label>
-                                <select id="sel-wz-plan" class="c-select">
-                                    <option value="6000">WA Старт (6 000 ₸)</option>
-                                    <option value="12000">WA/IG Inbox (12 000 ₸)</option>
-                                    <option value="24000" selected>WA Про (24 000 ₸)</option>
-                                    <option value="36000">WA Макс (36 000 ₸)</option>
-                                </select>
+
+                        <!-- 1. WhatsApp -->
+                        <div class="wz-channel-box" id="box-wz-wa">
+                            <div class="wz-channel-header">
+                                <label class="wz-ch-label">
+                                    <input type="checkbox" class="mod-checkbox wz-ch-cb" id="chk-wz-wa">
+                                    <span style="color:#4ade80;">💬 WhatsApp</span>
+                                </label>
+                                <span style="font-size:0.7rem; color:#94a3b8;">50% партнерка</span>
                             </div>
-                            <div class="form-group">
-                                <label>Каналов:</label>
-                                <input type="number" id="inp-wz-ch" class="c-input" value="1" min="1" max="30">
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label>Тариф WA:</label>
+                                    <select id="sel-wz-wa-plan" class="c-select">
+                                        <option value="6000">Старт (6 000 ₸)</option>
+                                        <option value="12000">Inbox (12 000 ₸)</option>
+                                        <option value="24000" selected>Про (24 000 ₸)</option>
+                                        <option value="36000">Макс (36 000 ₸)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Каналов WA:</label>
+                                    <input type="number" id="inp-wz-wa-ch" class="c-input" value="1" min="1" max="30">
+                                </div>
+                                <div class="form-group">
+                                    <label>Срок WA:</label>
+                                    <select id="sel-wz-wa-term" class="c-select">
+                                        <option value="1">1 мес</option>
+                                        <option value="6" selected>6 мес (-10%)</option>
+                                        <option value="12">12 мес (-20%)</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Срок:</label>
-                                <select id="sel-wz-term" class="c-select">
-                                    <option value="1">1 мес</option>
-                                    <option value="6" selected>6 мес (-10%)</option>
-                                    <option value="12">12 мес (-20%)</option>
-                                </select>
+                            <div class="price-tuning-box">
+                                <span class="tuning-label">Скидка (%):</span>
+                                <input type="number" id="inp-wz-wa-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
+                                <span class="tuning-label">Сумма в счет:</span>
+                                <input type="number" id="inp-wz-wa-price" class="c-input inp-price-override" value="129600">
                             </div>
                         </div>
-                        <div class="price-tuning-box">
-                            <span class="tuning-label">Скидка (%):</span>
-                            <input type="number" id="inp-wz-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
-                            <span class="tuning-label">Сумма в счет:</span>
-                            <input type="number" id="inp-wz-price" class="c-input inp-price-override" value="129600">
+
+                        <!-- 2. Instagram -->
+                        <div class="wz-channel-box" id="box-wz-ig">
+                            <div class="wz-channel-header">
+                                <label class="wz-ch-label">
+                                    <input type="checkbox" class="mod-checkbox wz-ch-cb" id="chk-wz-ig">
+                                    <span style="color:#f472b6;">📸 Instagram Direct</span>
+                                </label>
+                                <span style="font-size:0.7rem; color:#94a3b8;">50% партнерка</span>
+                            </div>
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label>Тариф IG:</label>
+                                    <select id="sel-wz-ig-plan" class="c-select">
+                                        <option value="12000" selected>Inbox (12 000 ₸)</option>
+                                        <option value="24000">Макс (24 000 ₸)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Каналов IG:</label>
+                                    <input type="number" id="inp-wz-ig-ch" class="c-input" value="1" min="1" max="30">
+                                </div>
+                                <div class="form-group">
+                                    <label>Срок IG:</label>
+                                    <select id="sel-wz-ig-term" class="c-select">
+                                        <option value="1">1 мес</option>
+                                        <option value="6" selected>6 мес (-10%)</option>
+                                        <option value="12">12 мес (-20%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="price-tuning-box">
+                                <span class="tuning-label">Скидка (%):</span>
+                                <input type="number" id="inp-wz-ig-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
+                                <span class="tuning-label">Сумма в счет:</span>
+                                <input type="number" id="inp-wz-ig-price" class="c-input inp-price-override" value="64800">
+                            </div>
                         </div>
+
+                        <!-- 3. Telegram -->
+                        <div class="wz-channel-box" id="box-wz-tg">
+                            <div class="wz-channel-header">
+                                <label class="wz-ch-label">
+                                    <input type="checkbox" class="mod-checkbox wz-ch-cb" id="chk-wz-tg">
+                                    <span style="color:#38bdf8;">✈️ Telegram Personal</span>
+                                </label>
+                                <span style="font-size:0.7rem; color:#94a3b8;">50% партнерка</span>
+                            </div>
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label>Тариф TG:</label>
+                                    <select id="sel-wz-tg-plan" class="c-select">
+                                        <option value="6000">Старт (6 000 ₸)</option>
+                                        <option value="12000">Inbox (12 000 ₸)</option>
+                                        <option value="24000" selected>Про (24 000 ₸)</option>
+                                        <option value="36000">Макс (36 000 ₸)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Каналов TG:</label>
+                                    <input type="number" id="inp-wz-tg-ch" class="c-input" value="1" min="1" max="30">
+                                </div>
+                                <div class="form-group">
+                                    <label>Срок TG:</label>
+                                    <select id="sel-wz-tg-term" class="c-select">
+                                        <option value="1">1 мес</option>
+                                        <option value="6" selected>6 мес (-10%)</option>
+                                        <option value="12">12 мес (-20%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="price-tuning-box">
+                                <span class="tuning-label">Скидка (%):</span>
+                                <input type="number" id="inp-wz-tg-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
+                                <span class="tuning-label">Сумма в счет:</span>
+                                <input type="number" id="inp-wz-tg-price" class="c-input inp-price-override" value="129600">
+                            </div>
+                        </div>
+
+                        <!-- 4. VK -->
+                        <div class="wz-channel-box" id="box-wz-vk">
+                            <div class="wz-channel-header">
+                                <label class="wz-ch-label">
+                                    <input type="checkbox" class="mod-checkbox wz-ch-cb" id="chk-wz-vk">
+                                    <span style="color:#818cf8;">🌐 ВКонтакте (VK)</span>
+                                </label>
+                                <span style="font-size:0.7rem; color:#94a3b8;">50% партнерка</span>
+                            </div>
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label>Тариф VK:</label>
+                                    <select id="sel-wz-vk-plan" class="c-select">
+                                        <option value="0" selected>Бесплатный (0 ₸)</option>
+                                        <option value="24000">Макс (24 000 ₸)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Каналов VK:</label>
+                                    <input type="number" id="inp-wz-vk-ch" class="c-input" value="1" min="1" max="10">
+                                </div>
+                                <div class="form-group">
+                                    <label>Срок VK:</label>
+                                    <select id="sel-wz-vk-term" class="c-select">
+                                        <option value="1">1 мес</option>
+                                        <option value="6" selected>6 мес (-10%)</option>
+                                        <option value="12">12 мес (-20%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="price-tuning-box">
+                                <span class="tuning-label">Скидка (%):</span>
+                                <input type="number" id="inp-wz-vk-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
+                                <span class="tuning-label">Сумма в счет:</span>
+                                <input type="number" id="inp-wz-vk-price" class="c-input inp-price-override" value="0">
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Sipuni -->
-                    <div class="mod-card active" id="card-sip">
+                    <div class="mod-card" id="card-sip">
                         <div class="mod-header">
                             <label class="mod-title">
-                                <input type="checkbox" class="mod-checkbox" id="chk-sip" checked>
+                                <input type="checkbox" class="mod-checkbox" id="chk-sip">
                                 <span class="badge-vendor b-sip">Sipuni Телефония (50% партнерка)</span>
                             </label>
                         </div>
@@ -895,10 +1060,10 @@
                     </div>
 
                     <!-- NODUS Services -->
-                    <div class="mod-card active" id="card-serv">
+                    <div class="mod-card" id="card-serv">
                         <div class="mod-header">
                             <label class="mod-title">
-                                <input type="checkbox" class="mod-checkbox" id="chk-serv" checked>
+                                <input type="checkbox" class="mod-checkbox" id="chk-serv">
                                 <span class="badge-vendor b-nodus">Услуги внедрения NODUS (100% доход)</span>
                             </label>
                         </div>
@@ -1217,7 +1382,9 @@
                     if (t === 1) words.push(teens[u]);
                     else {
                         if (t) words.push(tens[t]);
-                        if (u) words.push(units[u]);
+                        if (u === 1) words.push('один');
+                        else if (u === 2) words.push('два');
+                        else if (u) words.push(units[u]);
                     }
                     if (t !== 1 && u === 1) words.push('миллион');
                     else if (t !== 1 && (u >= 2 && u <= 4)) words.push('миллиона');
@@ -1281,14 +1448,42 @@
                 const bxDisc = parseFloat(document.getElementById('inp-bx-disc').value) || 0;
                 document.getElementById('inp-bx-price').value = Math.round(bxBase * (1 - bxDisc / 100));
 
-                // 3. Wazzup
-                const wzPlanPrice = parseFloat(document.getElementById('sel-wz-plan').value) || 24000;
-                const wzCh        = parseInt(document.getElementById('inp-wz-ch').value) || 1;
-                const wzTerm      = parseInt(document.getElementById('sel-wz-term').value) || 6;
-                const wzTermDisc  = (wzTerm === 12) ? 0.80 : ((wzTerm === 6) ? 0.90 : 1.0);
-                const wzBase      = Math.round(wzPlanPrice * wzCh * wzTerm * wzTermDisc);
-                const wzDisc      = parseFloat(document.getElementById('inp-wz-disc').value) || 0;
-                document.getElementById('inp-wz-price').value = Math.round(wzBase * (1 - wzDisc / 100));
+                // 3. Wazzup Channels
+                // WhatsApp
+                const waPlanPrice = parseFloat(document.getElementById('sel-wz-wa-plan').value) || 24000;
+                const waCh        = parseInt(document.getElementById('inp-wz-wa-ch').value) || 1;
+                const waTerm      = parseInt(document.getElementById('sel-wz-wa-term').value) || 6;
+                const waTermDisc  = (waTerm === 12) ? 0.80 : ((waTerm === 6) ? 0.90 : 1.0);
+                const waBase      = Math.round(waPlanPrice * waCh * waTerm * waTermDisc);
+                const waDisc      = parseFloat(document.getElementById('inp-wz-wa-disc').value) || 0;
+                document.getElementById('inp-wz-wa-price').value = Math.round(waBase * (1 - waDisc / 100));
+
+                // Instagram
+                const igPlanPrice = parseFloat(document.getElementById('sel-wz-ig-plan').value) || 12000;
+                const igCh        = parseInt(document.getElementById('inp-wz-ig-ch').value) || 1;
+                const igTerm      = parseInt(document.getElementById('sel-wz-ig-term').value) || 6;
+                const igTermDisc  = (igTerm === 12) ? 0.80 : ((igTerm === 6) ? 0.90 : 1.0);
+                const igBase      = Math.round(igPlanPrice * igCh * igTerm * igTermDisc);
+                const igDisc      = parseFloat(document.getElementById('inp-wz-ig-disc').value) || 0;
+                document.getElementById('inp-wz-ig-price').value = Math.round(igBase * (1 - igDisc / 100));
+
+                // Telegram
+                const tgPlanPrice = parseFloat(document.getElementById('sel-wz-tg-plan').value) || 24000;
+                const tgCh        = parseInt(document.getElementById('inp-wz-tg-ch').value) || 1;
+                const tgTerm      = parseInt(document.getElementById('sel-wz-tg-term').value) || 6;
+                const tgTermDisc  = (tgTerm === 12) ? 0.80 : ((tgTerm === 6) ? 0.90 : 1.0);
+                const tgBase      = Math.round(tgPlanPrice * tgCh * tgTerm * tgTermDisc);
+                const tgDisc      = parseFloat(document.getElementById('inp-wz-tg-disc').value) || 0;
+                document.getElementById('inp-wz-tg-price').value = Math.round(tgBase * (1 - tgDisc / 100));
+
+                // VK
+                const vkPlanPrice = parseFloat(document.getElementById('sel-wz-vk-plan').value) || 0;
+                const vkCh        = parseInt(document.getElementById('inp-wz-vk-ch').value) || 1;
+                const vkTerm      = parseInt(document.getElementById('sel-wz-vk-term').value) || 6;
+                const vkTermDisc  = (vkTerm === 12) ? 0.80 : ((vkTerm === 6) ? 0.90 : 1.0);
+                const vkBase      = Math.round(vkPlanPrice * vkCh * vkTerm * vkTermDisc);
+                const vkDisc      = parseFloat(document.getElementById('inp-wz-vk-disc').value) || 0;
+                document.getElementById('inp-wz-vk-price').value = Math.round(vkBase * (1 - vkDisc / 100));
 
                 // 4. Sipuni
                 const sipPlanPrice = parseFloat(document.getElementById('sel-sip-plan').value) || 3200;
@@ -1313,7 +1508,7 @@
 
             // BIND EVENTS FOR RECALCULATING & RENDERING
             const bindInputs = () => {
-                const autoRecalcSelectors = '#sel-amo-tariff, #inp-amo-users, #sel-amo-term, #inp-amo-disc, #sel-bx-tariff, #sel-bx-term, #inp-bx-disc, #sel-wz-plan, #inp-wz-ch, #sel-wz-term, #inp-wz-disc, #sel-sip-plan, #inp-sip-users, #sel-sip-term, #inp-sip-disc, #sel-serv-pkg, #inp-serv-disc, #sel-supp-plan, #sel-supp-term, #inp-supp-disc';
+                const autoRecalcSelectors = '#sel-amo-tariff, #inp-amo-users, #sel-amo-term, #inp-amo-disc, #sel-bx-tariff, #sel-bx-term, #inp-bx-disc, #sel-wz-wa-plan, #inp-wz-wa-ch, #sel-wz-wa-term, #inp-wz-wa-disc, #sel-wz-ig-plan, #inp-wz-ig-ch, #sel-wz-ig-term, #inp-wz-ig-disc, #sel-wz-tg-plan, #inp-wz-tg-ch, #sel-wz-tg-term, #inp-wz-tg-disc, #sel-wz-vk-plan, #inp-wz-vk-ch, #sel-wz-vk-term, #inp-wz-vk-disc, #sel-sip-plan, #inp-sip-users, #sel-sip-term, #inp-sip-disc, #sel-serv-pkg, #inp-serv-disc, #sel-supp-plan, #sel-supp-term, #inp-supp-disc';
                 document.querySelectorAll(autoRecalcSelectors).forEach(el => {
                     el.addEventListener('input', () => { recalculatePrices(); renderAll(); });
                     el.addEventListener('change', () => { recalculatePrices(); renderAll(); });
@@ -1323,11 +1518,13 @@
                     cb.addEventListener('change', (e) => {
                         const card = e.target.closest('.mod-card');
                         if (card) card.classList.toggle('active', e.target.checked);
+                        const chBox = e.target.closest('.wz-channel-box');
+                        if (chBox) chBox.classList.toggle('active', e.target.checked);
                         renderAll();
                     });
                 });
 
-                document.querySelectorAll('#inp-amo-price, #inp-bx-price, #inp-wz-price, #inp-sip-price, #inp-serv-price, #inp-supp-price').forEach(el => {
+                document.querySelectorAll('#inp-amo-price, #inp-bx-price, #inp-wz-wa-price, #inp-wz-ig-price, #inp-wz-tg-price, #inp-wz-vk-price, #inp-sip-price, #inp-serv-price, #inp-supp-price').forEach(el => {
                     el.addEventListener('input', renderAll);
                 });
 
@@ -1338,21 +1535,40 @@
             };
 
             // PRESETS HANDLERS
+            const clearAllCheckboxes = () => {
+                document.querySelectorAll('.mod-checkbox').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.mod-card').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.wz-channel-box').forEach(b => b.classList.remove('active'));
+            };
+
+            document.getElementById('pre-clear')?.addEventListener('click', () => {
+                clearAllCheckboxes();
+                customRows = [];
+                renderCustomRows();
+                renderAll();
+            });
+
             document.getElementById('pre-gym')?.addEventListener('click', () => {
+                clearAllCheckboxes();
                 document.getElementById('req-cl-name').value = 'Фитнес-клуб «Underground Gym»';
                 document.getElementById('req-cl-director').value = 'в лице Управляющего директора Серикова Т.К.';
                 document.getElementById('req-cl-bin').value = '210540019876';
+                
                 document.getElementById('chk-amo').checked = true;
+                document.getElementById('card-amo').classList.add('active');
                 document.getElementById('sel-amo-tariff').value = '5199';
                 document.getElementById('inp-amo-users').value = '5';
                 document.getElementById('sel-amo-term').value = '6';
-                document.getElementById('chk-bx').checked = false;
-                document.getElementById('chk-wz').checked = true;
-                document.getElementById('sel-wz-plan').value = '24000';
-                document.getElementById('chk-sip').checked = false;
+
+                document.getElementById('chk-wz-wa').checked = true;
+                document.getElementById('box-wz-wa').classList.add('active');
+                document.getElementById('card-wz-suite').classList.add('active');
+                document.getElementById('sel-wz-wa-plan').value = '24000';
+
                 document.getElementById('chk-serv').checked = true;
+                document.getElementById('card-serv').classList.add('active');
                 document.getElementById('sel-serv-pkg').value = '100000';
-                document.getElementById('chk-supp').checked = false;
+
                 document.getElementById('req-work-days').value = '4';
                 document.getElementById('req-warranty-days').value = '7';
                 recalculatePrices();
@@ -1360,19 +1576,28 @@
             });
 
             document.getElementById('pre-trade')?.addEventListener('click', () => {
+                clearAllCheckboxes();
                 document.getElementById('req-cl-name').value = 'ТОО «Status in Trade»';
                 document.getElementById('req-cl-director').value = 'в лице Генерального директора Бекова М.С.';
                 document.getElementById('req-cl-bin').value = '180340012345';
+
                 document.getElementById('chk-amo').checked = true;
+                document.getElementById('card-amo').classList.add('active');
                 document.getElementById('sel-amo-tariff').value = '9899';
                 document.getElementById('inp-amo-users').value = '5';
                 document.getElementById('sel-amo-term').value = '6';
-                document.getElementById('chk-bx').checked = false;
-                document.getElementById('chk-wz').checked = true;
+
+                document.getElementById('chk-wz-wa').checked = true;
+                document.getElementById('box-wz-wa').classList.add('active');
+                document.getElementById('card-wz-suite').classList.add('active');
+
                 document.getElementById('chk-sip').checked = true;
+                document.getElementById('card-sip').classList.add('active');
+
                 document.getElementById('chk-serv').checked = true;
+                document.getElementById('card-serv').classList.add('active');
                 document.getElementById('sel-serv-pkg').value = '250000';
-                document.getElementById('chk-supp').checked = false;
+
                 document.getElementById('req-work-days').value = '7';
                 document.getElementById('req-warranty-days').value = '14';
                 recalculatePrices();
@@ -1380,22 +1605,36 @@
             });
 
             document.getElementById('pre-vip')?.addEventListener('click', () => {
+                clearAllCheckboxes();
                 document.getElementById('req-cl-name').value = 'Холдинг «Tabyn Trans Logistics»';
                 document.getElementById('req-cl-director').value = 'в лице Председателя правления Касымова Е.Ж.';
                 document.getElementById('req-cl-bin').value = '150840034567';
-                document.getElementById('chk-amo').checked = false;
+
                 document.getElementById('chk-bx').checked = true;
+                document.getElementById('card-bx').classList.add('active');
                 document.getElementById('sel-bx-tariff').value = 'standard';
                 document.getElementById('sel-bx-term').value = '12';
-                document.getElementById('chk-wz').checked = true;
-                document.getElementById('sel-wz-plan').value = '36000';
+
+                document.getElementById('chk-wz-wa').checked = true;
+                document.getElementById('box-wz-wa').classList.add('active');
+                document.getElementById('chk-wz-tg').checked = true;
+                document.getElementById('box-wz-tg').classList.add('active');
+                document.getElementById('card-wz-suite').classList.add('active');
+                document.getElementById('sel-wz-wa-plan').value = '36000';
+
                 document.getElementById('chk-sip').checked = true;
+                document.getElementById('card-sip').classList.add('active');
                 document.getElementById('inp-sip-users').value = '10';
+
                 document.getElementById('chk-serv').checked = true;
+                document.getElementById('card-serv').classList.add('active');
                 document.getElementById('sel-serv-pkg').value = '500000';
+
                 document.getElementById('chk-supp').checked = true;
+                document.getElementById('card-supp').classList.add('active');
                 document.getElementById('sel-supp-plan').value = '75000';
                 document.getElementById('sel-supp-term').value = '3';
+
                 document.getElementById('req-work-days').value = '15';
                 document.getElementById('req-warranty-days').value = '30';
                 recalculatePrices();
@@ -1403,21 +1642,31 @@
             });
 
             document.getElementById('pre-spa')?.addEventListener('click', () => {
+                clearAllCheckboxes();
                 document.getElementById('req-cl-name').value = 'Спа-комплекс «RaiThai Massage & SPA»';
                 document.getElementById('req-cl-director').value = 'в лице Директора Самойловой Е.В.';
                 document.getElementById('req-cl-bin').value = '200840054321';
+
                 document.getElementById('chk-amo').checked = true;
+                document.getElementById('card-amo').classList.add('active');
                 document.getElementById('sel-amo-tariff').value = '9899';
                 document.getElementById('inp-amo-users').value = '3';
                 document.getElementById('sel-amo-term').value = '6';
-                document.getElementById('chk-bx').checked = false;
-                document.getElementById('chk-wz').checked = true;
-                document.getElementById('sel-wz-plan').value = '24000';
+
+                document.getElementById('chk-wz-wa').checked = true;
+                document.getElementById('box-wz-wa').classList.add('active');
+                document.getElementById('chk-wz-ig').checked = true;
+                document.getElementById('box-wz-ig').classList.add('active');
+                document.getElementById('card-wz-suite').classList.add('active');
+
                 document.getElementById('chk-sip').checked = true;
+                document.getElementById('card-sip').classList.add('active');
                 document.getElementById('inp-sip-users').value = '2';
+
                 document.getElementById('chk-serv').checked = true;
+                document.getElementById('card-serv').classList.add('active');
                 document.getElementById('sel-serv-pkg').value = '250000';
-                document.getElementById('chk-supp').checked = false;
+
                 document.getElementById('req-work-days').value = '7';
                 document.getElementById('req-warranty-days').value = '14';
                 recalculatePrices();
@@ -1431,7 +1680,7 @@
                     let vendorProfit = 0;
                     let servProfit   = 0;
 
-                    // 1. amoCRM
+                    // 1. amoCRM (35% partner margin)
                     if (document.getElementById('chk-amo').checked) {
                         const price = parseFloat(document.getElementById('inp-amo-price').value) || 0;
                         const tVal  = document.getElementById('sel-amo-tariff').value;
@@ -1444,10 +1693,10 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.35; // 35% partner profit
+                        vendorProfit += price * 0.35;
                     }
 
-                    // 2. Bitrix24
+                    // 2. Bitrix24 (50% partner margin)
                     if (document.getElementById('chk-bx').checked) {
                         const price = parseFloat(document.getElementById('inp-bx-price').value) || 0;
                         const plan  = document.getElementById('sel-bx-tariff').value;
@@ -1459,26 +1708,75 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50; // 50% partner profit
+                        vendorProfit += price * 0.50;
                     }
 
-                    // 3. Wazzup
-                    if (document.getElementById('chk-wz').checked) {
-                        const price = parseFloat(document.getElementById('inp-wz-price').value) || 0;
-                        const pVal  = document.getElementById('sel-wz-plan').value;
+                    // 3. WAZZUP CHANNELS (50% partner margin each)
+                    // WhatsApp
+                    if (document.getElementById('chk-wz-wa').checked) {
+                        const price = parseFloat(document.getElementById('inp-wz-wa-price').value) || 0;
+                        const pVal  = document.getElementById('sel-wz-wa-plan').value;
                         const pName = (pVal === '6000') ? 'Старт' : ((pVal === '12000') ? 'Inbox' : ((pVal === '36000') ? 'Макс' : 'Про'));
-                        const ch    = document.getElementById('inp-wz-ch').value;
-                        const term  = document.getElementById('sel-wz-term').value;
+                        const ch    = document.getElementById('inp-wz-wa-ch').value;
+                        const term  = document.getElementById('sel-wz-wa-term').value;
                         activeItems.push({
-                            name: `Интеграция мессенджеров Wazzup WhatsApp/Instagram (Тариф «${pName}», ${ch} кан. на ${term} мес)`,
+                            name: `Интеграция WhatsApp Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
                             unit: 'шт',
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50; // 50% partner profit
+                        vendorProfit += price * 0.50;
                     }
 
-                    // 4. Sipuni
+                    // Instagram
+                    if (document.getElementById('chk-wz-ig').checked) {
+                        const price = parseFloat(document.getElementById('inp-wz-ig-price').value) || 0;
+                        const pVal  = document.getElementById('sel-wz-ig-plan').value;
+                        const pName = (pVal === '12000') ? 'Inbox' : 'Макс';
+                        const ch    = document.getElementById('inp-wz-ig-ch').value;
+                        const term  = document.getElementById('sel-wz-ig-term').value;
+                        activeItems.push({
+                            name: `Интеграция Instagram Direct Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
+                            unit: 'шт',
+                            qty: 1,
+                            price: price
+                        });
+                        vendorProfit += price * 0.50;
+                    }
+
+                    // Telegram
+                    if (document.getElementById('chk-wz-tg').checked) {
+                        const price = parseFloat(document.getElementById('inp-wz-tg-price').value) || 0;
+                        const pVal  = document.getElementById('sel-wz-tg-plan').value;
+                        const pName = (pVal === '6000') ? 'Старт' : ((pVal === '12000') ? 'Inbox' : ((pVal === '36000') ? 'Макс' : 'Про'));
+                        const ch    = document.getElementById('inp-wz-tg-ch').value;
+                        const term  = document.getElementById('sel-wz-tg-term').value;
+                        activeItems.push({
+                            name: `Интеграция Telegram Personal Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
+                            unit: 'шт',
+                            qty: 1,
+                            price: price
+                        });
+                        vendorProfit += price * 0.50;
+                    }
+
+                    // VK
+                    if (document.getElementById('chk-wz-vk').checked) {
+                        const price = parseFloat(document.getElementById('inp-wz-vk-price').value) || 0;
+                        const pVal  = document.getElementById('sel-wz-vk-plan').value;
+                        const pName = (pVal === '0') ? 'Бесплатный' : 'Макс';
+                        const ch    = document.getElementById('inp-wz-vk-ch').value;
+                        const term  = document.getElementById('sel-wz-vk-term').value;
+                        activeItems.push({
+                            name: `Интеграция ВКонтакте (VK) Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
+                            unit: 'шт',
+                            qty: 1,
+                            price: price
+                        });
+                        vendorProfit += price * 0.50;
+                    }
+
+                    // 4. Sipuni (50% partner margin)
                     if (document.getElementById('chk-sip').checked) {
                         const price = parseFloat(document.getElementById('inp-sip-price').value) || 0;
                         const pVal  = document.getElementById('sel-sip-plan').value;
@@ -1491,10 +1789,10 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50; // 50% partner profit
+                        vendorProfit += price * 0.50;
                     }
 
-                    // 5. Services
+                    // 5. Services (100% services profit)
                     if (document.getElementById('chk-serv').checked) {
                         const price = parseFloat(document.getElementById('inp-serv-price').value) || 0;
                         const sVal  = document.getElementById('sel-serv-pkg').value;
@@ -1505,10 +1803,10 @@
                             qty: 1,
                             price: price
                         });
-                        servProfit += price; // 100% services profit
+                        servProfit += price;
                     }
 
-                    // 6. Support
+                    // 6. Support (100% support profit)
                     if (document.getElementById('chk-supp').checked) {
                         const price = parseFloat(document.getElementById('inp-supp-price').value) || 0;
                         const pVal  = document.getElementById('sel-supp-plan').value;
@@ -1520,7 +1818,7 @@
                             qty: 1,
                             price: price
                         });
-                        servProfit += price; // 100% support profit
+                        servProfit += price;
                     }
 
                     // 7. Custom Items
@@ -1592,20 +1890,23 @@
 
                     const target = document.getElementById('render-target');
 
-                    // =========================================================================
-                    // TAB 1: CONTRACT TEMPLATE (ДОГОВОР ПОДРЯДА РК)
-                    // =========================================================================
-                    if (activeTab === 'contract') {
-                        const rowsHtml = activeItems.map((it, idx) => `
+                    const rowsHtml = activeItems.length > 0 
+                        ? activeItems.map((it, idx) => `
                             <tr>
                                 <td style="text-align:center;">${idx + 1}</td>
                                 <td>${it.name}</td>
                                 <td style="text-align:center;">${it.unit}</td>
                                 <td style="text-align:center;">${it.qty}</td>
-                                <td style="text-align:right; font-weight:600;">${fmtKZT(it.price)}</td>
+                                <td style="text-align:right;">${fmtKZT(it.price)}</td>
+                                ${activeTab === 'invoice' ? `<td style="text-align:right; font-weight:700;">${fmtKZT(it.price)}</td>` : ''}
                             </tr>
-                        `).join('');
+                        `).join('')
+                        : `<tr><td colspan="${activeTab === 'invoice' ? 6 : 5}" style="text-align:center; padding:18px; color:#64748b;">(Включите необходимые модули в панели слева, чтобы сформировать спецификацию)</td></tr>`;
 
+                    // =========================================================================
+                    // TAB 1: CONTRACT TEMPLATE (ДОГОВОР ПОДРЯДА РК)
+                    // =========================================================================
+                    if (activeTab === 'contract') {
                         target.innerHTML = `
                             <div class="brand-header">
                                 <div>
@@ -1710,17 +2011,6 @@
                     // TAB 2: OFFICIAL RK INVOICE (СЧЕТ НА ОПЛАТУ РК)
                     // =========================================================================
                     else if (activeTab === 'invoice') {
-                        const rowsHtml = activeItems.map((it, idx) => `
-                            <tr>
-                                <td style="text-align:center;">${idx + 1}</td>
-                                <td>${it.name}</td>
-                                <td style="text-align:center;">${it.unit}</td>
-                                <td style="text-align:center;">${it.qty}</td>
-                                <td style="text-align:right;">${fmtKZT(it.price)}</td>
-                                <td style="text-align:right; font-weight:700;">${fmtKZT(it.price)}</td>
-                            </tr>
-                        `).join('');
-
                         target.innerHTML = `
                             <div class="rk-notice-box">
                                 <b>Внимание!</b> Оплата данного счета означает согласие с условиями оказания услуг. Уведомление об оплате обязательно. Счет действителен к оплате в течение 3 (трех) банковских дней.
@@ -1821,15 +2111,6 @@
                     // TAB 3: PROPOSAL TEMPLATE (КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ)
                     // =========================================================================
                     else if (activeTab === 'proposal') {
-                        const rowsHtml = activeItems.map((it, idx) => `
-                            <tr>
-                                <td style="text-align:center;">${idx + 1}</td>
-                                <td>${it.name}</td>
-                                <td style="text-align:center;">${it.qty} ${it.unit}</td>
-                                <td style="text-align:right; font-weight:700; color:#0284c7;">${fmtKZT(it.price)}</td>
-                            </tr>
-                        `).join('');
-
                         target.innerHTML = `
                             <div class="brand-header">
                                 <div>
