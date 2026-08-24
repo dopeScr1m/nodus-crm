@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -184,3 +184,1066 @@
     </style>
 </head>
 <body>
+    <div class="auth-gate" id="auth-gate">
+        <div class="auth-card">
+            <div class="auth-logo"><span style="color:#fff;">NODUS</span><span style="color:#6366f1;">.</span></div>
+            <h2 class="auth-title">Панель управления сметчика</h2>
+            <p class="auth-subtitle">Генератор официальных договоров, счетов и индивидуальных смет со скидками.</p>
+            <form id="auth-form">
+                <div style="margin-bottom: 18px;">
+                    <input type="password" id="admin-pass" class="auth-input" placeholder="Введите пароль доступа" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary w-full">Войти в панель →</button>
+                <div class="auth-error" id="auth-err">Неверный пароль доступа</div>
+            </form>
+            <div style="margin-top: 18px;"><a href="index.html" style="font-size: 0.82rem; color: #94a3b8; text-decoration: none;">← Вернуться на сайт</a></div>
+        </div>
+    </div>
+
+    <div class="admin-dashboard" id="admin-dashboard">
+        <div class="container">
+            
+            <div class="admin-header-bar">
+                <div class="admin-title-row">
+                    <div style="font-size:0.75rem; color:#38bdf8; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Executive Workspace (UTC+5 KZ)</div>
+                    <h1>Генератор документов <span style="color:#6366f1;">NODUS</span></h1>
+                </div>
+                <div class="admin-tabs">
+                    <button type="button" class="admin-tab-btn active" data-tab="contract">📄 Договор подряда</button>
+                    <button type="button" class="admin-tab-btn" data-tab="invoice">🧾 Счет на оплату</button>
+                    <button type="button" class="admin-tab-btn" data-tab="proposal">💼 Коммерческое КП</button>
+                    <button type="button" class="admin-tab-btn" id="btn-logout" style="color: #ef4444;">🚪 Выйти</button>
+                </div>
+            </div>
+
+            <div class="admin-grid">
+                
+                <aside class="admin-sidebar-card">
+                    
+                    <div>
+                        <div class="admin-section-heading">
+                            <span>⚡ Быстрые шаблоны</span>
+                            <span style="font-size: 0.72rem; color: #94a3b8;">Пресеты</span>
+                        </div>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn-preset-gym">Gym (100k)</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn-preset-trade">Trade (250k)</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn-preset-vip">VIP (500k)</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="admin-section-heading">
+                            <span>🛠️ Модули ПО, Услуг и Поддержки</span>
+                            <span style="font-size: 0.72rem; color: #38bdf8;">Цены для клиента</span>
+                        </div>
+
+                        <!-- amoCRM -->
+                        <div class="module-card active" id="mod-card-amo">
+                            <div class="module-header">
+                                <label class="module-title-wrap">
+                                    <input type="checkbox" class="module-cb" id="mod-amo-cb" checked>
+                                    <span class="vendor-badge badge-amo">amoCRM (35% партнерка)</span>
+                                </label>
+                            </div>
+                            <div class="split-3" style="margin-bottom:6px;">
+                                <div class="form-row">
+                                    <label>Тариф:</label>
+                                    <select id="mod-amo-tariff" class="admin-select">
+                                        <option value="5199">Базовый (5 199 ₸)</option>
+                                        <option value="9899" selected>Расширенный (9 899 ₸)</option>
+                                        <option value="15099">Проф (15 099 ₸)</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <label>Польз.:</label>
+                                    <input type="number" id="mod-amo-users" class="admin-input" value="5" min="1">
+                                </div>
+                                <div class="form-row">
+                                    <label>Срок:</label>
+                                    <select id="mod-amo-months" class="admin-select">
+                                        <option value="6" selected>6 мес</option>
+                                        <option value="9">9 мес</option>
+                                        <option value="12">12 мес (+1 подарок)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="price-override-box">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
+                                <input type="number" id="mod-amo-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
+                                <input type="number" id="mod-amo-price" class="admin-input price-val-inp" value="296970">
+                            </div>
+                        </div>
+
+                        <!-- Bitrix24 -->
+                        <div class="module-card" id="mod-card-bx">
+                            <div class="module-header">
+                                <label class="module-title-wrap">
+                                    <input type="checkbox" class="module-cb" id="mod-bx-cb">
+                                    <span class="vendor-badge badge-bx">Bitrix24 (50% партнерка)</span>
+                                </label>
+                            </div>
+                            <div class="split-2" style="margin-bottom:6px;">
+                                <div class="form-row">
+                                    <label>Тариф:</label>
+                                    <select id="mod-bx-tariff" class="admin-select">
+                                        <option value="144768">Базовый (5 польз / 12 мес) — 144 768 ₸</option>
+                                        <option value="423168" selected>Стандарт (50 польз / 12 мес) — 423 168 ₸</option>
+                                        <option value="846336">Проф (100 польз / 12 мес) — 846 336 ₸</option>
+                                        <option value="1692672">Энтерпрайз (250 польз) — 1 692 672 ₸</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <label>Период:</label>
+                                    <select id="mod-bx-period" class="admin-select">
+                                        <option value="12" selected>12 месяцев</option>
+                                        <option value="24">24 месяца (-30%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="price-override-box">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
+                                <input type="number" id="mod-bx-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
+                                <input type="number" id="mod-bx-price" class="admin-input price-val-inp" value="423168">
+                            </div>
+                        </div>
+
+                        <!-- Wazzup -->
+                        <div class="module-card active" id="mod-card-wz">
+                            <div class="module-header">
+                                <label class="module-title-wrap">
+                                    <input type="checkbox" class="module-cb" id="mod-wz-cb" checked>
+                                    <span class="vendor-badge badge-wz">Wazzup WhatsApp &amp; IG (50% партнерка)</span>
+                                </label>
+                            </div>
+                            <div class="split-3" style="margin-bottom:6px;">
+                                <div class="form-row">
+                                    <label>Тариф:</label>
+                                    <select id="mod-wz-plan" class="admin-select">
+                                        <option value="11000">Старт (11k)</option>
+                                        <option value="22000" selected>Про (22k)</option>
+                                        <option value="35000">Макс (35k)</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <label>Каналов:</label>
+                                    <input type="number" id="mod-wz-ch" class="admin-input" value="1" min="1">
+                                </div>
+                                <div class="form-row">
+                                    <label>Срок:</label>
+                                    <select id="mod-wz-mo" class="admin-select">
+                                        <option value="1">1 мес</option>
+                                        <option value="6" selected>6 мес</option>
+                                        <option value="12">12 мес</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="price-override-box">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
+                                <input type="number" id="mod-wz-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
+                                <input type="number" id="mod-wz-price" class="admin-input price-val-inp" value="118800">
+                            </div>
+                        </div>
+
+                        <!-- Sipuni -->
+                        <div class="module-card active" id="mod-card-sip">
+                            <div class="module-header">
+                                <label class="module-title-wrap">
+                                    <input type="checkbox" class="module-cb" id="mod-sip-cb" checked>
+                                    <span class="vendor-badge badge-sip">Sipuni Телефония (50% партнерка)</span>
+                                </label>
+                            </div>
+                            <div class="split-2" style="margin-bottom:6px;">
+                                <div class="form-row">
+                                    <label>Пользователей (3 900 ₸/мес):</label>
+                                    <input type="number" id="mod-sip-users" class="admin-input" value="3" min="1">
+                                </div>
+                                <div class="form-row">
+                                    <label>Срок:</label>
+                                    <select id="mod-sip-mo" class="admin-select">
+                                        <option value="3">3 мес</option>
+                                        <option value="6" selected>6 мес</option>
+                                        <option value="12">12 мес</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="price-override-box">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
+                                <input type="number" id="mod-sip-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
+                                <input type="number" id="mod-sip-price" class="admin-input price-val-inp" value="70200">
+                            </div>
+                        </div>
+
+                        <!-- Services -->
+                        <div class="module-card active" id="mod-card-serv">
+                            <div class="module-header">
+                                <label class="module-title-wrap">
+                                    <input type="checkbox" class="module-cb" id="mod-serv-cb" checked>
+                                    <span class="vendor-badge badge-nodus">Услуги внедрения NODUS (100% доход)</span>
+                                </label>
+                            </div>
+                            <div class="form-row" style="margin-bottom:6px;">
+                                <label>Пакет внедрения:</label>
+                                <select id="mod-serv-pkg" class="admin-select">
+                                    <option value="100000">Базовый — 100 000 ₸ (3-5 дней)</option>
+                                    <option value="250000" selected>Оптимальный — 250 000 ₸ (5-7 дней)</option>
+                                    <option value="500000">VIP Под ключ — 500 000 ₸ (10-15 дней)</option>
+                                </select>
+                            </div>
+                            <div class="price-override-box">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
+                                <input type="number" id="mod-serv-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
+                                <input type="number" id="mod-serv-price" class="admin-input price-val-inp" value="250000">
+                            </div>
+                        </div>
+
+                        <!-- Support -->
+                        <div class="module-card" id="mod-card-supp">
+                            <div class="module-header">
+                                <label class="module-title-wrap">
+                                    <input type="checkbox" class="module-cb" id="mod-supp-cb">
+                                    <span class="vendor-badge badge-nodus">Техподдержка NODUS (100% доход)</span>
+                                </label>
+                            </div>
+                            <div class="split-2" style="margin-bottom:6px;">
+                                <div class="form-row">
+                                    <label>Пакет поддержки:</label>
+                                    <select id="mod-supp-plan" class="admin-select">
+                                        <option value="35000" selected>Базовый (35 000 ₸/мес)</option>
+                                        <option value="75000">Бизнес SLA (75 000 ₸/мес)</option>
+                                        <option value="150000">VIP Консьерж (150 000 ₸/мес)</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <label>Период:</label>
+                                    <select id="mod-supp-mo" class="admin-select">
+                                        <option value="1" selected>1 месяц</option>
+                                        <option value="3">3 месяца</option>
+                                        <option value="6">6 месяцев</option>
+                                        <option value="12">12 месяцев</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="price-override-box">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
+                                <input type="number" id="mod-supp-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
+                                <input type="number" id="mod-supp-price" class="admin-input price-val-inp" value="35000">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <div class="admin-section-heading">
+                            <span>➕ Дополнительные работы</span>
+                        </div>
+                        <div class="items-builder-box" id="custom-items-container"></div>
+                        <button type="button" class="btn-add-item" id="btn-add-custom-row" style="margin-top:6px;">+ Добавить свою строку</button>
+                    </div>
+
+                    <div>
+                        <div class="admin-section-heading">
+                            <span>📊 Чистая прибыль (Для себя)</span>
+                            <span style="font-size: 0.72rem; color: #22c55e;">Внутренняя аналитика</span>
+                        </div>
+
+                        <div class="fin-badge-box">
+                            <div class="fin-row">
+                                <span>Сумма счета клиенту:</span>
+                                <span id="fin-grand-total" style="font-weight:700; color:#fff;">0 ₸</span>
+                            </div>
+                            <div class="fin-row highlight">
+                                <span>Твои услуги и поддержка (100%):</span>
+                                <span id="fin-serv-profit">0 ₸</span>
+                            </div>
+                            <div class="fin-row highlight">
+                                <span>Твоя партнерка с софта:</span>
+                                <span id="fin-vendor-profit">0 ₸</span>
+                            </div>
+                            <div class="fin-row deduct">
+                                <span>💳 Kaspi Pay (-0.95%):</span>
+                                <span id="fin-kaspi-fee">−0 ₸</span>
+                            </div>
+                            <div class="fin-row deduct">
+                                <span>🏛️ Налог СНР ИП (-3%):</span>
+                                <span id="fin-tax-fee">−0 ₸</span>
+                            </div>
+                            <div class="fin-row net-profit">
+                                <span>🔥 ЧИСТЫМИ НА РУКИ:</span>
+                                <span id="fin-net-profit">0 ₸</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="admin-section-heading"><span>💼 Реквизиты Исполнителя</span></div>
+                        <div class="form-row"><label>Исполнитель:</label><input type="text" id="inp-my-name" class="admin-input" value="ИП «NODUS»"></div>
+                        <div class="split-2">
+                            <div class="form-row"><label>ИИН/БИН:</label><input type="text" id="inp-my-bin" class="admin-input" value="010618550536"></div>
+                            <div class="form-row"><label>Телефон/WA:</label><input type="text" id="inp-my-phone" class="admin-input" value="+7 (775) 807-16-95"></div>
+                        </div>
+                        <div class="form-row"><label>Адрес:</label><input type="text" id="inp-my-addr" class="admin-input" value="г. Петропавловск, ул. 1-я Заречная, 109, кв. 2"></div>
+                        <div class="split-2">
+                            <div class="form-row"><label>Банк:</label><input type="text" id="inp-my-bank" class="admin-input" value="АО «Kaspi Bank»"></div>
+                            <div class="form-row"><label>БИК:</label><input type="text" id="inp-my-bik" class="admin-input" value="CASPKZKA"></div>
+                        </div>
+                        <div class="form-row"><label>Счет (IBAN):</label><input type="text" id="inp-my-iban" class="admin-input" value="KZ03722S000045101199"></div>
+                    </div>
+
+                    <div>
+                        <div class="admin-section-heading"><span>🏢 Реквизиты Заказчика</span></div>
+                        <div class="form-row"><label>Компания Заказчика:</label><input type="text" id="inp-client-name" class="admin-input" value="ТОО «Kazakhstan Business Group»"></div>
+                        <div class="form-row"><label>В лице (должность, ФИО):</label><input type="text" id="inp-client-director" class="admin-input" value="в лице Генерального директора Ахметова А.Б., действующего на основании Устава"></div>
+                        <div class="split-2">
+                            <div class="form-row"><label>БИН / ИИН:</label><input type="text" id="inp-client-bin" class="admin-input" value="190440023456"></div>
+                            <div class="form-row"><label>Телефон:</label><input type="text" id="inp-client-phone" class="admin-input" value="+7 (701) 234-56-78"></div>
+                        </div>
+                        <div class="form-row"><label>Юр. адрес:</label><input type="text" id="inp-client-addr" class="admin-input" value="г. Алматы, пр. Достык, 180, офис 504"></div>
+                        <div class="split-2">
+                            <div class="form-row"><label>Банк клиента:</label><input type="text" id="inp-client-bank" class="admin-input" value="АО «Halyk Bank»"></div>
+                            <div class="form-row"><label>БИК:</label><input type="text" id="inp-client-bik" class="admin-input" value="HSBKKZKX"></div>
+                        </div>
+                        <div class="form-row"><label>ИИК (IBAN):</label><input type="text" id="inp-client-iban" class="admin-input" value="KZ886010002003456789"></div>
+                    </div>
+
+                    <div>
+                        <div class="admin-section-heading"><span>📑 Параметры договора</span></div>
+                        <div class="split-2">
+                            <div class="form-row"><label>Номер:</label><input type="text" id="inp-doc-num" class="admin-input" value="№ ND-2026/08-14"></div>
+                            <div class="form-row"><label>Дата (UTC+5 KZ):</label><input type="date" id="inp-doc-date" class="admin-input"></div>
+                        </div>
+                        <div class="split-2">
+                            <div class="form-row"><label>Срок (раб. дней):</label><input type="number" id="inp-work-days" class="admin-input" value="7" min="1"></div>
+                            <div class="form-row"><label>Гарантия (дней):</label><input type="number" id="inp-warranty-days" class="admin-input" value="14" min="0"></div>
+                        </div>
+                        <div class="form-row">
+                            <label>Условия оплаты:</label>
+                            <select id="sel-payment-terms" class="admin-select">
+                                <option value="50_50">50% аванс / 50% после сдачи системы</option>
+                                <option value="100_pre">100% предоплата до начала работ</option>
+                                <option value="30_70">30% аванс / 70% после сдачи системы</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </aside>
+
+                <main class="doc-preview-card">
+                    <div class="doc-toolbar">
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <span class="badge badge-cyan" id="doc-type-badge">Договор подряда (Защищенный)</span>
+                            <span style="font-size: 0.82rem; color: #94a3b8;">Формат А4 с юридической защитой</span>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btn-copy-doc">📋 Скопировать текст</button>
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-print-doc">🖨️ Печать / Сохранить в PDF</button>
+                        </div>
+                    </div>
+
+                    <div class="doc-paper" id="printable-doc">
+                        <div class="doc-header-row">
+                            <div>
+                                <div class="doc-brand-title">NODUS<span style="color: #6366f1;">.</span></div>
+                                <div class="doc-brand-subtitle">Разработка и внедрение CRM-систем в Казахстане</div>
+                            </div>
+                            <div class="doc-meta-right">
+                                <div style="font-weight: 700;" id="doc-disp-num">ДОГОВОР № ND-2026/08-14</div>
+                                <div>Дата: <span id="doc-disp-date">25 августа 2026 г.</span></div>
+                                <div>г. Петропавловск / г. Алматы</div>
+                            </div>
+                        </div>
+                        <div id="doc-dynamic-content"></div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const AUTH_PASS = 'Nodus12232N134';
+            const authGate  = document.getElementById('auth-gate');
+            const adminDash = document.getElementById('admin-dashboard');
+            const authForm  = document.getElementById('auth-form');
+            const passInput = document.getElementById('admin-pass');
+            const authErr   = document.getElementById('auth-err');
+            const btnLogout = document.getElementById('btn-logout');
+
+            const checkAuth = () => {
+                if (sessionStorage.getItem('nodus_admin_session') === 'true') {
+                    authGate.style.display = 'none';
+                    adminDash.style.display = 'block';
+                } else {
+                    authGate.style.display = 'flex';
+                    adminDash.style.display = 'none';
+                }
+            };
+
+            authForm.addEventListener('submit', e => {
+                e.preventDefault();
+                if (passInput.value.trim() === AUTH_PASS) {
+                    sessionStorage.setItem('nodus_admin_session', 'true');
+                    authErr.style.display = 'none';
+                    checkAuth();
+                    syncAndRender();
+                } else {
+                    authErr.style.display = 'block';
+                    passInput.focus();
+                }
+            });
+
+            if (btnLogout) {
+                btnLogout.addEventListener('click', () => {
+                    sessionStorage.removeItem('nodus_admin_session');
+                    checkAuth();
+                });
+            }
+
+            checkAuth();
+
+            const getKZDate = () => {
+                const now = new Date();
+                const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+                return new Date(utc + (3600000 * 5));
+            };
+
+            const kzToday = getKZDate().toISOString().split('T')[0];
+            document.getElementById('inp-doc-date').value = kzToday;
+
+            let currentTab = 'contract';
+            const tabButtons = document.querySelectorAll('.admin-tab-btn[data-tab]');
+            const docBadge   = document.getElementById('doc-type-badge');
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentTab = btn.getAttribute('data-tab');
+                    if (currentTab === 'contract') docBadge.textContent = 'Договор подряда (Защищенный)';
+                    if (currentTab === 'invoice')  docBadge.textContent = 'Счет на оплату';
+                    if (currentTab === 'proposal') docBadge.textContent = 'Коммерческое предложение';
+                    syncAndRender();
+                });
+            });
+
+            let customItems = [];
+            const fmt = (num) => new Intl.NumberFormat('ru-RU').format(Math.round(num)) + ' ₸';
+
+            const recalcModulePrices = () => {
+                const amoTariff = parseFloat(document.getElementById('mod-amo-tariff').value) || 9899;
+                const amoUsers  = parseInt(document.getElementById('mod-amo-users').value) || 5;
+                const amoMo     = parseInt(document.getElementById('mod-amo-months').value) || 6;
+                const amoBase   = amoTariff * amoUsers * amoMo;
+                const amoDisc   = parseFloat(document.getElementById('mod-amo-disc').value) || 0;
+                document.getElementById('mod-amo-price').value = Math.round(amoBase * (1 - amoDisc / 100));
+
+                const bxTariff = parseFloat(document.getElementById('mod-bx-tariff').value) || 423168;
+                const bxPeriod = document.getElementById('mod-bx-period').value;
+                const bxBase   = (bxPeriod === '24') ? Math.round(bxTariff * 2 * 0.85) : bxTariff;
+                const bxDisc   = parseFloat(document.getElementById('mod-bx-disc').value) || 0;
+                document.getElementById('mod-bx-price').value = Math.round(bxBase * (1 - bxDisc / 100));
+
+                const wzPlan = parseFloat(document.getElementById('mod-wz-plan').value) || 22000;
+                const wzCh   = parseInt(document.getElementById('mod-wz-ch').value) || 1;
+                const wzMo   = parseInt(document.getElementById('mod-wz-mo').value) || 6;
+                const wzDiscMo = (wzMo === 12) ? 0.85 : ((wzMo === 6) ? 0.90 : 1.0);
+                const wzBase = Math.round(wzPlan * wzCh * wzMo * wzDiscMo);
+                const wzDisc = parseFloat(document.getElementById('mod-wz-disc').value) || 0;
+                document.getElementById('mod-wz-price').value = Math.round(wzBase * (1 - wzDisc / 100));
+
+                const sipUsers = parseInt(document.getElementById('mod-sip-users').value) || 3;
+                const sipMo    = parseInt(document.getElementById('mod-sip-mo').value) || 6;
+                const sipBase  = 3900 * sipUsers * sipMo;
+                const sipDisc  = parseFloat(document.getElementById('mod-sip-disc').value) || 0;
+                document.getElementById('mod-sip-price').value = Math.round(sipBase * (1 - sipDisc / 100));
+
+                const servPkg  = parseFloat(document.getElementById('mod-serv-pkg').value) || 250000;
+                const servDisc = parseFloat(document.getElementById('mod-serv-disc').value) || 0;
+                document.getElementById('mod-serv-price').value = Math.round(servPkg * (1 - servDisc / 100));
+
+                const suppPlan = parseFloat(document.getElementById('mod-supp-plan').value) || 35000;
+                const suppMo   = parseInt(document.getElementById('mod-supp-mo').value) || 1;
+                const suppBase = suppPlan * suppMo;
+                const suppDisc = parseFloat(document.getElementById('mod-supp-disc').value) || 0;
+                document.getElementById('mod-supp-price').value = Math.round(suppBase * (1 - suppDisc / 100));
+            };
+
+            const moduleInputs = document.querySelectorAll('#mod-amo-tariff, #mod-amo-users, #mod-amo-months, #mod-amo-disc, #mod-bx-tariff, #mod-bx-period, #mod-bx-disc, #mod-wz-plan, #mod-wz-ch, #mod-wz-mo, #mod-wz-disc, #mod-sip-users, #mod-sip-mo, #mod-sip-disc, #mod-serv-pkg, #mod-serv-disc, #mod-supp-plan, #mod-supp-mo, #mod-supp-disc');
+            moduleInputs.forEach(inp => {
+                inp.addEventListener('input', () => { recalcModulePrices(); syncAndRender(); });
+                inp.addEventListener('change', () => { recalcModulePrices(); syncAndRender(); });
+            });
+
+            document.querySelectorAll('.module-cb').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const card = e.target.closest('.module-card');
+                    if (card) card.classList.toggle('active', e.target.checked);
+                    syncAndRender();
+                });
+            });
+
+            document.querySelectorAll('#mod-amo-price, #mod-bx-price, #mod-wz-price, #mod-sip-price, #mod-serv-price, #mod-supp-price').forEach(inp => {
+                inp.addEventListener('input', syncAndRender);
+            });
+
+            const renderCustomItems = () => {
+                const container = document.getElementById('custom-items-container');
+                container.innerHTML = '';
+                customItems.forEach((it, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'item-row';
+                    row.innerHTML = `
+                        <input type="text" class="admin-input custom-name" data-idx="${idx}" value="${it.name}" placeholder="Наименование">
+                        <input type="number" class="admin-input custom-price" data-idx="${idx}" value="${it.price}" placeholder="₸">
+                        <button type="button" class="btn-del-item" data-idx="${idx}" title="Удалить">&times;</button>
+                    `;
+                    container.appendChild(row);
+                });
+
+                container.querySelectorAll('.custom-name').forEach(inp => {
+                    inp.addEventListener('input', (e) => {
+                        const i = parseInt(e.target.dataset.idx);
+                        customItems[i].name = e.target.value;
+                        syncAndRender();
+                    });
+                });
+
+                container.querySelectorAll('.custom-price').forEach(inp => {
+                    inp.addEventListener('input', (e) => {
+                        const i = parseInt(e.target.dataset.idx);
+                        customItems[i].price = parseFloat(e.target.value) || 0;
+                        syncAndRender();
+                    });
+                });
+
+                container.querySelectorAll('.btn-del-item').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const i = parseInt(e.currentTarget.dataset.idx);
+                        customItems.splice(i, 1);
+                        renderCustomItems();
+                        syncAndRender();
+                    });
+                });
+            };
+
+            document.getElementById('btn-add-custom-row')?.addEventListener('click', () => {
+                customItems.push({ name: 'Индивидуальная доработка / Интеграция', qty: '1 усл', price: 50000 });
+                renderCustomItems();
+                syncAndRender();
+            });
+
+            const numToWordsKZT = (amount) => {
+                const units = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'];
+                const teens = ['десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
+                const tens  = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+                const hundreds = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+
+                if (amount === 0) return 'Ноль тенге 00 тиын';
+                let n = Math.floor(amount);
+                let thousands = Math.floor(n / 1000);
+                let remainder = n % 1000;
+                let words = [];
+
+                if (thousands > 0) {
+                    let h = Math.floor(thousands / 100);
+                    let t = Math.floor((thousands % 100) / 10);
+                    let u = thousands % 10;
+                    if (h) words.push(hundreds[h]);
+                    if (t === 1) words.push(teens[u]);
+                    else {
+                        if (t) words.push(tens[t]);
+                        if (u === 1) words.push('одна');
+                        else if (u === 2) words.push('две');
+                        else if (u) words.push(units[u]);
+                    }
+                    if (t !== 1 && u === 1) words.push('тысяча');
+                    else if (t !== 1 && (u >= 2 && u <= 4)) words.push('тысячи');
+                    else words.push('тысяч');
+                }
+
+                if (remainder > 0) {
+                    let h = Math.floor(remainder / 100);
+                    let t = Math.floor((remainder % 100) / 10);
+                    let u = remainder % 10;
+                    if (h) words.push(hundreds[h]);
+                    if (t === 1) words.push(teens[u]);
+                    else {
+                        if (t) words.push(tens[t]);
+                        if (u) words.push(units[u]);
+                    }
+                }
+
+                let result = words.join(' ');
+                result = result.charAt(0).toUpperCase() + result.slice(1) + ' тенге 00 тиын';
+                return result;
+            };
+
+            const syncAndRender = () => {
+                try {
+                    const activeItems = [];
+                    let vendorProfit = 0;
+                    let servProfit   = 0;
+
+                    // 1. amoCRM (35% partner profit)
+                    if (document.getElementById('mod-amo-cb').checked) {
+                        const price = parseFloat(document.getElementById('mod-amo-price').value) || 0;
+                        const amoTariff = document.getElementById('mod-amo-tariff').value;
+                        const amoUsers  = document.getElementById('mod-amo-users').value;
+                        const amoMo     = document.getElementById('mod-amo-months').value;
+                        const tName = amoTariff === '5199' ? 'Базовый' : (amoTariff === '9899' ? 'Расширенный' : 'Профессиональный');
+                        activeItems.push({
+                            name: `Лицензия amoCRM «${tName} тариф» (${amoUsers} польз. на ${amoMo} мес)`,
+                            qty: '1 шт',
+                            price: price
+                        });
+                        vendorProfit += price * 0.35;
+                    }
+
+                    // 2. Bitrix24 (50% partner profit)
+                    if (document.getElementById('mod-bx-cb').checked) {
+                        const price = parseFloat(document.getElementById('mod-bx-price').value) || 0;
+                        const period = document.getElementById('mod-bx-period').value;
+                        activeItems.push({
+                            name: `Лицензия Bitrix24 (${period} мес)`,
+                            qty: '1 шт',
+                            price: price
+                        });
+                        vendorProfit += price * 0.50;
+                    }
+
+                    // 3. Wazzup (50% partner profit)
+                    if (document.getElementById('mod-wz-cb').checked) {
+                        const price = parseFloat(document.getElementById('mod-wz-price').value) || 0;
+                        const wzPlan = document.getElementById('mod-wz-plan').value;
+                        const wzCh   = document.getElementById('mod-wz-ch').value;
+                        const wzMo   = document.getElementById('mod-wz-mo').value;
+                        const wzName = wzPlan === '11000' ? 'Старт' : (wzPlan === '22000' ? 'Про' : 'Макс');
+                        activeItems.push({
+                            name: `Интеграция WhatsApp Wazzup (Тариф «${wzName}», ${wzCh} канал, ${wzMo} мес)`,
+                            qty: '1 шт',
+                            price: price
+                        });
+                        vendorProfit += price * 0.50;
+                    }
+
+                    // 4. Sipuni (50% partner profit)
+                    if (document.getElementById('mod-sip-cb').checked) {
+                        const price = parseFloat(document.getElementById('mod-sip-price').value) || 0;
+                        const sipUsers = document.getElementById('mod-sip-users').value;
+                        const sipMo    = document.getElementById('mod-sip-mo').value;
+                        activeItems.push({
+                            name: `Облачная IP-телефония Sipuni (${sipUsers} польз. на ${sipMo} мес)`,
+                            qty: '1 шт',
+                            price: price
+                        });
+                        vendorProfit += price * 0.50;
+                    }
+
+                    // 5. Services (100% services profit)
+                    if (document.getElementById('mod-serv-cb').checked) {
+                        const price = parseFloat(document.getElementById('mod-serv-price').value) || 0;
+                        const servPkg = document.getElementById('mod-serv-pkg').value;
+                        const pkgName = (servPkg === '100000') ? 'Базовый' : ((servPkg === '500000') ? 'VIP Под ключ' : 'Оптимальный');
+                        activeItems.push({
+                            name: `Комплекс услуг по аудиту, проектированию воронок LTV, настройке и обучению персонала (Пакет «${pkgName}» NODUS)`,
+                            qty: '1 усл',
+                            price: price
+                        });
+                        servProfit += price;
+                    }
+
+                    // 6. Support (100% support profit)
+                    if (document.getElementById('mod-supp-cb').checked) {
+                        const price = parseFloat(document.getElementById('mod-supp-price').value) || 0;
+                        const suppPlan = document.getElementById('mod-supp-plan').value;
+                        const suppMo   = document.getElementById('mod-supp-mo').value;
+                        const planName = (suppPlan === '35000') ? 'Базовый' : ((suppPlan === '75000') ? 'Бизнес SLA' : 'VIP Консьерж');
+                        activeItems.push({
+                            name: `Абонентское IT-сопровождение и техподдержка (Пакет «${planName}», ${suppMo} мес)`,
+                            qty: '1 усл',
+                            price: price
+                        });
+                        servProfit += price;
+                    }
+
+                    // 7. Custom Items
+                    customItems.forEach(ci => {
+                        const price = parseFloat(ci.price) || 0;
+                        activeItems.push({
+                            name: ci.name || 'Дополнительная услуга',
+                            qty: ci.qty || '1 усл',
+                            price: price
+                        });
+                        servProfit += price;
+                    });
+
+                    // Grand total charged to client
+                    const grandTotal = activeItems.reduce((acc, it) => acc + (parseFloat(it.price) || 0), 0);
+
+                    // Financial calculation for contractor
+                    const kaspiFee = grandTotal * 0.0095;
+                    const taxFee   = grandTotal * 0.03;
+                    const netProfit = Math.max(0, (vendorProfit + servProfit) - kaspiFee - taxFee);
+
+                    // Update UI badges
+                    document.getElementById('fin-grand-total').textContent   = fmt(grandTotal);
+                    document.getElementById('fin-serv-profit').textContent   = fmt(servProfit);
+                    document.getElementById('fin-vendor-profit').textContent = fmt(vendorProfit);
+                    document.getElementById('fin-kaspi-fee').textContent     = '−' + fmt(kaspiFee) + ' (0.95%)';
+                    document.getElementById('fin-tax-fee').textContent       = '−' + fmt(taxFee) + ' (3.0%)';
+                    document.getElementById('fin-net-profit').textContent     = fmt(netProfit);
+
+                    // Requisites
+                    const myName     = document.getElementById('inp-my-name').value || 'ИП «NODUS»';
+                    const myBin      = document.getElementById('inp-my-bin').value || '010618550536';
+                    const myPhone    = document.getElementById('inp-my-phone').value || '+7 (775) 807-16-95';
+                    const myAddr     = document.getElementById('inp-my-addr').value || 'г. Петропавловск, ул. 1-я Заречная, 109, кв. 2';
+                    const myBank     = document.getElementById('inp-my-bank').value || 'АО «Kaspi Bank»';
+                    const myBik      = document.getElementById('inp-my-bik').value || 'CASPKZKA';
+                    const myIban     = document.getElementById('inp-my-iban').value || 'KZ03722S000045101199';
+
+                    const clientName     = document.getElementById('inp-client-name').value || 'ТОО «Заказчик»';
+                    const clientDirector = document.getElementById('inp-client-director').value || 'в лице Директора';
+                    const clientBin      = document.getElementById('inp-client-bin').value || '000000000000';
+                    const clientPhone    = document.getElementById('inp-client-phone').value || '+7 (700) 000-00-00';
+                    const clientAddr     = document.getElementById('inp-client-addr').value || 'г. Алматы';
+                    const clientBank     = document.getElementById('inp-client-bank').value || 'АО Kaspi Bank';
+                    const clientBik      = document.getElementById('inp-client-bik').value || 'CASPKZKA';
+                    const clientIban     = document.getElementById('inp-client-iban').value || 'KZ000000000000000000';
+
+                    const docNum         = document.getElementById('inp-doc-num').value || '№ ND-2026/01';
+                    const rawDate        = document.getElementById('inp-doc-date').value;
+                    const workDays       = document.getElementById('inp-work-days').value || '7';
+                    const warrantyDays   = document.getElementById('inp-warranty-days').value || '14';
+                    const paymentTerms   = document.getElementById('sel-payment-terms').value;
+
+                    let dateStr = '25 августа 2026 г.';
+                    if (rawDate) {
+                        const d = new Date(rawDate + 'T00:00:00+05:00');
+                        const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+                        dateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} г.`;
+                    }
+
+                    document.getElementById('doc-disp-num').textContent  = (currentTab === 'contract' ? 'ДОГОВОР ' : (currentTab === 'invoice' ? 'СЧЕТ НА ОПЛАТУ ' : 'КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ ')) + docNum;
+                    document.getElementById('doc-disp-date').textContent = dateStr;
+
+                    const container = document.getElementById('doc-dynamic-content');
+
+                    let payTermsText = 'Оплата производится в размере 50% авансового платежа в течение 3 (трех) банковских дней с даты подписания Договора, и 50% в течение 3 (трех) банковских дней с момента сдачи системы и подписания Акта приема-передачи оказанных услуг.';
+                    if (paymentTerms === '100_pre') {
+                        payTermsText = 'Оплата производится в размере 100% (сто процентов) предоплаты в течение 3 (трех) банковских дней с даты заключения настоящего Договора.';
+                    } else if (paymentTerms === '30_70') {
+                        payTermsText = 'Оплата производится в размере 30% авансового платежа до старта работ и 70% в течение 3 (трех) банковских дней после сдачи системы и подписания Акта приема-передачи.';
+                    }
+
+                    let tableRowsHtml = activeItems.map((it, idx) => `
+                        <tr>
+                            <td>${idx + 1}</td>
+                            <td>${it.name}</td>
+                            <td>${it.qty || '1 усл.'}</td>
+                            <td>${fmt(it.price)}</td>
+                        </tr>
+                    `).join('');
+
+                    if (currentTab === 'contract') {
+                        container.innerHTML = `
+                            <div class="doc-main-title">ДОГОВОР ПОДРЯДА ${docNum}</div>
+                            <div class="doc-main-subtitle">на оказание услуг по интеграции CRM-системы, настройке воронок и передаче неисключительных прав (лицензий)</div>
+
+                            <div class="doc-p">
+                                <b>${myName}</b>, ИИН/БИН ${myBin}, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clientName}</b>, БИН/ИИН ${clientBin}, ${clientDirector}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», заключили настоящий Договор о нижеследующем:
+                            </div>
+
+                            <div class="doc-section-h">1. ПРЕДМЕТ ДОГОВОРА</div>
+                            <div class="doc-p">
+                                1.1. Исполнитель обязуется оказать комплекс услуг по проектированию, настройке воронок продаж, интеграции мессенджеров, телефонии в CRM-систему Заказчика и передать права на лицензионное программное обеспечение согласно Спецификации (Таблица 1), а Заказчик обязуется принять и оплатить услуги на условиях настоящего Договора.
+                            </div>
+
+                            <div class="doc-section-h">2. СТОИМОСТЬ И ПОРЯДОК РАСЧЕТОВ</div>
+                            <div class="doc-p">
+                                2.1. Общая стоимость Договора составляет: <b>${fmt(grandTotal)} (${numToWordsKZT(grandTotal)})</b>, без НДС.<br>
+                                2.2. ${payTermsText}<br>
+                                2.3. Оплата производится в безналичном порядке в тенге (KZT) на расчетный счет Исполнителя на основании выставленного счета.
+                            </div>
+
+                            <div class="doc-section-h">3. СПЕЦИФИКАЦИЯ РАБОТ И ЛИЦЕНЗИЙ (ТАБЛИЦА 1)</div>
+                            <table class="doc-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:5%;">№</th>
+                                        <th style="width:65%;">Наименование услуги / Программного обеспечения</th>
+                                        <th style="width:15%;">Кол-во</th>
+                                        <th style="width:15%;">Сумма</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${tableRowsHtml}
+                                    <tr style="background:#f8fafc; font-weight:bold;">
+                                        <td colspan="3" style="text-align:right;">ИТОГО К ОПЛАТЕ:</td>
+                                        <td>${fmt(grandTotal)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="doc-section-h">4. ПРАВОВОЙ СТАТУС ЛИЦЕНЗИЙ И НЕВОЗВРАТНОСТЬ ПОДПИСОК (ОСОБЫЕ УСЛОВИЯ)</div>
+                            <div class="doc-p">
+                                4.1. Приобретение лицензий и подписок на стороннее программное обеспечение (amoCRM, Bitrix24, Wazzup, Sipuni и др.) осуществляется Исполнителем у правообладателей/вендоров по поручению и в интересах Заказчика.<br>
+                                4.2. <b>НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ:</b> В соответствии с нормами Гражданского кодекса РК и правилами вендоров-правообладателей, с момента генерации лицензионных ключей, привязки лицензий к аккаунту Заказчика либо пополнения лицевого счета, <b>денежные средства, уплаченные за лицензии и подписки на программное обеспечение, ВОЗВРАТУ И ПЕРЕРАСЧЕТУ НЕ ПОДЛЕЖАТ НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ</b>, в том числе при досрочном расторжении Договора по инициативе Заказчика.<br>
+                                4.3. <b>НЕВОЗВРАТНОСТЬ АВАНСА ЗА УСЛУГИ:</b> В случае немотивированного одностороннего отказа Заказчика от исполнения Договора после начала работ, сумма внесенного авансового платежа (предоплаты) удерживается Исполнителем в полном объеме в качестве фактически понесенных расходов и компенсации за бронирование рабочего времени IT-специалистов.
+                            </div>
+
+                            <div class="doc-section-h">5. СРОКИ, ПРИЕМКА РАБОТ И «МОЛЧАЛИВОЕ СОГЛАСИЕ»</div>
+                            <div class="doc-p">
+                                5.1. Срок выполнения работ составляет <b>${workDays} рабочих дней</b> с момента внесения аванса и предоставления Заказчиком доступов.<br>
+                                5.2. Если Заказчик задерживает предоставление доступов, номеров телефонов или утверждение структуры воронки более чем на 3 рабочих дня, срок сдачи автоматически продлевается на соответствующий период.<br>
+                                5.3. <b>ПОРЯДОК ПРИЕМКИ:</b> По завершении настройки Исполнитель направляет Акт приема-передачи оказанных услуг и выставляет ЭСФ. Заказчик обязан в течение <b>3 (трех) рабочих дней</b> подписать Акт либо направить мотивированный письменный отказ. <b>В случае ненаправления мотивированного отказа в указанный 3-дневный срок, работы считаются принятыми Заказчиком в полном объеме без замечаний</b>, а услуги подлежат 100% оплате.
+                            </div>
+
+                            <div class="doc-section-h">6. ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ И ГАРАНТИЯ</div>
+                            <div class="doc-p">
+                                6.1. Исполнитель предоставляет <b>${warrantyDays} календарных дней</b> бесплатного гарантийного сопровождения после сдачи проекта.<br>
+                                6.2. Исполнитель не несет ответственности за технические сбои, обновления и перебои на стороне сторонних серверов (Meta / WhatsApp / Instagram / Телеком-операторы), а также за блокировку номеров WhatsApp Заказчика в случае нарушения Заказчиком правил рассылок (спам-политики).
+                            </div>
+
+                            <div class="doc-section-h">7. КОНФИДЕНЦИАЛЬНОСТЬ (NDA)</div>
+                            <div class="doc-p">
+                                7.1. Стороны обязуются соблюдать строгую конфиденциальность в отношении клиентских баз данных, учетных записей и коммерческой информации.
+                            </div>
+
+                            <div class="doc-signatures">
+                                <div class="sig-block">
+                                <h4>ИСПОЛНИТЕЛЬ:</h4>
+                                <div><b>${myName}</b></div>
+                                <div>ИИН/БИН: ${myBin}</div>
+                                <div>Адрес: ${myAddr}</div>
+                                <div>Банк: ${myBank}</div>
+                                <div>БИК: ${myBik}</div>
+                                <div>Счет (IBAN): ${myIban}</div>
+                                <div>Тел/WA: ${myPhone}</div>
+                                <div class="sig-line">Руководитель: ______________ / ${myName} / (М.П.)</div>
+                            </div>
+
+                            <div class="sig-block">
+                                <h4>ЗАКАЗЧИК:</h4>
+                                <div><b>${clientName}</b></div>
+                                <div>БИН/ИИН: ${clientBin}</div>
+                                <div>Адрес: ${clientAddr}</div>
+                                <div>Банк: ${clientBank}</div>
+                                <div>БИК: ${clientBik}</div>
+                                <div>Счет (IBAN): ${clientIban}</div>
+                                <div>Тел: ${clientPhone}</div>
+                                <div class="sig-line">Руководитель: ______________ / ${clientName} / (М.П.)</div>
+                            </div>
+                        </div>
+                    `;
+                } else if (currentTab === 'invoice') {
+                    container.innerHTML = `
+                        <div class="doc-main-title">СЧЕТ НА ОПЛАТУ ${docNum}</div>
+                        <div class="doc-main-subtitle">от ${dateStr}</div>
+
+                        <table class="doc-table" style="margin-bottom: 16px;">
+                            <tr>
+                                <td style="width: 25%; font-weight: bold; background:#f8fafc;">Поставщик:</td>
+                                <td><b>${myName}</b>, ИИН/БИН ${myBin}, ${myAddr}</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; background:#f8fafc;">Реквизиты банка:</td>
+                                <td>ИИК ${myIban} в ${myBank}, БИК ${myBik}</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; background:#f8fafc;">Покупатель:</td>
+                                <td><b>${clientName}</b>, БИН/ИИН ${clientBin}, ${clientAddr}</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; background:#f8fafc;">Основание:</td>
+                                <td>Договор подряда ${docNum} от ${dateStr}</td>
+                            </tr>
+                        </table>
+
+                        <table class="doc-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%;">№</th>
+                                    <th>Наименование товаров, работ, услуг</th>
+                                    <th style="width:12%;">Кол-во</th>
+                                    <th style="width:18%;">Цена</th>
+                                    <th style="width:18%;">Сумма</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${activeItems.map((it, idx) => `
+                                    <tr>
+                                        <td>${idx + 1}</td>
+                                        <td>${it.name}</td>
+                                        <td>${it.qty || '1'}</td>
+                                        <td>${fmt(it.price)}</td>
+                                        <td>${fmt(it.price)}</td>
+                                    </tr>
+                                `).join('')}
+                                <tr style="background:#f8fafc; font-weight:bold;">
+                                    <td colspan="4" style="text-align:right;">ВСЕГО К ОПЛАТЕ:</td>
+                                    <td>${fmt(grandTotal)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="margin-top: 12px; font-size: 12.5px;">
+                            Всего наименований ${activeItems.length}, на сумму <b>${fmt(grandTotal)}</b><br>
+                            <b>(${numToWordsKZT(grandTotal)})</b>
+                        </div>
+
+                        <div class="doc-signatures" style="margin-top: 36px;">
+                            <div class="sig-block" style="grid-column: span 2;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        Поставщик: <b>${myName}</b>
+                                        <div style="margin-top: 26px; border-bottom: 1px dashed #64748b; width: 240px;"></div>
+                                        <div style="font-size: 11px; color: #64748b; margin-top: 4px;">/ ${myName} / (М.П.)</div>
+                                    </div>
+                                    <div style="text-align:right; font-size: 11.5px; color: #64748b;">
+                                        Счет действителен к оплате в течение 3 банковских дней.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (currentTab === 'proposal') {
+                    container.innerHTML = `
+                        <div class="doc-main-title">КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</div>
+                        <div class="doc-main-subtitle">Комплексная автоматизация отдела продаж и внедрение CRM для компании ${clientName}</div>
+
+                        <div class="doc-p">
+                            <b>Уважаемый партнер!</b> Команда <b>NODUS</b> подготовила индивидуальный расчет и состав проекта внедрения CRM-системы, направленный на устранение потери заявок, рост конверсии и автоматизацию повторных продаж (LTV).
+                        </div>
+
+                        <div class="doc-section-h">СПЕЦИФИКАЦИЯ И СМЕТА ПРОЕКТА</div>
+                        <table class="doc-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%;">№</th>
+                                    <th>Состав работ / Программное обеспечение</th>
+                                    <th style="width:15%;">Кол-во</th>
+                                    <th style="width:20%;">Инвестиции</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tableRowsHtml}
+                                <tr style="background:#f8fafc; font-weight:bold; font-size:13.5px;">
+                                    <td colspan="3" style="text-align:right;">ИТОГОВАЯ СТОИМОСТЬ:</td>
+                                    <td style="color:#0284c7;">${fmt(grandTotal)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="doc-section-h">ПАРАМЕТРЫ ЗАПУСКА</div>
+                        <ul style="padding-left: 18px; color: #334155; margin-bottom: 12px; font-size: 12.5px;">
+                            <li>Срок реализации проекта под ключ: <b>${workDays} рабочих дней</b>;</li>
+                            <li>Гарантийное сопровождение после сдачи: <b>${warrantyDays} дней бесплатно</b>;</li>
+                            <li>Обучение команды менеджеров с записью видео-инструкций;</li>
+                            <li>Официальный договор, закрывающие акты и ЭСФ.</li>
+                        </ul>
+
+                        <div class="doc-section-h">КОНТАКТЫ ДЛЯ СТАРТА</div>
+                        <div class="doc-p" style="margin-top: 8px;">
+                            Эксперт проекта: <b>Константин</b><br>
+                            Телефон / WhatsApp: <b>${myPhone}</b><br>
+                            Telegram: <b>@DopeScr1m</b>
+                        </div>
+                    `;
+                }
+            } catch(e) {
+                console.error("Render error:", e);
+            }
+        };
+
+        document.getElementById('btn-preset-gym')?.addEventListener('click', () => {
+            document.getElementById('inp-client-name').value = 'Фитнес-клуб «Underground Gym»';
+            document.getElementById('inp-client-director').value = 'в лице Управляющего директора Серикова Т.К.';
+            document.getElementById('inp-client-bin').value = '210540019876';
+            document.getElementById('mod-amo-cb').checked = true;
+            document.getElementById('mod-amo-tariff').value = '5199';
+            document.getElementById('mod-amo-users').value = '5';
+            document.getElementById('mod-amo-months').value = '6';
+            document.getElementById('mod-bx-cb').checked = false;
+            document.getElementById('mod-wz-cb').checked = true;
+            document.getElementById('mod-wz-plan').value = '22000';
+            document.getElementById('mod-sip-cb').checked = false;
+            document.getElementById('mod-serv-cb').checked = true;
+            document.getElementById('mod-serv-pkg').value = '100000';
+            document.getElementById('mod-supp-cb').checked = false;
+            document.getElementById('inp-work-days').value = '4';
+            document.getElementById('inp-warranty-days').value = '7';
+            recalcModulePrices();
+            syncAndRender();
+        });
+
+        document.getElementById('btn-preset-trade')?.addEventListener('click', () => {
+            document.getElementById('inp-client-name').value = 'ТОО «Status in Trade»';
+            document.getElementById('inp-client-director').value = 'в лице Генерального директора Бекова М.С.';
+            document.getElementById('inp-client-bin').value = '180340012345';
+            document.getElementById('mod-amo-cb').checked = true;
+            document.getElementById('mod-amo-tariff').value = '9899';
+            document.getElementById('mod-amo-users').value = '5';
+            document.getElementById('mod-amo-months').value = '6';
+            document.getElementById('mod-bx-cb').checked = false;
+            document.getElementById('mod-wz-cb').checked = true;
+            document.getElementById('mod-sip-cb').checked = true;
+            document.getElementById('mod-serv-cb').checked = true;
+            document.getElementById('mod-serv-pkg').value = '250000';
+            document.getElementById('mod-supp-cb').checked = false;
+            document.getElementById('inp-work-days').value = '7';
+            document.getElementById('inp-warranty-days').value = '14';
+            recalcModulePrices();
+            syncAndRender();
+        });
+
+        document.getElementById('btn-preset-vip')?.addEventListener('click', () => {
+            document.getElementById('inp-client-name').value = 'Холдинг «Tabyn Trans Logistics»';
+            document.getElementById('inp-client-director').value = 'в лице Председателя правления Касымова Е.Ж.';
+            document.getElementById('inp-client-bin').value = '150840034567';
+            document.getElementById('mod-amo-cb').checked = false;
+            document.getElementById('mod-bx-cb').checked = true;
+            document.getElementById('mod-bx-tariff').value = '423168';
+            document.getElementById('mod-wz-cb').checked = true;
+            document.getElementById('mod-wz-plan').value = '35000';
+            document.getElementById('mod-sip-cb').checked = true;
+            document.getElementById('mod-sip-users').value = '10';
+            document.getElementById('mod-serv-cb').checked = true;
+            document.getElementById('mod-serv-pkg').value = '500000';
+            document.getElementById('mod-supp-cb').checked = true;
+            document.getElementById('mod-supp-plan').value = '75000';
+            document.getElementById('mod-supp-mo').value = '3';
+            document.getElementById('inp-work-days').value = '15';
+            document.getElementById('inp-warranty-days').value = '30';
+            recalcModulePrices();
+            syncAndRender();
+        });
+
+        document.querySelectorAll('#inp-my-name, #inp-my-bin, #inp-my-phone, #inp-my-addr, #inp-my-bank, #inp-my-bik, #inp-my-iban, #inp-client-name, #inp-client-director, #inp-client-bin, #inp-client-phone, #inp-client-addr, #inp-client-bank, #inp-client-bik, #inp-client-iban, #inp-doc-num, #inp-doc-date, #inp-work-days, #inp-warranty-days, #sel-payment-terms').forEach(inp => {
+            inp.addEventListener('input', syncAndRender);
+            inp.addEventListener('change', syncAndRender);
+        });
+
+        document.getElementById('btn-print-doc')?.addEventListener('click', () => {
+            window.print();
+        });
+
+        document.getElementById('btn-copy-doc')?.addEventListener('click', () => {
+            const text = document.getElementById('printable-doc').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Текст документа успешно скопирован в буфер обмена!');
+            });
+        });
+
+        recalcModulePrices();
+        syncAndRender();
+    });
+</script>
+</body>
+</html>
