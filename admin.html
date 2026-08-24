@@ -26,7 +26,7 @@
         .admin-tabs { display: flex; gap: 8px; background: rgba(255, 255, 255, 0.04); padding: 6px; border-radius: 14px; border: 1px solid var(--color-border); flex-wrap: wrap; }
         .admin-tab-btn { padding: 10px 18px; border-radius: 10px; border: none; background: transparent; color: var(--color-text-muted); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
         .admin-tab-btn.active { background: var(--color-primary); color: #fff; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3); }
-        .admin-grid { display: grid; grid-template-columns: 420px 1fr; gap: 28px; align-items: start; }
+        .admin-grid { display: grid; grid-template-columns: 460px 1fr; gap: 28px; align-items: start; }
         .admin-sidebar-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid var(--color-border); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
         .admin-section-heading { font-size: 1.05rem; font-weight: 700; color: var(--color-cyan); border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
         .form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
@@ -34,27 +34,32 @@
         .admin-input, .admin-select, .admin-textarea { width: 100%; padding: 10px 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--color-border); color: var(--color-text-main); font-size: 0.9rem; outline: none; }
         .admin-input:focus, .admin-select:focus, .admin-textarea:focus { border-color: var(--color-primary); }
         .split-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .items-builder-box { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 12px; padding: 12px; }
+        .item-row { display: grid; grid-template-columns: 1fr 90px 32px; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .btn-del-item { width: 32px; height: 36px; border-radius: 8px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-del-item:hover { background: #ef4444; color: #fff; }
+        .btn-add-item { width: 100%; padding: 8px; border-radius: 8px; background: rgba(99, 102, 241, 0.12); border: 1px dashed rgba(99, 102, 241, 0.4); color: #818cf8; font-weight: 600; font-size: 0.82rem; cursor: pointer; }
+        .btn-add-item:hover { background: rgba(99, 102, 241, 0.25); color: #fff; }
         .doc-preview-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid var(--color-border); border-radius: 20px; padding: 24px; }
         .doc-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--color-border); flex-wrap: wrap; gap: 12px; }
-        .doc-paper { background: #ffffff; color: #1e293b; border-radius: 12px; padding: 48px 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13.5px; line-height: 1.55; }
+        .doc-paper { background: #ffffff; color: #1e293b; border-radius: 12px; padding: 48px 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; line-height: 1.55; }
         .doc-header-row { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px; }
         .doc-brand-title { font-size: 22px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px; }
         .doc-brand-subtitle { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
         .doc-meta-right { text-align: right; font-size: 12px; color: #475569; }
-        .doc-main-title { text-align: center; font-size: 17px; font-weight: 800; color: #0f172a; margin-bottom: 6px; text-transform: uppercase; }
-        .doc-main-subtitle { text-align: center; font-size: 12px; color: #64748b; margin-bottom: 20px; }
-        .doc-section-h { font-size: 13.5px; font-weight: 700; color: #0f172a; margin-top: 18px; margin-bottom: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
-        .doc-p { margin-bottom: 10px; text-align: justify; color: #334155; }
-        .doc-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12.5px; }
-        .doc-table th, .doc-table td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; }
+        .doc-main-title { text-align: center; font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 6px; text-transform: uppercase; }
+        .doc-main-subtitle { text-align: center; font-size: 11.5px; color: #64748b; margin-bottom: 20px; }
+        .doc-section-h { font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 18px; margin-bottom: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+        .doc-p { margin-bottom: 8px; text-align: justify; color: #334155; }
+        .doc-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+        .doc-table th, .doc-table td { border: 1px solid #cbd5e1; padding: 7px 9px; text-align: left; }
         .doc-table th { background: #f1f5f9; font-weight: 700; color: #0f172a; }
         .doc-signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 32px; padding-top: 20px; border-top: 1.5px solid #cbd5e1; }
-        .sig-block h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #0f172a; }
+        .sig-block h4 { font-size: 12.5px; font-weight: 700; margin-bottom: 8px; color: #0f172a; }
         .sig-line { margin-top: 36px; border-bottom: 1px dashed #64748b; padding-bottom: 4px; font-size: 11px; color: #64748b; }
         .fin-badge-box { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
         .fin-row { display: flex; justify-content: space-between; font-size: 0.88rem; }
         .fin-row.total { font-size: 1.05rem; font-weight: 800; color: #38bdf8; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; }
-        .fin-row.margin { color: #22c55e; font-weight: 700; }
         @media print {
             body { background: #ffffff !important; color: #000000 !important; }
             .header, .admin-header-bar, .admin-sidebar-card, .doc-toolbar, .scroll-top-btn, .mobile-calc-bar, .live-toast { display: none !important; }
@@ -62,7 +67,7 @@
             .admin-grid { display: block !important; }
             .doc-preview-card { background: transparent !important; border: none !important; padding: 0 !important; box-shadow: none !important; }
             .doc-paper { box-shadow: none !important; padding: 0 !important; border-radius: 0 !important; }
-            @page { size: A4; margin: 15mm 15mm 15mm 15mm; }
+            @page { size: A4; margin: 12mm 12mm 12mm 12mm; }
         }
         @media (max-width: 1080px) { .admin-grid { grid-template-columns: 1fr; } }
     </style>
@@ -103,7 +108,7 @@
                 <aside class="admin-sidebar-card">
                     <div>
                         <div class="admin-section-heading">
-                            <span>⚡ Быстрое заполнение</span>
+                            <span>⚡ Быстрые шаблоны</span>
                             <span style="font-size: 0.75rem; color: var(--color-text-muted);">Пресеты</span>
                         </div>
                         <div style="display: flex; gap: 6px; flex-wrap: wrap;">
@@ -113,69 +118,81 @@
                         </div>
                     </div>
 
+                    <!-- Contractor / NODUS Requisites -->
                     <div>
-                        <div class="admin-section-heading"><span>🏢 Реквизиты Заказчика</span></div>
-                        <div class="form-row"><label>Название организации клиента:</label><input type="text" id="inp-client-name" class="admin-input" value="ТОО «Kazakhstan Business Group»"></div>
+                        <div class="admin-section-heading"><span>💼 Реквизиты Исполнителя (NODUS)</span></div>
+                        <div class="form-row"><label>Название Исполнителя:</label><input type="text" id="inp-my-name" class="admin-input" value="ИП «NODUS»"></div>
+                        <div class="split-2">
+                            <div class="form-row"><label>ИИН / БИН:</label><input type="text" id="inp-my-bin" class="admin-input" value="010618550536"></div>
+                            <div class="form-row"><label>Телефон/WA:</label><input type="text" id="inp-my-phone" class="admin-input" value="+7 (775) 807-16-95"></div>
+                        </div>
+                        <div class="form-row"><label>Юридический адрес:</label><input type="text" id="inp-my-addr" class="admin-input" value="г. Петропавловск, ул. 1-я Заречная, 109, кв. 2"></div>
+                        <div class="split-2">
+                            <div class="form-row"><label>Банк:</label><input type="text" id="inp-my-bank" class="admin-input" value="АО «Kaspi Bank»"></div>
+                            <div class="form-row"><label>БИК:</label><input type="text" id="inp-my-bik" class="admin-input" value="CASPKZKA"></div>
+                        </div>
+                        <div class="form-row"><label>Счет (IBAN):</label><input type="text" id="inp-my-iban" class="admin-input" value="KZ03722S000045101199"></div>
+                    </div>
+
+                    <!-- Client Requisites -->
+                    <div>
+                        <div class="admin-section-heading"><span>🏢 Реквизиты Заказчика (Клиента)</span></div>
+                        <div class="form-row"><label>Название компании Заказчика:</label><input type="text" id="inp-client-name" class="admin-input" value="ТОО «Kazakhstan Business Group»"></div>
                         <div class="form-row"><label>В лице руководителя (должность, ФИО):</label><input type="text" id="inp-client-director" class="admin-input" value="в лице Генерального директора Ахметова А.Б., действующего на основании Устава"></div>
                         <div class="split-2">
-                            <div class="form-row"><label>БИН / ИИН Заказчика:</label><input type="text" id="inp-client-bin" class="admin-input" value="190440023456"></div>
-                            <div class="form-row"><label>Телефон / WhatsApp:</label><input type="text" id="inp-client-phone" class="admin-input" value="+7 (775) 807-16-95"></div>
+                            <div class="form-row"><label>БИН / ИИН:</label><input type="text" id="inp-client-bin" class="admin-input" value="190440023456"></div>
+                            <div class="form-row"><label>Телефон:</label><input type="text" id="inp-client-phone" class="admin-input" value="+7 (701) 234-56-78"></div>
                         </div>
                         <div class="form-row"><label>Юридический адрес:</label><input type="text" id="inp-client-addr" class="admin-input" value="г. Алматы, пр. Достык, 180, офис 504"></div>
                         <div class="split-2">
                             <div class="form-row"><label>Банк Заказчика:</label><input type="text" id="inp-client-bank" class="admin-input" value="АО «Halyk Bank»"></div>
                             <div class="form-row"><label>БИК Банка:</label><input type="text" id="inp-client-bik" class="admin-input" value="HSBKKZKX"></div>
                         </div>
-                        <div class="form-row"><label>ИИК (IBAN расчетный счет):</label><input type="text" id="inp-client-iban" class="admin-input" value="KZ886010002003456789"></div>
+                        <div class="form-row"><label>ИИК (IBAN):</label><input type="text" id="inp-client-iban" class="admin-input" value="KZ886010002003456789"></div>
                     </div>
 
+                    <!-- Contract Terms -->
                     <div>
-                        <div class="admin-section-heading"><span>📑 Параметры договора</span></div>
+                        <div class="admin-section-heading"><span>📑 Параметры и гарантии</span></div>
                         <div class="split-2">
                             <div class="form-row"><label>Номер договора:</label><input type="text" id="inp-doc-num" class="admin-input" value="№ ND-2026/08-14"></div>
-                            <div class="form-row"><label>Дата составления:</label><input type="date" id="inp-doc-date" class="admin-input"></div>
+                            <div class="form-row"><label>Дата договора:</label><input type="date" id="inp-doc-date" class="admin-input"></div>
                         </div>
                         <div class="split-2">
-                            <div class="form-row"><label>Срок запуска (дней):</label><input type="number" id="inp-work-days" class="admin-input" value="7" min="1" max="60"></div>
-                            <div class="form-row"><label>Гарантия (дней):</label><input type="number" id="inp-warranty-days" class="admin-input" value="14" min="0" max="90"></div>
+                            <div class="form-row"><label>Срок запуска (раб. дней):</label><input type="number" id="inp-work-days" class="admin-input" value="7" min="1"></div>
+                            <div class="form-row"><label>Гарантия (дней):</label><input type="number" id="inp-warranty-days" class="admin-input" value="14" min="0"></div>
                         </div>
                         <div class="form-row">
-                            <label>Порядок оплаты:</label>
+                            <label>Порядок расчетов:</label>
                             <select id="sel-payment-terms" class="admin-select">
                                 <option value="50_50">50% аванс / 50% после подписания Акта приема-передачи</option>
-                                <option value="100_pre">100% предоплата до начала работ</option>
-                                <option value="30_70">30% предоплата / 70% после сдачи системы</option>
+                                <option value="100_pre">100% предоплата до начала выполнения работ</option>
+                                <option value="30_70">30% аванс / 70% после сдачи системы</option>
                             </select>
                         </div>
                     </div>
 
+                    <!-- Dynamic Line Items & Software Subscriptions -->
                     <div>
-                        <div class="admin-section-heading"><span>💰 Настройка сумм и скидок</span></div>
-                        <div class="form-row">
-                            <label>CRM-платформа:</label>
-                            <select id="adm-crm-sel" class="admin-select">
-                                <option value="amo_basic">amoCRM (Базовый, 5 польз., 6 мес) — 155 970 ₸</option>
-                                <option value="amo_adv" selected>amoCRM (Расширенный, 5 польз., 6 мес) — 296 970 ₸</option>
-                                <option value="amo_pro">amoCRM (Профессиональный, 5 польз., 6 мес) — 452 970 ₸</option>
-                                <option value="bx_basic_12">Bitrix24 (Базовый, 12 мес) — 144 768 ₸</option>
-                                <option value="bx_std_12">Bitrix24 (Стандартный, 12 мес) — 423 168 ₸</option>
-                                <option value="bx_pro_12">Bitrix24 (Профессиональный, 12 мес) — 846 336 ₸</option>
-                            </select>
+                        <div class="admin-section-heading">
+                            <span>📋 Позиции сметы и подписок</span>
                         </div>
-                        <div class="split-2">
-                            <div class="form-row"><label>Лицензии софта (₸):</label><input type="number" id="adm-lic-price" class="admin-input" value="296970"></div>
-                            <div class="form-row"><label>Услуги внедрения NODUS (₸):</label><input type="number" id="adm-serv-price" class="admin-input" value="250000"></div>
+                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 8px;">Добавляйте любые услуги и лицензии ПО:</p>
+                        
+                        <div class="items-builder-box" id="items-container">
+                            <!-- Injected dynamically via JS -->
                         </div>
-                        <div class="split-2">
-                            <div class="form-row"><label>Скидка клиенту (%):</label><input type="number" id="adm-discount-pct" class="admin-input" value="0" min="0" max="50"></div>
+                        <button type="button" class="btn-add-item" id="btn-add-row">+ Добавить позицию в смету</button>
+
+                        <div class="split-2" style="margin-top: 12px;">
+                            <div class="form-row"><label>Скидка (%):</label><input type="number" id="adm-discount-pct" class="admin-input" value="0" min="0" max="50"></div>
                             <div class="form-row"><label>Прямая скидка (₸):</label><input type="number" id="adm-discount-val" class="admin-input" value="0" min="0" step="5000"></div>
                         </div>
+
                         <div class="fin-badge-box">
-                            <div class="fin-row"><span>Лицензии (софт):</span><span id="fin-lic-lbl">296 970 ₸</span></div>
-                            <div class="fin-row"><span>Внедрение &amp; настройка:</span><span id="fin-serv-lbl">250 000 ₸</span></div>
+                            <div class="fin-row"><span>Сумма позиций:</span><span id="fin-subtotal-lbl">0 ₸</span></div>
                             <div class="fin-row" id="fin-discount-row" style="display:none; color:#f87171;"><span>Скидка:</span><span id="fin-discount-lbl">−0 ₸</span></div>
-                            <div class="fin-row total"><span>ИТОГО КЛИЕНТУ:</span><span id="fin-grand-total">546 970 ₸</span></div>
-                            <div class="fin-row margin"><span>Чистая маржа NODUS:</span><span id="fin-margin-val">250 000 ₸ (Услуги)</span></div>
+                            <div class="fin-row total"><span>ИТОГО К ОПЛАТЕ:</span><span id="fin-grand-total">0 ₸</span></div>
                         </div>
                     </div>
                 </aside>
@@ -184,7 +201,7 @@
                     <div class="doc-toolbar">
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <span class="badge badge-cyan" id="doc-type-badge">Договор подряда</span>
-                            <span style="font-size: 0.85rem; color: var(--color-text-muted);">Формат А4 для печати и PDF</span>
+                            <span style="font-size: 0.85rem; color: var(--color-text-muted);">Формат А4 с юридической защитой</span>
                         </div>
                         <div style="display: flex; gap: 10px;">
                             <button type="button" class="btn btn-secondary btn-sm" id="btn-copy-doc">📋 Скопировать текст</button>
@@ -264,11 +281,63 @@
                     tabButtons.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     currentTab = btn.getAttribute('data-tab');
-                    if (currentTab === 'contract') docBadge.textContent = 'Договор подряда';
+                    if (currentTab === 'contract') docBadge.textContent = 'Договор подряда (Защищенный)';
                     if (currentTab === 'invoice')  docBadge.textContent = 'Счет на оплату';
                     if (currentTab === 'proposal') docBadge.textContent = 'Коммерческое предложение';
                     renderDocument();
                 });
+            });
+
+            let items = [
+                { name: 'Лицензия amoCRM «Расширенный тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 296970, isLicense: true },
+                { name: 'Комплекс услуг по аудиту, проектированию воронок, интеграции мессенджеров (Wazzup WhatsApp) и телефонии под ключ', qty: '1 усл', price: 250000, isLicense: false },
+                { name: 'Обучение сотрудников, регламенты работы и гарантийное сопровождение', qty: '1 усл', price: 0, isLicense: false }
+            ];
+
+            const renderItemInputs = () => {
+                const container = document.getElementById('items-container');
+                container.innerHTML = '';
+                items.forEach((it, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'item-row';
+                    row.innerHTML = `
+                        <input type="text" class="admin-input item-name" data-idx="${idx}" value="${it.name}" placeholder="Наименование">
+                        <input type="number" class="admin-input item-price" data-idx="${idx}" value="${it.price}" placeholder="₸">
+                        <button type="button" class="btn-del-item" data-idx="${idx}" title="Удалить">&times;</button>
+                    `;
+                    container.appendChild(row);
+                });
+
+                container.querySelectorAll('.item-name').forEach(inp => {
+                    inp.addEventListener('input', (e) => {
+                        const i = parseInt(e.target.dataset.idx);
+                        items[i].name = e.target.value;
+                        renderDocument();
+                    });
+                });
+
+                container.querySelectorAll('.item-price').forEach(inp => {
+                    inp.addEventListener('input', (e) => {
+                        const i = parseInt(e.target.dataset.idx);
+                        items[i].price = parseFloat(e.target.value) || 0;
+                        renderDocument();
+                    });
+                });
+
+                container.querySelectorAll('.btn-del-item').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const i = parseInt(e.currentTarget.dataset.idx);
+                        items.splice(i, 1);
+                        renderItemInputs();
+                        renderDocument();
+                    });
+                });
+            };
+
+            document.getElementById('btn-add-row')?.addEventListener('click', () => {
+                items.push({ name: 'Новая услуга / Лицензия', qty: '1 усл', price: 50000, isLicense: false });
+                renderItemInputs();
+                renderDocument();
             });
 
             const fmt = (num) => new Intl.NumberFormat('ru-RU').format(Math.round(num)) + ' ₸';
@@ -318,8 +387,15 @@
                 result = result.charAt(0).toUpperCase() + result.slice(1) + ' тенге 00 тиын';
                 return result;
             };
-
             const renderDocument = () => {
+                const myName     = document.getElementById('inp-my-name').value || 'ИП «NODUS»';
+                const myBin      = document.getElementById('inp-my-bin').value || '010618550536';
+                const myPhone    = document.getElementById('inp-my-phone').value || '+7 (775) 807-16-95';
+                const myAddr     = document.getElementById('inp-my-addr').value || 'г. Петропавловск, ул. 1-я Заречная, 109, кв. 2';
+                const myBank     = document.getElementById('inp-my-bank').value || 'АО «Kaspi Bank»';
+                const myBik      = document.getElementById('inp-my-bik').value || 'CASPKZKA';
+                const myIban     = document.getElementById('inp-my-iban').value || 'KZ03722S000045101199';
+
                 const clientName     = document.getElementById('inp-client-name').value || 'ТОО «Заказчик»';
                 const clientDirector = document.getElementById('inp-client-director').value || 'в лице Директора';
                 const clientBin      = document.getElementById('inp-client-bin').value || '000000000000';
@@ -335,19 +411,15 @@
                 const warrantyDays   = document.getElementById('inp-warranty-days').value || '14';
                 const paymentTerms   = document.getElementById('sel-payment-terms').value;
 
-                let licPrice  = parseFloat(document.getElementById('adm-lic-price').value) || 0;
-                let servPrice = parseFloat(document.getElementById('adm-serv-price').value) || 0;
-                let discPct   = parseFloat(document.getElementById('adm-discount-pct').value) || 0;
-                let discVal   = parseFloat(document.getElementById('adm-discount-val').value) || 0;
+                let discPct = parseFloat(document.getElementById('adm-discount-pct').value) || 0;
+                let discVal = parseFloat(document.getElementById('adm-discount-val').value) || 0;
 
-                let subTotal = licPrice + servPrice;
+                let subTotal = items.reduce((acc, it) => acc + (parseFloat(it.price) || 0), 0);
                 let discountTotal = (subTotal * (discPct / 100)) + discVal;
                 let grandTotal = Math.max(0, subTotal - discountTotal);
 
-                document.getElementById('fin-lic-lbl').textContent  = fmt(licPrice);
-                document.getElementById('fin-serv-lbl').textContent = fmt(servPrice);
-                document.getElementById('fin-grand-total').textContent = fmt(grandTotal);
-                document.getElementById('fin-margin-val').textContent = fmt(servPrice) + ' (Услуги)';
+                document.getElementById('fin-subtotal-lbl').textContent = fmt(subTotal);
+                document.getElementById('fin-grand-total').textContent   = fmt(grandTotal);
                 
                 const discRow = document.getElementById('fin-discount-row');
                 if (discountTotal > 0) {
@@ -369,61 +441,58 @@
 
                 const container = document.getElementById('doc-dynamic-content');
 
-                let payTermsText = 'Оплата производится в размере 50% предоплаты в течение 3 (трех) банковских дней с момента подписания Договора, и 50% в течение 3 (трех) банковских дней после подписания финального Акта приема-передачи оказанных услуг.';
+                let payTermsText = 'Оплата производится в размере 50% авансового платежа в течение 3 (трех) банковских дней с даты подписания Договора, и 50% в течение 3 (трех) банковских дней с момента сдачи системы и подписания Акта приема-передачи оказанных услуг.';
                 if (paymentTerms === '100_pre') {
-                    payTermsText = 'Оплата производится в размере 100% (сто процентов) предоплаты в течение 3 (трех) банковских дней с момента подписания настоящего Договора.';
+                    payTermsText = 'Оплата производится в размере 100% (сто процентов) предоплаты в течение 3 (трех) банковских дней с даты заключения настоящего Договора.';
                 } else if (paymentTerms === '30_70') {
                     payTermsText = 'Оплата производится в размере 30% авансового платежа до старта работ и 70% в течение 3 (трех) банковских дней после сдачи системы и подписания Акта приема-передачи.';
                 }
 
+                let tableRowsHtml = items.map((it, idx) => `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td>${it.name}</td>
+                        <td>${it.qty || '1 усл.'}</td>
+                        <td>${fmt(it.price)}</td>
+                    </tr>
+                `).join('');
+
                 if (currentTab === 'contract') {
                     container.innerHTML = `
-                        <div class="doc-main-title">ТИПОВОЙ ДОГОВОР ПОДРЯДА ${docNum}</div>
-                        <div class="doc-main-subtitle">на оказание услуг по интеграции, настройке CRM-системы и передаче неисключительных прав (лицензий)</div>
+                        <div class="doc-main-title">ДОГОВОР ПОДРЯДА ${docNum}</div>
+                        <div class="doc-main-subtitle">на оказание услуг по интеграции CRM-системы, настройке воронок и передаче неисключительных прав (лицензий)</div>
 
                         <div class="doc-p">
-                            <b>Индивидуальный предприниматель «NODUS»</b>, ИИН 010618550536, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clientName}</b>, БИН/ИИН ${clientBin}, ${clientDirector}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», заключили настоящий Договор о нижеследующем:
+                            <b>${myName}</b>, ИИН/БИН ${myBin}, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clientName}</b>, БИН/ИИН ${clientBin}, ${clientDirector}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», заключили настоящий Договор о нижеследующем:
                         </div>
 
                         <div class="doc-section-h">1. ПРЕДМЕТ ДОГОВОРА</div>
                         <div class="doc-p">
-                            1.1. Исполнитель обязуется оказать Заказчику комплекс услуг по внедрению, проектированию логики воронок, автоматизации бизнес-процессов, интеграции каналов связи (мессенджеры, телефония) в CRM-систему, а также передать права на использование лицензионного программного обеспечения, а Заказчик обязуется принять и оплатить данные услуги в соответствии с условиями настоящего Договора.<br>
-                            1.2. Подробный перечень этапов, настроек и состав передаваемого программного обеспечения зафиксирован в Спецификации (Таблица 1).
+                            1.1. Исполнитель обязуется оказать комплекс услуг по проектированию, настройке воронок продаж, интеграции мессенджеров, телефонии в CRM-систему Заказчика и передать права на лицензионное программное обеспечение согласно Спецификации (Таблица 1), а Заказчик обязуется принять и оплатить услуги на условиях настоящего Договора.
                         </div>
 
-                        <div class="doc-section-h">2. СТОИМОСТЬ УСЛУГ И ПОРЯДОК РАСЧЕТОВ</div>
+                        <div class="doc-section-h">2. СТОИМОСТЬ И ПОРЯДОК РАСЧЕТОВ</div>
                         <div class="doc-p">
-                            2.1. Общая сумма настоящего Договора составляет: <b>${fmt(grandTotal)} (${numToWordsKZT(grandTotal)})</b>, без НДС (Исполнитель применяет специальный налоговый режим на основе упрощенной декларации).<br>
+                            2.1. Общая стоимость Договора составляет: <b>${fmt(grandTotal)} (${numToWordsKZT(grandTotal)})</b>, без НДС.<br>
                             2.2. ${payTermsText}<br>
-                            2.3. Все расчеты производятся в безналичном порядке в национальной валюте Республики Казахстан (тенге) на расчетный счет Исполнителя на основании выставленного Счета на оплату.
+                            2.3. Оплата производится в безналичном порядке в тенге (KZT) на расчетный счет Исполнителя на основании выставленного счета.
                         </div>
 
                         <div class="doc-section-h">3. СПЕЦИФИКАЦИЯ РАБОТ И ЛИЦЕНЗИЙ (ТАБЛИЦА 1)</div>
                         <table class="doc-table">
                             <thead>
                                 <tr>
-                                    <th>№</th>
-                                    <th>Наименование услуги / Лицензионного ПО</th>
-                                    <th>Срок / Кол-во</th>
-                                    <th>Стоимость</th>
+                                    <th style="width:5%;">№</th>
+                                    <th style="width:65%;">Наименование услуги / Программного обеспечения</th>
+                                    <th style="width:15%;">Кол-во</th>
+                                    <th style="width:15%;">Сумма</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Лицензионное программное обеспечение CRM / Мессенджеры / IP-телефония</td>
-                                    <td>Согласно тарифу</td>
-                                    <td>${fmt(licPrice)}</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Услуги по внедрению, настройке воронок продаж, интеграции и обучению персонала</td>
-                                    <td>${workDays} раб. дней</td>
-                                    <td>${fmt(servPrice)}</td>
-                                </tr>
+                                ${tableRowsHtml}
                                 ${discountTotal > 0 ? `
                                 <tr>
-                                    <td colspan="3" style="text-align:right; font-weight:bold; color:#ef4444;">Предоставленная специальная скидка:</td>
+                                    <td colspan="3" style="text-align:right; font-weight:bold; color:#ef4444;">Предоставленная скидка:</td>
                                     <td style="font-weight:bold; color:#ef4444;">−${fmt(discountTotal)}</td>
                                 </tr>` : ''}
                                 <tr style="background:#f8fafc; font-weight:bold;">
@@ -433,29 +502,42 @@
                             </tbody>
                         </table>
 
-                        <div class="doc-section-h">4. СРОКИ И ПОРЯДОК ПРИЕМКИ РАБОТ</div>
+                        <div class="doc-section-h">4. ПРАВОВОЙ СТАТУС ЛИЦЕНЗИЙ И НЕВОЗВРАТНОСТЬ ПОДПИСОК (ОСОБЫЕ УСЛОВИЯ)</div>
                         <div class="doc-p">
-                            4.1. Срок выполнения комплекса работ составляет <b>${workDays} (семь) рабочих дней</b> с момента предоставления Заказчиком всех необходимых доступов и внесения авансового платежа.<br>
-                            4.2. По завершении работ Исполнитель передает Заказчику Акт приема-передачи оказанных услуг и выписывает Электронный счет-фактуру (ЭСФ) в ИС ЭСФ Республики Казахстан.<br>
-                            4.3. После сдачи проекта Исполнитель предоставляет Заказчику гарантийное сопровождение сроком <b>${warrantyDays} календарных дней</b> без дополнительной оплаты.
+                            4.1. Приобретение лицензий и подписок на стороннее программное обеспечение (amoCRM, Bitrix24, Wazzup, Sipuni и др.) осуществляется Исполнителем у правообладателей/вендоров по поручению и в интересах Заказчика.<br>
+                            4.2. <b>НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ:</b> В соответствии с нормами Гражданского кодекса РК и правилами вендоров-правообладателей, с момента генерации лицензионных ключей, привязки лицензий к аккаунту Заказчика либо пополнения лицевого счета, <b>денежные средства, уплаченные за лицензии и подписки на программное обеспечение, ВОЗВРАТУ И ПЕРЕРАСЧЕТУ НЕ ПОДЛЕЖАТ НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ</b>, в том числе при досрочном расторжении Договора по инициативе Заказчика.<br>
+                            4.3. <b>НЕВОЗВРАТНОСТЬ АВАНСА ЗА УСЛУГИ:</b> В случае немотивированного одностороннего отказа Заказчика от исполнения Договора после начала работ, сумма внесенного авансового платежа (предоплаты) удерживается Исполнителем в полном объеме в качестве фактически понесенных расходов и компенсации за бронирование рабочего времени IT-специалистов.
                         </div>
 
-                        <div class="doc-section-h">5. КОНФИДЕНЦИАЛЬНОСТЬ (NDA)</div>
+                        <div class="doc-section-h">5. СРОКИ, ПРИЕМКА РАБОТ И «МОЛЧАЛИВОЕ СОГЛАСИЕ»</div>
                         <div class="doc-p">
-                            5.1. Стороны обязуются сохранять полную конфиденциальность в отношении клиентских баз, коммерческой тайны, финансовых показателей и учетных данных, полученных в ходе исполнения Договора.
+                            5.1. Срок выполнения работ составляет <b>${workDays} рабочих дней</b> с момента внесения аванса и предоставления Заказчиком доступов.<br>
+                            5.2. Если Заказчик задерживает предоставление доступов, номеров телефонов или утверждение структуры воронки более чем на 3 рабочих дня, срок сдачи автоматически продлевается на соответствующий период.<br>
+                            5.3. <b>ПОРЯДОК ПРИЕМКИ:</b> По завершении настройки Исполнитель направляет Акт приема-передачи оказанных услуг и выставляет ЭСФ. Заказчик обязан в течение <b>3 (трех) рабочих дней</b> подписать Акт либо направить мотивированный письменный отказ. <b>В случае ненаправления мотивированного отказа в указанный 3-дневный срок, работы считаются принятыми Заказчиком в полном объеме без замечаний</b>, а услуги подлежат 100% оплате.
+                        </div>
+
+                        <div class="doc-section-h">6. ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ И ГАРАНТИЯ</div>
+                        <div class="doc-p">
+                            6.1. Исполнитель предоставляет <b>${warrantyDays} календарных дней</b> бесплатного гарантийного сопровождения после сдачи проекта.<br>
+                            6.2. Исполнитель не несет ответственности за технические сбои, обновления и перебои на стороне сторонних серверов (Meta / WhatsApp / Instagram / Телеком-операторы), а также за блокировку номеров WhatsApp Заказчика в случае нарушения Заказчиком правил рассылок (спам-политики).
+                        </div>
+
+                        <div class="doc-section-h">7. КОНФИДЕНЦИАЛЬНОСТЬ (NDA)</div>
+                        <div class="doc-p">
+                            7.1. Стороны обязуются соблюдать строгую конфиденциальность в отношении клиентских баз данных, учетных записей и коммерческой информации.
                         </div>
 
                         <div class="doc-signatures">
                             <div class="sig-block">
                                 <h4>ИСПОЛНИТЕЛЬ:</h4>
-                                <div><b>ИП «NODUS»</b></div>
-                                <div>ИИН: 010618550536</div>
-                                <div>Адрес: г. Петропавловск, ул. 1-я Заречная, 109, кв. 2</div>
-                                <div>Банк: АО «Kaspi Bank»</div>
-                                <div>БИК: CASPKZKA, КБе: 19</div>
-                                <div>Счет (IBAN): KZ03722S000045101199</div>
-                                <div>Тел/WhatsApp: +7 (775) 807-16-95</div>
-                                <div class="sig-line">Руководитель: ______________ / ИП NODUS / (М.П.)</div>
+                                <div><b>${myName}</b></div>
+                                <div>ИИН/БИН: ${myBin}</div>
+                                <div>Адрес: ${myAddr}</div>
+                                <div>Банк: ${myBank}</div>
+                                <div>БИК: ${myBik}</div>
+                                <div>Счет (IBAN): ${myIban}</div>
+                                <div>Тел/WA: ${myPhone}</div>
+                                <div class="sig-line">Руководитель: ______________ / ${myName} / (М.П.)</div>
                             </div>
 
                             <div class="sig-block">
@@ -476,21 +558,21 @@
                         <div class="doc-main-title">СЧЕТ НА ОПЛАТУ ${docNum}</div>
                         <div class="doc-main-subtitle">от ${dateStr}</div>
 
-                        <table class="doc-table" style="margin-bottom: 20px;">
+                        <table class="doc-table" style="margin-bottom: 16px;">
                             <tr>
                                 <td style="width: 25%; font-weight: bold; background:#f8fafc;">Поставщик:</td>
-                                <td><b>ИП NODUS</b>, ИИН 010618550536, г. Петропавловск, ул. 1-я Заречная, 109</td>
+                                <td><b>${myName}</b>, ИИН/БИН ${myBin}, ${myAddr}</td>
                             </tr>
                             <tr>
-                                <td style="font-weight: bold; background:#f8fafc;">Банковские реквизиты:</td>
-                                <td>ИИК KZ03722S000045101199 в АО "Kaspi Bank", БИК CASPKZKA, КБе 19</td>
+                                <td style="font-weight: bold; background:#f8fafc;">Реквизиты банка:</td>
+                                <td>ИИК ${myIban} в ${myBank}, БИК ${myBik}</td>
                             </tr>
                             <tr>
                                 <td style="font-weight: bold; background:#f8fafc;">Покупатель:</td>
                                 <td><b>${clientName}</b>, БИН/ИИН ${clientBin}, ${clientAddr}</td>
                             </tr>
                             <tr>
-                                <td style="font-weight: bold; background:#f8fafc;">Договор / Основание:</td>
+                                <td style="font-weight: bold; background:#f8fafc;">Основание:</td>
                                 <td>Договор подряда ${docNum} от ${dateStr}</td>
                             </tr>
                         </table>
@@ -498,57 +580,49 @@
                         <table class="doc-table">
                             <thead>
                                 <tr>
-                                    <th>№</th>
+                                    <th style="width:5%;">№</th>
                                     <th>Наименование товаров, работ, услуг</th>
-                                    <th>Кол-во</th>
-                                    <th>Ед.</th>
-                                    <th>Цена</th>
-                                    <th>Сумма</th>
+                                    <th style="width:12%;">Кол-во</th>
+                                    <th style="width:18%;">Цена</th>
+                                    <th style="width:18%;">Сумма</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Передача неисключительных прав на использование лицензионного ПО (CRM / Связь)</td>
-                                    <td>1</td>
-                                    <td>усл.</td>
-                                    <td>${fmt(licPrice)}</td>
-                                    <td>${fmt(licPrice)}</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Услуги по внедрению, проектированию воронок продаж и интеграции IT-инфраструктуры</td>
-                                    <td>1</td>
-                                    <td>усл.</td>
-                                    <td>${fmt(servPrice)}</td>
-                                    <td>${fmt(servPrice)}</td>
-                                </tr>
+                                ${items.map((it, idx) => `
+                                    <tr>
+                                        <td>${idx + 1}</td>
+                                        <td>${it.name}</td>
+                                        <td>${it.qty || '1'}</td>
+                                        <td>${fmt(it.price)}</td>
+                                        <td>${fmt(it.price)}</td>
+                                    </tr>
+                                `).join('')}
                                 ${discountTotal > 0 ? `
                                 <tr>
-                                    <td colspan="5" style="text-align:right; font-weight:bold; color:#ef4444;">Предоставленная скидка:</td>
+                                    <td colspan="4" style="text-align:right; font-weight:bold; color:#ef4444;">Предоставленная скидка:</td>
                                     <td style="font-weight:bold; color:#ef4444;">−${fmt(discountTotal)}</td>
                                 </tr>` : ''}
                                 <tr style="background:#f8fafc; font-weight:bold;">
-                                    <td colspan="5" style="text-align:right;">ВСЕГО К ОПЛАТЕ:</td>
+                                    <td colspan="4" style="text-align:right;">ВСЕГО К ОПЛАТЕ:</td>
                                     <td>${fmt(grandTotal)}</td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <div style="margin-top: 14px; font-size: 13px;">
-                            Всего наименований 2, на сумму <b>${fmt(grandTotal)}</b><br>
+                        <div style="margin-top: 12px; font-size: 12.5px;">
+                            Всего наименований ${items.length}, на сумму <b>${fmt(grandTotal)}</b><br>
                             <b>(${numToWordsKZT(grandTotal)})</b>
                         </div>
 
-                        <div class="doc-signatures" style="margin-top: 40px;">
+                        <div class="doc-signatures" style="margin-top: 36px;">
                             <div class="sig-block" style="grid-column: span 2;">
                                 <div style="display:flex; justify-content:space-between; align-items:center;">
                                     <div>
-                                        Руководитель предприятия / Индивидуальный предприниматель:
-                                        <div style="margin-top: 30px; border-bottom: 1px dashed #64748b; width: 250px;"></div>
-                                        <div style="font-size: 11px; color: #64748b; margin-top: 4px;">/ ИП NODUS / (М.П.)</div>
+                                        Поставщик: <b>${myName}</b>
+                                        <div style="margin-top: 26px; border-bottom: 1px dashed #64748b; width: 240px;"></div>
+                                        <div style="font-size: 11px; color: #64748b; margin-top: 4px;">/ ${myName} / (М.П.)</div>
                                     </div>
-                                    <div style="text-align:right; font-size: 12px; color: #64748b;">
+                                    <div style="text-align:right; font-size: 11.5px; color: #64748b;">
                                         Счет действителен к оплате в течение 3 банковских дней.
                                     </div>
                                 </div>
@@ -561,57 +635,46 @@
                         <div class="doc-main-subtitle">Комплексная автоматизация отдела продаж и внедрение CRM для компании ${clientName}</div>
 
                         <div class="doc-p">
-                            <b>Уважаемый партнер!</b> Команда <b>NODUS</b> подготовила индивидуальный проект внедрения CRM-системы, направленный на устранение потери заявок, автоматизацию воронки первого контакта и рост повторных продаж (LTV).
+                            <b>Уважаемый партнер!</b> Команда <b>NODUS</b> подготовила индивидуальный расчет и состав проекта внедрения CRM-системы, направленный на устранение потери заявок, рост конверсии и автоматизацию повторных продаж (LTV).
                         </div>
 
-                        <div class="doc-section-h">1. ЧТО БУДЕТ СДЕЛАНО В РАМКАХ ПРОЕКТА</div>
-                        <ul style="padding-left: 20px; color: #334155; margin-bottom: 14px;">
-                            <li>Аудит текущей логики продаж и проектирование сквозных воронок (Лиды ➔ Квалификация ➔ Оплата ➔ LTV);</li>
-                            <li>Подключение и официальная настройка мессенджеров WhatsApp & Instagram Direct (Wazzup24);</li>
-                            <li>Интеграция облачной телефонии (Sipuni) с записью разговоров и звонками в 1 клик;</li>
-                            <li>Настройка роботов, авто-задач и сценариев возврата клиентов (LTV реанимация);</li>
-                            <li>Практическое обучение вашей команды менеджеров с записью видео-регламентов;</li>
-                            <li><b>${warrantyDays} дней персонального гарантийного сопровождения</b> после запуска.</li>
-                        </ul>
-
-                        <div class="doc-section-h">2. СМЕТА И ИНВЕСТИЦИИ В ПРОЕКТ</div>
+                        <div class="doc-section-h">СПЕЦИФИКАЦИЯ И СМЕТА ПРОЕКТА</div>
                         <table class="doc-table">
                             <thead>
                                 <tr>
-                                    <th>Статья расходов</th>
-                                    <th>Параметры</th>
-                                    <th>Стоимость</th>
+                                    <th style="width:5%;">№</th>
+                                    <th>Состав работ / Программное обеспечение</th>
+                                    <th style="width:15%;">Кол-во</th>
+                                    <th style="width:20%;">Инвестиции</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Лицензии программного обеспечения</td>
-                                    <td>Официальные тарифы вендоров со всеми скидками</td>
-                                    <td>${fmt(licPrice)}</td>
-                                </tr>
-                                <tr>
-                                    <td>Комплекс услуг по разработке и внедрению NODUS</td>
-                                    <td>Срок запуска: <b>${workDays} рабочих дней</b> под ключ</td>
-                                    <td>${fmt(servPrice)}</td>
-                                </tr>
+                                ${tableRowsHtml}
                                 ${discountTotal > 0 ? `
                                 <tr>
-                                    <td colspan="2" style="text-align:right; font-weight:bold; color:#ef4444;">Индивидуальная скидка:</td>
+                                    <td colspan="3" style="text-align:right; font-weight:bold; color:#ef4444;">Специальная скидка:</td>
                                     <td style="font-weight:bold; color:#ef4444;">−${fmt(discountTotal)}</td>
                                 </tr>` : ''}
-                                <tr style="background:#f8fafc; font-weight:bold; font-size:14px;">
-                                    <td colspan="2" style="text-align:right;">ФИНАЛЬНАЯ СТОИМОСТЬ:</td>
+                                <tr style="background:#f8fafc; font-weight:bold; font-size:13.5px;">
+                                    <td colspan="3" style="text-align:right;">ИТОГОВАЯ СТОИМОСТЬ:</td>
                                     <td style="color:#0284c7;">${fmt(grandTotal)}</td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <div class="doc-section-h">3. КОНТАКТЫ ДЛЯ СВЯЗИ И СТАРТА</div>
-                        <div class="doc-p" style="margin-top: 10px;">
-                            Эксперт проекта NODUS: <b>Константин</b><br>
-                            Телефон / WhatsApp: <b>+7 (775) 807-16-95</b><br>
-                            Telegram: <b>@DopeScr1m</b><br>
-                            Сайт: <b>https://dopescr1m.github.io/nodus-crm/</b>
+                        <div class="doc-section-h">ПАРАМЕТРЫ ЗАПУСКА</div>
+                        <ul style="padding-left: 18px; color: #334155; margin-bottom: 12px; font-size: 12.5px;">
+                            <li>Срок реализации проекта под ключ: <b>${workDays} рабочих дней</b>;</li>
+                            <li>Гарантийное сопровождение после сдачи: <b>${warrantyDays} дней бесплатно</b>;</li>
+                            <li>Обучение команды менеджеров с записью видео-инструкций;</li>
+                            <li>Официальный договор, закрывающие акты и ЭСФ.</li>
+                        </ul>
+
+                        <div class="doc-section-h">КОНТАКТЫ ДЛЯ СТАРТА</div>
+                        <div class="doc-p" style="margin-top: 8px;">
+                            Эксперт проекта: <b>Константин</b><br>
+                            Телефон / WhatsApp: <b>${myPhone}</b><br>
+                            Telegram: <b>@DopeScr1m</b>
                         </div>
                     `;
                 }
@@ -621,10 +684,13 @@
                 document.getElementById('inp-client-name').value = 'Фитнес-клуб «Underground Gym»';
                 document.getElementById('inp-client-director').value = 'в лице Управляющего директора Серикова Т.К.';
                 document.getElementById('inp-client-bin').value = '210540019876';
-                document.getElementById('adm-lic-price').value = '195970';
-                document.getElementById('adm-serv-price').value = '100000';
+                items = [
+                    { name: 'Лицензия amoCRM «Базовый тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 155970, isLicense: true },
+                    { name: 'Пакет внедрения «Базовый»: воронка абонементов, WhatsApp Wazzup, обучение', qty: '1 усл', price: 100000, isLicense: false }
+                ];
                 document.getElementById('inp-work-days').value = '4';
                 document.getElementById('inp-warranty-days').value = '7';
+                renderItemInputs();
                 renderDocument();
             });
 
@@ -632,10 +698,13 @@
                 document.getElementById('inp-client-name').value = 'ТОО «Status in Trade»';
                 document.getElementById('inp-client-director').value = 'в лице Генерального директора Бекова М.С.';
                 document.getElementById('inp-client-bin').value = '180340012345';
-                document.getElementById('adm-lic-price').value = '296970';
-                document.getElementById('adm-serv-price').value = '250000';
+                items = [
+                    { name: 'Лицензия amoCRM «Расширенный тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 296970, isLicense: true },
+                    { name: 'Пакет внедрения «Оптимальный»: сквозная воронка LTV, WhatsApp, Sipuni телефония, регламенты', qty: '1 усл', price: 250000, isLicense: false }
+                ];
                 document.getElementById('inp-work-days').value = '7';
                 document.getElementById('inp-warranty-days').value = '14';
+                renderItemInputs();
                 renderDocument();
             });
 
@@ -643,25 +712,17 @@
                 document.getElementById('inp-client-name').value = 'Холдинг «Tabyn Trans Logistics»';
                 document.getElementById('inp-client-director').value = 'в лице Председателя правления Касымова Е.Ж.';
                 document.getElementById('inp-client-bin').value = '150840034567';
-                document.getElementById('adm-lic-price').value = '452970';
-                document.getElementById('adm-serv-price').value = '500000';
+                items = [
+                    { name: 'Лицензия Bitrix24 «Стандартный» на 12 мес', qty: '1 шт', price: 423168, isLicense: true },
+                    { name: 'Пакет внедрения «VIP Под ключ»: сложные воронки B2B, интеграция с 1С, телефония, боты, 30 дней VIP-сопровождения', qty: '1 усл', price: 500000, isLicense: false }
+                ];
                 document.getElementById('inp-work-days').value = '15';
                 document.getElementById('inp-warranty-days').value = '30';
+                renderItemInputs();
                 renderDocument();
             });
 
-            document.getElementById('adm-crm-sel')?.addEventListener('change', (e) => {
-                const val = e.target.value;
-                if (val === 'amo_basic')   document.getElementById('adm-lic-price').value = '155970';
-                if (val === 'amo_adv')     document.getElementById('adm-lic-price').value = '296970';
-                if (val === 'amo_pro')     document.getElementById('adm-lic-price').value = '452970';
-                if (val === 'bx_basic_12') document.getElementById('adm-lic-price').value = '144768';
-                if (val === 'bx_std_12')   document.getElementById('adm-lic-price').value = '423168';
-                if (val === 'bx_pro_12')   document.getElementById('adm-lic-price').value = '846336';
-                renderDocument();
-            });
-
-            const liveInputs = document.querySelectorAll('.admin-input, .admin-select, .admin-textarea');
+            const liveInputs = document.querySelectorAll('.admin-input, .admin-select');
             liveInputs.forEach(inp => {
                 inp.addEventListener('input', renderDocument);
                 inp.addEventListener('change', renderDocument);
@@ -678,6 +739,7 @@
                 });
             });
 
+            renderItemInputs();
             renderDocument();
         });
     </script>
