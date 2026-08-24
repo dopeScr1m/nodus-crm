@@ -20,46 +20,65 @@
         .auth-input { width: 100%; padding: 14px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1.5px solid var(--color-border); color: #fff; font-size: 1rem; outline: none; text-align: center; letter-spacing: 2px; }
         .auth-input:focus { border-color: var(--color-primary); box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
         .auth-error { color: #ef4444; font-size: 0.85rem; margin-top: 10px; display: none; }
+        
         .admin-dashboard { display: none; padding-top: 90px; padding-bottom: 60px; }
         .admin-header-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
         .admin-title-row h1 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.03em; }
         .admin-tabs { display: flex; gap: 8px; background: rgba(255, 255, 255, 0.04); padding: 6px; border-radius: 14px; border: 1px solid var(--color-border); flex-wrap: wrap; }
         .admin-tab-btn { padding: 10px 18px; border-radius: 10px; border: none; background: transparent; color: var(--color-text-muted); font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
         .admin-tab-btn.active { background: var(--color-primary); color: #fff; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3); }
-        .admin-grid { display: grid; grid-template-columns: 460px 1fr; gap: 28px; align-items: start; }
+        
+        .admin-grid { display: grid; grid-template-columns: 480px 1fr; gap: 28px; align-items: start; }
         .admin-sidebar-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid var(--color-border); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
-        .admin-section-heading { font-size: 1.05rem; font-weight: 700; color: var(--color-cyan); border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-        .form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-        .form-row label { font-size: 0.82rem; font-weight: 600; color: var(--color-text-muted); }
-        .admin-input, .admin-select, .admin-textarea { width: 100%; padding: 10px 14px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--color-border); color: var(--color-text-main); font-size: 0.9rem; outline: none; }
-        .admin-input:focus, .admin-select:focus, .admin-textarea:focus { border-color: var(--color-primary); }
+        .admin-section-heading { font-size: 1.02rem; font-weight: 700; color: var(--color-cyan); border-bottom: 1px solid var(--color-border); padding-bottom: 8px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        
+        .form-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+        .form-row label { font-size: 0.8rem; font-weight: 600; color: var(--color-text-muted); }
+        .admin-input, .admin-select { width: 100%; padding: 9px 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--color-border); color: var(--color-text-main); font-size: 0.88rem; outline: none; }
+        .admin-input:focus, .admin-select:focus { border-color: var(--color-primary); }
         .split-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .items-builder-box { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 12px; padding: 12px; }
-        .item-row { display: grid; grid-template-columns: 1fr 90px 32px; gap: 8px; align-items: center; margin-bottom: 8px; }
-        .btn-del-item { width: 32px; height: 36px; border-radius: 8px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .split-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        
+        .vendor-calc-box { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+        .vendor-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+        .badge-amo { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .badge-bx  { background: rgba(99, 102, 241, 0.15); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.3); }
+        .badge-wz  { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .badge-sip { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        
+        .items-builder-box { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--color-border); border-radius: 12px; padding: 10px; max-height: 240px; overflow-y: auto; }
+        .item-row { display: grid; grid-template-columns: 1fr 85px 30px; gap: 6px; align-items: center; margin-bottom: 6px; }
+        .btn-del-item { width: 30px; height: 34px; border-radius: 8px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .btn-del-item:hover { background: #ef4444; color: #fff; }
-        .btn-add-item { width: 100%; padding: 8px; border-radius: 8px; background: rgba(99, 102, 241, 0.12); border: 1px dashed rgba(99, 102, 241, 0.4); color: #818cf8; font-weight: 600; font-size: 0.82rem; cursor: pointer; }
+        .btn-add-item { width: 100%; padding: 7px; border-radius: 8px; background: rgba(99, 102, 241, 0.12); border: 1px dashed rgba(99, 102, 241, 0.4); color: #818cf8; font-weight: 600; font-size: 0.8rem; cursor: pointer; }
         .btn-add-item:hover { background: rgba(99, 102, 241, 0.25); color: #fff; }
+        
         .doc-preview-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid var(--color-border); border-radius: 20px; padding: 24px; }
         .doc-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--color-border); flex-wrap: wrap; gap: 12px; }
-        .doc-paper { background: #ffffff; color: #1e293b; border-radius: 12px; padding: 48px 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; line-height: 1.55; }
+        .doc-paper { background: #ffffff; color: #1e293b; border-radius: 12px; padding: 48px 40px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12.8px; line-height: 1.55; }
         .doc-header-row { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f172a; padding-bottom: 16px; margin-bottom: 24px; }
         .doc-brand-title { font-size: 22px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px; }
         .doc-brand-subtitle { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
         .doc-meta-right { text-align: right; font-size: 12px; color: #475569; }
         .doc-main-title { text-align: center; font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 6px; text-transform: uppercase; }
         .doc-main-subtitle { text-align: center; font-size: 11.5px; color: #64748b; margin-bottom: 20px; }
-        .doc-section-h { font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 18px; margin-bottom: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+        .doc-section-h { font-size: 12.5px; font-weight: 700; color: #0f172a; margin-top: 16px; margin-bottom: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
         .doc-p { margin-bottom: 8px; text-align: justify; color: #334155; }
-        .doc-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+        .doc-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 12px; }
         .doc-table th, .doc-table td { border: 1px solid #cbd5e1; padding: 7px 9px; text-align: left; }
         .doc-table th { background: #f1f5f9; font-weight: 700; color: #0f172a; }
-        .doc-signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 32px; padding-top: 20px; border-top: 1.5px solid #cbd5e1; }
-        .sig-block h4 { font-size: 12.5px; font-weight: 700; margin-bottom: 8px; color: #0f172a; }
-        .sig-line { margin-top: 36px; border-bottom: 1px dashed #64748b; padding-bottom: 4px; font-size: 11px; color: #64748b; }
-        .fin-badge-box { background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
-        .fin-row { display: flex; justify-content: space-between; font-size: 0.88rem; }
-        .fin-row.total { font-size: 1.05rem; font-weight: 800; color: #38bdf8; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; }
+        .doc-signatures { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 30px; padding-top: 18px; border-top: 1.5px solid #cbd5e1; }
+        .sig-block h4 { font-size: 12.5px; font-weight: 700; margin-bottom: 6px; color: #0f172a; }
+        .sig-line { margin-top: 34px; border-bottom: 1px dashed #64748b; padding-bottom: 4px; font-size: 11px; color: #64748b; }
+        
+        /* Deep financial calculation box */
+        .fin-badge-box { background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 7px; }
+        .fin-row { display: flex; justify-content: space-between; font-size: 0.84rem; color: var(--color-text-muted); }
+        .fin-row.highlight { color: #38bdf8; font-weight: 600; }
+        .fin-row.deduct { color: #f87171; font-size: 0.8rem; }
+        .fin-row.total { font-size: 1.05rem; font-weight: 800; color: #38bdf8; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 8px; margin-top: 4px; }
+        .fin-row.net-profit { font-size: 1.15rem; font-weight: 900; color: #22c55e; border-top: 1.5px solid rgba(34, 197, 94, 0.4); padding-top: 8px; margin-top: 4px; }
+        
         @media print {
             body { background: #ffffff !important; color: #000000 !important; }
             .header, .admin-header-bar, .admin-sidebar-card, .doc-toolbar, .scroll-top-btn, .mobile-calc-bar, .live-toast { display: none !important; }
@@ -93,7 +112,7 @@
         <div class="container">
             <div class="admin-header-bar">
                 <div class="admin-title-row">
-                    <div class="badge badge-cyan" style="margin-bottom: 6px;">Executive Workspace</div>
+                    <div class="badge badge-cyan" style="margin-bottom: 6px;">Executive Workspace (UTC+5 KZ)</div>
                     <h1>Генератор документов <span class="text-gradient">NODUS</span></h1>
                 </div>
                 <div class="admin-tabs">
@@ -106,6 +125,8 @@
 
             <div class="admin-grid">
                 <aside class="admin-sidebar-card">
+                    
+                    <!-- 1. Presets -->
                     <div>
                         <div class="admin-section-heading">
                             <span>⚡ Быстрые шаблоны</span>
@@ -118,15 +139,193 @@
                         </div>
                     </div>
 
-                    <!-- Contractor / NODUS Requisites -->
+                    <!-- 2. Master Vendor & Software Configurator -->
                     <div>
-                        <div class="admin-section-heading"><span>💼 Реквизиты Исполнителя (NODUS)</span></div>
-                        <div class="form-row"><label>Название Исполнителя:</label><input type="text" id="inp-my-name" class="admin-input" value="ИП «NODUS»"></div>
+                        <div class="admin-section-heading">
+                            <span>🚀 Конфигуратор ПО &amp; Партнерки</span>
+                            <span style="font-size: 0.72rem; color: #38bdf8;">Вендоры</span>
+                        </div>
+                        
+                        <div class="vendor-calc-box">
+                            <!-- CRM Selection -->
+                            <div class="form-row">
+                                <label><span class="vendor-badge badge-amo">amoCRM 35%</span> / <span class="vendor-badge badge-bx">Bitrix24 50%</span>:</label>
+                                <select id="cfg-crm-type" class="admin-select">
+                                    <option value="amo">amoCRM (Партнерка 35%)</option>
+                                    <option value="bitrix">Bitrix24 (Партнерка 50%)</option>
+                                    <option value="none">Без CRM-системы (Только связь/услуги)</option>
+                                </select>
+                            </div>
+
+                            <!-- amoCRM Controls -->
+                            <div id="cfg-amo-block">
+                                <div class="split-3">
+                                    <div class="form-row">
+                                        <label>Тариф:</label>
+                                        <select id="cfg-amo-tariff" class="admin-select">
+                                            <option value="5199">Базовый (5 199 ₸)</option>
+                                            <option value="9899" selected>Расширенный (9 899 ₸)</option>
+                                            <option value="15099">Профессиональный (15 099 ₸)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-row">
+                                        <label>Польз.:</label>
+                                        <input type="number" id="cfg-amo-users" class="admin-input" value="5" min="1">
+                                    </div>
+                                    <div class="form-row">
+                                        <label>Срок:</label>
+                                        <select id="cfg-amo-months" class="admin-select">
+                                            <option value="6" selected>6 мес</option>
+                                            <option value="9">9 мес</option>
+                                            <option value="12">12 мес (+1 подарок)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bitrix24 Controls -->
+                            <div id="cfg-bx-block" style="display:none;">
+                                <div class="split-2">
+                                    <div class="form-row">
+                                        <label>Тариф Bitrix24:</label>
+                                        <select id="cfg-bx-tariff" class="admin-select">
+                                            <option value="144768">Базовый (5 польз / 12 мес) — 144 768 ₸</option>
+                                            <option value="423168" selected>Стандартный (50 польз / 12 мес) — 423 168 ₸</option>
+                                            <option value="846336">Профессиональный (100 польз / 12 мес) — 846 336 ₸</option>
+                                            <option value="1692672">Энтерпрайз (250 польз / 12 мес) — 1 692 672 ₸</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-row">
+                                        <label>Период:</label>
+                                        <select id="cfg-bx-period" class="admin-select">
+                                            <option value="12" selected>12 месяцев</option>
+                                            <option value="24">24 месяца (-30%)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Wazzup WhatsApp -->
+                            <div class="split-3">
+                                <div class="form-row">
+                                    <label><span class="vendor-badge badge-wz">Wazzup 50%</span>:</label>
+                                    <select id="cfg-wz-plan" class="admin-select">
+                                        <option value="0">Без WhatsApp</option>
+                                        <option value="11000">Старт (11 000 ₸/мес)</option>
+                                        <option value="22000" selected>Про (22 000 ₸/мес)</option>
+                                        <option value="35000">Макс (35 000 ₸/мес)</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <label>Каналов:</label>
+                                    <input type="number" id="cfg-wz-channels" class="admin-input" value="1" min="1">
+                                </div>
+                                <div class="form-row">
+                                    <label>Срок:</label>
+                                    <select id="cfg-wz-months" class="admin-select">
+                                        <option value="1">1 мес</option>
+                                        <option value="6" selected>6 мес</option>
+                                        <option value="12">12 мес</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Sipuni Telephony -->
+                            <div class="split-3">
+                                <div class="form-row">
+                                    <label><span class="vendor-badge badge-sip">Sipuni 50%</span>:</label>
+                                    <select id="cfg-sip-active" class="admin-select">
+                                        <option value="1" selected>Подключить</option>
+                                        <option value="0">Без телефонии</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <label>Польз. (3 900 ₸):</label>
+                                    <input type="number" id="cfg-sip-users" class="admin-input" value="3" min="1">
+                                </div>
+                                <div class="form-row">
+                                    <label>Срок:</label>
+                                    <select id="cfg-sip-months" class="admin-select">
+                                        <option value="3">3 мес</option>
+                                        <option value="6" selected>6 мес</option>
+                                        <option value="12">12 мес</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- NODUS Services Package -->
+                            <div class="form-row">
+                                <label>Услуги внедрения NODUS (100% маржа):</label>
+                                <select id="cfg-nodus-pkg" class="admin-select">
+                                    <option value="100000">Базовый пакет — 100 000 ₸ (3-5 дней)</option>
+                                    <option value="250000" selected>Оптимальный пакет — 250 000 ₸ (5-7 дней)</option>
+                                    <option value="500000">VIP под ключ — 500 000 ₸ (10-15 дней)</option>
+                                    <option value="custom">Своя сумма (вручную)</option>
+                                </select>
+                            </div>
+
+                            <button type="button" class="btn btn-primary btn-sm w-full" id="btn-sync-to-contract" style="margin-top: 4px;">⚡ Загрузить в смету и договор</button>
+                        </div>
+                    </div>
+
+                    <!-- 3. Dynamic Items Table -->
+                    <div>
+                        <div class="admin-section-heading">
+                            <span>📋 Текущие позиции в договоре</span>
+                        </div>
+                        <div class="items-builder-box" id="items-container"></div>
+                        <button type="button" class="btn-add-item" id="btn-add-row">+ Добавить свою позицию</button>
+
+                        <div class="split-2" style="margin-top: 10px;">
+                            <div class="form-row"><label>Скидка клиенту (%):</label><input type="number" id="adm-discount-pct" class="admin-input" value="0" min="0" max="50"></div>
+                            <div class="form-row"><label>Прямая скидка (₸):</label><input type="number" id="adm-discount-val" class="admin-input" value="0" min="0" step="5000"></div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Deep Financial Breakdown for NODUS (Kaspi -0.95%, Taxes -3%) -->
+                    <div>
+                        <div class="admin-section-heading">
+                            <span>📊 Чистая прибыль &amp; Налоги (Для себя)</span>
+                            <span style="font-size: 0.72rem; color: #22c55e;">Финансы</span>
+                        </div>
+
+                        <div class="fin-badge-box">
+                            <div class="fin-row">
+                                <span>Выручка от клиента:</span>
+                                <span id="fin-grand-total" style="font-weight:700; color:#fff;">0 ₸</span>
+                            </div>
+                            <div class="fin-row highlight">
+                                <span>Доход с услуг NODUS:</span>
+                                <span id="fin-serv-profit">0 ₸</span>
+                            </div>
+                            <div class="fin-row highlight">
+                                <span>Партнерка с лицензий:</span>
+                                <span id="fin-vendor-profit">0 ₸</span>
+                            </div>
+                            <div class="fin-row deduct">
+                                <span>💳 Kaspi Pay (-0.95%):</span>
+                                <span id="fin-kaspi-fee">−0 ₸</span>
+                            </div>
+                            <div class="fin-row deduct">
+                                <span>🏛️ Налог СНР ИП (-3%):</span>
+                                <span id="fin-tax-fee">−0 ₸</span>
+                            </div>
+                            <div class="fin-row net-profit">
+                                <span>🔥 ЧИСТЫМИ НА РУКИ:</span>
+                                <span id="fin-net-profit">0 ₸</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Contractor Requisites -->
+                    <div>
+                        <div class="admin-section-heading"><span>💼 Реквизиты Исполнителя</span></div>
+                        <div class="form-row"><label>Исполнитель:</label><input type="text" id="inp-my-name" class="admin-input" value="ИП «NODUS»"></div>
                         <div class="split-2">
-                            <div class="form-row"><label>ИИН / БИН:</label><input type="text" id="inp-my-bin" class="admin-input" value="010618550536"></div>
+                            <div class="form-row"><label>ИИН/БИН:</label><input type="text" id="inp-my-bin" class="admin-input" value="010618550536"></div>
                             <div class="form-row"><label>Телефон/WA:</label><input type="text" id="inp-my-phone" class="admin-input" value="+7 (775) 807-16-95"></div>
                         </div>
-                        <div class="form-row"><label>Юридический адрес:</label><input type="text" id="inp-my-addr" class="admin-input" value="г. Петропавловск, ул. 1-я Заречная, 109, кв. 2"></div>
+                        <div class="form-row"><label>Адрес:</label><input type="text" id="inp-my-addr" class="admin-input" value="г. Петропавловск, ул. 1-я Заречная, 109, кв. 2"></div>
                         <div class="split-2">
                             <div class="form-row"><label>Банк:</label><input type="text" id="inp-my-bank" class="admin-input" value="АО «Kaspi Bank»"></div>
                             <div class="form-row"><label>БИК:</label><input type="text" id="inp-my-bik" class="admin-input" value="CASPKZKA"></div>
@@ -134,73 +333,50 @@
                         <div class="form-row"><label>Счет (IBAN):</label><input type="text" id="inp-my-iban" class="admin-input" value="KZ03722S000045101199"></div>
                     </div>
 
-                    <!-- Client Requisites -->
+                    <!-- 6. Client Requisites -->
                     <div>
-                        <div class="admin-section-heading"><span>🏢 Реквизиты Заказчика (Клиента)</span></div>
-                        <div class="form-row"><label>Название компании Заказчика:</label><input type="text" id="inp-client-name" class="admin-input" value="ТОО «Kazakhstan Business Group»"></div>
-                        <div class="form-row"><label>В лице руководителя (должность, ФИО):</label><input type="text" id="inp-client-director" class="admin-input" value="в лице Генерального директора Ахметова А.Б., действующего на основании Устава"></div>
+                        <div class="admin-section-heading"><span>🏢 Реквизиты Заказчика</span></div>
+                        <div class="form-row"><label>Компания Заказчика:</label><input type="text" id="inp-client-name" class="admin-input" value="ТОО «Kazakhstan Business Group»"></div>
+                        <div class="form-row"><label>В лице (должность, ФИО):</label><input type="text" id="inp-client-director" class="admin-input" value="в лице Генерального директора Ахметова А.Б., действующего на основании Устава"></div>
                         <div class="split-2">
                             <div class="form-row"><label>БИН / ИИН:</label><input type="text" id="inp-client-bin" class="admin-input" value="190440023456"></div>
                             <div class="form-row"><label>Телефон:</label><input type="text" id="inp-client-phone" class="admin-input" value="+7 (701) 234-56-78"></div>
                         </div>
-                        <div class="form-row"><label>Юридический адрес:</label><input type="text" id="inp-client-addr" class="admin-input" value="г. Алматы, пр. Достык, 180, офис 504"></div>
+                        <div class="form-row"><label>Юр. адрес:</label><input type="text" id="inp-client-addr" class="admin-input" value="г. Алматы, пр. Достык, 180, офис 504"></div>
                         <div class="split-2">
-                            <div class="form-row"><label>Банк Заказчика:</label><input type="text" id="inp-client-bank" class="admin-input" value="АО «Halyk Bank»"></div>
-                            <div class="form-row"><label>БИК Банка:</label><input type="text" id="inp-client-bik" class="admin-input" value="HSBKKZKX"></div>
+                            <div class="form-row"><label>Банк клиента:</label><input type="text" id="inp-client-bank" class="admin-input" value="АО «Halyk Bank»"></div>
+                            <div class="form-row"><label>БИК:</label><input type="text" id="inp-client-bik" class="admin-input" value="HSBKKZKX"></div>
                         </div>
                         <div class="form-row"><label>ИИК (IBAN):</label><input type="text" id="inp-client-iban" class="admin-input" value="KZ886010002003456789"></div>
                     </div>
 
-                    <!-- Contract Terms -->
+                    <!-- 7. Parameters -->
                     <div>
-                        <div class="admin-section-heading"><span>📑 Параметры и гарантии</span></div>
+                        <div class="admin-section-heading"><span>📑 Параметры договора</span></div>
                         <div class="split-2">
-                            <div class="form-row"><label>Номер договора:</label><input type="text" id="inp-doc-num" class="admin-input" value="№ ND-2026/08-14"></div>
-                            <div class="form-row"><label>Дата договора:</label><input type="date" id="inp-doc-date" class="admin-input"></div>
+                            <div class="form-row"><label>Номер:</label><input type="text" id="inp-doc-num" class="admin-input" value="№ ND-2026/08-14"></div>
+                            <div class="form-row"><label>Дата (UTC+5 KZ):</label><input type="date" id="inp-doc-date" class="admin-input"></div>
                         </div>
                         <div class="split-2">
-                            <div class="form-row"><label>Срок запуска (раб. дней):</label><input type="number" id="inp-work-days" class="admin-input" value="7" min="1"></div>
+                            <div class="form-row"><label>Срок (раб. дней):</label><input type="number" id="inp-work-days" class="admin-input" value="7" min="1"></div>
                             <div class="form-row"><label>Гарантия (дней):</label><input type="number" id="inp-warranty-days" class="admin-input" value="14" min="0"></div>
                         </div>
                         <div class="form-row">
-                            <label>Порядок расчетов:</label>
+                            <label>Условия оплаты:</label>
                             <select id="sel-payment-terms" class="admin-select">
-                                <option value="50_50">50% аванс / 50% после подписания Акта приема-передачи</option>
-                                <option value="100_pre">100% предоплата до начала выполнения работ</option>
+                                <option value="50_50">50% аванс / 50% после сдачи системы</option>
+                                <option value="100_pre">100% предоплата до начала работ</option>
                                 <option value="30_70">30% аванс / 70% после сдачи системы</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Dynamic Line Items & Software Subscriptions -->
-                    <div>
-                        <div class="admin-section-heading">
-                            <span>📋 Позиции сметы и подписок</span>
-                        </div>
-                        <p style="font-size: 0.78rem; color: var(--color-text-muted); margin-bottom: 8px;">Добавляйте любые услуги и лицензии ПО:</p>
-                        
-                        <div class="items-builder-box" id="items-container">
-                            <!-- Injected dynamically via JS -->
-                        </div>
-                        <button type="button" class="btn-add-item" id="btn-add-row">+ Добавить позицию в смету</button>
-
-                        <div class="split-2" style="margin-top: 12px;">
-                            <div class="form-row"><label>Скидка (%):</label><input type="number" id="adm-discount-pct" class="admin-input" value="0" min="0" max="50"></div>
-                            <div class="form-row"><label>Прямая скидка (₸):</label><input type="number" id="adm-discount-val" class="admin-input" value="0" min="0" step="5000"></div>
-                        </div>
-
-                        <div class="fin-badge-box">
-                            <div class="fin-row"><span>Сумма позиций:</span><span id="fin-subtotal-lbl">0 ₸</span></div>
-                            <div class="fin-row" id="fin-discount-row" style="display:none; color:#f87171;"><span>Скидка:</span><span id="fin-discount-lbl">−0 ₸</span></div>
-                            <div class="fin-row total"><span>ИТОГО К ОПЛАТЕ:</span><span id="fin-grand-total">0 ₸</span></div>
-                        </div>
-                    </div>
                 </aside>
 
                 <main class="doc-preview-card">
                     <div class="doc-toolbar">
                         <div style="display: flex; gap: 8px; align-items: center;">
-                            <span class="badge badge-cyan" id="doc-type-badge">Договор подряда</span>
+                            <span class="badge badge-cyan" id="doc-type-badge">Договор подряда (Защищенный)</span>
                             <span style="font-size: 0.85rem; color: var(--color-text-muted);">Формат А4 с юридической защитой</span>
                         </div>
                         <div style="display: flex; gap: 10px;">
@@ -269,9 +445,17 @@
 
             checkAuth();
 
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('inp-doc-date').value = today;
+            // Set Kazakhstan Timezone (UTC+5)
+            const getKZDate = () => {
+                const now = new Date();
+                const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+                return new Date(utc + (3600000 * 5));
+            };
 
+            const kzToday = getKZDate().toISOString().split('T')[0];
+            document.getElementById('inp-doc-date').value = kzToday;
+
+            // Tabs
             let currentTab = 'contract';
             const tabButtons = document.querySelectorAll('.admin-tab-btn[data-tab]');
             const docBadge   = document.getElementById('doc-type-badge');
@@ -288,11 +472,100 @@
                 });
             });
 
+            // Toggle CRM vendor views
+            document.getElementById('cfg-crm-type')?.addEventListener('change', (e) => {
+                const val = e.target.value;
+                document.getElementById('cfg-amo-block').style.display = (val === 'amo') ? 'block' : 'none';
+                document.getElementById('cfg-bx-block').style.display  = (val === 'bitrix') ? 'block' : 'none';
+            });
+
+            // Master Items State
             let items = [
-                { name: 'Лицензия amoCRM «Расширенный тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 296970, isLicense: true },
-                { name: 'Комплекс услуг по аудиту, проектированию воронок, интеграции мессенджеров (Wazzup WhatsApp) и телефонии под ключ', qty: '1 усл', price: 250000, isLicense: false },
-                { name: 'Обучение сотрудников, регламенты работы и гарантийное сопровождение', qty: '1 усл', price: 0, isLicense: false }
+                { name: 'Лицензия amoCRM «Расширенный тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 296970, vendor: 'amo', marginPct: 0.35 },
+                { name: 'Интеграция WhatsApp Wazzup (Тариф Про, 1 канал, 6 мес)', qty: '1 шт', price: 118800, vendor: 'wazzup', marginPct: 0.50 },
+                { name: 'Облачная IP-телефония Sipuni (3 польз. на 6 мес)', qty: '1 шт', price: 70200, vendor: 'sipuni', marginPct: 0.50 },
+                { name: 'Комплекс услуг по аудиту, проектированию воронок LTV, настройке и обучению персонала (Пакет Оптимальный)', qty: '1 усл', price: 250000, vendor: 'nodus', marginPct: 1.0 }
             ];
+
+            // Master Vendor Sync
+            document.getElementById('btn-sync-to-contract')?.addEventListener('click', () => {
+                const newItems = [];
+                const crmType = document.getElementById('cfg-crm-type').value;
+
+                if (crmType === 'amo') {
+                    const tPrice = parseFloat(document.getElementById('cfg-amo-tariff').value) || 9899;
+                    const users  = parseInt(document.getElementById('cfg-amo-users').value) || 5;
+                    const months = parseInt(document.getElementById('cfg-amo-months').value) || 6;
+                    const amoCost = tPrice * users * months;
+                    const tName = tPrice === 5199 ? 'Базовый' : (tPrice === 9899 ? 'Расширенный' : 'Профессиональный');
+                    newItems.push({
+                        name: `Лицензия amoCRM «${tName} тариф» (${users} польз. на ${months} мес)`,
+                        qty: '1 шт',
+                        price: amoCost,
+                        vendor: 'amo',
+                        marginPct: 0.35 // 35% commission
+                    });
+                } else if (crmType === 'bitrix') {
+                    const bxCost = parseFloat(document.getElementById('cfg-bx-tariff').value) || 423168;
+                    const period = document.getElementById('cfg-bx-period').value;
+                    const finalBx = (period === '24') ? Math.round(bxCost * 2 * 0.85) : bxCost;
+                    newItems.push({
+                        name: `Лицензия Bitrix24 (${period} мес)`,
+                        qty: '1 шт',
+                        price: finalBx,
+                        vendor: 'bitrix',
+                        marginPct: 0.50 // 50% commission
+                    });
+                }
+
+                // Wazzup
+                const wzPlan = parseFloat(document.getElementById('cfg-wz-plan').value) || 0;
+                if (wzPlan > 0) {
+                    const wzCh = parseInt(document.getElementById('cfg-wz-channels').value) || 1;
+                    const wzMo = parseInt(document.getElementById('cfg-wz-months').value) || 6;
+                    let disc = (wzMo === 12) ? 0.85 : ((wzMo === 6) ? 0.90 : 1.0);
+                    const wzCost = Math.round(wzPlan * wzCh * wzMo * disc);
+                    const wzName = wzPlan === 11000 ? 'Старт' : (wzPlan === 22000 ? 'Про' : 'Макс');
+                    newItems.push({
+                        name: `Интеграция WhatsApp Wazzup (Тариф «${wzName}», ${wzCh} канал, ${wzMo} мес)`,
+                        qty: '1 шт',
+                        price: wzCost,
+                        vendor: 'wazzup',
+                        marginPct: 0.50 // 50% commission
+                    });
+                }
+
+                // Sipuni
+                const sipActive = document.getElementById('cfg-sip-active').value;
+                if (sipActive === '1') {
+                    const sipUsers = parseInt(document.getElementById('cfg-sip-users').value) || 3;
+                    const sipMo    = parseInt(document.getElementById('cfg-sip-months').value) || 6;
+                    const sipCost  = 3900 * sipUsers * sipMo;
+                    newItems.push({
+                        name: `Облачная IP-телефония Sipuni (${sipUsers} польз. на ${sipMo} мес)`,
+                        qty: '1 шт',
+                        price: sipCost,
+                        vendor: 'sipuni',
+                        marginPct: 0.50 // 50% commission
+                    });
+                }
+
+                // NODUS Package
+                const nodusPkg = document.getElementById('cfg-nodus-pkg').value;
+                let pkgPrice = (nodusPkg === '100000') ? 100000 : ((nodusPkg === '500000') ? 500000 : 250000);
+                let pkgName  = (nodusPkg === '100000') ? 'Базовый' : ((nodusPkg === '500000') ? 'VIP Под ключ' : 'Оптимальный');
+                newItems.push({
+                    name: `Комплекс услуг по аудиту, проектированию воронок LTV, настройке и обучению персонала (Пакет «${pkgName}» NODUS)`,
+                    qty: '1 усл',
+                    price: pkgPrice,
+                    vendor: 'nodus',
+                    marginPct: 1.0 // 100% services
+                });
+
+                items = newItems;
+                renderItemInputs();
+                renderDocument();
+            });
 
             const renderItemInputs = () => {
                 const container = document.getElementById('items-container');
@@ -335,7 +608,7 @@
             };
 
             document.getElementById('btn-add-row')?.addEventListener('click', () => {
-                items.push({ name: 'Новая услуга / Лицензия', qty: '1 усл', price: 50000, isLicense: false });
+                items.push({ name: 'Индивидуальная доработка / Услуга', qty: '1 усл', price: 50000, vendor: 'nodus', marginPct: 1.0 });
                 renderItemInputs();
                 renderDocument();
             });
@@ -418,20 +691,45 @@
                 let discountTotal = (subTotal * (discPct / 100)) + discVal;
                 let grandTotal = Math.max(0, subTotal - discountTotal);
 
-                document.getElementById('fin-subtotal-lbl').textContent = fmt(subTotal);
-                document.getElementById('fin-grand-total').textContent   = fmt(grandTotal);
-                
-                const discRow = document.getElementById('fin-discount-row');
-                if (discountTotal > 0) {
-                    discRow.style.display = 'flex';
-                    document.getElementById('fin-discount-lbl').textContent = '−' + fmt(discountTotal);
-                } else {
-                    discRow.style.display = 'none';
+                // Detailed Partner Profit Calculation
+                let vendorProfit = 0;
+                let servProfit   = 0;
+                items.forEach(it => {
+                    const price = parseFloat(it.price) || 0;
+                    if (it.vendor === 'amo') {
+                        vendorProfit += price * 0.35; // 35%
+                    } else if (it.vendor === 'bitrix' || it.vendor === 'wazzup' || it.vendor === 'sipuni') {
+                        vendorProfit += price * 0.50; // 50%
+                    } else {
+                        servProfit += price; // 100% services
+                    }
+                });
+
+                // Apply discounts proportionally
+                if (subTotal > 0 && discountTotal > 0) {
+                    const ratio = grandTotal / subTotal;
+                    vendorProfit *= ratio;
+                    servProfit   *= ratio;
                 }
 
+                // Mandatory deductions from Gross Client Amount:
+                const kaspiFee = grandTotal * 0.0095; // -0.95% Kaspi Pay commission
+                const taxFee   = grandTotal * 0.03;   // -3% Kazakhstan Simplified Tax (ИП СНР)
+                const totalGrossProfit = vendorProfit + servProfit;
+                const netProfit = Math.max(0, totalGrossProfit - kaspiFee - taxFee);
+
+                // Update UI Financial elements
+                document.getElementById('fin-grand-total').textContent   = fmt(grandTotal);
+                document.getElementById('fin-serv-profit').textContent   = fmt(servProfit);
+                document.getElementById('fin-vendor-profit').textContent = fmt(vendorProfit);
+                document.getElementById('fin-kaspi-fee').textContent     = '−' + fmt(kaspiFee) + ' (0.95%)';
+                document.getElementById('fin-tax-fee').textContent       = '−' + fmt(taxFee) + ' (3.0%)';
+                document.getElementById('fin-net-profit').textContent     = fmt(netProfit);
+
+                // Date Formatting (Kazakhstan Timezone)
                 let dateStr = '25 августа 2026 г.';
                 if (rawDate) {
-                    const d = new Date(rawDate);
+                    const d = new Date(rawDate + 'T00:00:00+05:00');
                     const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
                     dateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} г.`;
                 }
@@ -457,6 +755,9 @@
                     </tr>
                 `).join('');
 
+                // ==========================================
+                // CONTRACT TAB
+                // ==========================================
                 if (currentTab === 'contract') {
                     container.innerHTML = `
                         <div class="doc-main-title">ДОГОВОР ПОДРЯДА ${docNum}</div>
@@ -553,7 +854,12 @@
                             </div>
                         </div>
                     `;
-                } else if (currentTab === 'invoice') {
+                }
+
+                // ==========================================
+                // INVOICE TAB
+                // ==========================================
+                else if (currentTab === 'invoice') {
                     container.innerHTML = `
                         <div class="doc-main-title">СЧЕТ НА ОПЛАТУ ${docNum}</div>
                         <div class="doc-main-subtitle">от ${dateStr}</div>
@@ -629,7 +935,12 @@
                             </div>
                         </div>
                     `;
-                } else if (currentTab === 'proposal') {
+                }
+
+                // ==========================================
+                // PROPOSAL TAB
+                // ==========================================
+                else if (currentTab === 'proposal') {
                     container.innerHTML = `
                         <div class="doc-main-title">КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</div>
                         <div class="doc-main-subtitle">Комплексная автоматизация отдела продаж и внедрение CRM для компании ${clientName}</div>
@@ -680,13 +991,15 @@
                 }
             };
 
+            // Presets Handlers
             document.getElementById('btn-preset-gym')?.addEventListener('click', () => {
                 document.getElementById('inp-client-name').value = 'Фитнес-клуб «Underground Gym»';
                 document.getElementById('inp-client-director').value = 'в лице Управляющего директора Серикова Т.К.';
                 document.getElementById('inp-client-bin').value = '210540019876';
                 items = [
-                    { name: 'Лицензия amoCRM «Базовый тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 155970, isLicense: true },
-                    { name: 'Пакет внедрения «Базовый»: воронка абонементов, WhatsApp Wazzup, обучение', qty: '1 усл', price: 100000, isLicense: false }
+                    { name: 'Лицензия amoCRM «Базовый тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 155970, vendor: 'amo', marginPct: 0.35 },
+                    { name: 'Интеграция WhatsApp Wazzup (Тариф Про, 1 канал, 6 мес)', qty: '1 шт', price: 118800, vendor: 'wazzup', marginPct: 0.50 },
+                    { name: 'Пакет внедрения «Базовый»: воронка абонементов, WhatsApp, обучение', qty: '1 усл', price: 100000, vendor: 'nodus', marginPct: 1.0 }
                 ];
                 document.getElementById('inp-work-days').value = '4';
                 document.getElementById('inp-warranty-days').value = '7';
@@ -699,8 +1012,10 @@
                 document.getElementById('inp-client-director').value = 'в лице Генерального директора Бекова М.С.';
                 document.getElementById('inp-client-bin').value = '180340012345';
                 items = [
-                    { name: 'Лицензия amoCRM «Расширенный тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 296970, isLicense: true },
-                    { name: 'Пакет внедрения «Оптимальный»: сквозная воронка LTV, WhatsApp, Sipuni телефония, регламенты', qty: '1 усл', price: 250000, isLicense: false }
+                    { name: 'Лицензия amoCRM «Расширенный тариф» (5 польз. на 6 мес)', qty: '1 шт', price: 296970, vendor: 'amo', marginPct: 0.35 },
+                    { name: 'Интеграция WhatsApp Wazzup (Тариф Про, 1 канал, 6 мес)', qty: '1 шт', price: 118800, vendor: 'wazzup', marginPct: 0.50 },
+                    { name: 'Облачная IP-телефония Sipuni (3 польз. на 6 мес)', qty: '1 шт', price: 70200, vendor: 'sipuni', marginPct: 0.50 },
+                    { name: 'Пакет внедрения «Оптимальный»: сквозная воронка LTV, авто-цепочки, регламенты', qty: '1 усл', price: 250000, vendor: 'nodus', marginPct: 1.0 }
                 ];
                 document.getElementById('inp-work-days').value = '7';
                 document.getElementById('inp-warranty-days').value = '14';
@@ -713,8 +1028,10 @@
                 document.getElementById('inp-client-director').value = 'в лице Председателя правления Касымова Е.Ж.';
                 document.getElementById('inp-client-bin').value = '150840034567';
                 items = [
-                    { name: 'Лицензия Bitrix24 «Стандартный» на 12 мес', qty: '1 шт', price: 423168, isLicense: true },
-                    { name: 'Пакет внедрения «VIP Под ключ»: сложные воронки B2B, интеграция с 1С, телефония, боты, 30 дней VIP-сопровождения', qty: '1 усл', price: 500000, isLicense: false }
+                    { name: 'Лицензия Bitrix24 «Стандартный» на 12 мес', qty: '1 шт', price: 423168, vendor: 'bitrix', marginPct: 0.50 },
+                    { name: 'Интеграция WhatsApp Wazzup (Тариф Макс, 2 канала, 12 мес)', qty: '1 шт', price: 714000, vendor: 'wazzup', marginPct: 0.50 },
+                    { name: 'Облачная IP-телефония Sipuni (10 польз. на 12 мес)', qty: '1 шт', price: 468000, vendor: 'sipuni', marginPct: 0.50 },
+                    { name: 'Пакет внедрения «VIP Под ключ»: сложные воронки B2B, интеграция с 1С, боты, 30 дней сопровождения', qty: '1 усл', price: 500000, vendor: 'nodus', marginPct: 1.0 }
                 ];
                 document.getElementById('inp-work-days').value = '15';
                 document.getElementById('inp-warranty-days').value = '30';
