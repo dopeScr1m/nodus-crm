@@ -37,7 +37,6 @@
         .form-row { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
         .form-row label { font-size: 0.76rem; font-weight: 600; color: #94a3b8; }
         
-        /* Dropdowns & Inputs DARK FIXED */
         select.admin-select, select.admin-select option, .admin-input {
             width: 100%;
             padding: 8px 10px;
@@ -105,8 +104,8 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             margin-top: 6px;
         }
-        .price-val-inp { width: 125px !important; font-weight: 800; color: #38bdf8 !important; text-align: right; padding: 4px 6px !important; }
-        .discount-val-inp { width: 70px !important; color: #f87171 !important; text-align: center; padding: 4px 4px !important; }
+        .price-val-inp { width: 130px !important; font-weight: 800; color: #38bdf8 !important; text-align: right; padding: 4px 6px !important; }
+        .discount-val-inp { width: 65px !important; color: #f87171 !important; text-align: center; padding: 4px 4px !important; }
 
         .items-builder-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 6px; max-height: 160px; overflow-y: auto; }
         .item-row { display: grid; grid-template-columns: 1fr 85px 26px; gap: 5px; align-items: center; margin-bottom: 5px; }
@@ -119,7 +118,7 @@
         .fin-row.highlight { color: #38bdf8; font-weight: 600; }
         .fin-row.deduct { color: #f87171; font-size: 0.78rem; }
         .fin-row.total { font-size: 1.05rem; font-weight: 800; color: #38bdf8; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 6px; margin-top: 2px; }
-        .fin-row.net-profit { font-size: 1.15rem; font-weight: 900; color: #22c55e; border-top: 1.5px solid rgba(34, 197, 94, 0.4); padding-top: 6px; margin-top: 2px; }
+        .fin-row.net-profit { font-size: 1.18rem; font-weight: 900; color: #22c55e; border-top: 1.5px solid rgba(34, 197, 94, 0.4); padding-top: 6px; margin-top: 2px; }
 
         .doc-preview-card { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 22px; }
         .doc-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); flex-wrap: wrap; gap: 10px; }
@@ -203,7 +202,7 @@
                     <div>
                         <div class="admin-section-heading">
                             <span>🛠️ Модули ПО, Услуг и Поддержки</span>
-                            <span style="font-size: 0.72rem; color: #38bdf8;">Настраивай цены</span>
+                            <span style="font-size: 0.72rem; color: #38bdf8;">Цены для клиента</span>
                         </div>
 
                         <!-- amoCRM -->
@@ -211,8 +210,7 @@
                             <div class="module-header">
                                 <label class="module-title-wrap">
                                     <input type="checkbox" class="module-cb" id="mod-amo-cb" checked>
-                                    <span class="vendor-badge badge-amo">amoCRM 35%</span>
-                                    <span>Лицензии amoCRM</span>
+                                    <span class="vendor-badge badge-amo">amoCRM (35% партнерка)</span>
                                 </label>
                             </div>
                             <div class="split-3" style="margin-bottom:6px;">
@@ -238,9 +236,9 @@
                                 </div>
                             </div>
                             <div class="price-override-box">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка (%):</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
                                 <input type="number" id="mod-amo-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Сумма:</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
                                 <input type="number" id="mod-amo-price" class="admin-input price-val-inp" value="296970">
                             </div>
                         </div>
@@ -250,8 +248,7 @@
                             <div class="module-header">
                                 <label class="module-title-wrap">
                                     <input type="checkbox" class="module-cb" id="mod-bx-cb">
-                                    <span class="vendor-badge badge-bx">Bitrix24 50%</span>
-                                    <span>Лицензии Bitrix24</span>
+                                    <span class="vendor-badge badge-bx">Bitrix24 (50% партнерка)</span>
                                 </label>
                             </div>
                             <div class="split-2" style="margin-bottom:6px;">
@@ -273,9 +270,9 @@
                                 </div>
                             </div>
                             <div class="price-override-box">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка (%):</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
                                 <input type="number" id="mod-bx-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Сумма:</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
                                 <input type="number" id="mod-bx-price" class="admin-input price-val-inp" value="423168">
                             </div>
                         </div>
@@ -285,8 +282,7 @@
                             <div class="module-header">
                                 <label class="module-title-wrap">
                                     <input type="checkbox" class="module-cb" id="mod-wz-cb" checked>
-                                    <span class="vendor-badge badge-wz">Wazzup 50%</span>
-                                    <span>WhatsApp &amp; Instagram</span>
+                                    <span class="vendor-badge badge-wz">Wazzup WhatsApp &amp; IG (50% партнерка)</span>
                                 </label>
                             </div>
                             <div class="split-3" style="margin-bottom:6px;">
@@ -312,9 +308,9 @@
                                 </div>
                             </div>
                             <div class="price-override-box">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка (%):</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
                                 <input type="number" id="mod-wz-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Сумма:</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
                                 <input type="number" id="mod-wz-price" class="admin-input price-val-inp" value="118800">
                             </div>
                         </div>
@@ -324,8 +320,7 @@
                             <div class="module-header">
                                 <label class="module-title-wrap">
                                     <input type="checkbox" class="module-cb" id="mod-sip-cb" checked>
-                                    <span class="vendor-badge badge-sip">Sipuni 50%</span>
-                                    <span>Облачная телефония</span>
+                                    <span class="vendor-badge badge-sip">Sipuni Телефония (50% партнерка)</span>
                                 </label>
                             </div>
                             <div class="split-2" style="margin-bottom:6px;">
@@ -343,9 +338,9 @@
                                 </div>
                             </div>
                             <div class="price-override-box">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка (%):</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
                                 <input type="number" id="mod-sip-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Сумма:</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
                                 <input type="number" id="mod-sip-price" class="admin-input price-val-inp" value="70200">
                             </div>
                         </div>
@@ -355,8 +350,7 @@
                             <div class="module-header">
                                 <label class="module-title-wrap">
                                     <input type="checkbox" class="module-cb" id="mod-serv-cb" checked>
-                                    <span class="vendor-badge badge-nodus">NODUS 100%</span>
-                                    <span>Услуги внедрения</span>
+                                    <span class="vendor-badge badge-nodus">Услуги внедрения NODUS (100% доход)</span>
                                 </label>
                             </div>
                             <div class="form-row" style="margin-bottom:6px;">
@@ -368,9 +362,9 @@
                                 </select>
                             </div>
                             <div class="price-override-box">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка (%):</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
                                 <input type="number" id="mod-serv-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Сумма:</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
                                 <input type="number" id="mod-serv-price" class="admin-input price-val-inp" value="250000">
                             </div>
                         </div>
@@ -380,8 +374,7 @@
                             <div class="module-header">
                                 <label class="module-title-wrap">
                                     <input type="checkbox" class="module-cb" id="mod-supp-cb">
-                                    <span class="vendor-badge badge-nodus">Support 100%</span>
-                                    <span>Техподдержка &amp; Сопровождение</span>
+                                    <span class="vendor-badge badge-nodus">Техподдержка NODUS (100% доход)</span>
                                 </label>
                             </div>
                             <div class="split-2" style="margin-bottom:6px;">
@@ -404,9 +397,9 @@
                                 </div>
                             </div>
                             <div class="price-override-box">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка (%):</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Скидка клиенту (%):</span>
                                 <input type="number" id="mod-supp-disc" class="admin-input discount-val-inp" value="0" min="0" max="50" placeholder="0%">
-                                <span style="font-size:0.75rem; color:#94a3b8;">Сумма:</span>
+                                <span style="font-size:0.75rem; color:#94a3b8;">Чек клиенту:</span>
                                 <input type="number" id="mod-supp-price" class="admin-input price-val-inp" value="35000">
                             </div>
                         </div>
@@ -421,23 +414,24 @@
                         <button type="button" class="btn-add-item" id="btn-add-custom-row" style="margin-top:6px;">+ Добавить свою строку</button>
                     </div>
 
+                    <!-- Financial calculation for contractor -->
                     <div>
                         <div class="admin-section-heading">
-                            <span>📊 Чистая прибыль &amp; Налоги (Для себя)</span>
-                            <span style="font-size: 0.72rem; color: #22c55e;">Финансы</span>
+                            <span>📊 Чистая прибыль (Для себя)</span>
+                            <span style="font-size: 0.72rem; color: #22c55e;">Внутренняя аналитика</span>
                         </div>
 
                         <div class="fin-badge-box">
                             <div class="fin-row">
-                                <span>Выручка от клиента:</span>
+                                <span>Сумма счета клиенту:</span>
                                 <span id="fin-grand-total" style="font-weight:700; color:#fff;">0 ₸</span>
                             </div>
                             <div class="fin-row highlight">
-                                <span>Доход с услуг NODUS:</span>
+                                <span>Твои услуги и поддержка (100%):</span>
                                 <span id="fin-serv-profit">0 ₸</span>
                             </div>
                             <div class="fin-row highlight">
-                                <span>Партнерка с лицензий:</span>
+                                <span>Твоя партнерка с софта:</span>
                                 <span id="fin-vendor-profit">0 ₸</span>
                             </div>
                             <div class="fin-row deduct">
@@ -706,7 +700,7 @@
             };
 
             document.getElementById('btn-add-custom-row')?.addEventListener('click', () => {
-                customItems.push({ name: 'Индивидуальная доработка / Интеграция', qty: '1 усл', price: 50000, vendor: 'nodus', marginPct: 1.0 });
+                customItems.push({ name: 'Индивидуальная доработка / Интеграция', qty: '1 усл', price: 50000 });
                 renderCustomItems();
                 syncAndRender();
             });
@@ -761,6 +755,7 @@
                 let vendorProfit = 0;
                 let servProfit   = 0;
 
+                // 1. amoCRM (35% partner profit)
                 if (document.getElementById('mod-amo-cb').checked) {
                     const price = parseFloat(document.getElementById('mod-amo-price').value) || 0;
                     const amoTariff = document.getElementById('mod-amo-tariff').value;
@@ -772,9 +767,10 @@
                         qty: '1 шт',
                         price: price
                     });
-                    vendorProfit += price * 0.35;
+                    vendorProfit += price * 0.35; // 35% margin for contractor
                 }
 
+                // 2. Bitrix24 (50% partner profit)
                 if (document.getElementById('mod-bx-cb').checked) {
                     const price = parseFloat(document.getElementById('mod-bx-price').value) || 0;
                     const period = document.getElementById('mod-bx-period').value;
@@ -783,9 +779,10 @@
                         qty: '1 шт',
                         price: price
                     });
-                    vendorProfit += price * 0.50;
+                    vendorProfit += price * 0.50; // 50% margin for contractor
                 }
 
+                // 3. Wazzup (50% partner profit)
                 if (document.getElementById('mod-wz-cb').checked) {
                     const price = parseFloat(document.getElementById('mod-wz-price').value) || 0;
                     const wzPlan = document.getElementById('mod-wz-plan').value;
@@ -797,9 +794,10 @@
                         qty: '1 шт',
                         price: price
                     });
-                    vendorProfit += price * 0.50;
+                    vendorProfit += price * 0.50; // 50% margin for contractor
                 }
 
+                // 4. Sipuni (50% partner profit)
                 if (document.getElementById('mod-sip-cb').checked) {
                     const price = parseFloat(document.getElementById('mod-sip-price').value) || 0;
                     const sipUsers = document.getElementById('mod-sip-users').value;
@@ -809,9 +807,10 @@
                         qty: '1 шт',
                         price: price
                     });
-                    vendorProfit += price * 0.50;
+                    vendorProfit += price * 0.50; // 50% margin for contractor
                 }
 
+                // 5. Services (100% services profit)
                 if (document.getElementById('mod-serv-cb').checked) {
                     const price = parseFloat(document.getElementById('mod-serv-price').value) || 0;
                     const servPkg = document.getElementById('mod-serv-pkg').value;
@@ -821,9 +820,10 @@
                         qty: '1 усл',
                         price: price
                     });
-                    servProfit += price;
+                    servProfit += price; // 100% margin for contractor
                 }
 
+                // 6. Support (100% support profit)
                 if (document.getElementById('mod-supp-cb').checked) {
                     const price = parseFloat(document.getElementById('mod-supp-price').value) || 0;
                     const suppPlan = document.getElementById('mod-supp-plan').value;
@@ -834,9 +834,10 @@
                         qty: '1 усл',
                         price: price
                     });
-                    servProfit += price;
+                    servProfit += price; // 100% margin for contractor
                 }
 
+                // 7. Custom Items
                 customItems.forEach(ci => {
                     const price = parseFloat(ci.price) || 0;
                     activeItems.push({
@@ -847,12 +848,15 @@
                     servProfit += price;
                 });
 
+                // Grand total charged to client
                 const grandTotal = activeItems.reduce((acc, it) => acc + (parseFloat(it.price) || 0), 0);
 
-                const kaspiFee = grandTotal * 0.0095;
-                const taxFee   = grandTotal * 0.03;
+                // Financial calculation for contractor
+                const kaspiFee = grandTotal * 0.0095; // -0.95% Kaspi
+                const taxFee   = grandTotal * 0.03;   // -3.0% Simplified Tax
                 const netProfit = Math.max(0, (vendorProfit + servProfit) - kaspiFee - taxFee);
 
+                // Update UI badges
                 document.getElementById('fin-grand-total').textContent   = fmt(grandTotal);
                 document.getElementById('fin-serv-profit').textContent   = fmt(servProfit);
                 document.getElementById('fin-vendor-profit').textContent = fmt(vendorProfit);
@@ -860,6 +864,7 @@
                 document.getElementById('fin-tax-fee').textContent       = '−' + fmt(taxFee) + ' (3.0%)';
                 document.getElementById('fin-net-profit').textContent     = fmt(netProfit);
 
+                // Requisites
                 const myName     = document.getElementById('inp-my-name').value || 'ИП «NODUS»';
                 const myBin      = document.getElementById('inp-my-bin').value || '010618550536';
                 const myPhone    = document.getElementById('inp-my-phone').value || '+7 (775) 807-16-95';
