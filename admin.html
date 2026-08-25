@@ -1546,16 +1546,16 @@
                     </div>
 
                     <!-- Client Inputs -->
-                    <div class="form-group"><label>Компания Заказчика:</label><input type="text" id="req-cl-name" class="c-input" value="ТОО «Kazakhstan Business Group»"></div>
-                    <div class="form-group"><label>В лице (должность, ФИО):</label><input type="text" id="req-cl-director" class="c-input" value="в лице Генерального директора Ахметова А.Б., действующего на основании Устава"></div>
+                    <div class="form-group"><label>Компания Заказчика:</label><input type="text" id="req-cl-name" class="c-input" placeholder="ТОО «Название» или ИП «ФИО»" value=""></div>
+                    <div class="form-group"><label>В лице (должность, ФИО):</label><input type="text" id="req-cl-director" class="c-input" placeholder="в лице Генерального директора [ФИО], действующего на основании Устава" value=""></div>
                     <div class="grid-2">
-                        <div class="form-group"><label>БИН / ИИН:</label><input type="text" id="req-cl-bin" class="c-input" value="190440023456"></div>
-                        <div class="form-group"><label>Телефон:</label><input type="text" id="req-cl-phone" class="c-input" value="+7 (701) 234-56-78"></div>
+                        <div class="form-group"><label>БИН / ИИН:</label><input type="text" id="req-cl-bin" class="c-input" placeholder="12 цифр БИН / ИИН" value=""></div>
+                        <div class="form-group"><label>Телефон:</label><input type="text" id="req-cl-phone" class="c-input" placeholder="+7 (7XX) XXX-XX-XX" value=""></div>
                     </div>
-                    <div class="form-group"><label>Юр. адрес:</label><input type="text" id="req-cl-addr" class="c-input" value="г. Алматы, пр. Достык, 180, офис 504"></div>
+                    <div class="form-group"><label>Юр. адрес:</label><input type="text" id="req-cl-addr" class="c-input" placeholder="г. Петропавловск / г. Алматы, ул. ..." value=""></div>
                     <div class="grid-2">
                         <div class="form-group"><label>Банк клиента:</label><input type="text" id="req-cl-bank" class="c-input" value="" placeholder="АО «... Bank» (необязательно)"></div>
-                        <div class="form-group"><label>БИК:</label><input type="text" id="req-cl-bik" class="c-input" value="" placeholder="БИК банка"></div>
+                        <div class="form-group"><label>БИК:</label><input type="text" id="req-cl-bik" class="c-input" value="" placeholder="БИК банка (необязательно)"></div>
                     </div>
                     <div class="form-group"><label>ИИК (IBAN):</label><input type="text" id="req-cl-iban" class="c-input" value="" placeholder="KZ... (необязательно)"></div>
                 </div>
@@ -2183,14 +2183,26 @@
                     const myBik    = document.getElementById('req-my-bik').value || 'CASPKZKA';
                     const myIban   = document.getElementById('req-my-iban').value || 'KZ03722S000045101199';
 
-                    const clName     = document.getElementById('req-cl-name').value || 'ТОО «Заказчик»';
-                    const clDirector = document.getElementById('req-cl-director').value || 'в лице Генерального директора';
-                    const clBin      = document.getElementById('req-cl-bin').value || '';
-                    const clPhone    = document.getElementById('req-cl-phone').value || '';
-                    const clAddr     = document.getElementById('req-cl-addr').value || '';
-                    const clBank     = document.getElementById('req-cl-bank').value || '';
-                    const clBik      = document.getElementById('req-cl-bik').value || '';
-                    const clIban     = document.getElementById('req-cl-iban').value || '';
+                    const clNameRaw     = (document.getElementById('req-cl-name')?.value || '').trim();
+                    const clDirectorRaw = (document.getElementById('req-cl-director')?.value || '').trim();
+                    const clBinRaw      = (document.getElementById('req-cl-bin')?.value || '').trim();
+                    const clPhoneRaw    = (document.getElementById('req-cl-phone')?.value || '').trim();
+                    const clAddrRaw     = (document.getElementById('req-cl-addr')?.value || '').trim();
+                    const clBankRaw     = (document.getElementById('req-cl-bank')?.value || '').trim();
+                    const clBikRaw      = (document.getElementById('req-cl-bik')?.value || '').trim();
+                    const clIbanRaw     = (document.getElementById('req-cl-iban')?.value || '').trim();
+
+                    const clName     = clNameRaw || '«Заказчик»';
+                    const clDirector = clDirectorRaw;
+                    const clBin      = clBinRaw;
+                    const clPhone    = clPhoneRaw;
+                    const clAddr     = clAddrRaw || 'г. Петропавловск';
+                    const clBank     = clBankRaw;
+                    const clBik      = clBikRaw;
+                    const clIban     = clIbanRaw;
+
+                    const clBinClause = clBin ? `, БИН/ИИН ${clBin}` : '';
+                    const clDirClause = clDirector ? `, ${clDirector}` : '';
 
                     const docNum       = document.getElementById('req-doc-num').value || '№ ND-2026/08-25';
                     const rawDate      = document.getElementById('req-doc-date').value;
@@ -2248,7 +2260,7 @@
                             <div class="doc-title-sub">на оказание услуг по внедрению CRM-системы, настройке воронок и передаче неисключительных прав (лицензий)</div>
 
                             <div class="clause-p">
-                                <b>${myName}</b>, ИИН/БИН ${myBin}, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clName}</b>, БИН/ИИН ${clBin}, ${clDirector}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», руководствуясь Гражданским кодексом Республики Казахстан, заключили настоящий Договор о нижеследующем:
+                                <b>${myName}</b>, ИИН/БИН ${myBin}, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clName}</b>${clBinClause}${clDirClause}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», руководствуясь Гражданским кодексом Республики Казахстан, заключили настоящий Договор о нижеследующем:
                             </div>
 
                             <div class="clause-h">1. ПРЕДМЕТ ДОГОВОРА</div>
@@ -2673,34 +2685,35 @@
             // POPULATE CLIENT REQUISITES & INTELLIGENCE CARD
             const populateKompraData = (basicData, statusData = null, taxData = null, isOffline = false) => {
                 const bin         = basicData.bin || basicData.iin || inpSearchBin?.value || '';
-                const companyName = basicData.fullName || basicData.name || `ТОО «${bin}»`;
-                const ownerName   = basicData.owner || '';
+                const companyName = basicData.fullName || basicData.name || '';
+                const rawOwner    = basicData.owner || '';
+                const ownerClean  = (rawOwner && rawOwner.trim() && rawOwner !== 'Руководитель' && rawOwner !== 'NODUS') ? rawOwner.trim() : '';
                 const lawAddr     = basicData.lawAddress || [basicData.region, basicData.city, basicData.street].filter(Boolean).join(', ');
                 const phone       = basicData.phone || '';
 
-                const clNameInp = document.getElementById('req-cl-name');
-                const clDirInp  = document.getElementById('req-cl-director');
-                const clBinInp  = document.getElementById('req-cl-bin');
-                const clAddrInp = document.getElementById('req-cl-addr');
-                const clPhoneInp= document.getElementById('req-cl-phone');
+                const clNameInp  = document.getElementById('req-cl-name');
+                const clDirInp   = document.getElementById('req-cl-director');
+                const clBinInp   = document.getElementById('req-cl-bin');
+                const clAddrInp  = document.getElementById('req-cl-addr');
+                const clPhoneInp = document.getElementById('req-cl-phone');
 
-                if (clNameInp) clNameInp.value = companyName;
-                
+                if (clNameInp && companyName) clNameInp.value = companyName;
+                if (clBinInp) clBinInp.value = bin;
+                if (clAddrInp && lawAddr) clAddrInp.value = lawAddr;
+                if (clPhoneInp && phone) clPhoneInp.value = phone;
+
                 const isIp = basicData.ip || (companyName && companyName.toUpperCase().includes('ИП')) || (basicData.fullName && basicData.fullName.toUpperCase().includes('ИНДИВИДУАЛЬН'));
                 if (clDirInp) {
                     if (isIp) {
-                        clDirInp.value = ownerName && ownerName !== 'NODUS'
-                            ? `в лице Индивидуального предпринимателя ${ownerName}, действующего на основании Уведомления о начале предпринимательской деятельности`
+                        clDirInp.value = ownerClean
+                            ? `в лице Индивидуального предпринимателя ${ownerClean}, действующего на основании Уведомления о начале предпринимательской деятельности`
                             : `в лице Индивидуального предпринимателя, действующего на основании Уведомления о начале предпринимательской деятельности`;
                     } else {
-                        clDirInp.value = ownerName
-                            ? `в лице Руководителя ${ownerName}, действующего на основании Устава`
-                            : `в лице Руководителя, действующего на основании Устава`;
+                        clDirInp.value = ownerClean
+                            ? `в лице Генерального директора ${ownerClean}, действующего на основании Устава`
+                            : `в лице Генерального директора, действующего на основании Устава`;
                     }
                 }
-                if (clBinInp) clBinInp.value = bin;
-                if (clAddrInp) clAddrInp.value = lawAddr;
-                if (clPhoneInp && phone) clPhoneInp.value = phone;
 
                 // Status chip
                 let statusLabel = '🟢 Действующее предприятие';
@@ -2735,7 +2748,7 @@
                 if (resultCardEl) {
                     resultCardEl.style.display = 'flex';
                     resultCardEl.innerHTML = `
-                        <div class="kompra-card-title">${companyName} ${isOffline ? '<span style="font-size:0.7rem; color:#38bdf8;">(База данных)</span>' : '<span style="font-size:0.7rem; color:#4ade80;">(Kompra Live API)</span>'}</div>
+                        <div class="kompra-card-title">${companyName || ('БИН ' + bin)} ${isOffline ? '<span style="font-size:0.7rem; color:#38bdf8;">(База данных)</span>' : '<span style="font-size:0.7rem; color:#4ade80;">(Kompra Live API)</span>'}</div>
                         <div class="kompra-chips-grid">
                             <span class="k-chip ${statusClass}">${statusLabel}</span>
                             ${taxChip}
@@ -2746,13 +2759,13 @@
                             <span class="k-chip neutral">КБе: ${basicData.kbe || '17'}</span>
                         </div>
                         <div class="kompra-card-meta">
-                            📍 <b>Юр. адрес:</b> ${lawAddr}<br>
-                            👤 <b>Руководитель:</b> ${ownerName || '—'} (ИИН: ${basicData.ownerIin || '—'})
+                            📍 <b>Юр. адрес:</b> ${lawAddr || '—'}<br>
+                            👤 <b>Руководитель:</b> ${ownerClean || '—'} (ИИН: ${basicData.ownerIin || '—'})
                         </div>
                     `;
                 }
 
-                showKompraStatus(`✅ Данные <b>${companyName}</b> успешно подтянуты! Договор, счет и КП обновлены.`, 'success');
+                showKompraStatus(`✅ Данные <b>${companyName || bin}</b> успешно подгружены в реквизиты!`, 'success');
                 renderAll();
             };
 
@@ -2800,28 +2813,12 @@
 
                 } catch (err) {
                     console.warn('Kompra scout error:', err);
-                    if (KOMPRA_OFFLINE_DB[bin]) {
-                        populateKompraData(KOMPRA_OFFLINE_DB[bin], null, KOMPRA_OFFLINE_DB[bin].taxDebts, true);
-                    } else {
-                        // Resilient Auto-Fill Fallback: Never block the user!
-                        const fallbackCompany = {
-                            name: `ТОО «Компания Заказчика (${bin})»`,
-                            fullName: `Товарищество с ограниченной ответственностью «Компания Заказчика»`,
-                            bin: bin,
-                            field: ["Коммерческая деятельность и IT-решения"],
-                            region: "Республика Казахстан",
-                            city: "г. Петропавловск",
-                            lawAddress: "г. Петропавловск",
-                            owner: "Руководитель",
-                            workers: "от 5 до 15 чел.",
-                            oked: "62020",
-                            kbe: "17",
-                            phone: "+7 (700) 000-00-00",
-                            taxDebts: { status: false }
-                        };
-                        populateKompraData(fallbackCompany, null, null, true);
-                        showKompraStatus(`✅ БИН <b>${bin}</b> успешно подставлен в договор, счет и КП! (Автозаполнение)`, 'success');
-                    }
+                    const clBinInp = document.getElementById('req-cl-bin');
+                    if (clBinInp) clBinInp.value = bin;
+                    if (resultCardEl) resultCardEl.style.display = 'none';
+
+                    showKompraStatus(`⚠️ БИН <b>${bin}</b> подставлен в документы. Автоматическая выгрузка Kompra.kz недоступна (требуется платный API-токен или компания отсутствует в реестре). Введите название компании и руководителя вручную или нажмите «📋 Вставить JSON».`, 'error');
+                    renderAll();
                 } finally {
                     if (btnKompraSearch) btnKompraSearch.disabled = false;
                 }
