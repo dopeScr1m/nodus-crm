@@ -2257,6 +2257,7 @@
                         const users = document.getElementById('inp-amo-users').value;
                         const term  = document.getElementById('sel-amo-term').value;
                         activeItems.push({
+                            code: 'ND-AMO-01',
                             name: `Неисключительные права (Лицензия) amoCRM «${tName} тариф» (${users} польз. на ${term} мес)`,
                             unit: 'шт',
                             qty: 1,
@@ -2275,6 +2276,7 @@
                         const planNames = { basic: 'Базовый', standard: 'Стандартный', professional: 'Профессиональный', enterprise: 'Энтерпрайз' };
                         const term  = document.getElementById('sel-bx-term').value;
                         activeItems.push({
+                            code: 'ND-BX24-01',
                             name: `Неисключительные права (Лицензия) 1С-Битрикс24 «${planNames[plan]}» (${term} мес)`,
                             unit: 'шт',
                             qty: 1,
@@ -2295,6 +2297,7 @@
                         const ch    = document.getElementById('inp-wz-wa-ch').value;
                         const term  = document.getElementById('sel-wz-wa-term').value;
                         activeItems.push({
+                            code: 'ND-WZ-WA',
                             name: `Интеграция WhatsApp Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
                             unit: 'шт',
                             qty: 1,
@@ -2314,6 +2317,7 @@
                         const ch    = document.getElementById('inp-wz-ig-ch').value;
                         const term  = document.getElementById('sel-wz-ig-term').value;
                         activeItems.push({
+                            code: 'ND-WZ-IG',
                             name: `Интеграция Instagram Direct Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
                             unit: 'шт',
                             qty: 1,
@@ -2333,6 +2337,7 @@
                         const ch    = document.getElementById('inp-wz-tg-ch').value;
                         const term  = document.getElementById('sel-wz-tg-term').value;
                         activeItems.push({
+                            code: 'ND-WZ-TG',
                             name: `Интеграция Telegram Personal Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
                             unit: 'шт',
                             qty: 1,
@@ -2352,6 +2357,7 @@
                         const ch    = document.getElementById('inp-wz-vk-ch').value;
                         const term  = document.getElementById('sel-wz-vk-term').value;
                         activeItems.push({
+                            code: 'ND-WZ-VK',
                             name: `Интеграция ВКонтакте (VK) Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
                             unit: 'шт',
                             qty: 1,
@@ -2371,6 +2377,7 @@
                         const users = document.getElementById('inp-sip-users').value;
                         const term  = document.getElementById('sel-sip-term').value;
                         activeItems.push({
+                            code: 'ND-SIP-01',
                             name: `Облачная IP-телефония Sipuni (Тариф «${pName}», ${users} польз. на ${term} мес)`,
                             unit: 'шт',
                             qty: 1,
@@ -2386,6 +2393,7 @@
                         const sVal  = document.getElementById('sel-serv-pkg').value;
                         const sName = (sVal === '100000') ? 'Базовый старт' : ((sVal === '500000') ? 'VIP Корпоративный' : 'Оптимальный');
                         activeItems.push({
+                            code: 'ND-SRV-01',
                             name: `Комплекс услуг по аудиту, проектированию воронок LTV, настройке CRM и обучению персонала (Пакет «${sName}»)`,
                             unit: 'усл',
                             qty: 1,
@@ -2401,6 +2409,7 @@
                         const pName = (pVal === '35000') ? 'Базовый SLA' : ((pVal === '75000') ? 'Бизнес SLA' : ((pVal === '150000') ? 'VIP Консьерж' : 'Абонентское'));
                         const term  = document.getElementById('sel-supp-term').value;
                         activeItems.push({
+                            code: 'ND-SUP-01',
                             name: `Абонентское IT-сопровождение и техподдержка CRM-системы (Пакет «${pName}», ${term} мес)`,
                             unit: 'усл',
                             qty: 1,
@@ -2410,9 +2419,10 @@
                     }
 
                     // 7. Custom Items
-                    customRows.forEach(cr => {
+                    customRows.forEach((cr, cIdx) => {
                         const price = parseFloat(cr.price) || 0;
                         activeItems.push({
+                            code: `ND-CST-0${cIdx + 1}`,
                             name: cr.name || 'Дополнительная услуга',
                             unit: 'усл',
                             qty: 1,
@@ -2651,7 +2661,7 @@
                             ? activeItems.map((it, idx) => `
                                 <tr>
                                     <td style="text-align:center; border:1px solid #000; padding:4px;">${idx + 1}</td>
-                                    <td style="text-align:center; border:1px solid #000; padding:4px; font-family:'JetBrains Mono',monospace; font-size:10.5px;">—</td>
+                                    <td style="text-align:center; border:1px solid #000; padding:4px; font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:700;">${it.code || '—'}</td>
                                     <td style="border:1px solid #000; padding:4px 6px;"><b>${it.name}</b></td>
                                     <td style="text-align:center; border:1px solid #000; padding:4px;">${it.qty}</td>
                                     <td style="text-align:center; border:1px solid #000; padding:4px;">${it.unit}</td>
