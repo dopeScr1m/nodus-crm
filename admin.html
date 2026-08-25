@@ -1802,154 +1802,191 @@
                 return result.charAt(0).toUpperCase() + result.slice(1) + ' тенге 00 тиын';
             };
 
-            // RECALCULATE PRICING BASED ON INPUTS
-            const recalculatePrices = () => {
-                // 1. amoCRM
-                const amoTariff = parseFloat(document.getElementById('sel-amo-tariff').value) || 9899;
-                const amoUsers  = parseInt(document.getElementById('inp-amo-users').value) || 5;
-                const amoTerm   = parseInt(document.getElementById('sel-amo-term').value) || 6;
-                const amoBillMo = (amoTerm === 12) ? 10 : ((amoTerm === 9) ? 8 : 6);
-                const amoBase   = amoTariff * amoBillMo * amoUsers;
-                const amoDisc   = parseFloat(document.getElementById('inp-amo-disc').value) || 0;
-                document.getElementById('inp-amo-price').value = Math.round(amoBase * (1 - amoDisc / 100));
+            // BASE RETAIL CATALOGUE CALCULATORS
+            const getAmoBase = () => {
+                const tariff = parseFloat(document.getElementById('sel-amo-tariff')?.value) || 9899;
+                const users  = parseInt(document.getElementById('inp-amo-users')?.value) || 5;
+                const term   = parseInt(document.getElementById('sel-amo-term')?.value) || 6;
+                const billMo = (term === 12) ? 10 : ((term === 9) ? 8 : 6);
+                return tariff * billMo * users;
+            };
 
-                // 2. Bitrix24
-                const bxPlan = document.getElementById('sel-bx-tariff').value;
-                const bxTerm = parseInt(document.getElementById('sel-bx-term').value) || 12;
+            const getBxBase = () => {
+                const plan = document.getElementById('sel-bx-tariff')?.value || 'standard';
+                const term = parseInt(document.getElementById('sel-bx-term')?.value) || 12;
                 const BX_MAP = {
                     basic:        { 1: 15080, 12: 144768 },
                     standard:     { 1: 44080, 12: 423168 },
                     professional: { 1: 88160, 12: 846336 },
                     enterprise:   { 1: 176320, 12: 1692672 }
                 };
-                const bxBase = (BX_MAP[bxPlan] && BX_MAP[bxPlan][bxTerm]) || 423168;
-                const bxDisc = parseFloat(document.getElementById('inp-bx-disc').value) || 0;
+                return (BX_MAP[plan] && BX_MAP[plan][term]) || 423168;
+            };
+
+            const getWzWaBase = () => {
+                const plan = parseFloat(document.getElementById('sel-wz-wa-plan')?.value) || 24000;
+                const ch   = parseInt(document.getElementById('inp-wz-wa-ch')?.value) || 1;
+                const term = parseInt(document.getElementById('sel-wz-wa-term')?.value) || 6;
+                const disc = (term === 12) ? 0.80 : ((term === 6) ? 0.90 : 1.0);
+                return Math.round(plan * ch * term * disc);
+            };
+
+            const getWzIgBase = () => {
+                const plan = parseFloat(document.getElementById('sel-wz-ig-plan')?.value) || 12000;
+                const ch   = parseInt(document.getElementById('inp-wz-ig-ch')?.value) || 1;
+                const term = parseInt(document.getElementById('sel-wz-ig-term')?.value) || 6;
+                const disc = (term === 12) ? 0.80 : ((term === 6) ? 0.90 : 1.0);
+                return Math.round(plan * ch * term * disc);
+            };
+
+            const getWzTgBase = () => {
+                const plan = parseFloat(document.getElementById('sel-wz-tg-plan')?.value) || 24000;
+                const ch   = parseInt(document.getElementById('inp-wz-tg-ch')?.value) || 1;
+                const term = parseInt(document.getElementById('sel-wz-tg-term')?.value) || 6;
+                const disc = (term === 12) ? 0.80 : ((term === 6) ? 0.90 : 1.0);
+                return Math.round(plan * ch * term * disc);
+            };
+
+            const getWzVkBase = () => {
+                const plan = parseFloat(document.getElementById('sel-wz-vk-plan')?.value) || 0;
+                const ch   = parseInt(document.getElementById('inp-wz-vk-ch')?.value) || 1;
+                const term = parseInt(document.getElementById('sel-wz-vk-term')?.value) || 6;
+                const disc = (term === 12) ? 0.80 : ((term === 6) ? 0.90 : 1.0);
+                return Math.round(plan * ch * term * disc);
+            };
+
+            const getSipBase = () => {
+                const plan  = parseFloat(document.getElementById('sel-sip-plan')?.value) || 3200;
+                const users = parseInt(document.getElementById('inp-sip-users')?.value) || 3;
+                const term  = parseInt(document.getElementById('sel-sip-term')?.value) || 6;
+                return plan * users * term;
+            };
+
+            const getServBase = () => parseFloat(document.getElementById('sel-serv-pkg')?.value) || 250000;
+            const getSuppBase = () => {
+                const plan = parseFloat(document.getElementById('sel-supp-plan')?.value) || 35000;
+                const term = parseInt(document.getElementById('sel-supp-term')?.value) || 1;
+                return plan * term;
+            };
+
+            // RECALCULATE PRICING BASED ON INPUTS & DISCOUNTS
+            const recalculatePrices = () => {
+                // 1. amoCRM (35% partner margin)
+                const amoBase = getAmoBase();
+                const amoDisc = parseFloat(document.getElementById('inp-amo-disc')?.value) || 0;
+                document.getElementById('inp-amo-price').value = Math.round(amoBase * (1 - amoDisc / 100));
+
+                // 2. Bitrix24 (50% partner margin)
+                const bxBase = getBxBase();
+                const bxDisc = parseFloat(document.getElementById('inp-bx-disc')?.value) || 0;
                 document.getElementById('inp-bx-price').value = Math.round(bxBase * (1 - bxDisc / 100));
 
-                // 3. Wazzup Channels
-                // WhatsApp
-                const waPlanPrice = parseFloat(document.getElementById('sel-wz-wa-plan').value) || 24000;
-                const waCh        = parseInt(document.getElementById('inp-wz-wa-ch').value) || 1;
-                const waTerm      = parseInt(document.getElementById('sel-wz-wa-term').value) || 6;
-                const waTermDisc  = (waTerm === 12) ? 0.80 : ((waTerm === 6) ? 0.90 : 1.0);
-                const waBase      = Math.round(waPlanPrice * waCh * waTerm * waTermDisc);
-                const waDisc      = parseFloat(document.getElementById('inp-wz-wa-disc').value) || 0;
+                // 3. WAZZUP Channels (50% partner margin each)
+                const waBase = getWzWaBase();
+                const waDisc = parseFloat(document.getElementById('inp-wz-wa-disc')?.value) || 0;
                 document.getElementById('inp-wz-wa-price').value = Math.round(waBase * (1 - waDisc / 100));
 
-                // Instagram
-                const igPlanPrice = parseFloat(document.getElementById('sel-wz-ig-plan').value) || 12000;
-                const igCh        = parseInt(document.getElementById('inp-wz-ig-ch').value) || 1;
-                const igTerm      = parseInt(document.getElementById('sel-wz-ig-term').value) || 6;
-                const igTermDisc  = (igTerm === 12) ? 0.80 : ((igTerm === 6) ? 0.90 : 1.0);
-                const igBase      = Math.round(igPlanPrice * igCh * igTerm * igTermDisc);
-                const igDisc      = parseFloat(document.getElementById('inp-wz-ig-disc').value) || 0;
+                const igBase = getWzIgBase();
+                const igDisc = parseFloat(document.getElementById('inp-wz-ig-disc')?.value) || 0;
                 document.getElementById('inp-wz-ig-price').value = Math.round(igBase * (1 - igDisc / 100));
 
-                // Telegram
-                const tgPlanPrice = parseFloat(document.getElementById('sel-wz-tg-plan').value) || 24000;
-                const tgCh        = parseInt(document.getElementById('inp-wz-tg-ch').value) || 1;
-                const tgTerm      = parseInt(document.getElementById('sel-wz-tg-term').value) || 6;
-                const tgTermDisc  = (tgTerm === 12) ? 0.80 : ((tgTerm === 6) ? 0.90 : 1.0);
-                const tgBase      = Math.round(tgPlanPrice * tgCh * tgTerm * tgTermDisc);
-                const tgDisc      = parseFloat(document.getElementById('inp-wz-tg-disc').value) || 0;
+                const tgBase = getWzTgBase();
+                const tgDisc = parseFloat(document.getElementById('inp-wz-tg-disc')?.value) || 0;
                 document.getElementById('inp-wz-tg-price').value = Math.round(tgBase * (1 - tgDisc / 100));
 
-                // VK
-                const vkPlanPrice = parseFloat(document.getElementById('sel-wz-vk-plan').value) || 0;
-                const vkCh        = parseInt(document.getElementById('inp-wz-vk-ch').value) || 1;
-                const vkTerm      = parseInt(document.getElementById('sel-wz-vk-term').value) || 6;
-                const vkTermDisc  = (vkTerm === 12) ? 0.80 : ((vkTerm === 6) ? 0.90 : 1.0);
-                const vkBase      = Math.round(vkPlanPrice * vkCh * vkTerm * vkTermDisc);
-                const vkDisc      = parseFloat(document.getElementById('inp-wz-vk-disc').value) || 0;
+                const vkBase = getWzVkBase();
+                const vkDisc = parseFloat(document.getElementById('inp-wz-vk-disc')?.value) || 0;
                 document.getElementById('inp-wz-vk-price').value = Math.round(vkBase * (1 - vkDisc / 100));
 
-                // 4. Sipuni
-                const sipPlanPrice = parseFloat(document.getElementById('sel-sip-plan').value) || 3200;
-                const sipUsers     = parseInt(document.getElementById('inp-sip-users').value) || 3;
-                const sipTerm      = parseInt(document.getElementById('sel-sip-term').value) || 6;
-                const sipBase      = sipPlanPrice * sipUsers * sipTerm;
-                const sipDisc      = parseFloat(document.getElementById('inp-sip-disc').value) || 0;
+                // 4. Sipuni (50% partner margin)
+                const sipBase = getSipBase();
+                const sipDisc = parseFloat(document.getElementById('inp-sip-disc')?.value) || 0;
                 document.getElementById('inp-sip-price').value = Math.round(sipBase * (1 - sipDisc / 100));
 
                 // 5. Services
-                const servBase = parseFloat(document.getElementById('sel-serv-pkg').value) || 250000;
-                const servDisc = parseFloat(document.getElementById('inp-serv-disc').value) || 0;
+                const servBase = getServBase();
+                const servDisc = parseFloat(document.getElementById('inp-serv-disc')?.value) || 0;
                 document.getElementById('inp-serv-price').value = Math.round(servBase * (1 - servDisc / 100));
 
                 // 6. Support
-                const suppBasePlan = parseFloat(document.getElementById('sel-supp-plan').value) || 35000;
-                const suppTerm     = parseInt(document.getElementById('sel-supp-term').value) || 1;
-                const suppBase     = suppBasePlan * suppTerm;
-                const suppDisc     = parseFloat(document.getElementById('inp-supp-disc').value) || 0;
+                const suppBase = getSuppBase();
+                const suppDisc = parseFloat(document.getElementById('inp-supp-disc')?.value) || 0;
                 document.getElementById('inp-supp-price').value = Math.round(suppBase * (1 - suppDisc / 100));
 
                 updateModuleEconomics();
             };
 
-            // UPDATE PER-MODULE UNIT ECONOMICS STRIP
+            // UPDATE PER-MODULE UNIT ECONOMICS STRIP (WITH FIXED VENDOR RATES)
             const updateModuleEconomics = () => {
                 const TOTAL_DEDUCT_RATE = 0.0095 + 0.03; // Kaspi Pay (0.95%) + СНР Налог (3.0%) = 3.95%
 
-                // 1. amoCRM (35% margin, 65% cost)
+                // 1. amoCRM (Fixed 35% partner margin, 65% vendor wholesale cost)
+                const amoBase  = getAmoBase();
+                const amoCost  = Math.round(amoBase * 0.65);
                 const amoPrice = parseFloat(document.getElementById('inp-amo-price')?.value) || 0;
-                const amoCost  = Math.round(amoPrice * 0.65);
-                const amoMarg  = Math.round(amoPrice * 0.35);
-                const amoNet   = Math.max(0, Math.round(amoMarg - (amoPrice * TOTAL_DEDUCT_RATE)));
+                const amoMarg  = Math.max(0, Math.round(amoPrice - amoCost));
+                const amoNet   = Math.max(0, Math.round(amoPrice * (1 - TOTAL_DEDUCT_RATE) - amoCost));
                 if (document.getElementById('econ-amo-cost'))   document.getElementById('econ-amo-cost').textContent   = fmtKZT(amoCost);
                 if (document.getElementById('econ-amo-margin')) document.getElementById('econ-amo-margin').textContent = '+' + fmtKZT(amoMarg);
                 if (document.getElementById('econ-amo-net'))    document.getElementById('econ-amo-net').textContent    = fmtKZT(amoNet);
 
-                // 2. Bitrix24 (50% margin, 50% cost)
+                // 2. Bitrix24 (Fixed 50% partner margin, 50% vendor wholesale cost)
+                const bxBase  = getBxBase();
+                const bxCost  = Math.round(bxBase * 0.50);
                 const bxPrice = parseFloat(document.getElementById('inp-bx-price')?.value) || 0;
-                const bxCost  = Math.round(bxPrice * 0.50);
-                const bxMarg  = Math.round(bxPrice * 0.50);
-                const bxNet   = Math.max(0, Math.round(bxMarg - (bxPrice * TOTAL_DEDUCT_RATE)));
+                const bxMarg  = Math.max(0, Math.round(bxPrice - bxCost));
+                const bxNet   = Math.max(0, Math.round(bxPrice * (1 - TOTAL_DEDUCT_RATE) - bxCost));
                 if (document.getElementById('econ-bx-cost'))   document.getElementById('econ-bx-cost').textContent   = fmtKZT(bxCost);
                 if (document.getElementById('econ-bx-margin')) document.getElementById('econ-bx-margin').textContent = '+' + fmtKZT(bxMarg);
                 if (document.getElementById('econ-bx-net'))    document.getElementById('econ-bx-net').textContent    = fmtKZT(bxNet);
 
-                // 3. WAZZUP Channels (50% margin, 50% cost)
+                // 3. WAZZUP Channels (Fixed 50% partner margin each)
                 // WA
+                const waBase  = getWzWaBase();
+                const waCost  = Math.round(waBase * 0.50);
                 const waPrice = parseFloat(document.getElementById('inp-wz-wa-price')?.value) || 0;
-                const waCost  = Math.round(waPrice * 0.50);
-                const waMarg  = Math.round(waPrice * 0.50);
-                const waNet   = Math.max(0, Math.round(waMarg - (waPrice * TOTAL_DEDUCT_RATE)));
+                const waMarg  = Math.max(0, Math.round(waPrice - waCost));
+                const waNet   = Math.max(0, Math.round(waPrice * (1 - TOTAL_DEDUCT_RATE) - waCost));
                 if (document.getElementById('econ-wz-wa-cost'))   document.getElementById('econ-wz-wa-cost').textContent   = fmtKZT(waCost);
                 if (document.getElementById('econ-wz-wa-margin')) document.getElementById('econ-wz-wa-margin').textContent = '+' + fmtKZT(waMarg);
                 if (document.getElementById('econ-wz-wa-net'))    document.getElementById('econ-wz-wa-net').textContent    = fmtKZT(waNet);
 
                 // IG
+                const igBase  = getWzIgBase();
+                const igCost  = Math.round(igBase * 0.50);
                 const igPrice = parseFloat(document.getElementById('inp-wz-ig-price')?.value) || 0;
-                const igCost  = Math.round(igPrice * 0.50);
-                const igMarg  = Math.round(igPrice * 0.50);
-                const igNet   = Math.max(0, Math.round(igMarg - (igPrice * TOTAL_DEDUCT_RATE)));
+                const igMarg  = Math.max(0, Math.round(igPrice - igCost));
+                const igNet   = Math.max(0, Math.round(igPrice * (1 - TOTAL_DEDUCT_RATE) - igCost));
                 if (document.getElementById('econ-wz-ig-cost'))   document.getElementById('econ-wz-ig-cost').textContent   = fmtKZT(igCost);
                 if (document.getElementById('econ-wz-ig-margin')) document.getElementById('econ-wz-ig-margin').textContent = '+' + fmtKZT(igMarg);
                 if (document.getElementById('econ-wz-ig-net'))    document.getElementById('econ-wz-ig-net').textContent    = fmtKZT(igNet);
 
                 // TG
+                const tgBase  = getWzTgBase();
+                const tgCost  = Math.round(tgBase * 0.50);
                 const tgPrice = parseFloat(document.getElementById('inp-wz-tg-price')?.value) || 0;
-                const tgCost  = Math.round(tgPrice * 0.50);
-                const tgMarg  = Math.round(tgPrice * 0.50);
-                const tgNet   = Math.max(0, Math.round(tgMarg - (tgPrice * TOTAL_DEDUCT_RATE)));
+                const tgMarg  = Math.max(0, Math.round(tgPrice - tgCost));
+                const tgNet   = Math.max(0, Math.round(tgPrice * (1 - TOTAL_DEDUCT_RATE) - tgCost));
                 if (document.getElementById('econ-wz-tg-cost'))   document.getElementById('econ-wz-tg-cost').textContent   = fmtKZT(tgCost);
                 if (document.getElementById('econ-wz-tg-margin')) document.getElementById('econ-wz-tg-margin').textContent = '+' + fmtKZT(tgMarg);
                 if (document.getElementById('econ-wz-tg-net'))    document.getElementById('econ-wz-tg-net').textContent    = fmtKZT(tgNet);
 
                 // VK
+                const vkBase  = getWzVkBase();
+                const vkCost  = Math.round(vkBase * 0.50);
                 const vkPrice = parseFloat(document.getElementById('inp-wz-vk-price')?.value) || 0;
-                const vkCost  = Math.round(vkPrice * 0.50);
-                const vkMarg  = Math.round(vkPrice * 0.50);
-                const vkNet   = Math.max(0, Math.round(vkMarg - (vkPrice * TOTAL_DEDUCT_RATE)));
+                const vkMarg  = Math.max(0, Math.round(vkPrice - vkCost));
+                const vkNet   = Math.max(0, Math.round(vkPrice * (1 - TOTAL_DEDUCT_RATE) - vkCost));
                 if (document.getElementById('econ-wz-vk-cost'))   document.getElementById('econ-wz-vk-cost').textContent   = fmtKZT(vkCost);
                 if (document.getElementById('econ-wz-vk-margin')) document.getElementById('econ-wz-vk-margin').textContent = '+' + fmtKZT(vkMarg);
                 if (document.getElementById('econ-wz-vk-net'))    document.getElementById('econ-wz-vk-net').textContent    = fmtKZT(vkNet);
 
-                // 4. Sipuni (50% margin, 50% cost)
+                // 4. Sipuni (Fixed 50% partner margin, 50% vendor wholesale cost)
+                const sipBase  = getSipBase();
+                const sipCost  = Math.round(sipBase * 0.50);
                 const sipPrice = parseFloat(document.getElementById('inp-sip-price')?.value) || 0;
-                const sipCost  = Math.round(sipPrice * 0.50);
-                const sipMarg  = Math.round(sipPrice * 0.50);
-                const sipNet   = Math.max(0, Math.round(sipMarg - (sipPrice * TOTAL_DEDUCT_RATE)));
+                const sipMarg  = Math.max(0, Math.round(sipPrice - sipCost));
+                const sipNet   = Math.max(0, Math.round(sipPrice * (1 - TOTAL_DEDUCT_RATE) - sipCost));
                 if (document.getElementById('econ-sip-cost'))   document.getElementById('econ-sip-cost').textContent   = fmtKZT(sipCost);
                 if (document.getElementById('econ-sip-margin')) document.getElementById('econ-sip-margin').textContent = '+' + fmtKZT(sipMarg);
                 if (document.getElementById('econ-sip-net'))    document.getElementById('econ-sip-net').textContent    = fmtKZT(sipNet);
@@ -1990,7 +2027,7 @@
                     el.addEventListener('change', () => { updateModuleEconomics(); renderAll(); });
                 });
 
-                document.querySelectorAll('#req-my-name, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-work-days, #req-warranty-days, #req-pay-terms').forEach(el => {
+                document.querySelectorAll('#req-my-name, #req-my-signer, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-work-days, #req-warranty-days, #req-pay-terms').forEach(el => {
                     el.addEventListener('input', renderAll);
                     el.addEventListener('change', renderAll);
                 });
@@ -2007,12 +2044,15 @@
             const renderAll = () => {
                 try {
                     const activeItems = [];
-                    let vendorProfit = 0;
-                    let servProfit   = 0;
+                    let vendorCost    = 0;
+                    let vendorRevenue = 0;
+                    let servProfit    = 0;
 
                     // 1. amoCRM (35% partner margin)
                     if (document.getElementById('chk-amo').checked) {
                         const price = parseFloat(document.getElementById('inp-amo-price').value) || 0;
+                        const base  = getAmoBase();
+                        const cost  = Math.round(base * 0.65);
                         const tVal  = document.getElementById('sel-amo-tariff').value;
                         const tName = tVal === '5199' ? 'Базовый' : (tVal === '9899' ? 'Расширенный' : 'Профессиональный');
                         const users = document.getElementById('inp-amo-users').value;
@@ -2023,12 +2063,15 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.35;
+                        vendorCost    += cost;
+                        vendorRevenue += price;
                     }
 
                     // 2. Bitrix24 (50% partner margin)
                     if (document.getElementById('chk-bx').checked) {
                         const price = parseFloat(document.getElementById('inp-bx-price').value) || 0;
+                        const base  = getBxBase();
+                        const cost  = Math.round(base * 0.50);
                         const plan  = document.getElementById('sel-bx-tariff').value;
                         const planNames = { basic: 'Базовый', standard: 'Стандартный', professional: 'Профессиональный', enterprise: 'Энтерпрайз' };
                         const term  = document.getElementById('sel-bx-term').value;
@@ -2038,13 +2081,16 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50;
+                        vendorCost    += cost;
+                        vendorRevenue += price;
                     }
 
                     // 3. WAZZUP CHANNELS (50% partner margin each)
                     // WhatsApp
                     if (document.getElementById('chk-wz-wa').checked) {
                         const price = parseFloat(document.getElementById('inp-wz-wa-price').value) || 0;
+                        const base  = getWzWaBase();
+                        const cost  = Math.round(base * 0.50);
                         const pVal  = document.getElementById('sel-wz-wa-plan').value;
                         const pName = (pVal === '6000') ? 'Старт' : ((pVal === '12000') ? 'Inbox' : ((pVal === '36000') ? 'Макс' : 'Про'));
                         const ch    = document.getElementById('inp-wz-wa-ch').value;
@@ -2055,12 +2101,15 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50;
+                        vendorCost    += cost;
+                        vendorRevenue += price;
                     }
 
                     // Instagram
                     if (document.getElementById('chk-wz-ig').checked) {
                         const price = parseFloat(document.getElementById('inp-wz-ig-price').value) || 0;
+                        const base  = getWzIgBase();
+                        const cost  = Math.round(base * 0.50);
                         const pVal  = document.getElementById('sel-wz-ig-plan').value;
                         const pName = (pVal === '12000') ? 'Inbox' : 'Макс';
                         const ch    = document.getElementById('inp-wz-ig-ch').value;
@@ -2071,12 +2120,15 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50;
+                        vendorCost    += cost;
+                        vendorRevenue += price;
                     }
 
                     // Telegram
                     if (document.getElementById('chk-wz-tg').checked) {
                         const price = parseFloat(document.getElementById('inp-wz-tg-price').value) || 0;
+                        const base  = getWzTgBase();
+                        const cost  = Math.round(base * 0.50);
                         const pVal  = document.getElementById('sel-wz-tg-plan').value;
                         const pName = (pVal === '6000') ? 'Старт' : ((pVal === '12000') ? 'Inbox' : ((pVal === '36000') ? 'Макс' : 'Про'));
                         const ch    = document.getElementById('inp-wz-tg-ch').value;
@@ -2087,12 +2139,15 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50;
+                        vendorCost    += cost;
+                        vendorRevenue += price;
                     }
 
                     // VK
                     if (document.getElementById('chk-wz-vk').checked) {
                         const price = parseFloat(document.getElementById('inp-wz-vk-price').value) || 0;
+                        const base  = getWzVkBase();
+                        const cost  = Math.round(base * 0.50);
                         const pVal  = document.getElementById('sel-wz-vk-plan').value;
                         const pName = (pVal === '0') ? 'Бесплатный' : 'Макс';
                         const ch    = document.getElementById('inp-wz-vk-ch').value;
@@ -2103,12 +2158,15 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50;
+                        vendorCost    += cost;
+                        vendorRevenue += price;
                     }
 
                     // 4. Sipuni (50% partner margin)
                     if (document.getElementById('chk-sip').checked) {
                         const price = parseFloat(document.getElementById('inp-sip-price').value) || 0;
+                        const base  = getSipBase();
+                        const cost  = Math.round(base * 0.50);
                         const pVal  = document.getElementById('sel-sip-plan').value;
                         const pName = (pVal === '3200') ? 'Базовый' : ((pVal === '6400') ? 'Расширенный' : 'Профессиональный');
                         const users = document.getElementById('inp-sip-users').value;
@@ -2119,7 +2177,8 @@
                             qty: 1,
                             price: price
                         });
-                        vendorProfit += price * 0.50;
+                        vendorCost    += cost;
+                        vendorRevenue += price;
                     }
 
                     // 5. Services (100% services profit)
@@ -2166,10 +2225,11 @@
                     // Grand total client invoice
                     const grandTotal = activeItems.reduce((acc, it) => acc + (parseFloat(it.price) || 0), 0);
 
-                    // Internal contractor economics
-                    const kaspiFee  = grandTotal * 0.0095;
-                    const taxFee    = grandTotal * 0.03;
-                    const netProfit = Math.max(0, (vendorProfit + servProfit) - kaspiFee - taxFee);
+                    // Partner Gross Margins & Net Calculations
+                    const vendorProfit = Math.max(0, vendorRevenue - vendorCost);
+                    const kaspiFee     = grandTotal * 0.0095;
+                    const taxFee       = grandTotal * 0.03;
+                    const netProfit    = Math.max(0, (vendorProfit + servProfit) - kaspiFee - taxFee);
 
                     // Update UI Statistics
                     document.getElementById('stat-grand-total').textContent   = fmtKZT(grandTotal);
@@ -2347,11 +2407,11 @@
                                     <div>Тел: ${myPhone}</div>
                                     <div style="margin-top:20px;">
                                         <div style="font-size:11px; margin-bottom:4px; color:#475569; font-weight:600;">Индивидуальный предприниматель:</div>
-                                        <div style="display:flex; align-items:flex-end; position:relative; width:95%; height:36px;">
-                                            <div style="position:relative; width:160px; border-bottom:1.5px solid #0f172a; height:30px;">
-                                                <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-12px; left:50%; transform:translateX(-50%); height:65px; pointer-events:none;" />
+                                        <div style="display:flex; align-items:flex-end; position:relative; width:95%; height:32px;">
+                                            <div style="position:relative; width:180px; border-bottom:1.5px solid #0f172a; height:24px;">
+                                                <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-23px; left:18px; height:58px; pointer-events:none; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.12));" />
                                             </div>
-                                            <div style="margin-left:12px; font-weight:700; font-size:12px; padding-bottom:2px;">/ ${mySigner} /</div>
+                                            <div style="margin-left:14px; font-weight:700; font-size:12px; padding-bottom:2px;">/ ${mySigner} /</div>
                                         </div>
                                     </div>
                                 </div>
@@ -2366,10 +2426,10 @@
                                     ${clPhone ? `<div>Тел: ${clPhone}</div>` : ''}
                                     <div style="margin-top:20px;">
                                         <div style="font-size:11px; margin-bottom:4px; color:#475569; font-weight:600;">Заказчик:</div>
-                                        <div style="display:flex; align-items:flex-end; position:relative; width:95%; height:36px;">
-                                            <div style="position:relative; width:160px; border-bottom:1.5px solid #0f172a; height:30px;">
+                                        <div style="display:flex; align-items:flex-end; position:relative; width:95%; height:32px;">
+                                            <div style="position:relative; width:180px; border-bottom:1.5px solid #0f172a; height:24px;">
                                             </div>
-                                            <div style="margin-left:12px; font-weight:700; font-size:12px; padding-bottom:2px;">/ ${clDirectorRaw ? clDirectorRaw.replace(/^в лице\s+/i, '').split(',')[0].trim() : clName} /</div>
+                                            <div style="margin-left:14px; font-weight:700; font-size:12px; padding-bottom:2px;">/ ${clDirectorRaw ? clDirectorRaw.replace(/^в лице\s+/i, '').split(',')[0].trim() : clName} /</div>
                                         </div>
                                         <div style="font-size:9.5px; color:#64748b; margin-top:4px;">М.П. (при наличии)</div>
                                     </div>
@@ -2491,10 +2551,10 @@
 
                             <div style="border-bottom:2px solid #000; margin:16px 0 20px 0;"></div>
 
-                            <div style="display:flex; align-items:flex-end; font-size:12px; margin-top:16px;">
+                            <div style="display:flex; align-items:flex-end; font-size:12px; margin-top:22px;">
                                 <div style="font-weight:700; width:120px; padding-bottom:4px;">Исполнитель</div>
-                                <div style="position:relative; width:260px; border-bottom:1.5px solid #000; height:32px; margin-right:16px;">
-                                    <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-14px; left:50%; transform:translateX(-50%); height:68px; pointer-events:none;" />
+                                <div style="position:relative; width:220px; border-bottom:1.5px solid #000; height:24px; margin-right:16px;">
+                                    <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-23px; left:25px; height:58px; pointer-events:none; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.12));" />
                                 </div>
                                 <div style="font-weight:700; padding-bottom:4px;">/ ${mySigner} /</div>
                             </div>
@@ -2560,10 +2620,10 @@
                                     Telegram: <b>@DopeScr1m</b>
                                 </div>
                                 <div style="display:flex; align-items:flex-end; position:relative;">
-                                    <div style="position:relative; width:160px; border-bottom:1.5px solid #0f172a; height:30px;">
-                                        <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-12px; left:50%; transform:translateX(-50%); height:65px; pointer-events:none;" />
+                                    <div style="position:relative; width:180px; border-bottom:1.5px solid #0f172a; height:24px;">
+                                        <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-23px; left:18px; height:58px; pointer-events:none; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.12));" />
                                     </div>
-                                    <div style="margin-left:10px; font-weight:700; font-size:12px; padding-bottom:2px;">/ ${mySigner} /</div>
+                                    <div style="margin-left:12px; font-weight:700; font-size:12px; padding-bottom:2px;">/ ${mySigner} /</div>
                                 </div>
                             </div>
                         `;
