@@ -1667,6 +1667,9 @@
                 }
             });
 
+            // SIGNATURE ASSET
+            const NODUS_SIGNATURE_SRC = 'assets/signature.png';
+
             // TAB SWITCHER
             let activeTab = 'contract';
             const tabButtons = document.querySelectorAll('.tab-btn[data-tab]');
@@ -2326,18 +2329,32 @@
                                     <div>БИК: ${myBik}</div>
                                     <div>ИИК (IBAN): ${myIban}</div>
                                     <div>Тел: ${myPhone}</div>
-                                    <div class="sig-line">Руководитель: ______________ / ${myName} / (М.П.)</div>
+                                    <div style="margin-top:14px; position:relative;">
+                                        <div style="font-size:11.5px; margin-bottom:2px;"><b>Индивидуальный предприниматель:</b></div>
+                                        <div style="display:flex; align-items:flex-end; justify-content:space-between; border-bottom:1px solid #0f172a; padding-bottom:2px; position:relative; width:92%; height:46px;">
+                                            <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-8px; left:25px; height:58px; pointer-events:none;" />
+                                            <span style="font-size:9.5px; color:#64748b;">(подпись)</span>
+                                            <span style="font-weight:700; font-size:11.5px;">/ ${myName} /</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="sig-col">
                                     <h4>ЗАКАЗЧИК:</h4>
                                     <div><b>${clName}</b></div>
-                                    <div>БИН/ИИН: ${clBin}</div>
-                                    <div>Адрес: ${clAddr}</div>
+                                    ${clBin ? `<div>БИН/ИИН: ${clBin}</div>` : ''}
+                                    ${clAddr ? `<div>Адрес: ${clAddr}</div>` : ''}
                                     ${clBank ? `<div>Банк: ${clBank}</div>` : ''}
                                     ${clBik ? `<div>БИК: ${clBik}</div>` : ''}
                                     ${clIban ? `<div>ИИК (IBAN): ${clIban}</div>` : ''}
-                                    <div>Тел: ${clPhone}</div>
-                                    <div class="sig-line">Руководитель: ______________ / ${clName} / (М.П.)</div>
+                                    ${clPhone ? `<div>Тел: ${clPhone}</div>` : ''}
+                                    <div style="margin-top:14px; position:relative;">
+                                        <div style="font-size:11.5px; margin-bottom:2px;"><b>Заказчик:</b></div>
+                                        <div style="display:flex; align-items:flex-end; justify-content:space-between; border-bottom:1px solid #0f172a; padding-bottom:2px; position:relative; width:92%; height:46px;">
+                                            <span style="font-size:9.5px; color:#64748b;">(подпись)</span>
+                                            <span style="font-weight:700; font-size:11.5px;">/ ${clName} /</span>
+                                        </div>
+                                        <div style="font-size:9.5px; color:#64748b; margin-top:2px;">М.П. (при наличии)</div>
+                                    </div>
                                 </div>
                             </div>
                         `;
@@ -2390,7 +2407,7 @@
                                 </tr>
                                 <tr>
                                     <td style="font-weight:700; padding:3px 0;">Покупатель:</td>
-                                    <td style="padding:3px 0;"><b>${clName}</b>, БИН/ИИН ${clBin}, ${clAddr}, тел.: ${clPhone}</td>
+                                    <td style="padding:3px 0;"><b>${clName}</b>${clBin ? `, БИН/ИИН ${clBin}` : ''}${clAddr ? `, ${clAddr}` : ''}${clPhone ? `, тел.: ${clPhone}` : ''}</td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:700; padding:3px 0;">Договор (основание):</td>
@@ -2423,19 +2440,20 @@
                                 <b>(${numToWordsKZTRu(grandTotal)})</b>
                             </div>
 
-                            <div style="margin-top:40px; display:flex; justify-content:space-between; align-items:flex-end; font-size:12px;">
-                                <div style="width:45%;">
-                                    <div>Руководитель предприятия (Индивидуальный предприниматель):</div>
-                                    <div style="margin-top:30px; border-bottom:1px solid #0f172a; display:flex; justify-content:space-between;">
-                                        <span style="font-size:10px; color:#64748b;">(подпись)</span>
+                            <div style="margin-top:36px; display:flex; justify-content:space-between; align-items:flex-end; font-size:12px;">
+                                <div style="width:46%; position:relative;">
+                                    <div><b>Руководитель предприятия (ИП):</b></div>
+                                    <div style="margin-top:18px; border-bottom:1px solid #0f172a; display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:2px; position:relative; height:46px;">
+                                        <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-8px; left:25px; height:58px; pointer-events:none;" />
+                                        <span style="font-size:9.5px; color:#64748b;">(подпись)</span>
                                         <span style="font-weight:700;">/ ${myName} /</span>
                                     </div>
-                                    <div style="font-size:10px; color:#64748b; margin-top:2px;">М.П.</div>
                                 </div>
-                                <div style="width:45%;">
-                                    <div>Главный бухгалтер:</div>
-                                    <div style="margin-top:30px; border-bottom:1px solid #0f172a; display:flex; justify-content:space-between;">
-                                        <span style="font-size:10px; color:#64748b;">(подпись)</span>
+                                <div style="width:46%; position:relative;">
+                                    <div><b>Главный бухгалтер:</b></div>
+                                    <div style="margin-top:18px; border-bottom:1px solid #0f172a; display:flex; justify-content:space-between; align-items:flex-end; padding-bottom:2px; position:relative; height:46px;">
+                                        <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-8px; left:25px; height:58px; pointer-events:none;" />
+                                        <span style="font-size:9.5px; color:#64748b;">(подпись)</span>
                                         <span style="font-weight:700;">/ ${myName} /</span>
                                     </div>
                                 </div>
@@ -2495,10 +2513,17 @@
                             </ul>
 
                             <div class="clause-h">КОНТАКТЫ ДЛЯ СТАРТА ПРОЕКТА</div>
-                            <div class="clause-p" style="margin-top:8px;">
-                                Интегратор / Команда: <b>NODUS</b><br>
-                                Телефон / WhatsApp: <b>${myPhone}</b><br>
-                                Telegram: <b>@DopeScr1m</b>
+                            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px;">
+                                <div class="clause-p" style="margin:0;">
+                                    Интегратор / Команда: <b>NODUS</b><br>
+                                    Телефон / WhatsApp: <b>${myPhone}</b><br>
+                                    Telegram: <b>@DopeScr1m</b>
+                                </div>
+                                <div style="position:relative; width:220px; border-bottom:1px solid #0f172a; padding-bottom:2px; height:46px; display:flex; justify-content:space-between; align-items:flex-end;">
+                                    <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-8px; left:20px; height:58px; pointer-events:none;" />
+                                    <span style="font-size:9.5px; color:#64748b;">(подпись)</span>
+                                    <span style="font-weight:700; font-size:11.5px;">/ ${myName} /</span>
+                                </div>
                             </div>
                         `;
                     }
