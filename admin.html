@@ -405,6 +405,77 @@
         .econ-cell.margin .econ-val { color: #38bdf8; }
         .econ-cell.net .econ-val { color: #4ade80; }
 
+        /* 50/50 PARTNER PROFIT SPLIT (ВАДИМ / ЕСЕН) */
+        .mod-split-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
+            border-radius: 7px;
+            padding: 5px 9px;
+            margin-top: 5px;
+            font-size: 0.72rem;
+        }
+        .split-tag {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .split-tag-name {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        .split-tag-val {
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: #38bdf8;
+        }
+        .split-tag-divider {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.75rem;
+        }
+
+        .stat-split-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+        .stat-split-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 6px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+        }
+        .stat-split-name {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .stat-split-val {
+            font-size: 1.08rem;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            color: #38bdf8;
+            margin-top: 2px;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+        }
+
         /* CUSTOM ITEMS BUILDER */
         .custom-items-list {
             max-height: 160px;
@@ -1048,6 +1119,17 @@
                                 <span class="econ-val" id="econ-amo-net">92 209 ₸</span>
                             </div>
                         </div>
+                        <div class="mod-split-strip">
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                <span class="split-tag-val" id="split-amo-vadim">46 105 ₸</span>
+                            </div>
+                            <span class="split-tag-divider">|</span>
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Есен (50%):</span>
+                                <span class="split-tag-val" id="split-amo-esen">46 104 ₸</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Bitrix24 -->
@@ -1094,6 +1176,17 @@
                             <div class="econ-cell net">
                                 <span class="econ-title">🔥 Чистыми (-3.95%):</span>
                                 <span class="econ-val" id="econ-bx-net">194 869 ₸</span>
+                            </div>
+                        </div>
+                        <div class="mod-split-strip">
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                <span class="split-tag-val" id="split-bx-vadim">97 435 ₸</span>
+                            </div>
+                            <span class="split-tag-divider">|</span>
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Есен (50%):</span>
+                                <span class="split-tag-val" id="split-bx-esen">97 434 ₸</span>
                             </div>
                         </div>
                     </div>
@@ -1159,6 +1252,17 @@
                                     <span class="econ-val" id="econ-wz-wa-net">59 681 ₸</span>
                                 </div>
                             </div>
+                            <div class="mod-split-strip">
+                                <div class="split-tag">
+                                    <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                    <span class="split-tag-val" id="split-wz-wa-vadim">29 841 ₸</span>
+                                </div>
+                                <span class="split-tag-divider">|</span>
+                                <div class="split-tag">
+                                    <span class="split-tag-name">🤝 Есен (50%):</span>
+                                    <span class="split-tag-val" id="split-wz-wa-esen">29 840 ₸</span>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- 2. Instagram -->
@@ -1209,6 +1313,17 @@
                                 <div class="econ-cell net">
                                     <span class="econ-title">🔥 Чистыми (-3.95%):</span>
                                     <span class="econ-val" id="econ-wz-ig-net">29 840 ₸</span>
+                                </div>
+                            </div>
+                            <div class="mod-split-strip">
+                                <div class="split-tag">
+                                    <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                    <span class="split-tag-val" id="split-wz-ig-vadim">14 920 ₸</span>
+                                </div>
+                                <span class="split-tag-divider">|</span>
+                                <div class="split-tag">
+                                    <span class="split-tag-name">🤝 Есен (50%):</span>
+                                    <span class="split-tag-val" id="split-wz-ig-esen">14 920 ₸</span>
                                 </div>
                             </div>
                         </div>
@@ -1265,6 +1380,17 @@
                                     <span class="econ-val" id="econ-wz-tg-net">59 681 ₸</span>
                                 </div>
                             </div>
+                            <div class="mod-split-strip">
+                                <div class="split-tag">
+                                    <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                    <span class="split-tag-val" id="split-wz-tg-vadim">29 841 ₸</span>
+                                </div>
+                                <span class="split-tag-divider">|</span>
+                                <div class="split-tag">
+                                    <span class="split-tag-name">🤝 Есен (50%):</span>
+                                    <span class="split-tag-val" id="split-wz-tg-esen">29 840 ₸</span>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- 4. VK -->
@@ -1315,6 +1441,17 @@
                                 <div class="econ-cell net">
                                     <span class="econ-title">🔥 Чистыми (-3.95%):</span>
                                     <span class="econ-val" id="econ-wz-vk-net">0 ₸</span>
+                                </div>
+                            </div>
+                            <div class="mod-split-strip">
+                                <div class="split-tag">
+                                    <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                    <span class="split-tag-val" id="split-wz-vk-vadim">0 ₸</span>
+                                </div>
+                                <span class="split-tag-divider">|</span>
+                                <div class="split-tag">
+                                    <span class="split-tag-name">🤝 Есен (50%):</span>
+                                    <span class="split-tag-val" id="split-wz-vk-esen">0 ₸</span>
                                 </div>
                             </div>
                         </div>
@@ -1371,6 +1508,17 @@
                                 <span class="econ-val" id="econ-sip-net">26 525 ₸</span>
                             </div>
                         </div>
+                        <div class="mod-split-strip">
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                <span class="split-tag-val" id="split-sip-vadim">13 263 ₸</span>
+                            </div>
+                            <span class="split-tag-divider">|</span>
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Есен (50%):</span>
+                                <span class="split-tag-val" id="split-sip-esen">13 262 ₸</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- NODUS Services -->
@@ -1407,6 +1555,17 @@
                             <div class="econ-cell net">
                                 <span class="econ-title">🔥 Чистыми (-3.95%):</span>
                                 <span class="econ-val" id="econ-serv-net">240 125 ₸</span>
+                            </div>
+                        </div>
+                        <div class="mod-split-strip">
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                <span class="split-tag-val" id="split-serv-vadim">120 063 ₸</span>
+                            </div>
+                            <span class="split-tag-divider">|</span>
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Есен (50%):</span>
+                                <span class="split-tag-val" id="split-serv-esen">120 062 ₸</span>
                             </div>
                         </div>
                     </div>
@@ -1457,6 +1616,17 @@
                             <div class="econ-cell net">
                                 <span class="econ-title">🔥 Чистыми (-3.95%):</span>
                                 <span class="econ-val" id="econ-supp-net">33 618 ₸</span>
+                            </div>
+                        </div>
+                        <div class="mod-split-strip">
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Вадим (50%):</span>
+                                <span class="split-tag-val" id="split-supp-vadim">16 809 ₸</span>
+                            </div>
+                            <span class="split-tag-divider">|</span>
+                            <div class="split-tag">
+                                <span class="split-tag-name">🤝 Есен (50%):</span>
+                                <span class="split-tag-val" id="split-supp-esen">16 809 ₸</span>
                             </div>
                         </div>
                     </div>
@@ -1614,6 +1784,17 @@
                         <div class="stat-row net">
                             <span>🔥 ЧИСТЫМИ НА РУКИ:</span>
                             <span id="stat-net-profit">0 ₸</span>
+                        </div>
+
+                        <div class="stat-split-box">
+                            <div class="stat-split-col">
+                                <div class="stat-split-name">👤 Вадим (50%)</div>
+                                <div class="stat-split-val" id="stat-split-vadim">0 ₸</div>
+                            </div>
+                            <div class="stat-split-col">
+                                <div class="stat-split-name">👤 Есен (50%)</div>
+                                <div class="stat-split-val" id="stat-split-esen">0 ₸</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1920,6 +2101,15 @@
             const updateModuleEconomics = () => {
                 const TOTAL_DEDUCT_RATE = 0.0095 + 0.03; // Kaspi Pay (0.95%) + СНР Налог (3.0%) = 3.95%
 
+                const updateSplit = (prefix, netVal) => {
+                    const vadim = Math.ceil(netVal / 2);
+                    const esen  = Math.floor(netVal / 2);
+                    const elVadim = document.getElementById(`split-${prefix}-vadim`);
+                    const elEsen  = document.getElementById(`split-${prefix}-esen`);
+                    if (elVadim) elVadim.textContent = fmtKZT(vadim);
+                    if (elEsen)  elEsen.textContent  = fmtKZT(esen);
+                };
+
                 // 1. amoCRM (Fixed 35% partner margin, 65% vendor wholesale cost)
                 const amoBase  = getAmoBase();
                 const amoCost  = Math.round(amoBase * 0.65);
@@ -1929,6 +2119,7 @@
                 if (document.getElementById('econ-amo-cost'))   document.getElementById('econ-amo-cost').textContent   = fmtKZT(amoCost);
                 if (document.getElementById('econ-amo-margin')) document.getElementById('econ-amo-margin').textContent = '+' + fmtKZT(amoMarg);
                 if (document.getElementById('econ-amo-net'))    document.getElementById('econ-amo-net').textContent    = fmtKZT(amoNet);
+                updateSplit('amo', amoNet);
 
                 // 2. Bitrix24 (Fixed 50% partner margin, 50% vendor wholesale cost)
                 const bxBase  = getBxBase();
@@ -1939,6 +2130,7 @@
                 if (document.getElementById('econ-bx-cost'))   document.getElementById('econ-bx-cost').textContent   = fmtKZT(bxCost);
                 if (document.getElementById('econ-bx-margin')) document.getElementById('econ-bx-margin').textContent = '+' + fmtKZT(bxMarg);
                 if (document.getElementById('econ-bx-net'))    document.getElementById('econ-bx-net').textContent    = fmtKZT(bxNet);
+                updateSplit('bx', bxNet);
 
                 // 3. WAZZUP Channels (Fixed 50% partner margin each)
                 // WA
@@ -1950,6 +2142,7 @@
                 if (document.getElementById('econ-wz-wa-cost'))   document.getElementById('econ-wz-wa-cost').textContent   = fmtKZT(waCost);
                 if (document.getElementById('econ-wz-wa-margin')) document.getElementById('econ-wz-wa-margin').textContent = '+' + fmtKZT(waMarg);
                 if (document.getElementById('econ-wz-wa-net'))    document.getElementById('econ-wz-wa-net').textContent    = fmtKZT(waNet);
+                updateSplit('wz-wa', waNet);
 
                 // IG
                 const igBase  = getWzIgBase();
@@ -1960,6 +2153,7 @@
                 if (document.getElementById('econ-wz-ig-cost'))   document.getElementById('econ-wz-ig-cost').textContent   = fmtKZT(igCost);
                 if (document.getElementById('econ-wz-ig-margin')) document.getElementById('econ-wz-ig-margin').textContent = '+' + fmtKZT(igMarg);
                 if (document.getElementById('econ-wz-ig-net'))    document.getElementById('econ-wz-ig-net').textContent    = fmtKZT(igNet);
+                updateSplit('wz-ig', igNet);
 
                 // TG
                 const tgBase  = getWzTgBase();
@@ -1970,6 +2164,7 @@
                 if (document.getElementById('econ-wz-tg-cost'))   document.getElementById('econ-wz-tg-cost').textContent   = fmtKZT(tgCost);
                 if (document.getElementById('econ-wz-tg-margin')) document.getElementById('econ-wz-tg-margin').textContent = '+' + fmtKZT(tgMarg);
                 if (document.getElementById('econ-wz-tg-net'))    document.getElementById('econ-wz-tg-net').textContent    = fmtKZT(tgNet);
+                updateSplit('wz-tg', tgNet);
 
                 // VK
                 const vkBase  = getWzVkBase();
@@ -1980,6 +2175,7 @@
                 if (document.getElementById('econ-wz-vk-cost'))   document.getElementById('econ-wz-vk-cost').textContent   = fmtKZT(vkCost);
                 if (document.getElementById('econ-wz-vk-margin')) document.getElementById('econ-wz-vk-margin').textContent = '+' + fmtKZT(vkMarg);
                 if (document.getElementById('econ-wz-vk-net'))    document.getElementById('econ-wz-vk-net').textContent    = fmtKZT(vkNet);
+                updateSplit('wz-vk', vkNet);
 
                 // 4. Sipuni (Fixed 50% partner margin, 50% vendor wholesale cost)
                 const sipBase  = getSipBase();
@@ -1990,18 +2186,21 @@
                 if (document.getElementById('econ-sip-cost'))   document.getElementById('econ-sip-cost').textContent   = fmtKZT(sipCost);
                 if (document.getElementById('econ-sip-margin')) document.getElementById('econ-sip-margin').textContent = '+' + fmtKZT(sipMarg);
                 if (document.getElementById('econ-sip-net'))    document.getElementById('econ-sip-net').textContent    = fmtKZT(sipNet);
+                updateSplit('sip', sipNet);
 
                 // 5. NODUS Services (100% margin, 0 cost)
                 const servPrice = parseFloat(document.getElementById('inp-serv-price')?.value) || 0;
                 const servNet   = Math.max(0, Math.round(servPrice - (servPrice * TOTAL_DEDUCT_RATE)));
                 if (document.getElementById('econ-serv-margin')) document.getElementById('econ-serv-margin').textContent = '+' + fmtKZT(servPrice);
                 if (document.getElementById('econ-serv-net'))    document.getElementById('econ-serv-net').textContent    = fmtKZT(servNet);
+                updateSplit('serv', servNet);
 
                 // 6. NODUS Support (100% margin, 0 cost)
                 const suppPrice = parseFloat(document.getElementById('inp-supp-price')?.value) || 0;
                 const suppNet   = Math.max(0, Math.round(suppPrice - (suppPrice * TOTAL_DEDUCT_RATE)));
                 if (document.getElementById('econ-supp-margin')) document.getElementById('econ-supp-margin').textContent = '+' + fmtKZT(suppPrice);
                 if (document.getElementById('econ-supp-net'))    document.getElementById('econ-supp-net').textContent    = fmtKZT(suppNet);
+                updateSplit('supp', suppNet);
             };
 
             // BIND EVENTS FOR RECALCULATING & RENDERING
@@ -2238,6 +2437,12 @@
                     document.getElementById('stat-kaspi-fee').textContent     = '−' + fmtKZT(kaspiFee) + ' (0.95%)';
                     document.getElementById('stat-tax-fee').textContent       = '−' + fmtKZT(taxFee) + ' (3.0%)';
                     document.getElementById('stat-net-profit').textContent     = fmtKZT(netProfit);
+
+                    // 50/50 Partner Profit Split (Вадим / Есен)
+                    const vadimTotal = Math.ceil(netProfit / 2);
+                    const esenTotal  = Math.floor(netProfit / 2);
+                    if (document.getElementById('stat-split-vadim')) document.getElementById('stat-split-vadim').textContent = fmtKZT(vadimTotal);
+                    if (document.getElementById('stat-split-esen'))  document.getElementById('stat-split-esen').textContent  = fmtKZT(esenTotal);
 
                     // Read Requisites & Parameters
                     const myName   = document.getElementById('req-my-name')?.value || 'ИП «NODUS»';
