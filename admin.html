@@ -979,22 +979,7 @@
             <!-- LEFT COLUMN: CONTROLS & MODULES -->
             <aside class="controls-panel">
                 
-                <!-- 1. Presets -->
-                <div class="section-box">
-                    <div class="section-title">
-                        <span>⚡ Быстрые шаблоны сметы</span>
-                        <span style="font-size:0.72rem; color:#94a3b8;">1-Click</span>
-                    </div>
-                    <div class="presets-bar">
-                        <button type="button" class="btn-preset" id="pre-gym">🏋️ Underground Gym (100k)</button>
-                        <button type="button" class="btn-preset" id="pre-trade">🪟 Status in Trade (250k)</button>
-                        <button type="button" class="btn-preset" id="pre-vip">🚚 Tabyn Trans VIP (500k)</button>
-                        <button type="button" class="btn-preset" id="pre-spa">💆 RaiThai Spa (250k)</button>
-                        <button type="button" class="btn-preset btn-preset-clear" id="pre-clear">❌ Сбросить всё</button>
-                    </div>
-                </div>
-
-                <!-- 2. Modules & Pricing Configurator -->
+                <!-- 1. Modules & Pricing Configurator -->
                 <div class="section-box">
                     <div class="section-title">
                         <span>🛠️ Модули ПО и Услуг (По умолчанию выключены)</span>
@@ -1837,130 +1822,12 @@
                 renderAll();
             });
 
-            document.getElementById('pre-gym')?.addEventListener('click', () => {
-                clearAllCheckboxes();
-                document.getElementById('req-cl-name').value = 'Фитнес-клуб «Underground Gym»';
-                document.getElementById('req-cl-director').value = 'в лице Управляющего директора Серикова Т.К.';
-                document.getElementById('req-cl-bin').value = '210540019876';
-                
-                document.getElementById('chk-amo').checked = true;
-                document.getElementById('card-amo').classList.add('active');
-                document.getElementById('sel-amo-tariff').value = '5199';
-                document.getElementById('inp-amo-users').value = '5';
-                document.getElementById('sel-amo-term').value = '6';
-
-                document.getElementById('chk-wz-wa').checked = true;
-                document.getElementById('box-wz-wa').classList.add('active');
-                document.getElementById('card-wz-suite').classList.add('active');
-                document.getElementById('sel-wz-wa-plan').value = '24000';
-
-                document.getElementById('chk-serv').checked = true;
-                document.getElementById('card-serv').classList.add('active');
-                document.getElementById('sel-serv-pkg').value = '100000';
-
-                document.getElementById('req-work-days').value = '4';
-                document.getElementById('req-warranty-days').value = '7';
-                recalculatePrices();
-                renderAll();
-            });
-
-            document.getElementById('pre-trade')?.addEventListener('click', () => {
-                clearAllCheckboxes();
-                document.getElementById('req-cl-name').value = 'ТОО «Status in Trade»';
-                document.getElementById('req-cl-director').value = 'в лице Генерального директора Бекова М.С.';
-                document.getElementById('req-cl-bin').value = '180340012345';
-
-                document.getElementById('chk-amo').checked = true;
-                document.getElementById('card-amo').classList.add('active');
-                document.getElementById('sel-amo-tariff').value = '9899';
-                document.getElementById('inp-amo-users').value = '5';
-                document.getElementById('sel-amo-term').value = '6';
-
-                document.getElementById('chk-wz-wa').checked = true;
-                document.getElementById('box-wz-wa').classList.add('active');
-                document.getElementById('card-wz-suite').classList.add('active');
-
-                document.getElementById('chk-sip').checked = true;
-                document.getElementById('card-sip').classList.add('active');
-
-                document.getElementById('chk-serv').checked = true;
-                document.getElementById('card-serv').classList.add('active');
-                document.getElementById('sel-serv-pkg').value = '250000';
-
-                document.getElementById('req-work-days').value = '7';
-                document.getElementById('req-warranty-days').value = '14';
-                recalculatePrices();
-                renderAll();
-            });
-
-            document.getElementById('pre-vip')?.addEventListener('click', () => {
-                clearAllCheckboxes();
-                document.getElementById('req-cl-name').value = 'Холдинг «Tabyn Trans Logistics»';
-                document.getElementById('req-cl-director').value = 'в лице Председателя правления Касымова Е.Ж.';
-                document.getElementById('req-cl-bin').value = '150840034567';
-
-                document.getElementById('chk-bx').checked = true;
-                document.getElementById('card-bx').classList.add('active');
-                document.getElementById('sel-bx-tariff').value = 'standard';
-                document.getElementById('sel-bx-term').value = '12';
-
-                document.getElementById('chk-wz-wa').checked = true;
-                document.getElementById('box-wz-wa').classList.add('active');
-                document.getElementById('chk-wz-tg').checked = true;
-                document.getElementById('box-wz-tg').classList.add('active');
-                document.getElementById('card-wz-suite').classList.add('active');
-                document.getElementById('sel-wz-wa-plan').value = '36000';
-
-                document.getElementById('chk-sip').checked = true;
-                document.getElementById('card-sip').classList.add('active');
-                document.getElementById('inp-sip-users').value = '10';
-
-                document.getElementById('chk-serv').checked = true;
-                document.getElementById('card-serv').classList.add('active');
-                document.getElementById('sel-serv-pkg').value = '500000';
-
-                document.getElementById('chk-supp').checked = true;
-                document.getElementById('card-supp').classList.add('active');
-                document.getElementById('sel-supp-plan').value = '75000';
-                document.getElementById('sel-supp-term').value = '3';
-
-                document.getElementById('req-work-days').value = '15';
-                document.getElementById('req-warranty-days').value = '30';
-                recalculatePrices();
-                renderAll();
-            });
-
-            document.getElementById('pre-spa')?.addEventListener('click', () => {
-                clearAllCheckboxes();
-                document.getElementById('req-cl-name').value = 'Спа-комплекс «RaiThai Massage & SPA»';
-                document.getElementById('req-cl-director').value = 'в лице Директора Самойловой Е.В.';
-                document.getElementById('req-cl-bin').value = '200840054321';
-
-                document.getElementById('chk-amo').checked = true;
-                document.getElementById('card-amo').classList.add('active');
-                document.getElementById('sel-amo-tariff').value = '9899';
-                document.getElementById('inp-amo-users').value = '3';
-                document.getElementById('sel-amo-term').value = '6';
-
-                document.getElementById('chk-wz-wa').checked = true;
-                document.getElementById('box-wz-wa').classList.add('active');
-                document.getElementById('chk-wz-ig').checked = true;
-                document.getElementById('box-wz-ig').classList.add('active');
-                document.getElementById('card-wz-suite').classList.add('active');
-
-                document.getElementById('chk-sip').checked = true;
-                document.getElementById('card-sip').classList.add('active');
-                document.getElementById('inp-sip-users').value = '2';
-
-                document.getElementById('chk-serv').checked = true;
-                document.getElementById('card-serv').classList.add('active');
-                document.getElementById('sel-serv-pkg').value = '250000';
-
-                document.getElementById('req-work-days').value = '7';
-                document.getElementById('req-warranty-days').value = '14';
-                recalculatePrices();
-                renderAll();
-            });
+            // CLEAR ALL CHECKBOXES HELPER
+            const clearAllCheckboxes = () => {
+                document.querySelectorAll('.mod-checkbox').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.mod-card').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.wz-channel-box').forEach(b => b.classList.remove('active'));
+            };
 
             // MAIN RENDER FUNCTION
             const renderAll = () => {
@@ -2150,14 +2017,14 @@
 
                     const clName     = document.getElementById('req-cl-name').value || 'ТОО «Заказчик»';
                     const clDirector = document.getElementById('req-cl-director').value || 'в лице Генерального директора';
-                    const clBin      = document.getElementById('req-cl-bin').value || '000000000000';
-                    const clPhone    = document.getElementById('req-cl-phone').value || '+7 (700) 000-00-00';
-                    const clAddr     = document.getElementById('req-cl-addr').value || 'г. Алматы';
-                    const clBank     = document.getElementById('req-cl-bank').value || 'АО Kaspi Bank';
-                    const clBik      = document.getElementById('req-cl-bik').value || 'CASPKZKA';
-                    const clIban     = document.getElementById('req-cl-iban').value || 'KZ000000000000000000';
+                    const clBin      = document.getElementById('req-cl-bin').value || '';
+                    const clPhone    = document.getElementById('req-cl-phone').value || '';
+                    const clAddr     = document.getElementById('req-cl-addr').value || '';
+                    const clBank     = document.getElementById('req-cl-bank').value || '';
+                    const clBik      = document.getElementById('req-cl-bik').value || '';
+                    const clIban     = document.getElementById('req-cl-iban').value || '';
 
-                    const docNum       = document.getElementById('req-doc-num').value || '№ ND-2026/08-14';
+                    const docNum       = document.getElementById('req-doc-num').value || '№ ND-2026/08-25';
                     const rawDate      = document.getElementById('req-doc-date').value;
                     const workDays     = document.getElementById('req-work-days').value || '7';
                     const warrantyDays = document.getElementById('req-warranty-days').value || '14';
@@ -2205,7 +2072,7 @@
                                 <div class="doc-meta-info">
                                     <div style="font-weight:800; font-size:13px;">ДОГОВОР ПОДРЯДА ${docNum}</div>
                                     <div>Дата: <b>${dateFormatted}</b></div>
-                                    <div>г. Петропавловск / г. Алматы</div>
+                                    <div>г. Петропавловск</div>
                                 </div>
                             </div>
 
