@@ -1465,17 +1465,17 @@
                     </div>
                     <div class="form-group"><label>Юр. адрес:</label><input type="text" id="req-cl-addr" class="c-input" value="г. Алматы, пр. Достык, 180, офис 504"></div>
                     <div class="grid-2">
-                        <div class="form-group"><label>Банк клиента:</label><input type="text" id="req-cl-bank" class="c-input" value="АО «Halyk Bank»"></div>
-                        <div class="form-group"><label>БИК:</label><input type="text" id="req-cl-bik" class="c-input" value="HSBKKZKX"></div>
+                        <div class="form-group"><label>Банк клиента:</label><input type="text" id="req-cl-bank" class="c-input" value="" placeholder="АО «... Bank» (необязательно)"></div>
+                        <div class="form-group"><label>БИК:</label><input type="text" id="req-cl-bik" class="c-input" value="" placeholder="БИК банка"></div>
                     </div>
-                    <div class="form-group"><label>ИИК (IBAN):</label><input type="text" id="req-cl-iban" class="c-input" value="KZ886010002003456789"></div>
+                    <div class="form-group"><label>ИИК (IBAN):</label><input type="text" id="req-cl-iban" class="c-input" value="" placeholder="KZ... (необязательно)"></div>
                 </div>
 
                 <!-- 7. Document Meta Parameters -->
                 <div class="section-box">
                     <div class="section-title"><span>📑 Параметры документа</span></div>
                     <div class="grid-2">
-                        <div class="form-group"><label>Номер:</label><input type="text" id="req-doc-num" class="c-input" value="№ ND-2026/08-14"></div>
+                        <div class="form-group"><label>Номер документа:</label><input type="text" id="req-doc-num" class="c-input" value="№ ND-2026/08-25" placeholder="№ ND-ГГГГ/ММ-ДД"></div>
                         <div class="form-group"><label>Дата (UTC+5 KZ):</label><input type="date" id="req-doc-date" class="c-input"></div>
                     </div>
                     <div class="grid-2">
@@ -1557,14 +1557,32 @@
 
             checkAuth();
 
-            // Set Kazakhstan Time UTC+5
+            // Set Kazakhstan Time UTC+5 & Dynamic Document Number
             const getKzToday = () => {
                 const now = new Date();
                 const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
                 const kzDate = new Date(utc + (3600000 * 5));
                 return kzDate.toISOString().split('T')[0];
             };
-            document.getElementById('req-doc-date').value = getKzToday();
+            const todayKzIso = getKzToday();
+            const docDateInp = document.getElementById('req-doc-date');
+            const docNumInp  = document.getElementById('req-doc-num');
+
+            if (docDateInp) docDateInp.value = todayKzIso;
+            if (docNumInp && todayKzIso) {
+                const [yyyy, mm, dd] = todayKzIso.split('-');
+                docNumInp.value = `№ ND-${yyyy}/${mm}-${dd}`;
+            }
+
+            // Sync doc number when date is changed
+            docDateInp?.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (val && docNumInp) {
+                    const [y, m, d] = val.split('-');
+                    docNumInp.value = `№ ND-${y}/${m}-${d}`;
+                    renderAll();
+                }
+            });
 
             // TAB SWITCHER
             let activeTab = 'contract';
@@ -2268,9 +2286,9 @@
                                     <div><b>${clName}</b></div>
                                     <div>БИН/ИИН: ${clBin}</div>
                                     <div>Адрес: ${clAddr}</div>
-                                    <div>Банк: ${clBank}</div>
-                                    <div>БИК: ${clBik}</div>
-                                    <div>ИИК (IBAN): ${clIban}</div>
+                                    ${clBank ? `<div>Банк: ${clBank}</div>` : ''}
+                                    ${clBik ? `<div>БИК: ${clBik}</div>` : ''}
+                                    ${clIban ? `<div>ИИК (IBAN): ${clIban}</div>` : ''}
                                     <div>Тел: ${clPhone}</div>
                                     <div class="sig-line">Руководитель: ______________ / ${clName} / (М.П.)</div>
                                 </div>
@@ -2389,7 +2407,7 @@
                                     <div class="brand-desc">Интеграция CRM-систем и оцифровка продаж в Казахстане</div>
                                 </div>
                                 <div class="doc-meta-info">
-                                    <div style="font-weight:800;">КП № ND-2026/КП</div>
+                                    <div style="font-weight:800;">КП ${docNum}</div>
                                     <div>Дата: <b>${dateFormatted}</b></div>
                                     <div>Для: <b>${clName}</b></div>
                                 </div>
@@ -2431,7 +2449,7 @@
 
                             <div class="clause-h">КОНТАКТЫ ДЛЯ СТАРТА ПРОЕКТА</div>
                             <div class="clause-p" style="margin-top:8px;">
-                                Руководитель направления: <b>Константин</b><br>
+                                Интегратор / Команда: <b>NODUS</b><br>
                                 Телефон / WhatsApp: <b>${myPhone}</b><br>
                                 Telegram: <b>@DopeScr1m</b>
                             </div>
@@ -2466,13 +2484,14 @@
                     fullName: "Индивидуальный предприниматель «NODUS»",
                     bin: "010618550536",
                     iin: "010618550536",
+                    ip: true,
                     field: ["Деятельность в области компьютерного программирования, интеграции CRM и оцифровки продаж"],
                     region: "Северо-Казахстанская область",
                     city: "г. Петропавловск",
                     street: "ул. 1-я Заречная, 109, кв. 2",
                     lawAddress: "г. Петропавловск, ул. 1-я Заречная, 109, кв. 2",
                     oked: "62020",
-                    owner: "КОНСТАНТИН (ИП NODUS)",
+                    owner: "NODUS",
                     ownerIin: "010618550536",
                     registerDate: 1640995200000,
                     workers: "до 5 чел.",
@@ -2631,8 +2650,18 @@
                 const clPhoneInp= document.getElementById('req-cl-phone');
 
                 if (clNameInp) clNameInp.value = companyName;
+                
+                const isIp = basicData.ip || (companyName && companyName.toUpperCase().includes('ИП')) || (basicData.fullName && basicData.fullName.toUpperCase().includes('ИНДИВИДУАЛЬН'));
                 if (clDirInp) {
-                    clDirInp.value = ownerName ? `в лице Руководителя ${ownerName}, действующего на основании Устава` : `в лице Руководителя, действующего на основании Устава`;
+                    if (isIp) {
+                        clDirInp.value = ownerName && ownerName !== 'NODUS'
+                            ? `в лице Индивидуального предпринимателя ${ownerName}, действующего на основании Уведомления о начале предпринимательской деятельности`
+                            : `в лице Индивидуального предпринимателя, действующего на основании Уведомления о начале предпринимательской деятельности`;
+                    } else {
+                        clDirInp.value = ownerName
+                            ? `в лице Руководителя ${ownerName}, действующего на основании Устава`
+                            : `в лице Руководителя, действующего на основании Устава`;
+                    }
                 }
                 if (clBinInp) clBinInp.value = bin;
                 if (clAddrInp) clAddrInp.value = lawAddr;
