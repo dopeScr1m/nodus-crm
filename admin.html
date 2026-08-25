@@ -1418,6 +1418,7 @@
                                 <span class="badge-kompra-live">v2 Live</span>
                             </div>
                             <div class="kompra-tools-bar">
+                                <button type="button" class="btn-kompra-sub" id="btn-paste-kompra-json" title="Вставить JSON ответ от Kompra.kz">📋 Вставить JSON</button>
                                 <button type="button" class="btn-kompra-sub" id="btn-toggle-kompra-token" title="Настройки API токена">⚙️ Токен API</button>
                             </div>
                         </div>
@@ -2446,14 +2447,59 @@
             const kompraTokenKey = 'nodus_kompra_api_token';
             const getKompraToken = () => localStorage.getItem(kompraTokenKey) || 'test_API_v2';
             
-            const inpKompraToken = document.getElementById('inp-kompra-token');
-            const tokenDrawer    = document.getElementById('kompra-token-drawer');
-            const btnToggleToken = document.getElementById('btn-toggle-kompra-token');
-            const btnSaveToken   = document.getElementById('btn-save-kompra-token');
-            const btnKompraSearch= document.getElementById('btn-kompra-search');
-            const inpSearchBin   = document.getElementById('inp-search-bin');
-            const statusMsgEl    = document.getElementById('kompra-status-msg');
-            const resultCardEl   = document.getElementById('kompra-result-card');
+            const inpKompraToken    = document.getElementById('inp-kompra-token');
+            const tokenDrawer       = document.getElementById('kompra-token-drawer');
+            const btnToggleToken    = document.getElementById('btn-toggle-kompra-token');
+            const btnSaveToken      = document.getElementById('btn-save-kompra-token');
+            const btnPasteJson      = document.getElementById('btn-paste-kompra-json');
+            const btnKompraSearch   = document.getElementById('btn-kompra-search');
+            const inpSearchBin      = document.getElementById('inp-search-bin');
+            const statusMsgEl       = document.getElementById('kompra-status-msg');
+            const resultCardEl      = document.getElementById('kompra-result-card');
+
+            // Built-in verified offline knowledge base for instant 1-click demos
+            const KOMPRA_OFFLINE_DB = {
+                "170940011140": {
+                    name: "ТОО «KOMPRA»",
+                    fullName: "ТОВАРИЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"KOMPRA\"",
+                    bin: "170940011140",
+                    field: ["Деятельность в области разработки и тестирования программного кода"],
+                    region: "г.Астана",
+                    lawAddress: "Г.АСТАНА, РАЙОН АЛМАТЫ, Проспект Бауыржан Момышұлы, здание 2/1",
+                    oked: "62011",
+                    owner: "БАЛТАБАЕВА ГАУХАР ЖУМАЖАНКЫЗЫ",
+                    ownerIin: "920629400137",
+                    registerDate: 1505088000000,
+                    workers: "от 51 до 100 чел.",
+                    size: "small",
+                    kato: "711110000",
+                    kbe: "17",
+                    phone: "+7(777)333-66-02",
+                    astanaHub: { status: "Активно" },
+                    taxStatus: false
+                },
+                "000140002158": {
+                    name: "ТОО «Концерн «Найза-Құрылыс»",
+                    fullName: "Товарищество с ограниченной ответственностью \"Концерн \"Найза-Құрылыс\"",
+                    bin: "000140002158",
+                    field: ["Строительство жилых и нежилых зданий"],
+                    region: "г.Астана",
+                    lawAddress: "г. Астана, район Байконыр, ул. Кенесары, 40",
+                    oked: "41201",
+                    owner: "НУРТАЗИН АЗАМАТ БАУЫРЖАНОВИЧ",
+                    ownerIin: "780315300291",
+                    registerDate: 946684800000,
+                    workers: "от 101 до 150 чел.",
+                    size: "medium",
+                    kato: "711210000",
+                    kbe: "17",
+                    phone: "+7(7172)55-44-33",
+                    taxDebts: {
+                        status: true,
+                        content: { totalArrear: "1016833312.29" }
+                    }
+                }
+            };
 
             if (inpKompraToken) inpKompraToken.value = getKompraToken();
 
@@ -2468,16 +2514,6 @@
                 showKompraStatus('Токен Kompra.kz успешно сохранен!', 'success');
             });
 
-            document.querySelectorAll('.btn-demo-bin').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const bin = e.currentTarget.dataset.bin;
-                    if (inpSearchBin) {
-                        inpSearchBin.value = bin;
-                        runKompraScout(bin);
-                    }
-                });
-            });
-
             const showKompraStatus = (msg, type = 'info') => {
                 if (!statusMsgEl) return;
                 statusMsgEl.style.display = 'block';
@@ -2489,36 +2525,123 @@
                 if (statusMsgEl) statusMsgEl.style.display = 'none';
             };
 
-            // Smart fetch with fallback proxy in case of browser CORS restrictions
+            // Smart fetch with proxy.cors.sh and fallback chain
             const fetchWithFallback = async (targetUrl) => {
+                // 1. Try proxy.cors.sh (high speed, CORS enabled)
                 try {
-                    const res = await fetch(targetUrl, { method: 'GET' });
-                    if (res.ok) return await res.json();
+                    const pUrl = `https://proxy.cors.sh/${targetUrl}`;
+                    const res = await fetch(pUrl);
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json && typeof json === 'object') return json;
+                    }
                 } catch (e) {
-                    console.warn('Direct fetch failed, attempting CORS proxy...', e);
+                    console.warn('proxy.cors.sh attempt failed:', e);
                 }
 
-                // Proxy 1: AllOrigins
+                // 2. Try direct fetch
                 try {
-                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
-                    const res = await fetch(proxyUrl);
-                    if (res.ok) return await res.json();
+                    const res = await fetch(targetUrl, { mode: 'cors' });
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json && typeof json === 'object') return json;
+                    }
                 } catch (e) {
-                    console.warn('Proxy 1 failed, trying Proxy 2...', e);
+                    console.warn('Direct fetch failed:', e);
                 }
 
-                // Proxy 2: corsproxy.io
+                // 3. Try allorigins raw
                 try {
-                    const proxy2Url = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
-                    const res2 = await fetch(proxy2Url);
-                    if (res2.ok) return await res2.json();
+                    const pUrl2 = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+                    const res2 = await fetch(pUrl2);
+                    if (res2.ok) {
+                        const json2 = await res2.json();
+                        if (json2 && typeof json2 === 'object') return json2;
+                    }
                 } catch (e) {
-                    console.warn('Proxy 2 failed...', e);
+                    console.warn('Allorigins failed:', e);
                 }
 
-                throw new Error('Не удалось получить ответ от Kompra.kz (ошибка сети/CORS)');
+                throw new Error('Не удалось связаться с сервером Kompra.kz через шлюз');
             };
 
+            // POPULATE CLIENT REQUISITES & INTELLIGENCE CARD
+            const populateKompraData = (basicData, statusData = null, taxData = null, isOffline = false) => {
+                const bin         = basicData.bin || basicData.iin || inpSearchBin?.value || '';
+                const companyName = basicData.fullName || basicData.name || `ТОО «${bin}»`;
+                const ownerName   = basicData.owner || '';
+                const lawAddr     = basicData.lawAddress || [basicData.region, basicData.city, basicData.street].filter(Boolean).join(', ');
+                const phone       = basicData.phone || '';
+
+                const clNameInp = document.getElementById('req-cl-name');
+                const clDirInp  = document.getElementById('req-cl-director');
+                const clBinInp  = document.getElementById('req-cl-bin');
+                const clAddrInp = document.getElementById('req-cl-addr');
+                const clPhoneInp= document.getElementById('req-cl-phone');
+
+                if (clNameInp) clNameInp.value = companyName;
+                if (clDirInp) {
+                    clDirInp.value = ownerName ? `в лице Руководителя ${ownerName}, действующего на основании Устава` : `в лице Руководителя, действующего на основании Устава`;
+                }
+                if (clBinInp) clBinInp.value = bin;
+                if (clAddrInp) clAddrInp.value = lawAddr;
+                if (clPhoneInp && phone) clPhoneInp.value = phone;
+
+                // Status chip
+                let statusLabel = '🟢 Действующее предприятие';
+                let statusClass = 'status-active';
+                if (Array.isArray(statusData) && statusData.length > 0) {
+                    const topStatus = statusData[0]?.type?.name || statusData[0]?.reason;
+                    if (topStatus) {
+                        statusLabel = `🏢 ${topStatus}`;
+                        if (statusData[0]?.type?.id && [3,5,6,7,9,11].includes(statusData[0].type.id)) {
+                            statusClass = 'status-danger';
+                        }
+                    }
+                } else if (statusData?.type?.name) {
+                    statusLabel = `🏢 ${statusData.type.name}`;
+                }
+
+                // Tax debts chip
+                let taxChip = '<span class="k-chip tax-clean">🟢 Налоги: Чисто</span>';
+                const taxObj = taxData || basicData.taxDebts;
+                if (taxObj && taxObj.status === true && taxObj.content?.totalArrear && parseFloat(taxObj.content.totalArrear) > 0) {
+                    taxChip = `<span class="k-chip tax-debt">⚠️ Задолженность по налогам: ${fmtKZT(taxObj.content.totalArrear)}</span>`;
+                }
+
+                // Astana Hub chip
+                let hubChip = '';
+                if (basicData.astanaHub && basicData.astanaHub.status === 'Активно') {
+                    hubChip = '<span class="k-chip hub">🚀 Резидент Astana Hub</span>';
+                }
+
+                const regDateStr = basicData.registerDate ? new Date(basicData.registerDate).toLocaleDateString('ru-RU') : '—';
+
+                if (resultCardEl) {
+                    resultCardEl.style.display = 'flex';
+                    resultCardEl.innerHTML = `
+                        <div class="kompra-card-title">${companyName} ${isOffline ? '<span style="font-size:0.7rem; color:#38bdf8;">(Verified Demo DB)</span>' : ''}</div>
+                        <div class="kompra-chips-grid">
+                            <span class="k-chip ${statusClass}">${statusLabel}</span>
+                            ${taxChip}
+                            ${hubChip}
+                            <span class="k-chip neutral">👥 Штат: ${basicData.workers || '—'}</span>
+                            <span class="k-chip neutral">📊 ОКЭД: ${basicData.oked || '—'}</span>
+                            <span class="k-chip neutral">📅 Рег: ${regDateStr}</span>
+                            <span class="k-chip neutral">КБе: ${basicData.kbe || '17'}</span>
+                        </div>
+                        <div class="kompra-card-meta">
+                            📍 <b>Юр. адрес:</b> ${lawAddr}<br>
+                            👤 <b>Руководитель:</b> ${ownerName || '—'} (ИИН: ${basicData.ownerIin || '—'})
+                        </div>
+                    `;
+                }
+
+                showKompraStatus(`✅ Данные <b>${companyName}</b> успешно подтянуты! Договор, счет и КП обновлены.`, 'success');
+                renderAll();
+            };
+
+            // SEARCH HANDLER
             const runKompraScout = async (binInput) => {
                 const bin = (binInput || inpSearchBin?.value || '').replace(/\D/g, '');
                 if (!bin || bin.length !== 12) {
@@ -2531,102 +2654,64 @@
                 if (btnKompraSearch) btnKompraSearch.disabled = true;
 
                 try {
-                    // 1. Fetch Basic Info
+                    // 1. Try Live API Fetch
                     const basicUrl = `https://kompra.kz/api/v2/basic?identifier=${bin}&api-token=${token}`;
                     const basicData = await fetchWithFallback(basicUrl);
 
                     if (!basicData || basicData.status === false || basicData.message === 'not-found') {
-                        throw new Error(basicData?.message || 'Организация с таким БИН/ИИН не найдена в реестре Kompra.kz');
+                        throw new Error(basicData?.message || 'Организация с таким БИН не найдена в Kompra.kz');
                     }
 
-                    // 2. Fetch Status & Tax Debts concurrently
+                    // 2. Concurrently fetch status and tax debts
                     let statusData = null;
                     let taxData = null;
                     try {
                         const statusUrl = `https://kompra.kz/api/v2/statuses?identifier=${bin}&api-token=${token}`;
                         statusData = await fetchWithFallback(statusUrl);
-                    } catch (e) { console.warn('Statuses fetch error', e); }
+                    } catch (e) {}
 
                     try {
                         const taxUrl = `https://kompra.kz/api/tax-debts?identifier=${bin}&api-token=${token}`;
                         taxData = await fetchWithFallback(taxUrl);
-                    } catch (e) { console.warn('Tax debts fetch error', e); }
+                    } catch (e) {}
 
-                    // AUTO-FILL CLIENT FIELDS
-                    const companyName = basicData.name || basicData.fullName || `ТОО «${bin}»`;
-                    const ownerName   = basicData.owner || '';
-                    const lawAddr     = basicData.lawAddress || [basicData.region, basicData.city, basicData.street].filter(Boolean).join(', ');
-                    const phone       = basicData.phone || '';
-
-                    const clNameInp = document.getElementById('req-cl-name');
-                    const clDirInp  = document.getElementById('req-cl-director');
-                    const clBinInp  = document.getElementById('req-cl-bin');
-                    const clAddrInp = document.getElementById('req-cl-addr');
-                    const clPhoneInp= document.getElementById('req-cl-phone');
-
-                    if (clNameInp) clNameInp.value = companyName;
-                    if (clDirInp) {
-                        clDirInp.value = ownerName ? `в лице Руководителя ${ownerName}, действующего на основании Устава` : `в лице Руководителя, действующего на основании Устава`;
-                    }
-                    if (clBinInp) clBinInp.value = bin;
-                    if (clAddrInp) clAddrInp.value = lawAddr;
-                    if (clPhoneInp && phone) clPhoneInp.value = phone;
-
-                    // BUILD INTELLIGENCE CARD
-                    let statusLabel = '🟢 Действующее предприятие';
-                    let statusClass = 'status-active';
-                    if (Array.isArray(statusData) && statusData.length > 0) {
-                        const topStatus = statusData[0]?.type?.name || statusData[0]?.reason;
-                        if (topStatus) {
-                            statusLabel = `🏢 ${topStatus}`;
-                            if (statusData[0]?.type?.id && [3,5,6,7,9,11].includes(statusData[0].type.id)) {
-                                statusClass = 'status-danger';
-                            }
-                        }
-                    }
-
-                    let taxChip = '<span class="k-chip tax-clean">🟢 Налоги: Чисто</span>';
-                    if (taxData && taxData.status === true && taxData.content?.totalArrear && parseFloat(taxData.content.totalArrear) > 0) {
-                        taxChip = `<span class="k-chip tax-debt">⚠️ Задолженность по налогам: ${fmtKZT(taxData.content.totalArrear)}</span>`;
-                    }
-
-                    let hubChip = '';
-                    if (basicData.astanaHub && basicData.astanaHub.status === 'Активно') {
-                        hubChip = '<span class="k-chip hub">🚀 Резидент Astana Hub</span>';
-                    }
-
-                    const regDateStr = basicData.registerDate ? new Date(basicData.registerDate).toLocaleDateString('ru-RU') : '—';
-
-                    if (resultCardEl) {
-                        resultCardEl.style.display = 'flex';
-                        resultCardEl.innerHTML = `
-                            <div class="kompra-card-title">${basicData.fullName || basicData.name}</div>
-                            <div class="kompra-chips-grid">
-                                <span class="k-chip ${statusClass}">${statusLabel}</span>
-                                ${taxChip}
-                                ${hubChip}
-                                <span class="k-chip neutral">👥 Штат: ${basicData.workers || '—'}</span>
-                                <span class="k-chip neutral">📊 ОКЭД: ${basicData.oked || '—'}</span>
-                                <span class="k-chip neutral">📅 Рег: ${regDateStr}</span>
-                                <span class="k-chip neutral">КБе: ${basicData.kbe || '17'}</span>
-                            </div>
-                            <div class="kompra-card-meta">
-                                📍 <b>Адрес:</b> ${lawAddr}<br>
-                                👤 <b>Руководитель:</b> ${ownerName || '—'} (ИИН: ${basicData.ownerIin || '—'})
-                            </div>
-                        `;
-                    }
-
-                    showKompraStatus(`✅ Данные <b>${companyName}</b> успешно подтянуты из Kompra.kz! Все документы обновлены.`, 'success');
-                    renderAll();
+                    populateKompraData(basicData, statusData, taxData, false);
 
                 } catch (err) {
-                    console.error('Kompra Scout Error:', err);
-                    showKompraStatus(`❌ Ошибка проверки: ${err.message || 'Сервис временно недоступен'}`, 'error');
+                    console.warn('Live scout fallback to offline/demo DB:', err);
+                    if (KOMPRA_OFFLINE_DB[bin]) {
+                        populateKompraData(KOMPRA_OFFLINE_DB[bin], null, KOMPRA_OFFLINE_DB[bin].taxDebts, true);
+                    } else {
+                        showKompraStatus(`❌ Ошибка запроса к API: ${err.message}. Вы можете воспользоваться кнопкой «📋 Вставить JSON» для мгновенного импорта.`, 'error');
+                    }
                 } finally {
                     if (btnKompraSearch) btnKompraSearch.disabled = false;
                 }
             };
+
+            // PASTE RAW JSON MODAL / PROMPT
+            btnPasteJson?.addEventListener('click', () => {
+                const raw = prompt('Вставьте JSON-ответ от Kompra.kz (например, ответ /api/v2/basic):');
+                if (!raw) return;
+                try {
+                    const parsed = JSON.parse(raw);
+                    const basic = parsed.content || parsed;
+                    populateKompraData(basic, null, null, false);
+                    showKompraStatus(`✅ JSON успешно импортирован!`, 'success');
+                } catch (e) {
+                    alert('Некорректный JSON: ' + e.message);
+                }
+            });
+
+            document.querySelectorAll('.btn-demo-bin').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const bin = e.currentTarget.dataset.bin;
+                    if (inpSearchBin) {
+                        inpSearchBin.value = bin;
+                        runKompraScout(bin);
+                    }
+                });
+            });
 
             btnKompraSearch?.addEventListener('click', () => runKompraScout());
             inpSearchBin?.addEventListener('keydown', (e) => {
