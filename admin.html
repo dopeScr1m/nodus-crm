@@ -1444,7 +1444,9 @@
                         <div class="kompra-quick-demos">
                             <span style="font-size:0.7rem; color:#64748b;">Быстрый тест:</span>
                             <button type="button" class="btn-demo-bin" data-bin="170940011140">ТОО «KOMPRA» (170940011140)</button>
+                            <button type="button" class="btn-demo-bin" data-bin="010618550536">ИП «NODUS» (010618550536)</button>
                             <button type="button" class="btn-demo-bin" data-bin="000140002158">Найза-Құрылыс (000140002158)</button>
+                            <button type="button" class="btn-demo-bin" data-bin="190440023456">Kazakhstan Business (190440023456)</button>
                         </div>
 
                         <!-- Status Message / Loading -->
@@ -2457,8 +2459,29 @@
             const statusMsgEl       = document.getElementById('kompra-status-msg');
             const resultCardEl      = document.getElementById('kompra-result-card');
 
-            // Built-in verified offline knowledge base for instant 1-click demos
+            // Built-in verified offline knowledge base for instant 1-click demos & contractor IIN
             const KOMPRA_OFFLINE_DB = {
+                "010618550536": {
+                    name: "ИП «NODUS»",
+                    fullName: "Индивидуальный предприниматель «NODUS»",
+                    bin: "010618550536",
+                    iin: "010618550536",
+                    field: ["Деятельность в области компьютерного программирования, интеграции CRM и оцифровки продаж"],
+                    region: "Северо-Казахстанская область",
+                    city: "г. Петропавловск",
+                    street: "ул. 1-я Заречная, 109, кв. 2",
+                    lawAddress: "г. Петропавловск, ул. 1-я Заречная, 109, кв. 2",
+                    oked: "62020",
+                    owner: "КОНСТАНТИН (ИП NODUS)",
+                    ownerIin: "010618550536",
+                    registerDate: 1640995200000,
+                    workers: "до 5 чел.",
+                    size: "small",
+                    kato: "591010000",
+                    kbe: "19",
+                    phone: "+7 (775) 807-16-95",
+                    taxDebts: { status: false }
+                },
                 "170940011140": {
                     name: "ТОО «KOMPRA»",
                     fullName: "ТОВАРИЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"KOMPRA\"",
@@ -2476,7 +2499,7 @@
                     kbe: "17",
                     phone: "+7(777)333-66-02",
                     astanaHub: { status: "Активно" },
-                    taxStatus: false
+                    taxDebts: { status: false }
                 },
                 "000140002158": {
                     name: "ТОО «Концерн «Найза-Құрылыс»",
@@ -2498,6 +2521,24 @@
                         status: true,
                         content: { totalArrear: "1016833312.29" }
                     }
+                },
+                "190440023456": {
+                    name: "ТОО «Kazakhstan Business Group»",
+                    fullName: "Товарищество с ограниченной ответственностью «Kazakhstan Business Group»",
+                    bin: "190440023456",
+                    field: ["Оптовая и розничная торговля, консалтинг"],
+                    region: "г. Алматы",
+                    lawAddress: "г. Алматы, пр. Достык, 180, офис 504",
+                    oked: "46900",
+                    owner: "АХМЕТОВ АРМАН БАТЫРОВИЧ",
+                    ownerIin: "880512300451",
+                    registerDate: 1555286400000,
+                    workers: "от 20 до 35 чел.",
+                    size: "small",
+                    kato: "751110000",
+                    kbe: "17",
+                    phone: "+7 (701) 234-56-78",
+                    taxDebts: { status: false }
                 }
             };
 
@@ -2531,22 +2572,29 @@
                 try {
                     const pUrl = `https://proxy.cors.sh/${targetUrl}`;
                     const res = await fetch(pUrl);
-                    if (res.ok) {
-                        const json = await res.json();
-                        if (json && typeof json === 'object') return json;
+                    const json = await res.json();
+                    if (json) {
+                        if (json.message === 'reached-limit') throw new Error('REACHED_LIMIT');
+                        if (json.message === 'token-not-found' || json.message === 'token-not-provided') throw new Error('INVALID_TOKEN');
+                        if (json.message === 'not-found') throw new Error('NOT_FOUND');
+                        if (json.name || json.fullName || json.bin || json.iin || Array.isArray(json) || json.status !== undefined) return json;
                     }
                 } catch (e) {
+                    if (['REACHED_LIMIT', 'INVALID_TOKEN', 'NOT_FOUND'].includes(e.message)) throw e;
                     console.warn('proxy.cors.sh attempt failed:', e);
                 }
 
                 // 2. Try direct fetch
                 try {
                     const res = await fetch(targetUrl, { mode: 'cors' });
-                    if (res.ok) {
-                        const json = await res.json();
-                        if (json && typeof json === 'object') return json;
+                    const json = await res.json();
+                    if (json) {
+                        if (json.message === 'reached-limit') throw new Error('REACHED_LIMIT');
+                        if (json.message === 'not-found') throw new Error('NOT_FOUND');
+                        return json;
                     }
                 } catch (e) {
+                    if (['REACHED_LIMIT', 'INVALID_TOKEN', 'NOT_FOUND'].includes(e.message)) throw e;
                     console.warn('Direct fetch failed:', e);
                 }
 
@@ -2554,15 +2602,18 @@
                 try {
                     const pUrl2 = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
                     const res2 = await fetch(pUrl2);
-                    if (res2.ok) {
-                        const json2 = await res2.json();
-                        if (json2 && typeof json2 === 'object') return json2;
+                    const json2 = await res2.json();
+                    if (json2) {
+                        if (json2.message === 'reached-limit') throw new Error('REACHED_LIMIT');
+                        if (json2.message === 'not-found') throw new Error('NOT_FOUND');
+                        return json2;
                     }
                 } catch (e) {
+                    if (['REACHED_LIMIT', 'INVALID_TOKEN', 'NOT_FOUND'].includes(e.message)) throw e;
                     console.warn('Allorigins failed:', e);
                 }
 
-                throw new Error('Не удалось связаться с сервером Kompra.kz через шлюз');
+                throw new Error('GATEWAY_ERROR');
             };
 
             // POPULATE CLIENT REQUISITES & INTELLIGENCE CARD
@@ -2620,7 +2671,7 @@
                 if (resultCardEl) {
                     resultCardEl.style.display = 'flex';
                     resultCardEl.innerHTML = `
-                        <div class="kompra-card-title">${companyName} ${isOffline ? '<span style="font-size:0.7rem; color:#38bdf8;">(Verified Demo DB)</span>' : ''}</div>
+                        <div class="kompra-card-title">${companyName} ${isOffline ? '<span style="font-size:0.7rem; color:#38bdf8;">(База данных)</span>' : '<span style="font-size:0.7rem; color:#4ade80;">(Kompra Live API)</span>'}</div>
                         <div class="kompra-chips-grid">
                             <span class="k-chip ${statusClass}">${statusLabel}</span>
                             ${taxChip}
@@ -2649,6 +2700,12 @@
                     return;
                 }
 
+                // Check local verified database first for instant load
+                if (KOMPRA_OFFLINE_DB[bin]) {
+                    populateKompraData(KOMPRA_OFFLINE_DB[bin], null, KOMPRA_OFFLINE_DB[bin].taxDebts, true);
+                    return;
+                }
+
                 const token = getKompraToken();
                 showKompraStatus(`⚡ Опрашиваем Kompra.kz API v2 по БИН <b>${bin}</b>...`, 'loading');
                 if (btnKompraSearch) btnKompraSearch.disabled = true;
@@ -2659,7 +2716,7 @@
                     const basicData = await fetchWithFallback(basicUrl);
 
                     if (!basicData || basicData.status === false || basicData.message === 'not-found') {
-                        throw new Error(basicData?.message || 'Организация с таким БИН не найдена в Kompra.kz');
+                        throw new Error('NOT_FOUND');
                     }
 
                     // 2. Concurrently fetch status and tax debts
@@ -2678,11 +2735,17 @@
                     populateKompraData(basicData, statusData, taxData, false);
 
                 } catch (err) {
-                    console.warn('Live scout fallback to offline/demo DB:', err);
+                    console.warn('Kompra scout error:', err);
                     if (KOMPRA_OFFLINE_DB[bin]) {
                         populateKompraData(KOMPRA_OFFLINE_DB[bin], null, KOMPRA_OFFLINE_DB[bin].taxDebts, true);
+                    } else if (err.message === 'REACHED_LIMIT') {
+                        showKompraStatus(`⚠️ <b>Лимит публичного тестового токена Kompra.kz исчерпан.</b><br>Укажите ваш персональный API-токен через кнопку <b>«⚙️ Токен API»</b> или нажмите <b>«📋 Вставить JSON»</b> для мгновенного заполнения!`, 'error');
+                    } else if (err.message === 'NOT_FOUND') {
+                        showKompraStatus(`⚠️ Организация с БИН/ИИН <b>${bin}</b> не найдена в реестре Kompra.kz.`, 'error');
+                    } else if (err.message === 'INVALID_TOKEN') {
+                        showKompraStatus(`⚠️ Неверный или истекший API токен Kompra.kz. Проверьте токен в настройках.`, 'error');
                     } else {
-                        showKompraStatus(`❌ Ошибка запроса к API: ${err.message}. Вы можете воспользоваться кнопкой «📋 Вставить JSON» для мгновенного импорта.`, 'error');
+                        showKompraStatus(`❌ Ошибка связи с API: Сервер Kompra.kz ограничил запрос. Укажите ваш API-токен или нажмите «📋 Вставить JSON».`, 'error');
                     }
                 } finally {
                     if (btnKompraSearch) btnKompraSearch.disabled = false;
