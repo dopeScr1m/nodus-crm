@@ -373,6 +373,38 @@
         .inp-disc { width: 65px !important; color: #f87171 !important; text-align: center; padding: 4px 6px !important; font-weight: 700; }
         .inp-price-override { width: 130px !important; font-weight: 800; color: #38bdf8 !important; text-align: right; padding: 4px 8px !important; font-family: 'JetBrains Mono', monospace; }
 
+        /* PER-MODULE UNIT ECONOMICS STRIP */
+        .mod-econ-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 7px 10px;
+            margin-top: 8px;
+        }
+        .econ-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .econ-cell .econ-title {
+            color: #94a3b8;
+            font-size: 0.65rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .econ-cell .econ-val {
+            font-weight: 800;
+            font-size: 0.78rem;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: nowrap;
+        }
+        .econ-cell.cost .econ-val { color: #94a3b8; }
+        .econ-cell.margin .econ-val { color: #38bdf8; }
+        .econ-cell.net .econ-val { color: #4ade80; }
+
         /* CUSTOM ITEMS BUILDER */
         .custom-items-list {
             max-height: 160px;
@@ -1002,6 +1034,20 @@
                             <span class="tuning-label">Сумма в счет:</span>
                             <input type="number" id="inp-amo-price" class="c-input inp-price-override" value="296970">
                         </div>
+                        <div class="mod-econ-strip">
+                            <div class="econ-cell cost">
+                                <span class="econ-title">Себестоимость (65%):</span>
+                                <span class="econ-val" id="econ-amo-cost">193 031 ₸</span>
+                            </div>
+                            <div class="econ-cell margin">
+                                <span class="econ-title">Партнерка (+35%):</span>
+                                <span class="econ-val" id="econ-amo-margin">+103 939 ₸</span>
+                            </div>
+                            <div class="econ-cell net">
+                                <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                <span class="econ-val" id="econ-amo-net">92 209 ₸</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Bitrix24 -->
@@ -1035,6 +1081,20 @@
                             <input type="number" id="inp-bx-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
                             <span class="tuning-label">Сумма в счет:</span>
                             <input type="number" id="inp-bx-price" class="c-input inp-price-override" value="423168">
+                        </div>
+                        <div class="mod-econ-strip">
+                            <div class="econ-cell cost">
+                                <span class="econ-title">Себестоимость (50%):</span>
+                                <span class="econ-val" id="econ-bx-cost">211 584 ₸</span>
+                            </div>
+                            <div class="econ-cell margin">
+                                <span class="econ-title">Партнерка (+50%):</span>
+                                <span class="econ-val" id="econ-bx-margin">+211 584 ₸</span>
+                            </div>
+                            <div class="econ-cell net">
+                                <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                <span class="econ-val" id="econ-bx-net">194 869 ₸</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1085,6 +1145,20 @@
                                 <span class="tuning-label">Сумма в счет:</span>
                                 <input type="number" id="inp-wz-wa-price" class="c-input inp-price-override" value="129600">
                             </div>
+                            <div class="mod-econ-strip">
+                                <div class="econ-cell cost">
+                                    <span class="econ-title">Себестоимость (50%):</span>
+                                    <span class="econ-val" id="econ-wz-wa-cost">64 800 ₸</span>
+                                </div>
+                                <div class="econ-cell margin">
+                                    <span class="econ-title">Партнерка (+50%):</span>
+                                    <span class="econ-val" id="econ-wz-wa-margin">+64 800 ₸</span>
+                                </div>
+                                <div class="econ-cell net">
+                                    <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                    <span class="econ-val" id="econ-wz-wa-net">59 681 ₸</span>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- 2. Instagram -->
@@ -1122,6 +1196,20 @@
                                 <input type="number" id="inp-wz-ig-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
                                 <span class="tuning-label">Сумма в счет:</span>
                                 <input type="number" id="inp-wz-ig-price" class="c-input inp-price-override" value="64800">
+                            </div>
+                            <div class="mod-econ-strip">
+                                <div class="econ-cell cost">
+                                    <span class="econ-title">Себестоимость (50%):</span>
+                                    <span class="econ-val" id="econ-wz-ig-cost">32 400 ₸</span>
+                                </div>
+                                <div class="econ-cell margin">
+                                    <span class="econ-title">Партнерка (+50%):</span>
+                                    <span class="econ-val" id="econ-wz-ig-margin">+32 400 ₸</span>
+                                </div>
+                                <div class="econ-cell net">
+                                    <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                    <span class="econ-val" id="econ-wz-ig-net">29 840 ₸</span>
+                                </div>
                             </div>
                         </div>
 
@@ -1163,6 +1251,20 @@
                                 <span class="tuning-label">Сумма в счет:</span>
                                 <input type="number" id="inp-wz-tg-price" class="c-input inp-price-override" value="129600">
                             </div>
+                            <div class="mod-econ-strip">
+                                <div class="econ-cell cost">
+                                    <span class="econ-title">Себестоимость (50%):</span>
+                                    <span class="econ-val" id="econ-wz-tg-cost">64 800 ₸</span>
+                                </div>
+                                <div class="econ-cell margin">
+                                    <span class="econ-title">Партнерка (+50%):</span>
+                                    <span class="econ-val" id="econ-wz-tg-margin">+64 800 ₸</span>
+                                </div>
+                                <div class="econ-cell net">
+                                    <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                    <span class="econ-val" id="econ-wz-tg-net">59 681 ₸</span>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- 4. VK -->
@@ -1200,6 +1302,20 @@
                                 <input type="number" id="inp-wz-vk-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
                                 <span class="tuning-label">Сумма в счет:</span>
                                 <input type="number" id="inp-wz-vk-price" class="c-input inp-price-override" value="0">
+                            </div>
+                            <div class="mod-econ-strip">
+                                <div class="econ-cell cost">
+                                    <span class="econ-title">Себестоимость (50%):</span>
+                                    <span class="econ-val" id="econ-wz-vk-cost">0 ₸</span>
+                                </div>
+                                <div class="econ-cell margin">
+                                    <span class="econ-title">Партнерка (+50%):</span>
+                                    <span class="econ-val" id="econ-wz-vk-margin">+0 ₸</span>
+                                </div>
+                                <div class="econ-cell net">
+                                    <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                    <span class="econ-val" id="econ-wz-vk-net">0 ₸</span>
+                                </div>
                             </div>
                         </div>
 
@@ -1241,6 +1357,20 @@
                             <span class="tuning-label">Сумма в счет:</span>
                             <input type="number" id="inp-sip-price" class="c-input inp-price-override" value="57600">
                         </div>
+                        <div class="mod-econ-strip">
+                            <div class="econ-cell cost">
+                                <span class="econ-title">Себестоимость (50%):</span>
+                                <span class="econ-val" id="econ-sip-cost">28 800 ₸</span>
+                            </div>
+                            <div class="econ-cell margin">
+                                <span class="econ-title">Партнерка (+50%):</span>
+                                <span class="econ-val" id="econ-sip-margin">+28 800 ₸</span>
+                            </div>
+                            <div class="econ-cell net">
+                                <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                <span class="econ-val" id="econ-sip-net">26 525 ₸</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- NODUS Services -->
@@ -1264,6 +1394,20 @@
                             <input type="number" id="inp-serv-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
                             <span class="tuning-label">Сумма в счет:</span>
                             <input type="number" id="inp-serv-price" class="c-input inp-price-override" value="250000">
+                        </div>
+                        <div class="mod-econ-strip">
+                            <div class="econ-cell cost">
+                                <span class="econ-title">Себестоимость:</span>
+                                <span class="econ-val" style="color:#a5b4fc;">0 ₸ (Своя работа)</span>
+                            </div>
+                            <div class="econ-cell margin">
+                                <span class="econ-title">Доход (100%):</span>
+                                <span class="econ-val" id="econ-serv-margin">+250 000 ₸</span>
+                            </div>
+                            <div class="econ-cell net">
+                                <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                <span class="econ-val" id="econ-serv-net">240 125 ₸</span>
+                            </div>
                         </div>
                     </div>
 
@@ -1301,11 +1445,25 @@
                             <span class="tuning-label">Сумма в счет:</span>
                             <input type="number" id="inp-supp-price" class="c-input inp-price-override" value="35000">
                         </div>
+                        <div class="mod-econ-strip">
+                            <div class="econ-cell cost">
+                                <span class="econ-title">Себестоимость:</span>
+                                <span class="econ-val" style="color:#a5b4fc;">0 ₸ (Своя работа)</span>
+                            </div>
+                            <div class="econ-cell margin">
+                                <span class="econ-title">Доход (100%):</span>
+                                <span class="econ-val" id="econ-supp-margin">+35 000 ₸</span>
+                            </div>
+                            <div class="econ-cell net">
+                                <span class="econ-title">🔥 Чистыми (-3.95%):</span>
+                                <span class="econ-val" id="econ-supp-net">33 618 ₸</span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
 
-                <!-- 3. Custom Line Items -->
+                <!-- 2. Custom Line Items -->
                 <div class="section-box">
                     <div class="section-title">
                         <span>➕ Индивидуальные доработки</span>
@@ -1314,41 +1472,7 @@
                     <button type="button" class="btn-add-custom" id="btn-add-row">+ Добавить свою строку</button>
                 </div>
 
-                <!-- 4. Internal Profit Analytics -->
-                <div class="section-box">
-                    <div class="section-title">
-                        <span>📊 Чистая прибыль (Для себя)</span>
-                        <span style="font-size:0.72rem; color:#22c55e;">Внутренний расчет</span>
-                    </div>
-                    <div class="analytics-card">
-                        <div class="stat-row client-bill">
-                            <span>Общий счет клиенту (100%):</span>
-                            <span id="stat-grand-total">0 ₸</span>
-                        </div>
-                        <div class="stat-row profit">
-                            <span>Твои услуги и поддержка (100%):</span>
-                            <span id="stat-serv-profit">0 ₸</span>
-                        </div>
-                        <div class="stat-row profit">
-                            <span>Партнерская выплата с софта:</span>
-                            <span id="stat-vendor-profit">0 ₸</span>
-                        </div>
-                        <div class="stat-row deduct">
-                            <span>💳 Kaspi Pay (-0.95%):</span>
-                            <span id="stat-kaspi-fee">−0 ₸</span>
-                        </div>
-                        <div class="stat-row deduct">
-                            <span>🏛️ Налог СНР РК (-3.0%):</span>
-                            <span id="stat-tax-fee">−0 ₸</span>
-                        </div>
-                        <div class="stat-row net">
-                            <span>🔥 ЧИСТЫМИ НА РУКИ:</span>
-                            <span id="stat-net-profit">0 ₸</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. Contractor Requisites -->
+                <!-- 3. Contractor Requisites -->
                 <div class="section-box">
                     <div class="section-title"><span>💼 Реквизиты Исполнителя</span></div>
                     <div class="form-group"><label>Исполнитель:</label><input type="text" id="req-my-name" class="c-input" value="ИП «NODUS»"></div>
@@ -1367,7 +1491,7 @@
                     </div>
                 </div>
 
-                <!-- 6. Client Requisites -->
+                <!-- 4. Client Requisites -->
                 <div class="section-box">
                     <div class="section-title">
                         <span>🏢 Реквизиты Заказчика</span>
@@ -1436,7 +1560,7 @@
                     <div class="form-group"><label>ИИК (IBAN):</label><input type="text" id="req-cl-iban" class="c-input" value="" placeholder="KZ... (необязательно)"></div>
                 </div>
 
-                <!-- 7. Document Meta Parameters -->
+                <!-- 5. Document Meta Parameters -->
                 <div class="section-box">
                     <div class="section-title"><span>📑 Параметры документа</span></div>
                     <div class="grid-2">
@@ -1454,6 +1578,40 @@
                             <option value="100_pre">100% предоплата до начала работ</option>
                             <option value="30_70">30% аванс / 70% после сдачи системы</option>
                         </select>
+                    </div>
+                </div>
+
+                <!-- 6. Overall Internal Profit Analytics (VERY BOTTOM) -->
+                <div class="section-box" style="border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.03);">
+                    <div class="section-title">
+                        <span>📊 Чистая прибыль (Для себя)</span>
+                        <span style="font-size:0.72rem; color:#22c55e;">Итоговый расчет</span>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="stat-row client-bill">
+                            <span>Общий счет клиенту (100%):</span>
+                            <span id="stat-grand-total">0 ₸</span>
+                        </div>
+                        <div class="stat-row profit">
+                            <span>Твои услуги и поддержка (100%):</span>
+                            <span id="stat-serv-profit">0 ₸</span>
+                        </div>
+                        <div class="stat-row profit">
+                            <span>Партнерская выплата с софта:</span>
+                            <span id="stat-vendor-profit">0 ₸</span>
+                        </div>
+                        <div class="stat-row deduct">
+                            <span>💳 Kaspi Pay (-0.95%):</span>
+                            <span id="stat-kaspi-fee">−0 ₸</span>
+                        </div>
+                        <div class="stat-row deduct">
+                            <span>🏛️ Налог СНР РК (-3.0%):</span>
+                            <span id="stat-tax-fee">−0 ₸</span>
+                        </div>
+                        <div class="stat-row net">
+                            <span>🔥 ЧИСТЫМИ НА РУКИ:</span>
+                            <span id="stat-net-profit">0 ₸</span>
+                        </div>
                     </div>
                 </div>
 
@@ -1718,6 +1876,89 @@
                 const suppBase     = suppBasePlan * suppTerm;
                 const suppDisc     = parseFloat(document.getElementById('inp-supp-disc').value) || 0;
                 document.getElementById('inp-supp-price').value = Math.round(suppBase * (1 - suppDisc / 100));
+
+                updateModuleEconomics();
+            };
+
+            // UPDATE PER-MODULE UNIT ECONOMICS STRIP
+            const updateModuleEconomics = () => {
+                const TOTAL_DEDUCT_RATE = 0.0095 + 0.03; // Kaspi Pay (0.95%) + СНР Налог (3.0%) = 3.95%
+
+                // 1. amoCRM (35% margin, 65% cost)
+                const amoPrice = parseFloat(document.getElementById('inp-amo-price')?.value) || 0;
+                const amoCost  = Math.round(amoPrice * 0.65);
+                const amoMarg  = Math.round(amoPrice * 0.35);
+                const amoNet   = Math.max(0, Math.round(amoMarg - (amoPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-amo-cost'))   document.getElementById('econ-amo-cost').textContent   = fmtKZT(amoCost);
+                if (document.getElementById('econ-amo-margin')) document.getElementById('econ-amo-margin').textContent = '+' + fmtKZT(amoMarg);
+                if (document.getElementById('econ-amo-net'))    document.getElementById('econ-amo-net').textContent    = fmtKZT(amoNet);
+
+                // 2. Bitrix24 (50% margin, 50% cost)
+                const bxPrice = parseFloat(document.getElementById('inp-bx-price')?.value) || 0;
+                const bxCost  = Math.round(bxPrice * 0.50);
+                const bxMarg  = Math.round(bxPrice * 0.50);
+                const bxNet   = Math.max(0, Math.round(bxMarg - (bxPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-bx-cost'))   document.getElementById('econ-bx-cost').textContent   = fmtKZT(bxCost);
+                if (document.getElementById('econ-bx-margin')) document.getElementById('econ-bx-margin').textContent = '+' + fmtKZT(bxMarg);
+                if (document.getElementById('econ-bx-net'))    document.getElementById('econ-bx-net').textContent    = fmtKZT(bxNet);
+
+                // 3. WAZZUP Channels (50% margin, 50% cost)
+                // WA
+                const waPrice = parseFloat(document.getElementById('inp-wz-wa-price')?.value) || 0;
+                const waCost  = Math.round(waPrice * 0.50);
+                const waMarg  = Math.round(waPrice * 0.50);
+                const waNet   = Math.max(0, Math.round(waMarg - (waPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-wz-wa-cost'))   document.getElementById('econ-wz-wa-cost').textContent   = fmtKZT(waCost);
+                if (document.getElementById('econ-wz-wa-margin')) document.getElementById('econ-wz-wa-margin').textContent = '+' + fmtKZT(waMarg);
+                if (document.getElementById('econ-wz-wa-net'))    document.getElementById('econ-wz-wa-net').textContent    = fmtKZT(waNet);
+
+                // IG
+                const igPrice = parseFloat(document.getElementById('inp-wz-ig-price')?.value) || 0;
+                const igCost  = Math.round(igPrice * 0.50);
+                const igMarg  = Math.round(igPrice * 0.50);
+                const igNet   = Math.max(0, Math.round(igMarg - (igPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-wz-ig-cost'))   document.getElementById('econ-wz-ig-cost').textContent   = fmtKZT(igCost);
+                if (document.getElementById('econ-wz-ig-margin')) document.getElementById('econ-wz-ig-margin').textContent = '+' + fmtKZT(igMarg);
+                if (document.getElementById('econ-wz-ig-net'))    document.getElementById('econ-wz-ig-net').textContent    = fmtKZT(igNet);
+
+                // TG
+                const tgPrice = parseFloat(document.getElementById('inp-wz-tg-price')?.value) || 0;
+                const tgCost  = Math.round(tgPrice * 0.50);
+                const tgMarg  = Math.round(tgPrice * 0.50);
+                const tgNet   = Math.max(0, Math.round(tgMarg - (tgPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-wz-tg-cost'))   document.getElementById('econ-wz-tg-cost').textContent   = fmtKZT(tgCost);
+                if (document.getElementById('econ-wz-tg-margin')) document.getElementById('econ-wz-tg-margin').textContent = '+' + fmtKZT(tgMarg);
+                if (document.getElementById('econ-wz-tg-net'))    document.getElementById('econ-wz-tg-net').textContent    = fmtKZT(tgNet);
+
+                // VK
+                const vkPrice = parseFloat(document.getElementById('inp-wz-vk-price')?.value) || 0;
+                const vkCost  = Math.round(vkPrice * 0.50);
+                const vkMarg  = Math.round(vkPrice * 0.50);
+                const vkNet   = Math.max(0, Math.round(vkMarg - (vkPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-wz-vk-cost'))   document.getElementById('econ-wz-vk-cost').textContent   = fmtKZT(vkCost);
+                if (document.getElementById('econ-wz-vk-margin')) document.getElementById('econ-wz-vk-margin').textContent = '+' + fmtKZT(vkMarg);
+                if (document.getElementById('econ-wz-vk-net'))    document.getElementById('econ-wz-vk-net').textContent    = fmtKZT(vkNet);
+
+                // 4. Sipuni (50% margin, 50% cost)
+                const sipPrice = parseFloat(document.getElementById('inp-sip-price')?.value) || 0;
+                const sipCost  = Math.round(sipPrice * 0.50);
+                const sipMarg  = Math.round(sipPrice * 0.50);
+                const sipNet   = Math.max(0, Math.round(sipMarg - (sipPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-sip-cost'))   document.getElementById('econ-sip-cost').textContent   = fmtKZT(sipCost);
+                if (document.getElementById('econ-sip-margin')) document.getElementById('econ-sip-margin').textContent = '+' + fmtKZT(sipMarg);
+                if (document.getElementById('econ-sip-net'))    document.getElementById('econ-sip-net').textContent    = fmtKZT(sipNet);
+
+                // 5. NODUS Services (100% margin, 0 cost)
+                const servPrice = parseFloat(document.getElementById('inp-serv-price')?.value) || 0;
+                const servNet   = Math.max(0, Math.round(servPrice - (servPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-serv-margin')) document.getElementById('econ-serv-margin').textContent = '+' + fmtKZT(servPrice);
+                if (document.getElementById('econ-serv-net'))    document.getElementById('econ-serv-net').textContent    = fmtKZT(servNet);
+
+                // 6. NODUS Support (100% margin, 0 cost)
+                const suppPrice = parseFloat(document.getElementById('inp-supp-price')?.value) || 0;
+                const suppNet   = Math.max(0, Math.round(suppPrice - (suppPrice * TOTAL_DEDUCT_RATE)));
+                if (document.getElementById('econ-supp-margin')) document.getElementById('econ-supp-margin').textContent = '+' + fmtKZT(suppPrice);
+                if (document.getElementById('econ-supp-net'))    document.getElementById('econ-supp-net').textContent    = fmtKZT(suppNet);
             };
 
             // BIND EVENTS FOR RECALCULATING & RENDERING
@@ -1739,7 +1980,8 @@
                 });
 
                 document.querySelectorAll('#inp-amo-price, #inp-bx-price, #inp-wz-wa-price, #inp-wz-ig-price, #inp-wz-tg-price, #inp-wz-vk-price, #inp-sip-price, #inp-serv-price, #inp-supp-price').forEach(el => {
-                    el.addEventListener('input', renderAll);
+                    el.addEventListener('input', () => { updateModuleEconomics(); renderAll(); });
+                    el.addEventListener('change', () => { updateModuleEconomics(); renderAll(); });
                 });
 
                 document.querySelectorAll('#req-my-name, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-work-days, #req-warranty-days, #req-pay-terms').forEach(el => {
