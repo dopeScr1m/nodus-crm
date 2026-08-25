@@ -451,6 +451,225 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
+        /* =========================================================================
+           KOMPRA.KZ SCOUT & AUTO-FILL MODULE
+           ========================================================================= */
+        .kompra-box {
+            background: linear-gradient(145deg, rgba(2, 132, 199, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(2, 132, 199, 0.15);
+        }
+        .kompra-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .kompra-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: #38bdf8;
+            letter-spacing: 0.3px;
+        }
+        .badge-kompra-live {
+            background: rgba(34, 197, 94, 0.18);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .kompra-tools-bar {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .btn-kompra-sub {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            color: #cbd5e1;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-kompra-sub:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border-color: rgba(56, 189, 248, 0.5);
+        }
+        .kompra-token-drawer {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .kompra-search-row {
+            display: flex;
+            gap: 8px;
+        }
+        .kompra-bin-input {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 0.92rem !important;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            border-color: rgba(56, 189, 248, 0.4) !important;
+        }
+        .kompra-bin-input:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.35) !important;
+        }
+        .btn-kompra-search {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+        }
+        .btn-kompra-search:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.5);
+            background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+        }
+        .kompra-quick-demos {
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .btn-demo-bin {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
+            color: #7dd3fc;
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-demo-bin:hover {
+            background: rgba(56, 189, 248, 0.22);
+            color: #fff;
+            border-style: solid;
+        }
+        .kompra-status-msg {
+            margin-top: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            line-height: 1.4;
+        }
+        .kompra-status-msg.loading {
+            background: rgba(56, 189, 248, 0.15);
+            color: #7dd3fc;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .kompra-status-msg.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .kompra-status-msg.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .kompra-result-card {
+            margin-top: 12px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+        }
+        .kompra-card-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #f8fafc;
+            line-height: 1.3;
+        }
+        .kompra-chips-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .k-chip {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .k-chip.status-active {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+        .k-chip.status-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .k-chip.hub {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
+            color: #f472b6;
+            border: 1px solid rgba(236, 72, 153, 0.35);
+            font-weight: 700;
+        }
+        .k-chip.neutral {
+            background: rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .k-chip.tax-clean {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .k-chip.tax-debt {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .kompra-card-meta {
+            font-size: 0.74rem;
+            color: #94a3b8;
+            line-height: 1.4;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 6px;
+            margin-top: 2px;
+        }
+
         /* DOCUMENT PREVIEW WRAPPER */
         .preview-wrapper {
             background: rgba(15, 23, 42, 0.75);
@@ -1185,7 +1404,56 @@
 
                 <!-- 6. Client Requisites -->
                 <div class="section-box">
-                    <div class="section-title"><span>🏢 Реквизиты Заказчика</span></div>
+                    <div class="section-title">
+                        <span>🏢 Реквизиты Заказчика</span>
+                        <span style="font-size:0.72rem; color:#38bdf8;">Автозаполнение по БИН</span>
+                    </div>
+
+                    <!-- KOMPRA.KZ LIVE SCOUT MODULE -->
+                    <div class="kompra-box">
+                        <div class="kompra-header">
+                            <div class="kompra-brand">
+                                <span style="font-size:1.1rem;">🛡️</span>
+                                <span>Kompra.kz Scout API</span>
+                                <span class="badge-kompra-live">v2 Live</span>
+                            </div>
+                            <div class="kompra-tools-bar">
+                                <button type="button" class="btn-kompra-sub" id="btn-toggle-kompra-token" title="Настройки API токена">⚙️ Токен API</button>
+                            </div>
+                        </div>
+
+                        <!-- Collapsible Token Config -->
+                        <div class="kompra-token-drawer" id="kompra-token-drawer" style="display:none;">
+                            <label style="font-size:0.72rem; color:#94a3b8; font-weight:600;">API Token Kompra.kz (сохраняется в браузере):</label>
+                            <div style="display:flex; gap:6px; margin-top:4px;">
+                                <input type="text" id="inp-kompra-token" class="c-input" placeholder="Введи токен или test_API_v2" value="test_API_v2">
+                                <button type="button" class="btn-kompra-sub" id="btn-save-kompra-token" style="background:#0284c7; color:#fff; font-weight:700; white-space:nowrap;">💾 Сохранить</button>
+                            </div>
+                        </div>
+
+                        <!-- Search Input Row -->
+                        <div class="kompra-search-row">
+                            <input type="text" id="inp-search-bin" class="c-input kompra-bin-input" placeholder="Введи 12 цифр БИН / ИИН (напр. 170940011140)" maxlength="12">
+                            <button type="button" class="btn-kompra-search" id="btn-kompra-search">
+                                <span>🔍 Найти и заполнить</span>
+                            </button>
+                        </div>
+
+                        <!-- Quick Demo Presets -->
+                        <div class="kompra-quick-demos">
+                            <span style="font-size:0.7rem; color:#64748b;">Быстрый тест:</span>
+                            <button type="button" class="btn-demo-bin" data-bin="170940011140">ТОО «KOMPRA» (170940011140)</button>
+                            <button type="button" class="btn-demo-bin" data-bin="000140002158">Найза-Құрылыс (000140002158)</button>
+                        </div>
+
+                        <!-- Status Message / Loading -->
+                        <div id="kompra-status-msg" class="kompra-status-msg" style="display:none;"></div>
+
+                        <!-- Live Intelligence Card -->
+                        <div id="kompra-result-card" class="kompra-result-card" style="display:none;"></div>
+                    </div>
+
+                    <!-- Client Inputs -->
                     <div class="form-group"><label>Компания Заказчика:</label><input type="text" id="req-cl-name" class="c-input" value="ТОО «Kazakhstan Business Group»"></div>
                     <div class="form-group"><label>В лице (должность, ФИО):</label><input type="text" id="req-cl-director" class="c-input" value="в лице Генерального директора Ахметова А.Б., действующего на основании Устава"></div>
                     <div class="grid-2">
@@ -2171,6 +2439,202 @@
                     console.error("Render Error:", err);
                 }
             };
+
+            // =========================================================================
+            // KOMPRA.KZ API v2 SCOUT & AUTO-FILL ENGINE
+            // =========================================================================
+            const kompraTokenKey = 'nodus_kompra_api_token';
+            const getKompraToken = () => localStorage.getItem(kompraTokenKey) || 'test_API_v2';
+            
+            const inpKompraToken = document.getElementById('inp-kompra-token');
+            const tokenDrawer    = document.getElementById('kompra-token-drawer');
+            const btnToggleToken = document.getElementById('btn-toggle-kompra-token');
+            const btnSaveToken   = document.getElementById('btn-save-kompra-token');
+            const btnKompraSearch= document.getElementById('btn-kompra-search');
+            const inpSearchBin   = document.getElementById('inp-search-bin');
+            const statusMsgEl    = document.getElementById('kompra-status-msg');
+            const resultCardEl   = document.getElementById('kompra-result-card');
+
+            if (inpKompraToken) inpKompraToken.value = getKompraToken();
+
+            btnToggleToken?.addEventListener('click', () => {
+                tokenDrawer.style.display = tokenDrawer.style.display === 'none' ? 'block' : 'none';
+            });
+
+            btnSaveToken?.addEventListener('click', () => {
+                const val = inpKompraToken.value.trim() || 'test_API_v2';
+                localStorage.setItem(kompraTokenKey, val);
+                tokenDrawer.style.display = 'none';
+                showKompraStatus('Токен Kompra.kz успешно сохранен!', 'success');
+            });
+
+            document.querySelectorAll('.btn-demo-bin').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const bin = e.currentTarget.dataset.bin;
+                    if (inpSearchBin) {
+                        inpSearchBin.value = bin;
+                        runKompraScout(bin);
+                    }
+                });
+            });
+
+            const showKompraStatus = (msg, type = 'info') => {
+                if (!statusMsgEl) return;
+                statusMsgEl.style.display = 'block';
+                statusMsgEl.className = `kompra-status-msg ${type}`;
+                statusMsgEl.innerHTML = msg;
+            };
+
+            const hideKompraStatus = () => {
+                if (statusMsgEl) statusMsgEl.style.display = 'none';
+            };
+
+            // Smart fetch with fallback proxy in case of browser CORS restrictions
+            const fetchWithFallback = async (targetUrl) => {
+                try {
+                    const res = await fetch(targetUrl, { method: 'GET' });
+                    if (res.ok) return await res.json();
+                } catch (e) {
+                    console.warn('Direct fetch failed, attempting CORS proxy...', e);
+                }
+
+                // Proxy 1: AllOrigins
+                try {
+                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+                    const res = await fetch(proxyUrl);
+                    if (res.ok) return await res.json();
+                } catch (e) {
+                    console.warn('Proxy 1 failed, trying Proxy 2...', e);
+                }
+
+                // Proxy 2: corsproxy.io
+                try {
+                    const proxy2Url = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+                    const res2 = await fetch(proxy2Url);
+                    if (res2.ok) return await res2.json();
+                } catch (e) {
+                    console.warn('Proxy 2 failed...', e);
+                }
+
+                throw new Error('Не удалось получить ответ от Kompra.kz (ошибка сети/CORS)');
+            };
+
+            const runKompraScout = async (binInput) => {
+                const bin = (binInput || inpSearchBin?.value || '').replace(/\D/g, '');
+                if (!bin || bin.length !== 12) {
+                    showKompraStatus('⚠️ Введите корректный 12-значный БИН или ИИН организации', 'error');
+                    return;
+                }
+
+                const token = getKompraToken();
+                showKompraStatus(`⚡ Опрашиваем Kompra.kz API v2 по БИН <b>${bin}</b>...`, 'loading');
+                if (btnKompraSearch) btnKompraSearch.disabled = true;
+
+                try {
+                    // 1. Fetch Basic Info
+                    const basicUrl = `https://kompra.kz/api/v2/basic?identifier=${bin}&api-token=${token}`;
+                    const basicData = await fetchWithFallback(basicUrl);
+
+                    if (!basicData || basicData.status === false || basicData.message === 'not-found') {
+                        throw new Error(basicData?.message || 'Организация с таким БИН/ИИН не найдена в реестре Kompra.kz');
+                    }
+
+                    // 2. Fetch Status & Tax Debts concurrently
+                    let statusData = null;
+                    let taxData = null;
+                    try {
+                        const statusUrl = `https://kompra.kz/api/v2/statuses?identifier=${bin}&api-token=${token}`;
+                        statusData = await fetchWithFallback(statusUrl);
+                    } catch (e) { console.warn('Statuses fetch error', e); }
+
+                    try {
+                        const taxUrl = `https://kompra.kz/api/tax-debts?identifier=${bin}&api-token=${token}`;
+                        taxData = await fetchWithFallback(taxUrl);
+                    } catch (e) { console.warn('Tax debts fetch error', e); }
+
+                    // AUTO-FILL CLIENT FIELDS
+                    const companyName = basicData.name || basicData.fullName || `ТОО «${bin}»`;
+                    const ownerName   = basicData.owner || '';
+                    const lawAddr     = basicData.lawAddress || [basicData.region, basicData.city, basicData.street].filter(Boolean).join(', ');
+                    const phone       = basicData.phone || '';
+
+                    const clNameInp = document.getElementById('req-cl-name');
+                    const clDirInp  = document.getElementById('req-cl-director');
+                    const clBinInp  = document.getElementById('req-cl-bin');
+                    const clAddrInp = document.getElementById('req-cl-addr');
+                    const clPhoneInp= document.getElementById('req-cl-phone');
+
+                    if (clNameInp) clNameInp.value = companyName;
+                    if (clDirInp) {
+                        clDirInp.value = ownerName ? `в лице Руководителя ${ownerName}, действующего на основании Устава` : `в лице Руководителя, действующего на основании Устава`;
+                    }
+                    if (clBinInp) clBinInp.value = bin;
+                    if (clAddrInp) clAddrInp.value = lawAddr;
+                    if (clPhoneInp && phone) clPhoneInp.value = phone;
+
+                    // BUILD INTELLIGENCE CARD
+                    let statusLabel = '🟢 Действующее предприятие';
+                    let statusClass = 'status-active';
+                    if (Array.isArray(statusData) && statusData.length > 0) {
+                        const topStatus = statusData[0]?.type?.name || statusData[0]?.reason;
+                        if (topStatus) {
+                            statusLabel = `🏢 ${topStatus}`;
+                            if (statusData[0]?.type?.id && [3,5,6,7,9,11].includes(statusData[0].type.id)) {
+                                statusClass = 'status-danger';
+                            }
+                        }
+                    }
+
+                    let taxChip = '<span class="k-chip tax-clean">🟢 Налоги: Чисто</span>';
+                    if (taxData && taxData.status === true && taxData.content?.totalArrear && parseFloat(taxData.content.totalArrear) > 0) {
+                        taxChip = `<span class="k-chip tax-debt">⚠️ Задолженность по налогам: ${fmtKZT(taxData.content.totalArrear)}</span>`;
+                    }
+
+                    let hubChip = '';
+                    if (basicData.astanaHub && basicData.astanaHub.status === 'Активно') {
+                        hubChip = '<span class="k-chip hub">🚀 Резидент Astana Hub</span>';
+                    }
+
+                    const regDateStr = basicData.registerDate ? new Date(basicData.registerDate).toLocaleDateString('ru-RU') : '—';
+
+                    if (resultCardEl) {
+                        resultCardEl.style.display = 'flex';
+                        resultCardEl.innerHTML = `
+                            <div class="kompra-card-title">${basicData.fullName || basicData.name}</div>
+                            <div class="kompra-chips-grid">
+                                <span class="k-chip ${statusClass}">${statusLabel}</span>
+                                ${taxChip}
+                                ${hubChip}
+                                <span class="k-chip neutral">👥 Штат: ${basicData.workers || '—'}</span>
+                                <span class="k-chip neutral">📊 ОКЭД: ${basicData.oked || '—'}</span>
+                                <span class="k-chip neutral">📅 Рег: ${regDateStr}</span>
+                                <span class="k-chip neutral">КБе: ${basicData.kbe || '17'}</span>
+                            </div>
+                            <div class="kompra-card-meta">
+                                📍 <b>Адрес:</b> ${lawAddr}<br>
+                                👤 <b>Руководитель:</b> ${ownerName || '—'} (ИИН: ${basicData.ownerIin || '—'})
+                            </div>
+                        `;
+                    }
+
+                    showKompraStatus(`✅ Данные <b>${companyName}</b> успешно подтянуты из Kompra.kz! Все документы обновлены.`, 'success');
+                    renderAll();
+
+                } catch (err) {
+                    console.error('Kompra Scout Error:', err);
+                    showKompraStatus(`❌ Ошибка проверки: ${err.message || 'Сервис временно недоступен'}`, 'error');
+                } finally {
+                    if (btnKompraSearch) btnKompraSearch.disabled = false;
+                }
+            };
+
+            btnKompraSearch?.addEventListener('click', () => runKompraScout());
+            inpSearchBin?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    runKompraScout();
+                }
+            });
 
             // COPY TO CLIPBOARD
             document.getElementById('btn-copy')?.addEventListener('click', () => {
