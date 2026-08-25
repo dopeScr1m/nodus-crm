@@ -108,7 +108,7 @@
 
         /* ADMIN DASHBOARD LAYOUT */
         .admin-dashboard {
-            display: none;
+            display: block;
             padding: 24px;
             max-width: 1680px;
             margin: 0 auto;
@@ -939,27 +939,6 @@
 </head>
 <body>
 
-    <!-- AUTH GATE SCREEN -->
-    <div class="auth-gate" id="auth-gate">
-        <div class="auth-card">
-            <div class="auth-logo"><span style="color:#fff;">NODUS</span><span style="color:#6366f1;">.</span></div>
-            <h2 class="auth-title">Executive Control Center</h2>
-            <p class="auth-subtitle">Генерация договоров РК, официальных счетов на оплату и коммерческих смет.</p>
-            <form id="auth-form">
-                <div style="margin-bottom: 16px; position:relative;">
-                    <input type="password" id="admin-pass" class="auth-input" placeholder="Введите пароль доступа" required autocomplete="current-password" style="padding-right:40px;">
-                    <button type="button" id="btn-toggle-pass-visibility" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.1rem;" title="Показать/скрыть пароль">👁️</button>
-                </div>
-                <button type="submit" class="auth-btn">Войти в систему →</button>
-                <div class="auth-error" id="auth-err">Неверный пароль доступа</div>
-            </form>
-            <div style="margin-top: 15px; display:flex; flex-direction:column; gap:8px; align-items:center;">
-                <button type="button" id="btn-quick-fill-pass" style="background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); color:#a5b4fc; padding:5px 12px; border-radius:6px; font-size:0.75rem; cursor:pointer;">🔑 Вставить пароль администратора</button>
-                <a href="index.html" style="font-size: 0.82rem; color: #94a3b8; text-decoration: none; margin-top:4px;">← Вернуться на главную NODUS</a>
-            </div>
-        </div>
-    </div>
-
     <!-- MAIN ADMIN DASHBOARD -->
     <div class="admin-dashboard" id="admin-dashboard">
         
@@ -972,7 +951,6 @@
                 <button type="button" class="tab-btn active" data-tab="contract">📄 Договор подряда РК</button>
                 <button type="button" class="tab-btn" data-tab="invoice">🧾 Официальный счет РК</button>
                 <button type="button" class="tab-btn" data-tab="proposal">💼 Коммерческое КП</button>
-                <button type="button" class="tab-btn btn-exit" id="btn-logout">🚪 Выйти</button>
             </div>
         </header>
 
@@ -1503,78 +1481,6 @@
     <!-- JAVASCRIPT ENGINE -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const AUTH_PASS = 'Nodus12232N134';
-            const authGate  = document.getElementById('auth-gate');
-            const adminDash = document.getElementById('admin-dashboard');
-            const authForm  = document.getElementById('auth-form');
-            const passInput = document.getElementById('admin-pass');
-            const authErr   = document.getElementById('auth-err');
-            const btnLogout = document.getElementById('btn-logout');
-
-            // AUTHENTICATION CHECK
-            const checkAuth = () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const urlPass = urlParams.get('pass');
-                const urlAuth = urlParams.get('auth');
-                if (urlPass === AUTH_PASS || urlAuth === '1') {
-                    localStorage.setItem('nodus_admin_session', 'true');
-                    sessionStorage.setItem('nodus_admin_session', 'true');
-                }
-
-                const isAuthed = localStorage.getItem('nodus_admin_session') === 'true' || sessionStorage.getItem('nodus_admin_session') === 'true';
-
-                if (isAuthed) {
-                    authGate.style.display = 'none';
-                    adminDash.style.display = 'block';
-                } else {
-                    authGate.style.display = 'flex';
-                    adminDash.style.display = 'none';
-                }
-            };
-
-            authForm.addEventListener('submit', e => {
-                e.preventDefault();
-                const entered = (passInput.value || '').trim();
-                if (entered === AUTH_PASS || entered.toLowerCase() === AUTH_PASS.toLowerCase()) {
-                    localStorage.setItem('nodus_admin_session', 'true');
-                    sessionStorage.setItem('nodus_admin_session', 'true');
-                    authErr.style.display = 'none';
-                    checkAuth();
-                    renderAll();
-                } else {
-                    authErr.style.display = 'block';
-                    passInput.focus();
-                }
-            });
-
-            // Toggle Password Visibility
-            document.getElementById('btn-toggle-pass-visibility')?.addEventListener('click', () => {
-                if (passInput) {
-                    passInput.type = passInput.type === 'password' ? 'text' : 'password';
-                }
-            });
-
-            // 1-Click Quick Fill Master Password
-            document.getElementById('btn-quick-fill-pass')?.addEventListener('click', () => {
-                if (passInput) {
-                    passInput.value = AUTH_PASS;
-                    localStorage.setItem('nodus_admin_session', 'true');
-                    sessionStorage.setItem('nodus_admin_session', 'true');
-                    authErr.style.display = 'none';
-                    checkAuth();
-                    renderAll();
-                }
-            });
-
-            if (btnLogout) {
-                btnLogout.addEventListener('click', () => {
-                    localStorage.removeItem('nodus_admin_session');
-                    sessionStorage.removeItem('nodus_admin_session');
-                    checkAuth();
-                });
-            }
-
-            checkAuth();
 
             // Set Kazakhstan Time UTC+5 & Dynamic Document Number
             const getKzToday = () => {
