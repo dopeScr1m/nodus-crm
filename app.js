@@ -1,4 +1,4 @@
-﻿/**
+/**
  * NODUS CRM Integrator — app.js v6 LUXURY
  * Complete reactive calculator, client case modal lightbox, mobile navigation, copy utilities.
  */
@@ -1037,11 +1037,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (liveToast && toastTitle && toastBody) {
         const toastItems = [
-            { icon: '🚀', title: 'Кейс клиента: Алматы', text: 'Underground Gym увеличил повторные продажи (LTV) на +42%' },
-            { icon: '⚡', title: 'Новый расчет сметы', text: 'Пользователь из Астаны рассчитал интеграцию amoCRM + WhatsApp' },
-            { icon: '🏥', title: 'Кейс клиента: Медицина', text: 'Saq Clinic сократил время ответа на заявку с 40 до 1.5 минут' },
-            { icon: '💬', title: 'Активность в калькуляторе', text: 'Зафиксирована смета для оптовой компании: Bitrix24 + Sipuni' },
-            { icon: '💎', title: 'Кейс клиента: Ресторан', text: 'Cittadella автоматизировала брони столов через WhatsApp-робота' }
+            { icon: '⚡', title: 'Расчет в калькуляторе', text: '1С-Битрикс24 (Тариф «Стандартный») + Wazzup (WhatsApp)' },
+            { icon: '📊', title: 'Конфигурация CRM', text: 'amoCRM («Расширенный», 5 пользователей) + Wazzup + Sipuni' },
+            { icon: '💬', title: 'Расчет сметы', text: '1С-Битрикс24 («Базовый») + Sipuni (3 пользователя)' },
+            { icon: '🚀', title: 'Смета онлайн', text: 'amoCRM («Профессиональный», 8 пользователей) + Wazzup (WhatsApp + Instagram)' },
+            { icon: '💼', title: 'Конфигурация CRM', text: '1С-Битрикс24 («Профессиональный») + Wazzup + Sipuni' },
+            { icon: '⚙️', title: 'Расчет в калькуляторе', text: 'amoCRM («Базовый», 3 пользователя) + Wazzup (WhatsApp)' }
         ];
 
         let toastIdx = 0;
@@ -1062,11 +1063,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 6000);
         };
 
-        // First trigger after 6 seconds, then every 20 seconds
+        // Rare interval: exactly once every 7 minutes (420,000 ms)
+        const SEVEN_MINUTES = 7 * 60 * 1000;
         setTimeout(() => {
             showToast();
-            setInterval(showToast, 20000);
-        }, 6000);
+            setInterval(showToast, SEVEN_MINUTES);
+        }, SEVEN_MINUTES);
 
         if (toastClose) {
             toastClose.addEventListener('click', () => {
