@@ -1770,8 +1770,14 @@
                 <div class="section-box">
                     <div class="section-title"><span>📑 Параметры документа</span></div>
                     <div class="grid-2">
-                        <div class="form-group"><label>Номер документа:</label><input type="text" id="req-doc-num" class="c-input" value="№ ND-2026/08-25" placeholder="№ ND-ГГГГ/ММ-ДД"></div>
+                        <div class="form-group"><label>Номер документа:</label><input type="text" id="req-doc-num" class="c-input" value="№ ND-2026/08-26" placeholder="№ ND-ГГГГ/ММ-ДД"></div>
                         <div class="form-group"><label>Дата (UTC+5 KZ):</label><input type="date" id="req-doc-date" class="c-input"></div>
+                    </div>
+                    <div class="form-group" style="margin: 6px 0 10px 0;">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:0.82rem; color:#f8fafc; background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.14); transition:all 0.2s;">
+                            <input type="checkbox" id="chk-no-contract" class="mod-checkbox" style="width:16px; height:16px; accent-color:#6366f1; cursor:pointer;">
+                            <span>📄 <b>Работать без договора</b> (Счет на оплату / Без договора)</span>
+                        </label>
                     </div>
                     <div class="grid-2">
                         <div class="form-group"><label>Срок выполнения (дней):</label><input type="number" id="req-work-days" class="c-input" value="7" min="1"></div>
@@ -2328,7 +2334,7 @@
                     el.addEventListener('change', () => { updateModuleEconomics(); renderAll(); });
                 });
 
-                document.querySelectorAll('#req-my-name, #req-my-signer, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-work-days, #req-warranty-days, #req-pay-terms').forEach(el => {
+                document.querySelectorAll('#req-my-name, #req-my-signer, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-work-days, #req-warranty-days, #req-pay-terms, #chk-no-contract').forEach(el => {
                     el.addEventListener('input', renderAll);
                     el.addEventListener('change', renderAll);
                 });
@@ -2360,7 +2366,7 @@
                         const term  = document.getElementById('sel-amo-term').value;
                         activeItems.push({
                             code: 'ND-AMO-01',
-                            name: `Неисключительные права (Лицензия) amoCRM «${tName} тариф» (${users} польз. на ${term} мес)`,
+                            name: `Предоставление неисключительных прав (Лицензия / Продление подписки) amoCRM, тариф — «${tName}» (${users} польз., срок ${term} мес.)`,
                             unit: 'шт',
                             qty: 1,
                             price: price
@@ -2379,7 +2385,7 @@
                         const term  = document.getElementById('sel-bx-term').value;
                         activeItems.push({
                             code: 'ND-BX24-01',
-                            name: `Неисключительные права (Лицензия) 1С-Битрикс24 «${planNames[plan]}» (${term} мес)`,
+                            name: `Предоставление неисключительных прав (Лицензия / Продление подписки) 1С-Битрикс24, тариф — «${planNames[plan]}», срок ${term} мес.`,
                             unit: 'шт',
                             qty: 1,
                             price: price
@@ -2400,7 +2406,7 @@
                         const term  = document.getElementById('sel-wz-wa-term').value;
                         activeItems.push({
                             code: 'ND-WZ-WA',
-                            name: `Интеграция WhatsApp Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
+                            name: `Предоставление права использования сервиса (Лицензия / Подписка) Wazzup: WhatsApp, тариф — «${pName}» (${ch} канал(ов), срок ${term} мес.)`,
                             unit: 'шт',
                             qty: 1,
                             price: price
@@ -2420,7 +2426,7 @@
                         const term  = document.getElementById('sel-wz-ig-term').value;
                         activeItems.push({
                             code: 'ND-WZ-IG',
-                            name: `Интеграция Instagram Direct Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
+                            name: `Предоставление права использования сервиса (Лицензия / Подписка) Wazzup: Instagram Direct, тариф — «${pName}» (${ch} канал(ов), срок ${term} мес.)`,
                             unit: 'шт',
                             qty: 1,
                             price: price
@@ -2440,7 +2446,7 @@
                         const term  = document.getElementById('sel-wz-tg-term').value;
                         activeItems.push({
                             code: 'ND-WZ-TG',
-                            name: `Интеграция Telegram Personal Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
+                            name: `Предоставление права использования сервиса (Лицензия / Подписка) Wazzup: Telegram Personal, тариф — «${pName}» (${ch} канал(ов), срок ${term} мес.)`,
                             unit: 'шт',
                             qty: 1,
                             price: price
@@ -2460,7 +2466,7 @@
                         const term  = document.getElementById('sel-wz-vk-term').value;
                         activeItems.push({
                             code: 'ND-WZ-VK',
-                            name: `Интеграция ВКонтакте (VK) Wazzup (Тариф «${pName}», ${ch} канал(ов) на ${term} мес)`,
+                            name: `Предоставление права использования сервиса (Лицензия / Подписка) Wazzup: ВКонтакте, тариф — «${pName}» (${ch} канал(ов), срок ${term} мес.)`,
                             unit: 'шт',
                             qty: 1,
                             price: price
@@ -2480,7 +2486,7 @@
                         const term  = document.getElementById('sel-sip-term').value;
                         activeItems.push({
                             code: 'ND-SIP-01',
-                            name: `Облачная IP-телефония Sipuni (Тариф «${pName}», ${users} польз. на ${term} мес)`,
+                            name: `Предоставление права использования сервиса (Лицензия / Подписка) Sipuni: IP-телефония, тариф — «${pName}» (${users} польз., срок ${term} мес.)`,
                             unit: 'шт',
                             qty: 1,
                             price: price
@@ -2759,24 +2765,25 @@
                     // TAB 2: OFFICIAL RK INVOICE (СЧЕТ НА ОПЛАТУ РК — СТАНДАРТ 1С)
                     // =========================================================================
                     else if (activeTab === 'invoice') {
+                        const noContract = document.getElementById('chk-no-contract')?.checked;
+
                         const invoiceRows = activeItems.length > 0 
                             ? activeItems.map((it, idx) => `
                                 <tr>
-                                    <td style="text-align:center; border:1px solid #000; padding:4px;">${idx + 1}</td>
-                                    <td style="text-align:center; border:1px solid #000; padding:4px; font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:700;">${it.code || '—'}</td>
-                                    <td style="border:1px solid #000; padding:4px 6px;"><b>${it.name}</b></td>
-                                    <td style="text-align:center; border:1px solid #000; padding:4px;">${it.qty}</td>
-                                    <td style="text-align:center; border:1px solid #000; padding:4px;">${it.unit}</td>
-                                    <td style="text-align:right; border:1px solid #000; padding:4px 6px; font-family:'JetBrains Mono',monospace;">${fmtKZT(it.price)}</td>
-                                    <td style="text-align:right; border:1px solid #000; padding:4px 6px; font-weight:700; font-family:'JetBrains Mono',monospace;">${fmtKZT(it.price)}</td>
+                                    <td style="text-align:center; border:1px solid #000; padding:6px 4px;">${idx + 1}</td>
+                                    <td style="border:1px solid #000; padding:6px 8px; line-height:1.4;"><b>${it.name}</b></td>
+                                    <td style="text-align:center; border:1px solid #000; padding:6px 4px;">${it.qty}</td>
+                                    <td style="text-align:center; border:1px solid #000; padding:6px 4px;">${it.unit}</td>
+                                    <td style="text-align:right; border:1px solid #000; padding:6px 8px; font-family:'JetBrains Mono',monospace; white-space:nowrap;">${fmtKZT(it.price)}</td>
+                                    <td style="text-align:right; border:1px solid #000; padding:6px 8px; font-weight:700; font-family:'JetBrains Mono',monospace; white-space:nowrap;">${fmtKZT(it.price)}</td>
                                 </tr>
                             `).join('')
-                            : `<tr><td colspan="7" style="text-align:center; padding:18px; color:#64748b; border:1px solid #000;">(Включите необходимые модули в панели слева, чтобы сформировать спецификацию)</td></tr>`;
+                            : `<tr><td colspan="6" style="text-align:center; padding:20px; color:#64748b; border:1px solid #000;">(Включите необходимые модули в панели слева, чтобы сформировать спецификацию)</td></tr>`;
 
                         target.innerHTML = `
-                            <div class="rk-notice-box" style="border:1px solid #94a3b8; background:#f8fafc; padding:6px 10px; font-size:10.5px; color:#475569; margin-bottom:12px; line-height:1.4;">
-                                <b>Внимание!</b> Оплата данного счета означает согласие с условиями поставки товара / оказания услуг.<br>
-                                Уведомление об оплате обязательно. Услуги оказываются и лицензии активируются по факту зачисления денежных средств на расчетный счет Поставщика.
+                            <div class="rk-notice-box" style="border:1px solid #94a3b8; background:#f8fafc; padding:8px 12px; font-size:10.5px; color:#475569; margin-bottom:12px; line-height:1.45;">
+                                <b>Внимание!</b> Оплата настоящего счета означает полное согласие с условиями поставки товара / оказания услуг и является безоговорочным акцептом условий оферты (ст. 396 ГК РК).<br>
+                                Уведомление об оплате обязательно. Обязательства по передаче прав использования ПО (лицензий / продления подписок) считаются исполненными в полном объеме в момент активации тарифа в портале Заказчика. В соответствии со ст. 386, 683, 964 ГК РК и регламентами разработчиков, оплаченные средства за активированные лицензии и подписки возврату и перерасчету не подлежат.
                             </div>
 
                             <div style="font-size:11px; font-weight:700; margin-bottom:3px;">Образец платежного поручения</div>
@@ -2827,20 +2834,19 @@
                                 </tr>
                                 <tr>
                                     <td style="font-weight:700; vertical-align:top; padding:2px 0;">Договор:</td>
-                                    <td style="vertical-align:top; padding:2px 0;">Договор подряда ${docNum} от ${dateFormatted}</td>
+                                    <td style="vertical-align:top; padding:2px 0;">${noContract ? '<b>Без договора</b>' : `Договор подряда ${docNum} от ${dateFormatted}`}</td>
                                 </tr>
                             </table>
 
                             <table style="width:100%; border-collapse:collapse; margin:12px 0 6px 0; font-size:11px; border:1px solid #000;">
                                 <thead>
                                     <tr style="background:#f1f5f9;">
-                                        <th style="width:4%; border:1px solid #000; padding:5px; text-align:center;">№</th>
-                                        <th style="width:8%; border:1px solid #000; padding:5px; text-align:center;">Код</th>
-                                        <th style="border:1px solid #000; padding:5px; text-align:left;">Наименование товаров, работ, услуг</th>
-                                        <th style="width:8%; border:1px solid #000; padding:5px; text-align:center;">Кол-во</th>
-                                        <th style="width:8%; border:1px solid #000; padding:5px; text-align:center;">Ед.</th>
-                                        <th style="width:16%; border:1px solid #000; padding:5px; text-align:right;">Цена</th>
-                                        <th style="width:18%; border:1px solid #000; padding:5px; text-align:right;">Сумма (KZT)</th>
+                                        <th style="width:5%; border:1px solid #000; padding:6px 4px; text-align:center;">№</th>
+                                        <th style="width:53%; border:1px solid #000; padding:6px 8px; text-align:left;">Наименование товаров, работ, услуг</th>
+                                        <th style="width:8%; border:1px solid #000; padding:6px 4px; text-align:center;">Кол-во</th>
+                                        <th style="width:7%; border:1px solid #000; padding:6px 4px; text-align:center;">Ед.</th>
+                                        <th style="width:13%; border:1px solid #000; padding:6px 8px; text-align:right;">Цена</th>
+                                        <th style="width:14%; border:1px solid #000; padding:6px 8px; text-align:right;">Сумма (KZT)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
