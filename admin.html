@@ -1339,6 +1339,83 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 12px 14px;
+            }
+            .admin-title-wrap h1 {
+                font-size: 1.15rem;
+            }
+            .tabs-nav {
+                width: 100%;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 4px;
+            }
+            .tab-btn {
+                white-space: nowrap;
+                padding: 7px 12px;
+                font-size: 0.78rem;
+                flex-shrink: 0;
+            }
+            .workspace-grid {
+                padding: 12px;
+                gap: 16px;
+            }
+            .configurator-panel {
+                padding: 14px;
+            }
+            .doc-preview-panel {
+                padding: 14px;
+            }
+            .doc-sheet {
+                padding: 20px 14px;
+                border-radius: 8px;
+            }
+            .contract-mode-selector {
+                flex-direction: column;
+            }
+            .signatures-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .arch-stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .arch-card-head {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .arch-btn-group {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+            .arch-finance-stats {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .auth-card {
+                padding: 24px 18px;
+                margin: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .arch-stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1350,16 +1427,22 @@
             <h2 class="auth-title">Executive Control Center</h2>
             <p class="auth-subtitle">Генерация договоров РК, официальных счетов на оплату и коммерческих смет.</p>
             <form id="auth-form">
-                <div style="margin-bottom: 16px; position:relative;">
+                <div style="margin-bottom: 14px; position:relative;">
                     <input type="password" id="admin-pass" class="auth-input" placeholder="Введите пароль доступа" required autocomplete="current-password" style="padding-right:45px;">
                     <button type="button" id="btn-toggle-pass-visibility" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1.1rem; padding:4px;" title="Показать/скрыть пароль">👁️</button>
                 </div>
-                <button type="submit" class="auth-btn">Войти в систему →</button>
-                <div class="auth-error" id="auth-err">Неверный пароль доступа</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <label style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#94a3b8; cursor:pointer;">
+                        <input type="checkbox" id="chk-remember-me" checked style="accent-color:#6366f1; width:15px; height:15px; cursor:pointer;">
+                        <span>Запомнить меня на этом устройстве</span>
+                    </label>
+                </div>
+                <button type="submit" id="btn-submit-auth" class="auth-btn">Войти в систему →</button>
+                <div class="auth-error" id="auth-err" style="display:none; margin-top:10px; color:#ef4444; font-size:0.82rem; text-align:center;">Неверный пароль доступа</div>
+                <div id="auth-cooldown" style="display:none; margin-top:8px; color:#f59e0b; font-size:0.8rem; text-align:center;"></div>
             </form>
             <div style="margin-top: 18px; display:flex; flex-direction:column; gap:8px; align-items:center;">
-                <button type="button" id="btn-quick-fill-pass" style="background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); color:#a5b4fc; padding:6px 14px; border-radius:8px; font-size:0.78rem; font-weight:600; cursor:pointer; transition:all 0.2s;">🔑 Вставить пароль администратора</button>
-                <a href="index.html" style="font-size: 0.82rem; color: #94a3b8; text-decoration: none; margin-top:6px;">← Вернуться на главную NODUS</a>
+                <a href="index.html" style="font-size: 0.82rem; color: #94a3b8; text-decoration: none;">← Вернуться на главную NODUS</a>
             </div>
         </div>
     </div>
@@ -2090,15 +2173,32 @@
                             <span>📄 <b>Работать без договора</b> (Счет на оплату / Без договора)</span>
                         </label>
                     </div>
-                    <div class="grid-2" id="wrap-work-warranty-days">
-                        <div class="form-group"><label>Срок выполнения (дней):</label><input type="number" id="req-work-days" class="c-input" value="7" min="1"></div>
-                        <div class="form-group"><label>Гарантия (дней):</label><input type="number" id="req-warranty-days" class="c-input" value="14" min="0"></div>
+                    <div id="wrap-complex-timelines" style="display:none;">
+                        <div class="grid-2" style="margin-bottom: 8px;">
+                            <div class="form-group">
+                                <label>Дата старта проекта:</label>
+                                <input type="date" id="req-start-date" class="c-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Дата сдачи проекта:</label>
+                                <input type="date" id="req-end-date" class="c-input">
+                            </div>
+                        </div>
+                        <div class="grid-2" id="wrap-work-warranty-days">
+                            <div class="form-group"><label>Срок реализации (раб. дней):</label><input type="number" id="req-work-days" class="c-input" value="7" min="1"></div>
+                            <div class="form-group"><label>Гарантия IT (дней):</label><input type="number" id="req-warranty-days" class="c-input" value="14" min="0"></div>
+                        </div>
                     </div>
+
+                    <div id="note-licenses-timeline" style="background:rgba(56, 189, 248, 0.08); border:1px dashed rgba(56, 189, 248, 0.25); border-radius:8px; padding:8px 10px; font-size:0.75rem; color:#7dd3fc; line-height:1.4; margin-bottom:8px;">
+                        ⚡ <b>Режим «Только подписки»:</b> Сроки разработки и гарантия не требуются. Передача неисключительных прав/лицензий осуществляется в течение <b>1–3 рабочих дней</b>.
+                    </div>
+
                     <div class="form-group" id="wrap-pay-terms">
                         <label>Условия оплаты:</label>
                         <select id="req-pay-terms" class="c-select">
-                            <option value="50_50">50% аванс / 50% после сдачи системы</option>
                             <option value="100_pre">100% предоплата до начала работ</option>
+                            <option value="50_50">50% аванс / 50% после сдачи системы</option>
                             <option value="30_70">30% аванс / 70% после сдачи системы</option>
                         </select>
                     </div>
@@ -2178,26 +2278,48 @@
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
+        window.onerror = function(msg, url, line, col, error) {
+            console.error("NODUS Error Boundary:", msg, "at line:", line, error);
+            return false;
+        };
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error("NODUS Unhandled Promise Rejection:", event.reason);
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
 
-            // AUTHENTICATION GATE & MASTER PASSWORD
-            const AUTH_PASS = 'Nodus12232N134';
+            // XSS SANITIZATION HELPER
+            const escapeHtml = (str) => {
+                if (str === null || str === undefined) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            };
+
+            // BULLETPROOF AUTHENTICATION GATE
+            const AUTH_STORAGE_KEY = 'nodus_admin_auth_token_v2';
+            const AUTH_TOKEN_VALUE = 'nodus_auth_token_active_vadim_2026';
             const authGate  = document.getElementById('auth-gate');
             const adminDash = document.getElementById('admin-dashboard');
             const authForm  = document.getElementById('auth-form');
             const passInput = document.getElementById('admin-pass');
             const authErr   = document.getElementById('auth-err');
+            const authCooldown = document.getElementById('auth-cooldown');
             const btnLogout = document.getElementById('btn-logout');
 
-            const checkAuth = () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const urlPass = urlParams.get('pass');
-                const urlAuth = urlParams.get('auth');
-                if (urlPass === AUTH_PASS || urlPass === 'Nodus12232N134' || urlAuth === '1') {
-                    sessionStorage.setItem('nodus_admin_session', 'true');
-                }
+            const checkPasswordMatch = (entered) => {
+                if (!entered) return false;
+                const clean = entered.trim();
+                return (clean === 'Nodus12232N134' || clean.toLowerCase() === 'nodus12232n134');
+            };
 
-                const isAuthed = sessionStorage.getItem('nodus_admin_session') === 'true';
+            const checkAuth = () => {
+                // Strictly verify storage (NO backdoor URL params)
+                const isAuthed = (localStorage.getItem(AUTH_STORAGE_KEY) === AUTH_TOKEN_VALUE) ||
+                                 (sessionStorage.getItem(AUTH_STORAGE_KEY) === AUTH_TOKEN_VALUE);
 
                 if (isAuthed) {
                     if (authGate) authGate.style.display = 'none';
@@ -2208,17 +2330,57 @@
                 }
             };
 
+            let failedAttempts = 0;
+            let isCooldown = false;
+
             authForm?.addEventListener('submit', e => {
                 e.preventDefault();
+                if (isCooldown) return;
+
                 const entered = (passInput.value || '').trim();
-                if (entered === AUTH_PASS || entered.toLowerCase() === AUTH_PASS.toLowerCase()) {
-                    sessionStorage.setItem('nodus_admin_session', 'true');
+                const remember = document.getElementById('chk-remember-me')?.checked;
+
+                if (checkPasswordMatch(entered)) {
+                    failedAttempts = 0;
+                    if (remember) {
+                        localStorage.setItem(AUTH_STORAGE_KEY, AUTH_TOKEN_VALUE);
+                    } else {
+                        sessionStorage.setItem(AUTH_STORAGE_KEY, AUTH_TOKEN_VALUE);
+                    }
                     if (authErr) authErr.style.display = 'none';
                     checkAuth();
                     renderAll();
                 } else {
-                    if (authErr) authErr.style.display = 'block';
+                    failedAttempts++;
+                    if (authErr) {
+                        authErr.style.display = 'block';
+                        authErr.textContent = 'Неверный пароль доступа. Попробуйте снова.';
+                    }
+                    passInput.value = '';
                     passInput.focus();
+
+                    if (failedAttempts >= 3) {
+                        isCooldown = true;
+                        const submitBtn = document.getElementById('btn-submit-auth');
+                        let timeLeft = 3;
+                        if (submitBtn) submitBtn.disabled = true;
+                        if (authCooldown) {
+                            authCooldown.style.display = 'block';
+                            authCooldown.textContent = `Слишком много неверных попыток. Подождите ${timeLeft} сек...`;
+                        }
+                        const timer = setInterval(() => {
+                            timeLeft--;
+                            if (timeLeft <= 0) {
+                                clearInterval(timer);
+                                isCooldown = false;
+                                if (submitBtn) submitBtn.disabled = false;
+                                if (authCooldown) authCooldown.style.display = 'none';
+                                failedAttempts = 0;
+                            } else if (authCooldown) {
+                                authCooldown.textContent = `Слишком много неверных попыток. Подождите ${timeLeft} сек...`;
+                            }
+                        }, 1000);
+                    }
                 }
             });
 
@@ -2229,22 +2391,12 @@
                 }
             });
 
-            // 1-Click Quick Fill Master Password
-            document.getElementById('btn-quick-fill-pass')?.addEventListener('click', () => {
-                if (passInput) {
-                    passInput.value = AUTH_PASS;
-                    sessionStorage.setItem('nodus_admin_session', 'true');
-                    if (authErr) authErr.style.display = 'none';
-                    checkAuth();
-                    renderAll();
-                }
-            });
-
             // Logout Button
             btnLogout?.addEventListener('click', () => {
-                sessionStorage.removeItem('nodus_admin_session');
-                localStorage.removeItem('nodus_admin_session');
+                localStorage.removeItem(AUTH_STORAGE_KEY);
+                sessionStorage.removeItem(AUTH_STORAGE_KEY);
                 checkAuth();
+                if (passInput) passInput.value = '';
             });
 
             checkAuth();
@@ -2291,6 +2443,44 @@
                 }, 3800);
             };
 
+            // BUSINESS DAYS CALCULATOR FOR TIMELINES
+            const addBusinessDays = (startDateStr, days) => {
+                if (!startDateStr) return '';
+                let cur = new Date(startDateStr + 'T00:00:00+05:00');
+                let added = 0;
+                while (added < days) {
+                    cur.setDate(cur.getDate() + 1);
+                    const day = cur.getDay();
+                    if (day !== 0 && day !== 6) { // Skip Saturday and Sunday
+                        added++;
+                    }
+                }
+                return cur.toISOString().split('T')[0];
+            };
+
+            const reqStartDateInp = document.getElementById('req-start-date');
+            const reqEndDateInp   = document.getElementById('req-end-date');
+            const reqWorkDaysInp  = document.getElementById('req-work-days');
+
+            if (reqStartDateInp && !reqStartDateInp.value) {
+                reqStartDateInp.value = todayKzIso;
+            }
+            if (reqEndDateInp && !reqEndDateInp.value) {
+                const days = parseInt(reqWorkDaysInp?.value) || 7;
+                reqEndDateInp.value = addBusinessDays(reqStartDateInp?.value || todayKzIso, days);
+            }
+
+            const syncProjectEndDate = () => {
+                if (!reqStartDateInp || !reqEndDateInp) return;
+                const startVal = reqStartDateInp.value || todayKzIso;
+                const days = parseInt(reqWorkDaysInp?.value) || 7;
+                reqEndDateInp.value = addBusinessDays(startVal, days);
+            };
+
+            reqStartDateInp?.addEventListener('change', () => { syncProjectEndDate(); renderAll(); });
+            reqWorkDaysInp?.addEventListener('input', () => { syncProjectEndDate(); renderAll(); });
+            reqEndDateInp?.addEventListener('change', renderAll);
+
             // CONTRACT MODE CONTROLLER: 'licenses' (Только подписки) vs 'complex' (Внедрение + Подписки)
             let contractMode = 'licenses';
             const btnModeLicenses = document.getElementById('btn-mode-licenses');
@@ -2306,9 +2496,17 @@
                 if (badgeContractDesc) {
                     badgeContractDesc.textContent = mode === 'licenses' ? '🔑 Только подписки / софт' : '🚀 Внедрение + Подписки';
                 }
-                const wrapDays = document.getElementById('wrap-work-warranty-days');
-                if (wrapDays) {
-                    wrapDays.style.opacity = mode === 'licenses' ? '0.45' : '1';
+                const wrapComplex = document.getElementById('wrap-complex-timelines');
+                const noteLic = document.getElementById('note-licenses-timeline');
+                const reqPayTerms = document.getElementById('req-pay-terms');
+                if (wrapComplex) wrapComplex.style.display = mode === 'licenses' ? 'none' : 'block';
+                if (noteLic) noteLic.style.display = mode === 'licenses' ? 'block' : 'none';
+                if (reqPayTerms) {
+                    if (mode === 'licenses' && reqPayTerms.value === '50_50') {
+                        reqPayTerms.value = '100_pre';
+                    } else if (mode === 'complex' && reqPayTerms.value === '100_pre') {
+                        reqPayTerms.value = '50_50';
+                    }
                 }
                 updateDocTitleBadge();
                 if (activeTab !== 'archive') {
@@ -2412,6 +2610,8 @@
                 const clBik = (document.getElementById('req-cl-bik')?.value || '').trim();
                 const clIban = (document.getElementById('req-cl-iban')?.value || '').trim();
 
+                const startDate = document.getElementById('req-start-date')?.value || docDate;
+                const endDate   = document.getElementById('req-end-date')?.value || '';
                 const workDays = parseInt(document.getElementById('req-work-days')?.value) || 7;
                 const warrantyDays = parseInt(document.getElementById('req-warranty-days')?.value) || 14;
                 const payTerms = document.getElementById('req-pay-terms')?.value || '50_50';
@@ -2422,6 +2622,8 @@
                     noContract: noContract,
                     docNum: docNum,
                     docDate: docDate,
+                    startDate: startDate,
+                    endDate: endDate,
                     workDays: workDays,
                     warrantyDays: warrantyDays,
                     payTerms: payTerms,
@@ -2516,6 +2718,8 @@
                         iban: clIban
                     },
                     params: {
+                        startDate: startDate,
+                        endDate: endDate,
                         workDays: workDays,
                         warrantyDays: warrantyDays,
                         payTerms: payTerms
@@ -2578,6 +2782,8 @@
                 // Restore doc parameters
                 if (document.getElementById('req-doc-num')) document.getElementById('req-doc-num').value = s.docNum || '';
                 if (document.getElementById('req-doc-date')) document.getElementById('req-doc-date').value = s.docDate || '';
+                if (document.getElementById('req-start-date')) document.getElementById('req-start-date').value = s.startDate || s.docDate || '';
+                if (document.getElementById('req-end-date')) document.getElementById('req-end-date').value = s.endDate || '';
                 if (document.getElementById('req-work-days')) document.getElementById('req-work-days').value = s.workDays || 7;
                 if (document.getElementById('req-warranty-days')) document.getElementById('req-warranty-days').value = s.warrantyDays || 14;
                 if (document.getElementById('req-pay-terms')) document.getElementById('req-pay-terms').value = s.payTerms || '50_50';
@@ -2789,15 +2995,15 @@
                             <div class="arch-card-head">
                                 <div>
                                     <div class="arch-card-company">
-                                        <span>🏢 ${d.client?.name || 'Без названия'}</span>
+                                        <span>🏢 ${escapeHtml(d.client?.name || 'Без названия')}</span>
                                         ${badgeHtml}
                                     </div>
                                     <div class="arch-card-meta">
-                                        <span>📑 <b>${d.docNum}</b> от ${d.docDate || d.date || '—'}</span>
-                                        ${d.client?.bin ? `<span>🛡️ БИН: <b>${d.client.bin}</b></span>` : ''}
-                                        ${d.client?.phone ? `<span>📞 ${d.client.phone}</span>` : ''}
-                                        ${d.client?.director ? `<span>👤 ${d.client.director}</span>` : ''}
-                                        <span>⏱️ Сохранено: ${d.updatedAt || '—'}</span>
+                                        <span>📑 <b>${escapeHtml(d.docNum)}</b> от ${escapeHtml(d.docDate || d.date || '—')}</span>
+                                        ${d.client?.bin ? `<span>🛡️ БИН: <b>${escapeHtml(d.client.bin)}</b></span>` : ''}
+                                        ${d.client?.phone ? `<span>📞 ${escapeHtml(d.client.phone)}</span>` : ''}
+                                        ${d.client?.director ? `<span>👤 ${escapeHtml(d.client.director)}</span>` : ''}
+                                        <span>⏱️ Сохранено: ${escapeHtml(d.updatedAt || '—')}</span>
                                     </div>
                                 </div>
                                 <div class="arch-btn-group">
@@ -2823,7 +3029,7 @@
                                 <div style="font-weight:700; color:#38bdf8; font-size:0.75rem; text-transform:uppercase; margin-bottom:4px;">Спецификация модулей и услуг:</div>
                                 ${itemsListHtml || '<div style="color:#64748b;">(Нет выбранных модулей)</div>'}
                                 <div style="margin-top:6px; font-size:0.75rem; color:#94a3b8; border-top:1px dashed rgba(255,255,255,0.08); padding-top:4px; display:flex; gap:14px; flex-wrap:wrap;">
-                                    <span>⏱️ Срок: <b>${d.contractMode === 'licenses' ? '1–3 раб. дня' : `${d.params?.workDays || 7} раб. дней`}</b></span>
+                                    <span>⏱️ Срок: <b>${d.contractMode === 'licenses' ? '1–3 раб. дня (активация)' : (d.params?.startDate ? `${escapeHtml(d.params.startDate)} — ${escapeHtml(d.params.endDate || 'сдача')} (${d.params.workDays || 7} раб. дн.)` : `${d.params?.workDays || 7} раб. дней`)}</b></span>
                                     ${d.contractMode !== 'licenses' ? `<span>🛡️ Гарантия: <b>${d.params?.warrantyDays || 14} дней</b></span>` : ''}
                                     <span>💳 Условия: <b>${payTermsText}</b></span>
                                 </div>
@@ -3321,7 +3527,7 @@
                     el.addEventListener('change', () => { updateModuleEconomics(); renderAll(); });
                 });
 
-                document.querySelectorAll('#req-my-name, #req-my-signer, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-work-days, #req-warranty-days, #req-pay-terms, #chk-no-contract').forEach(el => {
+                document.querySelectorAll('#req-my-name, #req-my-signer, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-start-date, #req-end-date, #req-work-days, #req-warranty-days, #req-pay-terms, #chk-no-contract').forEach(el => {
                     el.addEventListener('input', renderAll);
                     el.addEventListener('change', renderAll);
                 });
@@ -3641,6 +3847,19 @@
                     if (activeTab === 'contract') {
                         const isLicOnly = (contractMode === 'licenses');
 
+                        const rawStartDate = document.getElementById('req-start-date')?.value || rawDate;
+                        const rawEndDate   = document.getElementById('req-end-date')?.value || '';
+
+                        const formatRuDate = (isoStr) => {
+                            if (!isoStr) return '';
+                            const d = new Date(isoStr + 'T00:00:00+05:00');
+                            const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+                            return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} г.`;
+                        };
+
+                        const startDateFormatted = formatRuDate(rawStartDate) || dateFormatted;
+                        const endDateFormatted   = formatRuDate(rawEndDate) || 'согласно графику работ';
+
                         target.innerHTML = `
                             ${noContract ? `
                                 <div style="background:#fffbeb; border:1.5px solid #f59e0b; padding:10px 14px; border-radius:8px; margin-bottom:16px; font-size:11.5px; color:#92400e; line-height:1.4;">
@@ -3661,30 +3880,47 @@
                             </div>
 
                             <div class="doc-title-main">${isLicOnly ? `ДОГОВОР О ПЕРЕДАЧЕ НЕИСКЛЮЧИТЕЛЬНЫХ ПРАВ (ЛИЦЕНЗИЙ) ${docNum}` : `ДОГОВОР ПОДРЯДА И ПЕРЕДАЧИ ПРАВ НА ПО ${docNum}`}</div>
-                            <div class="doc-title-sub">${isLicOnly ? 'на передачу неисключительных имущественных прав использования программного обеспечения (лицензий и продления облачных подписок)' : 'на оказание услуг по внедрению CRM-системы, настройке воронок и передаче неисключительных прав (лицензий)'}</div>
+                            <div class="doc-title-sub">${isLicOnly ? 'на передачу неисключительных имущественных прав использования программного обеспечения (продление подписок на облачные сервисы)' : 'на оказание услуг по внедрению CRM-системы, настройке сквозных бизнес-процессов и передаче прав на ПО'}</div>
 
                             <div class="clause-p">
-                                <b>${myName}</b>, ИИН/БИН ${myBin}, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clName}</b>${clBinClause}${clDirClause}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», руководствуясь ${isLicOnly ? 'ст. 964–966 Гражданского кодекса Республики Казахстан и Законом РК «Об авторском праве и смежных правах»' : 'Гражданским кодексом Республики Казахстан'}, заключили настоящий Договор о нижеследующем:
+                                <b>${myName}</b>, ИИН/БИН ${myBin}, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clName}</b>${clBinClause}${clDirClause}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», руководствуясь ${isLicOnly ? 'статьями 386, 396, 683, 964–966 Гражданского кодекса Республики Казахстан и Законом РК «Об авторском праве и смежных правах»' : 'главой 32 («Подряд») и нормами Гражданского кодекса Республики Казахстан'}, заключили настоящий Договор о нижеследующем:
                             </div>
 
                             <div class="clause-h">1. ПРЕДМЕТ ДОГОВОРА</div>
                             <div class="clause-p">
                                 ${isLicOnly 
-                                    ? `1.1. Исполнитель (Поставщик прав) обязуется передать Заказчику неисключительные имущественные права использования программного обеспечения (лицензии / продление подписок на облачные сервисы: amoCRM, Битрикс24, Wazzup, Sipuni и др.) в соответствии со Спецификацией (Таблица 1), а Заказчик обязуется принять права и оплатить их на условиях настоящего Договора.<br>
-                                       1.2. Передача прав осуществляется посредством генерации лицензионных ключей, привязки доменов/номеров или активации соответствующего тарифного плана в облачном аккаунте (портале) Заказчика.<br>
-                                       1.3. В рамках настоящего Договора услуги по внедрению, настройке воронок продаж, интеграциям и доработке CRM-системы не оказываются.`
-                                    : `1.1. Исполнитель обязуется оказать Заказчику комплекс услуг по аудиту бизнес-процессов, проектированию воронок продаж, интеграции мессенджеров, телефонии в CRM-систему Заказчика и передать права на программное обеспечение в соответствии со Спецификацией (Таблица 1), а Заказчик обязуется принять оказанные услуги и оплатить их на условиях настоящего Договора.`
+                                    ? `1.1. Исполнитель (Лицензиар / Авторизованный партнер) обязуется предоставить (передать) Заказчику неисключительные имущественные права использования программного обеспечения (активацию лицензий / продление облачных подписок на программы для ЭВМ и базы данных: amoCRM, 1С-Битрикс24, Wazzup, Sipuni и др.) на срок и в объеме, указанные в Спецификации (Таблица 1), а Заказчик обязуется принять права и оплатить их на условиях настоящего Договора.<br>
+                                       1.2. <b>ЕДИНСТВЕННАЯ И ИСЧЕРПЫВАЮЩАЯ ОБЯЗАННОСТЬ:</b> Единственным обязательством Исполнителя по настоящему Договору является <b>обеспечение продления (активации) оплаченной подписки на выбранный срок в портале (аккаунте) Заказчика</b>.<br>
+                                       1.3. <b>СТРОЖАЙШЕЕ ОГРАНИЧЕНИЕ ПРЕДМЕТА:</b> В рамках настоящего Договора услуги по внедрению, настройке воронок продаж, интеграциям, доработке CRM, программированию, обучению персонала Заказчика или бизнес-консалтингу <b>НЕ ОКАЗЫВАЮТСЯ</b>. При необходимости проведения указанных работ Стороны заключают отдельный договор подряда.<br>
+                                       1.4. <b>МОМЕНТ ПОЛНОГО ИСПОЛНЕНИЯ:</b> Обязательства Исполнителя по передаче прав признаются исполненными на 100%, с надлежащим качеством и безоговорочно принятыми Заказчиком <b>непосредственно в момент зачисления/активации подписки в аккаунте Заказчика либо передачи ключа доступа</b>. Оформление электронного Акта носит подтверждающий бухгалтерский характер (для целей ИС ЭСФ), и отсутствие подписанного Заказчиком Акта при наличии активной подписки в портале не свидетельствует о неисполнении обязательств Исполнителем.`
+                                    : `1.1. Исполнитель обязуется выполнить комплекс работ по техническому аудиту, проектированию воронок продаж, интеграции мессенджеров, телефонии в CRM-систему Заказчика и передать права на программное обеспечение в соответствии со Спецификацией (Таблица 1), а Заказчик обязуется создать надлежащие условия, принять результат и оплатить его.<br>
+                                       1.2. Перечень настраиваемых воронок, подключаемых интеграций и поставляемых лицензий ПО строго зафиксирован в Спецификации (Таблица 1), являющейся неотъемлемой частью Договора.`
                                 }
                             </div>
 
-                            <div class="clause-h">2. СТОИМОСТЬ ${isLicOnly ? 'ПРАВ' : 'РАБОТ'} И ПОРЯДОК ОПЛАТЫ</div>
+                            ${!isLicOnly ? `
+                                <div class="clause-h">2. СРОКИ И ПЕРИОД ВЫПОЛНЕНИЯ ПРОЕКТА</div>
+                                <div class="clause-p">
+                                    2.1. Общий срок реализации проекта составляет: <b>${workDays} рабочих дней</b>.<br>
+                                    2.2. <b>Даты выполнения работ:</b><br>
+                                    &nbsp;&nbsp;• <b>Дата начала работ:</b> <b>${startDateFormatted}</b> (при условии поступления авансового платежа и предоставления Заказчиком всех необходимых доступов);<br>
+                                    &nbsp;&nbsp;• <b>Плановая дата завершения и сдачи проекта:</b> <b>${endDateFormatted}</b>.<br>
+                                    2.3. <b>ПРИОСТАНОВЛЕНИЕ СРОКОВ (ст. 628 ГК РК):</b> Срок выполнения работ автоматически продлевается соразмерно периоду задержки со стороны Заказчика в следующих случаях:<br>
+                                    &nbsp;&nbsp;а) задержка предоставления Заказчиком логинов, паролей, API-токенов, прав администратора, номеров телефонов или SIM-карт;<br>
+                                    &nbsp;&nbsp;б) задержка согласования структуры воронок, списков обязательных полей либо отсутствие ответов на запросы Исполнителя свыше 24 часов;<br>
+                                    &nbsp;&nbsp;в) задержка перечисления авансового платежа.<br>
+                                    Исполнитель полностью освобождается от ответственности за сдвиг сроков, вызванный действиями или бездействием Заказчика.
+                                </div>
+                            ` : ''}
+
+                            <div class="clause-h">${isLicOnly ? '2' : '3'}. СТОИМОСТЬ ${isLicOnly ? 'ПРАВ' : 'РАБОТ'} И ПОРЯДОК ОПЛАТЫ</div>
                             <div class="clause-p">
-                                2.1. Общая стоимость настоящего Договора составляет: <b>${fmtKZT(grandTotal)} (${numToWordsKZTRu(grandTotal)})</b>, без НДС (Исполнитель не является плательщиком НДС в соответствии с п.1 ст.367 Налогового кодекса РК).<br>
-                                2.2. ${isLicOnly ? 'Оплата производится Заказчиком в порядке 100% предоплаты (либо согласно выставленному счету на оплату) в течение 3 (трех) банковских дней с момента выставления счета.' : payTermsText}<br>
-                                2.3. Все расчеты производятся в безналичном порядке в национальной валюте Республики Казахстан — тенге (KZT), на расчетный счет Исполнителя на основании выставленного счета на оплату.
+                                ${isLicOnly ? '2' : '3'}.1. Общая стоимость настоящего Договора составляет: <b>${fmtKZT(grandTotal)} (${numToWordsKZTRu(grandTotal)})</b>, без НДС (Исполнитель не является плательщиком НДС в соответствии с п.1 ст.367 Налогового кодекса РК).<br>
+                                ${isLicOnly ? '2' : '3'}.2. ${isLicOnly ? 'Оплата производится Заказчиком в порядке 100% предоплаты в течение 3 (трех) банковских дней с даты выставления счета на оплату.' : payTermsText}<br>
+                                ${isLicOnly ? '2' : '3'}.3. Все расчеты производятся в безналичном порядке в национальной валюте Республики Казахстан — тенге (KZT), на расчетный счет Исполнителя на основании выставленного счета на оплату.
                             </div>
 
-                            <div class="clause-h">3. СПЕЦИФИКАЦИЯ ${isLicOnly ? 'ЛИЦЕНЗИЙ И ПОДПИСОК' : 'УСЛУГ И ЛИЦЕНЗИЙ'} (ТАБЛИЦА 1)</div>
+                            <div class="clause-h">${isLicOnly ? '3' : '4'}. СПЕЦИФИКАЦИЯ ${isLicOnly ? 'ЛИЦЕНЗИЙ И ПОДПИСОК' : 'УСЛУГ И ЛИЦЕНЗИЙ'} (ТАБЛИЦА 1)</div>
                             <table class="data-table">
                                 <thead>
                                     <tr>
@@ -3704,32 +3940,39 @@
                                 </tbody>
                             </table>
 
-                            <div class="clause-h">4. ОСОБЫЕ УСЛОВИЯ: НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ И ПОДПИСОК</div>
-                            <div class="clause-p">
-                                4.1. Приобретение и продление лицензий на программное обеспечение (amoCRM, 1С-Битрикс24, Wazzup, Sipuni) осуществляется Исполнителем у официальных правообладателей (вендоров) по поручению и за счет Заказчика.<br>
-                                4.2. <b>НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ:</b> В соответствии со ст. 386, 683, 964–966 Гражданского кодекса РК и регламентами правообладателей, обязательства Исполнителя по передаче прав считаются исполненными в полном объеме с момента генерации лицензионных ключей, привязки лицензий к аккаунту Заказчика либо активации тарифа в портале Заказчика. <b>Денежные средства, уплаченные за лицензии и подписки на программное обеспечение, ВОЗВРАТУ ИЛИ ПЕРЕРАСЧЕТУ НЕ ПОДЛЕЖАТ НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ</b>, в том числе при досрочном расторжении Договора по инициативе Заказчика.<br>
-                                ${!isLicOnly ? `4.3. <b>НЕВОЗВРАТНОСТЬ АВАНСА:</b> В случае одностороннего немотивированного отказа Заказчика от Договора после старта работ, внесенный авансовый платеж удерживается Исполнителем в полном объеме в качестве фактически понесенных расходов и компенсации за бронирование рабочего времени IT-специалистов.` : ''}
-                            </div>
-
-                            ${!isLicOnly ? `
-                                <div class="clause-h">5. СРОКИ И ПОРЯДОК ПРИЕМКИ РАБОТ («МОЛЧАЛИВОЕ СОГЛАСИЕ»)</div>
+                            ${isLicOnly ? `
+                                <div class="clause-h">4. СРОКИ И ПОРЯДОК АКТИВАЦИИ ПРАВ</div>
                                 <div class="clause-p">
-                                    5.1. Срок выполнения работ составляет <b>${workDays} рабочих дней</b> с момента внесения аванса и предоставления Заказчиком необходимых доступов.<br>
-                                    5.2. По завершении работ Исполнитель передает систему Заказчику и направляет Акт приема-передачи оказанных услуг (АВР) и выписывает ЭСФ.<br>
-                                    5.3. <b>ПРАВИЛО ПРИЕМКИ:</b> Заказчик обязан в течение <b>3 (трех) рабочих дней</b> с момента получения Акта подписать его либо направить мотивированный письменный отказ с перечнем конкретных замечаний. <b>В случае ненаправления мотивированного отказа в указанный 3-дневный срок, работы считаются выполненными надлежащим образом и принятыми Заказчиком в полном объеме</b>, а обязательства по оплате подлежат немедленному исполнению.
+                                    4.1. Передача прав (активация лицензий и продление облачных подписок) осуществляется Исполнителем в течение <b>1–3 (одного–трех) рабочих дней</b> с момента поступления 100% оплаты на расчетный счет Исполнителя и предоставления идентификационных данных аккаунта Заказчика.<br>
+                                    4.2. По факту активации Исполнитель выписывает электронный Акт приема-передачи неисключительных прав и ЭСФ через государственную информационную систему ИС ЭСФ.
                                 </div>
 
-                                <div class="clause-h">6. ГАРАНТИЯ И ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ</div>
+                                <div class="clause-h">5. БЕЗОГОВОРОЧНАЯ НЕВОЗВРАТНОСТЬ И ОГРАНИЧЕНИЕ ПРЕТЕНЗИЙ</div>
                                 <div class="clause-p">
-                                    6.1. Исполнитель предоставляет гарантийную техническую поддержку в течение <b>${warrantyDays} календарных дней</b> после сдачи проекта.<br>
-                                    6.2. Исполнитель не несет ответственности за технические сбои и перебои на стороне серверов третьих лиц (Meta / WhatsApp / Instagram / Телеком-операторы), а также за блокировку телефонных номеров в WhatsApp в случае несоблюдения Заказчиком правил антиспам-политики.
+                                    5.1. <b>НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ:</b> В соответствии со ст. 386, 683, 964–966 Гражданского кодекса РК и регламентами правообладателей (вендоров), с момента генерации лицензионных ключей, привязки лицензий либо активации тарифа в портале Заказчика, <b>ДЕНЕЖНЫЕ СРЕДСТВА, УПЛАЧЕННЫЕ ЗА НЕИСКЛЮЧИТЕЛЬНЫЕ ПРАВА (ЛИЦЕНЗИИ И ПОДПИСКИ), ВОЗВРАТУ, ПЕРЕРАСЧЕТУ, ЗАЧЕТУ ИЛИ КОМПЕНСАЦИИ НЕ ПОДЛЕЖАТ НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ</b>.<br>
+                                    5.2. Неиспользование сервиса сотрудниками Заказчика, внутренние разногласия, смена руководства, финансовые сложности или односторонний отказ Заказчика не являются основаниями для возврата оплаты.<br>
+                                    5.3. Исполнитель является партнером/дистрибьютором, но не правообладателем стороннего ПО. Исполнитель не несет ответственности за технические перебои на серверах вендоров (amoCRM, Bitrix24, Wazzup, Meta Platforms Inc. / WhatsApp / Instagram, телеком-операторов Sipuni), изменения протоколов вендоров либо блокировки номеров WhatsApp из-за массовых рассылок (спама) Заказчика.
                                 </div>
                             ` : `
-                                <div class="clause-h">5. СРОКИ И ПОРЯДОК АКТИВАЦИИ ПРАВ</div>
+                                <div class="clause-h">5. ПОРЯДОК ПРИЕМКИ РАБОТ («МОЛЧАЛИВОЕ СОГЛАСИЕ», ст. 396 ГК РК)</div>
                                 <div class="clause-p">
-                                    5.1. Передача прав (активация лицензий и продление облачных подписок) осуществляется Исполнителем в течение <b>1–3 рабочих дней</b> с момента поступления 100% оплаты на расчетный счет Исполнителя.<br>
-                                    5.2. По факту активации Исполнитель направляет Заказчику электронный Акт приема-передачи неисключительных прав и выписывает ЭСФ.<br>
-                                    5.3. Исполнитель не несет ответственности за технические сбои и перебои на стороне серверов правообладателей (вендоров).
+                                    5.1. По завершении работ Исполнитель передает настроенную систему Заказчику для проверки, направляет проект Акта приема-передачи оказанных услуг (АВР) и выписывает ЭСФ.<br>
+                                    5.2. <b>РЕГЛАМЕНТ ПРИЕМКИ:</b> Заказчик обязан в течение <b>3 (трех) рабочих дней</b> с момента получения Акта проверить систему и подписать Акт либо направить мотивированный письменный отказ с исчерпывающим перечнем конкретных несоответствий ранее согласованным требованиям.<br>
+                                    5.3. <b>ПРАВИЛО «МОЛЧАЛИВОГО СОГЛАСИЯ»: В случае если в течение 3 (трех) рабочих дней Заказчик не направил мотивированный письменный отказ, работы признаются выполненными надлежащим образом, в полном объеме и безоговорочно принятыми Заказчиком</b>. При этом Акт считается имеющим полную юридическую силу для обеих Сторон, а окончательный расчет подлежит немедленной выплате.
+                                </div>
+
+                                <div class="clause-h">6. ОСОБЫЕ УСЛОВИЯ: НЕВОЗВРАТНОСТЬ СОФТА И АВАНСА</div>
+                                <div class="clause-p">
+                                    6.1. <b>НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ:</b> Средства за приобретенные лицензии и подписки стороннего ПО возврату не подлежат (ст. 386, 683, 964 ГК РК).<br>
+                                    6.2. <b>НЕВОЗВРАТНОСТЬ АВАНСА (ст. 627 ГК РК):</b> В случае одностороннего немотивированного отказа Заказчика от завершения проекта после старта работ, внесенный авансовый платеж возврату не подлежит и удерживается Исполнителем в качестве фактически понесенных расходов и компенсации за бронирование рабочего времени IT-специалистов.
+                                </div>
+
+                                <div class="clause-h">7. ГАРАНТИЯ И ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ</div>
+                                <div class="clause-p">
+                                    7.1. Исполнитель предоставляет гарантийную техническую поддержку в течение <b>${warrantyDays} календарных дней</b> с момента сдачи проекта.<br>
+                                    7.2. Гарантия распространяется строго на устранение программных сбоев в рамках ранее согласованного функционала. Создание новых воронок, изменение бизнес-логики или интеграция дополнительных сервисов оплачивается отдельно.<br>
+                                    7.3. Исполнитель не несет ответственности за технические сбои на стороне серверов третьих лиц (Meta Platforms Inc. / WhatsApp / Instagram, операторов телефонии, серверов CRM-систем), а также за спам-блокировки номеров WhatsApp при нарушении Заказчиком правил вендоров.<br>
+                                    7.4. Совокупная ответственность Исполнителя по любым претензиям ограничена суммой вознаграждения за услуги настройки, фактически полученной Исполнителем.
                                 </div>
                             `}
 
