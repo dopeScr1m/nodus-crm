@@ -1360,6 +1360,8 @@
             margin-top: 26px;
             padding-top: 16px;
             border-top: 1.5px solid #cbd5e1;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
         }
         .doc-sheet .sig-col h4 {
             font-size: 12px;
@@ -1375,6 +1377,43 @@
             color: #475569 !important;
         }
 
+        /* PDF EXPORT LOCKING CONTAINER FOR EXACT A4 PIXEL RATIO */
+        .doc-sheet.pdf-export-active {
+            width: 710px !important;
+            max-width: 710px !important;
+            min-width: 710px !important;
+            box-sizing: border-box !important;
+            padding: 18px 22px !important;
+            background: #ffffff !important;
+            box-shadow: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 auto !important;
+        }
+        .doc-sheet.pdf-export-active.invoice-mode {
+            padding: 10px 14px !important;
+        }
+        .doc-sheet .clause-h {
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+        }
+        .doc-sheet .data-table {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+        .doc-sheet .data-table tr {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+        .doc-sheet .rk-invoice-top-bar {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+        .doc-sheet .rk-notice-box {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+        }
+
         /* PRINT STYLES */
         @media print {
             html, body {
@@ -1385,7 +1424,7 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            .auth-gate, .admin-header, .controls-panel, .preview-toolbar, .archive-sheet, .floating-toast-notify {
+            .auth-gate, .admin-header, .configurator-panel, .controls-panel, .preview-toolbar, .archive-sheet, .floating-toast-notify {
                 display: none !important;
             }
             .admin-dashboard {
@@ -1414,10 +1453,28 @@
                 border-radius: 0 !important;
                 min-height: auto !important;
                 width: 100% !important;
+                font-size: 11pt !important;
+                line-height: 1.45 !important;
+            }
+            .clause-h {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+            .signatures-grid {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .data-table {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            tr {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
             }
             @page {
                 size: A4 portrait;
-                margin: 15mm 18mm 15mm 18mm;
+                margin: 10mm 12mm 10mm 12mm;
             }
         }
 
@@ -5082,11 +5139,11 @@
                 });
             });
 
-            // PDF EXPORT HANDLER
-            document.getElementById('btn-pdf-export')?.addEventListener('click', () => {
+            // PDF EXPORT HANDLER (PIXEL-PERFECT A4 GEOMETRY)
+            document.getElementById('btn-pdf-export')?.addEventListener('click', async () => {
                 const filename = getDynamicPdfFilename();
-                const element = document.getElementById('render-target');
-                if (!element || !element.innerHTML.trim()) {
+                const printArea = document.getElementById('print-area');
+                if (!printArea || !printArea.innerText.trim()) {
                     showToastNotify('⚠️ Документ пуст, нечего экспортировать!');
                     return;
                 }
@@ -5095,33 +5152,44 @@
                 saveDealToArchive(false);
 
                 if (typeof html2pdf !== 'undefined') {
+                    const isInvoice = (activeTab === 'invoice');
+
+                    // Apply precise A4 dimensions to ensure zero clipping on any screen resolution
+                    printArea.classList.add('pdf-export-active');
+                    if (isInvoice) printArea.classList.add('invoice-mode');
+
                     const opt = {
-                        margin: [6, 6, 6, 6],
+                        margin: [8, 8, 8, 8],
                         filename: filename,
                         image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2, useCORS: true, letterRendering: true, backgroundColor: '#ffffff' },
+                        html2canvas: {
+                            scale: 2,
+                            useCORS: true,
+                            letterRendering: true,
+                            backgroundColor: '#ffffff',
+                            scrollX: 0,
+                            scrollY: 0,
+                            windowWidth: 710
+                        },
                         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                        pagebreak: {
+                            mode: ['avoid-all', 'css', 'legacy'],
+                            avoid: ['.clause-h', '.brand-header', '.signatures-grid', '.rk-notice-box', '.data-table', 'tr', 'table', '.signature-box']
+                        }
                     };
 
-                    const origBg = element.style.background;
-                    const origColor = element.style.color;
-                    element.style.background = '#ffffff';
-                    element.style.color = '#000000';
-
-                    html2pdf().set(opt).from(element).save().then(() => {
-                        element.style.background = origBg;
-                        element.style.color = origColor;
+                    try {
+                        await html2pdf().set(opt).from(printArea).save();
                         showToastNotify(`📥 Файл «${filename}» успешно сформирован и скачан!`);
-                    }).catch(err => {
+                    } catch (err) {
                         console.error('html2pdf error:', err);
-                        element.style.background = origBg;
-                        element.style.color = origColor;
                         const oldTitle = document.title;
                         document.title = filename.replace(/\.pdf$/i, '');
                         window.print();
                         setTimeout(() => { document.title = oldTitle; }, 2000);
-                    });
+                    } finally {
+                        printArea.classList.remove('pdf-export-active', 'invoice-mode');
+                    }
                 } else {
                     const oldTitle = document.title;
                     document.title = filename.replace(/\.pdf$/i, '');
