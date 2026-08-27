@@ -2479,7 +2479,7 @@
 
             reqStartDateInp?.addEventListener('change', () => { syncProjectEndDate(); renderAll(); });
             reqWorkDaysInp?.addEventListener('input', () => { syncProjectEndDate(); renderAll(); });
-            reqEndDateInp?.addEventListener('change', renderAll);
+            reqEndDateInp?.addEventListener('change', () => { renderAll(); });
 
             // CONTRACT MODE CONTROLLER: 'licenses' (Только подписки) vs 'complex' (Внедрение + Подписки)
             let contractMode = 'licenses';
@@ -3528,8 +3528,8 @@
                 });
 
                 document.querySelectorAll('#req-my-name, #req-my-signer, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-start-date, #req-end-date, #req-work-days, #req-warranty-days, #req-pay-terms, #chk-no-contract').forEach(el => {
-                    el.addEventListener('input', renderAll);
-                    el.addEventListener('change', renderAll);
+                    el.addEventListener('input', () => renderAll());
+                    el.addEventListener('change', () => renderAll());
                 });
             };
 
@@ -3541,7 +3541,7 @@
             };
 
             // MAIN RENDER FUNCTION
-            const renderAll = () => {
+            function renderAll() {
                 try {
                     const activeItems = [];
                     let vendorCost    = 0;
@@ -3798,6 +3798,7 @@
 
                     const docNum       = document.getElementById('req-doc-num').value || '№ ND-2026/08-25';
                     const rawDate      = document.getElementById('req-doc-date').value;
+                    const noContract   = !!document.getElementById('chk-no-contract')?.checked;
                     const workDays     = document.getElementById('req-work-days').value || '7';
                     const warrantyDays = document.getElementById('req-warranty-days').value || '14';
                     const payTerms     = document.getElementById('req-pay-terms').value;
@@ -4221,7 +4222,7 @@
                     }
 
                 } catch (err) {
-                    console.error("Render Error:", err);
+                    console.error("Render Error:", err.message, err.stack);
                 }
             };
 
@@ -4589,6 +4590,8 @@
             });
 
             // INITIAL BOOTSTRAP
+            window.renderAll = renderAll;
+            window.setContractMode = setContractMode;
             bindInputs();
             recalculatePrices();
             renderCustomRows();
