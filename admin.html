@@ -745,6 +745,25 @@
             color: #fff;
             border-style: solid;
         }
+        .btn-recent-client {
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            color: #c7d2fe;
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-recent-client:hover {
+            background: rgba(99, 102, 241, 0.28);
+            border-color: rgba(99, 102, 241, 0.6);
+            color: #fff;
+            transform: translateY(-1px);
+        }
         .kompra-status-msg {
             margin-top: 10px;
             padding: 8px 12px;
@@ -2121,12 +2140,20 @@
                         </div>
 
                         <!-- Quick Demo Presets -->
-                        <div class="kompra-quick-demos">
-                            <span style="font-size:0.7rem; color:#64748b;">Быстрый тест:</span>
-                            <button type="button" class="btn-demo-bin" data-bin="170940011140">ТОО «KOMPRA» (170940011140)</button>
+                        <div class="kompra-quick-demos" style="margin-bottom:6px;">
+                            <span style="font-size:0.7rem; color:#64748b;">Быстрый выбор:</span>
                             <button type="button" class="btn-demo-bin" data-bin="010618550536">ИП «NODUS» (010618550536)</button>
                             <button type="button" class="btn-demo-bin" data-bin="000140002158">Найза-Құрылыс (000140002158)</button>
                             <button type="button" class="btn-demo-bin" data-bin="190440023456">Kazakhstan Business (190440023456)</button>
+                        </div>
+
+                        <!-- Recent Clients from Memory -->
+                        <div id="recent-clients-wrap" style="margin-bottom:10px; display:none;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                <span style="font-size:0.7rem; color:#38bdf8; font-weight:700;">🕒 Недавние клиенты в памяти:</span>
+                                <button type="button" id="btn-clear-recent-clients" style="background:none; border:none; color:#94a3b8; font-size:0.68rem; cursor:pointer; text-decoration:underline;">очистить историю</button>
+                            </div>
+                            <div id="recent-clients-list" style="display:flex; flex-wrap:wrap; gap:4px;"></div>
                         </div>
 
                         <!-- Status Message / Loading -->
@@ -2306,6 +2333,8 @@
                 <div class="preview-toolbar">
                     <div class="badge-doc-status" id="badge-doc-title">📄 Договор подряда РК (Защищенный)</div>
                     <div class="tool-actions">
+                        <span id="draft-save-indicator" style="font-size:0.72rem; color:#4ade80; display:flex; align-items:center; gap:4px; margin-right:6px;" title="Все изменения автоматически сохраняются в памяти браузера"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#4ade80;"></span> В памяти</span>
+                        <button type="button" class="btn-tool" id="btn-reset-draft" style="background:rgba(239,68,68,0.12); color:#fca5a5; border-color:rgba(239,68,68,0.3);" title="Очистить черновик и начать новую сделку">🔄 Новый расчет</button>
                         <button type="button" class="btn-tool btn-save-archive" id="btn-save-archive" title="Сохранить текущую смету в архив сделок">💾 Сохранить в архив</button>
                         <button type="button" class="btn-tool" id="btn-pdf-export" style="background:#0284c7; color:#fff; font-weight:700; border-color:#0284c7;" title="Скачать документ в PDF с официальным наименованием">📥 Скачать PDF</button>
                         <button type="button" class="btn-tool btn-copy" id="btn-copy">📋 Скопировать текст</button>
@@ -2451,6 +2480,7 @@
             });
 
             checkAuth();
+            window.checkAuth = checkAuth;
 
             // Set Kazakhstan Time UTC+5 & Dynamic Document Number
             const getKzToday = () => {
@@ -2805,6 +2835,18 @@
                 }
 
                 saveArchiveList(list);
+                if (deal.client && deal.client.bin && typeof saveRecentClient === 'function') {
+                    saveRecentClient({
+                        bin: deal.client.bin,
+                        name: deal.client.name,
+                        director: deal.client.director,
+                        addr: deal.client.addr,
+                        phone: deal.client.phone,
+                        bank: deal.client.bank,
+                        bik: deal.client.bik,
+                        iban: deal.client.iban
+                    });
+                }
                 if (notifyUser) {
                     showToastNotify(`💾 Сделка <b>${deal.docNum}</b> для <b>«${deal.client.name}»</b> сохранена в архив!`);
                 }
@@ -3568,8 +3610,8 @@
             const bindInputs = () => {
                 const autoRecalcSelectors = '#sel-amo-tariff, #inp-amo-users, #sel-amo-term, #inp-amo-disc, #sel-bx-tariff, #sel-bx-term, #inp-bx-disc, #sel-wz-wa-plan, #inp-wz-wa-ch, #sel-wz-wa-term, #inp-wz-wa-disc, #sel-wz-ig-plan, #inp-wz-ig-ch, #sel-wz-ig-term, #inp-wz-ig-disc, #sel-wz-tg-plan, #inp-wz-tg-ch, #sel-wz-tg-term, #inp-wz-tg-disc, #sel-sip-plan, #inp-sip-users, #sel-sip-term, #inp-sip-disc, #sel-serv-pkg, #inp-serv-disc, #sel-supp-plan, #sel-supp-term, #inp-supp-disc';
                 document.querySelectorAll(autoRecalcSelectors).forEach(el => {
-                    el.addEventListener('input', () => { recalculatePrices(); renderAll(); });
-                    el.addEventListener('change', () => { recalculatePrices(); renderAll(); });
+                    el.addEventListener('input', () => { recalculatePrices(); renderAll(); debouncedSaveDraft(); });
+                    el.addEventListener('change', () => { recalculatePrices(); renderAll(); debouncedSaveDraft(); });
                 });
 
                 document.querySelectorAll('.mod-checkbox').forEach(cb => {
@@ -3579,6 +3621,7 @@
                         const chBox = e.target.closest('.wz-channel-box');
                         if (chBox) chBox.classList.toggle('active', e.target.checked);
                         renderAll();
+                        debouncedSaveDraft();
                     });
                 });
 
@@ -3663,13 +3706,13 @@
                 });
 
                 document.querySelectorAll('#inp-amo-price, #inp-bx-price, #inp-wz-wa-price, #inp-wz-ig-price, #inp-wz-tg-price, #inp-sip-price, #inp-serv-price, #inp-supp-price').forEach(el => {
-                    el.addEventListener('input', () => { updateModuleEconomics(); renderAll(); });
-                    el.addEventListener('change', () => { updateModuleEconomics(); renderAll(); });
+                    el.addEventListener('input', () => { updateModuleEconomics(); renderAll(); debouncedSaveDraft(); });
+                    el.addEventListener('change', () => { updateModuleEconomics(); renderAll(); debouncedSaveDraft(); });
                 });
 
                 document.querySelectorAll('#req-my-name, #req-my-signer, #req-my-bin, #req-my-kbe, #req-my-phone, #req-my-addr, #req-my-bank, #req-my-bik, #req-my-iban, #req-cl-name, #req-cl-director, #req-cl-bin, #req-cl-phone, #req-cl-addr, #req-cl-bank, #req-cl-bik, #req-cl-iban, #req-doc-num, #req-doc-date, #req-start-date, #req-end-date, #req-work-days, #req-warranty-days, #req-pay-terms, #chk-no-contract').forEach(el => {
-                    el.addEventListener('input', () => renderAll());
-                    el.addEventListener('change', () => renderAll());
+                    el.addEventListener('input', () => { renderAll(); debouncedSaveDraft(); });
+                    el.addEventListener('change', () => { renderAll(); debouncedSaveDraft(); });
                 });
             };
 
@@ -4214,6 +4257,22 @@
                             : `<tr><td colspan="6" style="text-align:center; padding:20px; color:#64748b; border:1px solid #000;">(Включите необходимые модули в панели слева, чтобы сформировать спецификацию)</td></tr>`;
 
                         target.innerHTML = `
+                            <!-- OFFICIAL RK BRANDED INVOICE HEADER WITH LOGO -->
+                            <div class="rk-invoice-top-bar" style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0f172a; padding-bottom:12px; margin-bottom:14px;">
+                                <div style="display:flex; align-items:center; gap:12px;">
+                                    <div style="width:46px; height:46px; border-radius:10px; background:linear-gradient(135deg, #4f46e5, #06b6d4); display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px; font-weight:900; font-family:'Space Grotesk',sans-serif; box-shadow:0 3px 10px rgba(79,70,229,0.25);">N</div>
+                                    <div>
+                                        <div style="font-size:19px; font-weight:900; font-family:'Space Grotesk',sans-serif; letter-spacing:0.04em; color:#0f172a; line-height:1.1;">NODUS</div>
+                                        <div style="font-size:9.5px; font-weight:700; color:#0284c7; text-transform:uppercase; letter-spacing:0.06em; margin-top:2px;">Digital CRM &amp; Automation Solutions</div>
+                                    </div>
+                                </div>
+                                <div style="text-align:right; font-size:10px; color:#475569; line-height:1.45;">
+                                    <div style="font-weight:700; color:#0f172a; font-size:11px;">${myName} · БИН/ИИН: ${myBin}</div>
+                                    <div>Официальный CRM-интегратор в Республике Казахстан</div>
+                                    <div>г. Петропавловск / г. Алматы · тел.: ${myPhone}</div>
+                                </div>
+                            </div>
+
                             <div class="rk-notice-box" style="border:1.5px solid #0284c7; background:#f0f9ff; padding:10px 14px; font-size:11px; color:#0c4a6e; margin-bottom:14px; line-height:1.5; border-radius:6px;">
                                 <b>⚡ ВНИМАНИЕ! БЕЗОГОВОРОЧНЫЙ АКЦЕПТ ДОГОВОРА-ОФЕРТЫ (ст. 152, 395, 396 ГК РК):</b><br>
                                 Оплата настоящего счета Заказчиком (полная или частичная) означает полное и безоговорочное согласие со всеми условиями поставки, сроками и регламентами, и приравнивается к заключению Договора в надлежащей письменной форме. Физическое подписание Договора на бумаге <b>НЕ ТРЕБУЕТСЯ</b>.<br>
@@ -4374,25 +4433,6 @@
                     kato: "591010000",
                     kbe: "19",
                     phone: "+7 (775) 807-16-95",
-                    taxDebts: { status: false }
-                },
-                "170940011140": {
-                    name: "ТОО «KOMPRA»",
-                    fullName: "ТОВАРИЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"KOMPRA\"",
-                    bin: "170940011140",
-                    field: ["Деятельность в области разработки и тестирования программного кода"],
-                    region: "г.Астана",
-                    lawAddress: "Г.АСТАНА, РАЙОН АЛМАТЫ, Проспект Бауыржан Момышұлы, здание 2/1",
-                    oked: "62011",
-                    owner: "БАЛТАБАЕВА ГАУХАР ЖУМАЖАНКЫЗЫ",
-                    ownerIin: "920629400137",
-                    registerDate: 1505088000000,
-                    workers: "от 51 до 100 чел.",
-                    size: "small",
-                    kato: "711110000",
-                    kbe: "17",
-                    phone: "+7(777)333-66-02",
-                    astanaHub: { status: "Активно" },
                     taxDebts: { status: false }
                 },
                 "000140002158": {
@@ -4684,6 +4724,328 @@
                 }
             });
 
+            // =========================================================================
+            // RECENT CLIENTS STORAGE & AUTO-RESTORE
+            // =========================================================================
+            const RECENT_CLIENTS_KEY = 'nodus_recent_clients';
+            const getRecentClients = () => {
+                try {
+                    return JSON.parse(localStorage.getItem(RECENT_CLIENTS_KEY)) || [];
+                } catch (e) {
+                    return [];
+                }
+            };
+
+            const saveRecentClient = (client) => {
+                if (!client || !client.bin || client.bin.length !== 12) return;
+                try {
+                    let list = getRecentClients();
+                    list = list.filter(c => c.bin !== client.bin);
+                    list.unshift({
+                        bin: client.bin,
+                        name: client.name || ('Клиент ' + client.bin),
+                        director: client.director || '',
+                        addr: client.addr || '',
+                        phone: client.phone || '',
+                        bank: client.bank || '',
+                        bik: client.bik || '',
+                        iban: client.iban || '',
+                        time: new Date().toLocaleDateString('ru-RU')
+                    });
+                    list = list.slice(0, 8);
+                    localStorage.setItem(RECENT_CLIENTS_KEY, JSON.stringify(list));
+                    renderRecentClients();
+                } catch (e) {
+                    console.warn('saveRecentClient error:', e);
+                }
+            };
+
+            const renderRecentClients = () => {
+                const wrap = document.getElementById('recent-clients-wrap');
+                const listEl = document.getElementById('recent-clients-list');
+                if (!wrap || !listEl) return;
+
+                const clients = getRecentClients();
+                if (clients.length === 0) {
+                    wrap.style.display = 'none';
+                    listEl.innerHTML = '';
+                    return;
+                }
+
+                wrap.style.display = 'block';
+                listEl.innerHTML = clients.map(c => {
+                    const shortName = c.name.length > 26 ? c.name.slice(0, 24) + '…' : c.name;
+                    return `<button type="button" class="btn-recent-client" data-bin="${c.bin}" title="${escapeHtml(c.name)} (${c.bin})">🏢 ${escapeHtml(shortName)} (${c.bin})</button>`;
+                }).join('');
+
+                listEl.querySelectorAll('.btn-recent-client').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const bin = btn.dataset.bin;
+                        const client = clients.find(c => c.bin === bin);
+                        if (client) {
+                            if (document.getElementById('req-cl-name')) document.getElementById('req-cl-name').value = client.name || '';
+                            if (document.getElementById('req-cl-bin')) document.getElementById('req-cl-bin').value = client.bin || '';
+                            if (document.getElementById('req-cl-phone') && client.phone) document.getElementById('req-cl-phone').value = client.phone;
+                            if (document.getElementById('req-cl-addr') && client.addr) document.getElementById('req-cl-addr').value = client.addr;
+                            if (document.getElementById('req-cl-director') && client.director) document.getElementById('req-cl-director').value = client.director;
+                            if (document.getElementById('req-cl-bank') && client.bank) document.getElementById('req-cl-bank').value = client.bank;
+                            if (document.getElementById('req-cl-bik') && client.bik) document.getElementById('req-cl-bik').value = client.bik;
+                            if (document.getElementById('req-cl-iban') && client.iban) document.getElementById('req-cl-iban').value = client.iban;
+                            if (inpSearchBin) inpSearchBin.value = client.bin;
+                            showKompraStatus(`✅ Клиент <b>${escapeHtml(client.name)}</b> подгружен из недавней памяти!`, 'success');
+                            renderAll();
+                            debouncedSaveDraft();
+                        }
+                    });
+                });
+            };
+
+            document.getElementById('btn-clear-recent-clients')?.addEventListener('click', () => {
+                localStorage.removeItem(RECENT_CLIENTS_KEY);
+                renderRecentClients();
+                showToastNotify('🗑️ История недавних клиентов очищена');
+            });
+
+            // =========================================================================
+            // DRAFT AUTO-SAVE & RESTORE
+            // =========================================================================
+            const DRAFT_STORAGE_KEY = 'nodus_admin_draft';
+            let draftSaveTimer = null;
+
+            const saveDraftToStorage = () => {
+                try {
+                    const draft = {
+                        timestamp: Date.now(),
+                        myName: document.getElementById('req-my-name')?.value,
+                        mySigner: document.getElementById('req-my-signer')?.value,
+                        myBin: document.getElementById('req-my-bin')?.value,
+                        myKbe: document.getElementById('req-my-kbe')?.value,
+                        myPhone: document.getElementById('req-my-phone')?.value,
+                        myAddr: document.getElementById('req-my-addr')?.value,
+                        myBank: document.getElementById('req-my-bank')?.value,
+                        myBik: document.getElementById('req-my-bik')?.value,
+                        myIban: document.getElementById('req-my-iban')?.value,
+
+                        clName: document.getElementById('req-cl-name')?.value,
+                        clBin: document.getElementById('req-cl-bin')?.value,
+                        clPhone: document.getElementById('req-cl-phone')?.value,
+                        clAddr: document.getElementById('req-cl-addr')?.value,
+                        clDirector: document.getElementById('req-cl-director')?.value,
+                        clBank: document.getElementById('req-cl-bank')?.value,
+                        clBik: document.getElementById('req-cl-bik')?.value,
+                        clIban: document.getElementById('req-cl-iban')?.value,
+                        selClBank: document.getElementById('sel-cl-bank')?.value,
+
+                        docNum: document.getElementById('req-doc-num')?.value,
+                        docDate: document.getElementById('req-doc-date')?.value,
+                        startDate: document.getElementById('req-start-date')?.value,
+                        endDate: document.getElementById('req-end-date')?.value,
+                        workDays: document.getElementById('req-work-days')?.value,
+                        warrantyDays: document.getElementById('req-warranty-days')?.value,
+                        payTerms: document.getElementById('req-pay-terms')?.value,
+                        noContract: !!document.getElementById('chk-no-contract')?.checked,
+                        contractMode: contractMode,
+
+                        chkAmo: !!document.getElementById('chk-amo')?.checked,
+                        selAmoTariff: document.getElementById('sel-amo-tariff')?.value,
+                        inpAmoUsers: document.getElementById('inp-amo-users')?.value,
+                        selAmoTerm: document.getElementById('sel-amo-term')?.value,
+                        inpAmoDisc: document.getElementById('inp-amo-disc')?.value,
+                        inpAmoPrice: document.getElementById('inp-amo-price')?.value,
+
+                        chkBx: !!document.getElementById('chk-bx')?.checked,
+                        selBxTariff: document.getElementById('sel-bx-tariff')?.value,
+                        selBxTerm: document.getElementById('sel-bx-term')?.value,
+                        inpBxDisc: document.getElementById('inp-bx-disc')?.value,
+                        inpBxPrice: document.getElementById('inp-bx-price')?.value,
+
+                        chkWz: !!document.getElementById('chk-wz')?.checked,
+                        chkWzWa: !!document.getElementById('chk-wz-wa')?.checked,
+                        selWzWaPlan: document.getElementById('sel-wz-wa-plan')?.value,
+                        inpWzWaCh: document.getElementById('inp-wz-wa-ch')?.value,
+                        selWzWaTerm: document.getElementById('sel-wz-wa-term')?.value,
+                        inpWzWaDisc: document.getElementById('inp-wz-wa-disc')?.value,
+                        inpWzWaPrice: document.getElementById('inp-wz-wa-price')?.value,
+
+                        chkWzIg: !!document.getElementById('chk-wz-ig')?.checked,
+                        selWzIgPlan: document.getElementById('sel-wz-ig-plan')?.value,
+                        inpWzIgCh: document.getElementById('inp-wz-ig-ch')?.value,
+                        selWzIgTerm: document.getElementById('sel-wz-ig-term')?.value,
+                        inpWzIgDisc: document.getElementById('inp-wz-ig-disc')?.value,
+                        inpWzIgPrice: document.getElementById('inp-wz-ig-price')?.value,
+
+                        chkWzTg: !!document.getElementById('chk-wz-tg')?.checked,
+                        selWzTgPlan: document.getElementById('sel-wz-tg-plan')?.value,
+                        inpWzTgCh: document.getElementById('inp-wz-tg-ch')?.value,
+                        selWzTgTerm: document.getElementById('sel-wz-tg-term')?.value,
+                        inpWzTgDisc: document.getElementById('inp-wz-tg-disc')?.value,
+                        inpWzTgPrice: document.getElementById('inp-wz-tg-price')?.value,
+
+                        chkSip: !!document.getElementById('chk-sip')?.checked,
+                        selSipPlan: document.getElementById('sel-sip-plan')?.value,
+                        inpSipUsers: document.getElementById('inp-sip-users')?.value,
+                        selSipTerm: document.getElementById('sel-sip-term')?.value,
+                        inpSipDisc: document.getElementById('inp-sip-disc')?.value,
+                        inpSipPrice: document.getElementById('inp-sip-price')?.value,
+
+                        chkServ: !!document.getElementById('chk-serv')?.checked,
+                        selServPkg: document.getElementById('sel-serv-pkg')?.value,
+                        inpServDisc: document.getElementById('inp-serv-disc')?.value,
+                        inpServPrice: document.getElementById('inp-serv-price')?.value,
+
+                        chkSupp: !!document.getElementById('chk-supp')?.checked,
+                        selSuppPlan: document.getElementById('sel-supp-plan')?.value,
+                        selSuppTerm: document.getElementById('sel-supp-term')?.value,
+                        inpSuppDisc: document.getElementById('inp-supp-disc')?.value,
+                        inpSuppPrice: document.getElementById('inp-supp-price')?.value
+                    };
+                    localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(draft));
+                    const ind = document.getElementById('draft-save-indicator');
+                    if (ind) {
+                        ind.style.opacity = '1';
+                        setTimeout(() => { ind.style.opacity = '0.85'; }, 1000);
+                    }
+                } catch (e) {
+                    console.warn('saveDraftToStorage error:', e);
+                }
+            };
+
+            const debouncedSaveDraft = () => {
+                clearTimeout(draftSaveTimer);
+                draftSaveTimer = setTimeout(() => {
+                    saveDraftToStorage();
+                    const clBin = (document.getElementById('req-cl-bin')?.value || '').replace(/\D/g, '');
+                    const clName = (document.getElementById('req-cl-name')?.value || '').trim();
+                    if (clBin.length === 12 && clName.length >= 3) {
+                        saveRecentClient({
+                            bin: clBin,
+                            name: clName,
+                            director: document.getElementById('req-cl-director')?.value || '',
+                            addr: document.getElementById('req-cl-addr')?.value || '',
+                            phone: document.getElementById('req-cl-phone')?.value || '',
+                            bank: document.getElementById('req-cl-bank')?.value || '',
+                            bik: document.getElementById('req-cl-bik')?.value || '',
+                            iban: document.getElementById('req-cl-iban')?.value || ''
+                        });
+                    }
+                }, 400);
+            };
+
+            const loadDraftFromStorage = () => {
+                try {
+                    const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+                    if (!raw) return false;
+                    const d = JSON.parse(raw);
+                    if (!d || typeof d !== 'object') return false;
+
+                    const setVal = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined && val !== null) el.value = val; };
+                    const setCheck = (id, val) => {
+                        const el = document.getElementById(id);
+                        if (el) {
+                            el.checked = !!val;
+                            el.closest('.mod-card')?.classList.toggle('active', !!val);
+                            el.closest('.wz-channel-box')?.classList.toggle('active', !!val);
+                        }
+                    };
+
+                    setVal('req-my-name', d.myName);
+                    setVal('req-my-signer', d.mySigner);
+                    setVal('req-my-bin', d.myBin);
+                    setVal('req-my-kbe', d.myKbe);
+                    setVal('req-my-phone', d.myPhone);
+                    setVal('req-my-addr', d.myAddr);
+                    setVal('req-my-bank', d.myBank);
+                    setVal('req-my-bik', d.myBik);
+                    setVal('req-my-iban', d.myIban);
+
+                    setVal('req-cl-name', d.clName);
+                    setVal('req-cl-bin', d.clBin);
+                    setVal('req-cl-phone', d.clPhone);
+                    setVal('req-cl-addr', d.clAddr);
+                    setVal('req-cl-director', d.clDirector);
+                    setVal('req-cl-bank', d.clBank);
+                    setVal('req-cl-bik', d.clBik);
+                    setVal('req-cl-iban', d.clIban);
+                    setVal('sel-cl-bank', d.selClBank);
+
+                    setVal('req-doc-num', d.docNum);
+                    setVal('req-doc-date', d.docDate);
+                    setVal('req-start-date', d.startDate);
+                    setVal('req-end-date', d.endDate);
+                    setVal('req-work-days', d.workDays);
+                    setVal('req-warranty-days', d.warrantyDays);
+                    setVal('req-pay-terms', d.payTerms);
+                    setCheck('chk-no-contract', d.noContract);
+                    if (d.contractMode && typeof setContractMode === 'function') {
+                        setContractMode(d.contractMode);
+                    }
+
+                    setCheck('chk-amo', d.chkAmo);
+                    setVal('sel-amo-tariff', d.selAmoTariff);
+                    setVal('inp-amo-users', d.inpAmoUsers);
+                    setVal('sel-amo-term', d.selAmoTerm);
+                    setVal('inp-amo-disc', d.inpAmoDisc);
+                    setVal('inp-amo-price', d.inpAmoPrice);
+
+                    setCheck('chk-bx', d.chkBx);
+                    setVal('sel-bx-tariff', d.selBxTariff);
+                    setVal('sel-bx-term', d.selBxTerm);
+                    setVal('inp-bx-disc', d.inpBxDisc);
+                    setVal('inp-bx-price', d.inpBxPrice);
+
+                    setCheck('chk-wz', d.chkWz);
+                    setCheck('chk-wz-wa', d.chkWzWa);
+                    setVal('sel-wz-wa-plan', d.selWzWaPlan);
+                    setVal('inp-wz-wa-ch', d.inpWzWaCh);
+                    setVal('sel-wz-wa-term', d.selWzWaTerm);
+                    setVal('inp-wz-wa-disc', d.inpWzWaDisc);
+                    setVal('inp-wz-wa-price', d.inpWzWaPrice);
+
+                    setCheck('chk-wz-ig', d.chkWzIg);
+                    setVal('sel-wz-ig-plan', d.selWzIgPlan);
+                    setVal('inp-wz-ig-ch', d.inpWzIgCh);
+                    setVal('sel-wz-ig-term', d.selWzIgTerm);
+                    setVal('inp-wz-ig-disc', d.inpWzIgDisc);
+                    setVal('inp-wz-ig-price', d.inpWzIgPrice);
+
+                    setCheck('chk-wz-tg', d.chkWzTg);
+                    setVal('sel-wz-tg-plan', d.selWzTgPlan);
+                    setVal('inp-wz-tg-ch', d.inpWzTgCh);
+                    setVal('sel-wz-tg-term', d.selWzTgTerm);
+                    setVal('inp-wz-tg-disc', d.inpWzTgDisc);
+                    setVal('inp-wz-tg-price', d.inpWzTgPrice);
+
+                    setCheck('chk-sip', d.chkSip);
+                    setVal('sel-sip-plan', d.selSipPlan);
+                    setVal('inp-sip-users', d.inpSipUsers);
+                    setVal('sel-sip-term', d.selSipTerm);
+                    setVal('inp-sip-disc', d.inpSipDisc);
+                    setVal('inp-sip-price', d.inpSipPrice);
+
+                    setCheck('chk-serv', d.chkServ);
+                    setVal('sel-serv-pkg', d.selServPkg);
+                    setVal('inp-serv-disc', d.inpServDisc);
+                    setVal('inp-serv-price', d.inpServPrice);
+
+                    setCheck('chk-supp', d.chkSupp);
+                    setVal('sel-supp-plan', d.selSuppPlan);
+                    setVal('sel-supp-term', d.selSuppTerm);
+                    setVal('inp-supp-disc', d.inpSuppDisc);
+                    setVal('inp-supp-price', d.inpSuppPrice);
+
+                    return true;
+                } catch (e) {
+                    console.warn('loadDraftFromStorage error:', e);
+                    return false;
+                }
+            };
+
+            document.getElementById('btn-reset-draft')?.addEventListener('click', () => {
+                if (!confirm('Вы уверены, что хотите сбросить текущий черновик и начать новую сделку?')) return;
+                localStorage.removeItem(DRAFT_STORAGE_KEY);
+                location.reload();
+            });
+
             // DYNAMIC OFFICIAL DOCUMENT FILENAME GENERATOR
             const getDynamicPdfFilename = () => {
                 const rawNum = (document.getElementById('req-doc-num')?.value || 'ND-2026/08-27').trim();
@@ -4794,7 +5156,15 @@
             window.setContractMode = setContractMode;
             window.getDynamicPdfFilename = getDynamicPdfFilename;
             window.exportArchiveExcel = exportArchiveExcel;
+            window.saveDraftToStorage = saveDraftToStorage;
+            window.loadDraftFromStorage = loadDraftFromStorage;
+            window.saveRecentClient = saveRecentClient;
+            window.getRecentClients = getRecentClients;
+            window.renderRecentClients = renderRecentClients;
+            window.saveDealToArchive = saveDealToArchive;
             bindInputs();
+            loadDraftFromStorage();
+            renderRecentClients();
             recalculatePrices();
             renderCustomRows();
             updateArchiveBadge();
