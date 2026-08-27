@@ -831,7 +831,297 @@
             color: #fff;
             box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
         }
-        .btn-print:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55); }
+        .btn-save-archive {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4) !important;
+            border: none !important;
+        }
+        .btn-save-archive:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.55) !important;
+        }
+
+        /* CONTRACT MODE SWITCHER */
+        .contract-mode-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            background: rgba(15, 23, 42, 0.85);
+            padding: 4px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .btn-contract-mode {
+            padding: 9px 8px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .btn-contract-mode:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .btn-contract-mode.active {
+            background: #6366f1;
+            color: #fff;
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.45);
+        }
+
+        /* ARCHIVE MANAGEMENT DASHBOARD */
+        .archive-sheet {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            color: #f8fafc;
+            min-height: 800px;
+        }
+        .arch-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .arch-stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 16px;
+        }
+        .arch-stat-box.highlight {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        .arch-stat-label {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .arch-stat-val {
+            font-size: 1.3rem;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            color: #38bdf8;
+            margin-top: 4px;
+        }
+        .arch-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .arch-search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 260px;
+        }
+        .arch-search-inp {
+            width: 100%;
+            padding: 10px 14px 10px 36px;
+            background: #090d1a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.86rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .arch-search-inp:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 14px rgba(99, 102, 241, 0.3);
+        }
+        .arch-search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+        .arch-filter-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .btn-arch-filter {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: #94a3b8;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-arch-filter:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
+        .btn-arch-filter.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+        .arch-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .arch-deal-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px 20px;
+            transition: all 0.2s ease;
+        }
+        .arch-deal-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            background: rgba(255, 255, 255, 0.035);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+        .arch-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .arch-card-company {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .arch-card-meta {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            display: flex;
+            gap: 12px;
+            margin-top: 2px;
+            flex-wrap: wrap;
+        }
+        .arch-badge-mode {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .arch-badge-lic { background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.28); }
+        .arch-badge-cplx { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.28); }
+        .arch-badge-nocont { background: rgba(234, 179, 8, 0.12); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.28); }
+        .arch-card-specs {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+        .arch-card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .arch-finance-stats {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .arch-fin-block {
+            display: flex;
+            flex-direction: column;
+        }
+        .arch-fin-lbl { font-size: 0.68rem; color: #94a3b8; text-transform: uppercase; font-weight: 600; }
+        .arch-fin-val { font-size: 1rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+        .arch-btn-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .btn-arch-act {
+            padding: 7px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: #cbd5e1;
+            font-size: 0.76rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-arch-act:hover {
+            background: #6366f1;
+            color: #fff;
+            border-color: #6366f1;
+        }
+        .btn-arch-act.primary {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+        .btn-arch-act.primary:hover {
+            background: #6366f1;
+            color: #fff;
+        }
+        .btn-arch-act.danger:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: #fff;
+        }
+        .floating-toast-notify {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1.5px solid #10b981;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(16, 185, 129, 0.3);
+            z-index: 99999;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .floating-toast-notify.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
 
         /* =========================================================================
            A4 DOCUMENT PAPER — BULLETPROOF PRINT & SCREEN STYLES
@@ -1008,7 +1298,7 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            .auth-gate, .admin-header, .controls-panel, .preview-toolbar {
+            .auth-gate, .admin-header, .controls-panel, .preview-toolbar, .archive-sheet, .floating-toast-notify {
                 display: none !important;
             }
             .admin-dashboard {
@@ -1083,9 +1373,12 @@
                 <h1>Рабочее пространство <span style="color:#6366f1;">NODUS</span></h1>
             </div>
             <div class="tabs-nav">
-                <button type="button" class="tab-btn active" data-tab="contract">📄 Договор подряда РК</button>
-                <button type="button" class="tab-btn" data-tab="invoice">🧾 Официальный счет РК</button>
-                <button type="button" class="tab-btn" data-tab="proposal">💼 Коммерческое КП</button>
+                <button type="button" class="tab-btn active" data-tab="contract" id="tab-btn-contract">📄 Договор РК</button>
+                <button type="button" class="tab-btn" data-tab="invoice" id="tab-btn-invoice">🧾 Официальный счет РК</button>
+                <button type="button" class="tab-btn" data-tab="proposal" id="tab-btn-proposal">💼 Коммерческое КП</button>
+                <button type="button" class="tab-btn" data-tab="archive" id="tab-btn-archive" style="border-left: 1px solid rgba(255,255,255,0.15); margin-left: 4px;">
+                    📚 Архив смет <span id="archive-badge" style="background:#6366f1; color:#fff; font-size:10px; padding:1px 7px; border-radius:10px; font-weight:700; margin-left:4px;">0</span>
+                </button>
                 <button type="button" class="tab-btn btn-exit" id="btn-logout" title="Выйти из системы">🔒 Выйти</button>
             </div>
         </header>
@@ -1769,6 +2062,24 @@
                 <!-- 5. Document Meta Parameters -->
                 <div class="section-box">
                     <div class="section-title"><span>📑 Параметры документа</span></div>
+
+                    <!-- Contract Mode Selector: Licenses Only vs Full Complex Integration -->
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label style="font-size:0.78rem; font-weight:700; color:#38bdf8; margin-bottom:6px; display:flex; align-items:center; justify-content:space-between;">
+                            <span>📋 Предмет договора РК:</span>
+                            <span id="badge-contract-type-desc" style="font-size:0.7rem; color:#a5b4fc; font-weight:600;">🔑 Только подписки / софт</span>
+                        </label>
+                        <div class="contract-mode-selector">
+                            <button type="button" class="btn-contract-mode active" id="btn-mode-licenses" data-mode="licenses">
+                                🔑 Только подписки
+                            </button>
+                            <button type="button" class="btn-contract-mode" id="btn-mode-complex" data-mode="complex">
+                                🚀 Внедрение + Подписки
+                            </button>
+                        </div>
+                        <input type="hidden" id="inp-contract-mode" value="licenses">
+                    </div>
+
                     <div class="grid-2">
                         <div class="form-group"><label>Номер документа:</label><input type="text" id="req-doc-num" class="c-input" value="№ ND-2026/08-26" placeholder="№ ND-ГГГГ/ММ-ДД"></div>
                         <div class="form-group"><label>Дата (UTC+5 KZ):</label><input type="date" id="req-doc-date" class="c-input"></div>
@@ -1779,11 +2090,11 @@
                             <span>📄 <b>Работать без договора</b> (Счет на оплату / Без договора)</span>
                         </label>
                     </div>
-                    <div class="grid-2">
+                    <div class="grid-2" id="wrap-work-warranty-days">
                         <div class="form-group"><label>Срок выполнения (дней):</label><input type="number" id="req-work-days" class="c-input" value="7" min="1"></div>
                         <div class="form-group"><label>Гарантия (дней):</label><input type="number" id="req-warranty-days" class="c-input" value="14" min="0"></div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="wrap-pay-terms">
                         <label>Условия оплаты:</label>
                         <select id="req-pay-terms" class="c-select">
                             <option value="50_50">50% аванс / 50% после сдачи системы</option>
@@ -1845,6 +2156,7 @@
                 <div class="preview-toolbar">
                     <div class="badge-doc-status" id="badge-doc-title">📄 Договор подряда РК (Защищенный)</div>
                     <div class="tool-actions">
+                        <button type="button" class="btn-tool btn-save-archive" id="btn-save-archive" title="Сохранить текущую смету в архив сделок">💾 Сохранить в архив</button>
                         <button type="button" class="btn-tool btn-copy" id="btn-copy">📋 Скопировать текст</button>
                         <button type="button" class="btn-tool btn-print" id="btn-print">🖨️ Печать / PDF (A4)</button>
                     </div>
@@ -1853,6 +2165,11 @@
                 <!-- A4 PRINTABLE DOCUMENT CONTAINER -->
                 <div class="doc-sheet" id="print-area">
                     <div id="render-target"></div>
+                </div>
+
+                <!-- ARCHIVE DASHBOARD CONTAINER -->
+                <div class="archive-sheet" id="archive-area" style="display:none;">
+                    <div id="archive-target"></div>
                 </div>
             </main>
 
@@ -1962,21 +2279,691 @@
             // SIGNATURE ASSET
             const NODUS_SIGNATURE_SRC = 'assets/signature.png?v=2';
 
-            // TAB SWITCHER
+            // FLOATING ACTION NOTIFICATION TOAST
+            const showToastNotify = (msgHtml) => {
+                const toast = document.getElementById('floating-toast-notify');
+                if (!toast) return;
+                toast.innerHTML = msgHtml;
+                toast.classList.add('show');
+                clearTimeout(toast._timer);
+                toast._timer = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3800);
+            };
+
+            // CONTRACT MODE CONTROLLER: 'licenses' (Только подписки) vs 'complex' (Внедрение + Подписки)
+            let contractMode = 'licenses';
+            const btnModeLicenses = document.getElementById('btn-mode-licenses');
+            const btnModeComplex  = document.getElementById('btn-mode-complex');
+            const badgeContractDesc = document.getElementById('badge-contract-type-desc');
+            const inpContractMode = document.getElementById('inp-contract-mode');
+
+            const setContractMode = (mode) => {
+                contractMode = mode;
+                if (inpContractMode) inpContractMode.value = mode;
+                if (btnModeLicenses) btnModeLicenses.classList.toggle('active', mode === 'licenses');
+                if (btnModeComplex)  btnModeComplex.classList.toggle('active', mode === 'complex');
+                if (badgeContractDesc) {
+                    badgeContractDesc.textContent = mode === 'licenses' ? '🔑 Только подписки / софт' : '🚀 Внедрение + Подписки';
+                }
+                const wrapDays = document.getElementById('wrap-work-warranty-days');
+                if (wrapDays) {
+                    wrapDays.style.opacity = mode === 'licenses' ? '0.45' : '1';
+                }
+                updateDocTitleBadge();
+                if (activeTab !== 'archive') {
+                    renderAll();
+                }
+            };
+
+            btnModeLicenses?.addEventListener('click', () => setContractMode('licenses'));
+            btnModeComplex?.addEventListener('click', () => setContractMode('complex'));
+
+            // TAB SWITCHER & VIEW ROUTER
             let activeTab = 'contract';
             const tabButtons = document.querySelectorAll('.tab-btn[data-tab]');
             const badgeDocTitle = document.getElementById('badge-doc-title');
+            const printArea = document.getElementById('print-area');
+            const archiveArea = document.getElementById('archive-area');
+            const btnSaveArchive = document.getElementById('btn-save-archive');
+            const btnCopy = document.getElementById('btn-copy');
+            const btnPrint = document.getElementById('btn-print');
+
+            const updateDocTitleBadge = () => {
+                if (activeTab === 'contract') {
+                    badgeDocTitle.textContent = contractMode === 'licenses' 
+                        ? '📄 Лицензионный договор РК (Передача прав на ПО)' 
+                        : '📄 Договор подряда РК (Внедрение + ПО)';
+                } else if (activeTab === 'invoice') {
+                    badgeDocTitle.textContent = '🧾 Официальный счет на оплату РК (Стандарт 1С)';
+                } else if (activeTab === 'proposal') {
+                    badgeDocTitle.textContent = '💼 Коммерческое предложение (КП)';
+                } else if (activeTab === 'archive') {
+                    badgeDocTitle.textContent = '📚 Архив составленных смет и документов';
+                }
+            };
 
             tabButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
                     tabButtons.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     activeTab = btn.getAttribute('data-tab');
-                    if (activeTab === 'contract') badgeDocTitle.textContent = '📄 Договор подряда РК (Защищенный)';
-                    if (activeTab === 'invoice')  badgeDocTitle.textContent = '🧾 Официальный счет на оплату РК';
-                    if (activeTab === 'proposal') badgeDocTitle.textContent = '💼 Коммерческое предложение (КП)';
-                    renderAll();
+                    updateDocTitleBadge();
+
+                    if (activeTab === 'archive') {
+                        if (printArea) printArea.style.display = 'none';
+                        if (archiveArea) archiveArea.style.display = 'block';
+                        if (btnSaveArchive) btnSaveArchive.style.display = 'none';
+                        if (btnCopy) btnCopy.style.display = 'none';
+                        if (btnPrint) btnPrint.style.display = 'none';
+                        renderArchiveView();
+                    } else {
+                        if (printArea) printArea.style.display = 'block';
+                        if (archiveArea) archiveArea.style.display = 'none';
+                        if (btnSaveArchive) btnSaveArchive.style.display = 'inline-flex';
+                        if (btnCopy) btnCopy.style.display = 'inline-flex';
+                        if (btnPrint) btnPrint.style.display = 'inline-flex';
+                        renderAll();
+                    }
                 });
+            });
+
+            // =========================================================================
+            // ARCHIVE & DEAL HISTORY ENGINE (MEMORY DATABASE)
+            // =========================================================================
+            const ARCHIVE_STORAGE_KEY = 'nodus_crm_archive_v1';
+
+            const getArchiveList = () => {
+                try {
+                    return JSON.parse(localStorage.getItem(ARCHIVE_STORAGE_KEY)) || [];
+                } catch (e) {
+                    console.error('Failed to read archive:', e);
+                    return [];
+                }
+            };
+
+            const saveArchiveList = (list) => {
+                try {
+                    localStorage.setItem(ARCHIVE_STORAGE_KEY, JSON.stringify(list));
+                    updateArchiveBadge();
+                } catch (e) {
+                    console.error('Failed to save archive:', e);
+                }
+            };
+
+            const updateArchiveBadge = () => {
+                const list = getArchiveList();
+                const badge = document.getElementById('archive-badge');
+                if (badge) badge.textContent = list.length;
+            };
+
+            // Grab full snapshot of current document state
+            const captureCurrentDealState = () => {
+                const docNum = (document.getElementById('req-doc-num')?.value || '').trim() || 'ND-' + Date.now();
+                const docDate = document.getElementById('req-doc-date')?.value || todayKzIso;
+                const noContract = !!document.getElementById('chk-no-contract')?.checked;
+
+                const clName = (document.getElementById('req-cl-name')?.value || '').trim() || 'ТОО «Компания Заказчика»';
+                const clBin = (document.getElementById('req-cl-bin')?.value || '').trim();
+                const clPhone = (document.getElementById('req-cl-phone')?.value || '').trim();
+                const clAddr = (document.getElementById('req-cl-addr')?.value || '').trim();
+                const clDirector = (document.getElementById('req-cl-director')?.value || '').trim();
+                const clBank = (document.getElementById('req-cl-bank')?.value || '').trim();
+                const clBik = (document.getElementById('req-cl-bik')?.value || '').trim();
+                const clIban = (document.getElementById('req-cl-iban')?.value || '').trim();
+
+                const workDays = parseInt(document.getElementById('req-work-days')?.value) || 7;
+                const warrantyDays = parseInt(document.getElementById('req-warranty-days')?.value) || 14;
+                const payTerms = document.getElementById('req-pay-terms')?.value || '50_50';
+
+                // Serialized form state
+                const formState = {
+                    contractMode: contractMode,
+                    noContract: noContract,
+                    docNum: docNum,
+                    docDate: docDate,
+                    workDays: workDays,
+                    warrantyDays: warrantyDays,
+                    payTerms: payTerms,
+
+                    clName: clName,
+                    clBin: clBin,
+                    clPhone: clPhone,
+                    clAddr: clAddr,
+                    clDirector: clDirector,
+                    clBank: clBank,
+                    clBik: clBik,
+                    clIban: clIban,
+
+                    // Modules
+                    chkAmo: !!document.getElementById('chk-amo')?.checked,
+                    selAmoTariff: document.getElementById('sel-amo-tariff')?.value,
+                    inpAmoUsers: document.getElementById('inp-amo-users')?.value,
+                    selAmoTerm: document.getElementById('sel-amo-term')?.value,
+                    inpAmoDisc: document.getElementById('inp-amo-disc')?.value,
+                    inpAmoPrice: document.getElementById('inp-amo-price')?.value,
+
+                    chkBx: !!document.getElementById('chk-bx')?.checked,
+                    selBxTariff: document.getElementById('sel-bx-tariff')?.value,
+                    selBxTerm: document.getElementById('sel-bx-term')?.value,
+                    inpBxDisc: document.getElementById('inp-bx-disc')?.value,
+                    inpBxPrice: document.getElementById('inp-bx-price')?.value,
+
+                    chkWzWa: !!document.getElementById('chk-wz-wa')?.checked,
+                    selWzWaPlan: document.getElementById('sel-wz-wa-plan')?.value,
+                    inpWzWaCh: document.getElementById('inp-wz-wa-ch')?.value,
+                    selWzWaTerm: document.getElementById('sel-wz-wa-term')?.value,
+                    inpWzWaDisc: document.getElementById('inp-wz-wa-disc')?.value,
+                    inpWzWaPrice: document.getElementById('inp-wz-wa-price')?.value,
+
+                    chkWzIg: !!document.getElementById('chk-wz-ig')?.checked,
+                    selWzIgPlan: document.getElementById('sel-wz-ig-plan')?.value,
+                    inpWzIgCh: document.getElementById('inp-wz-ig-ch')?.value,
+                    selWzIgTerm: document.getElementById('sel-wz-ig-term')?.value,
+                    inpWzIgDisc: document.getElementById('inp-wz-ig-disc')?.value,
+                    inpWzIgPrice: document.getElementById('inp-wz-ig-price')?.value,
+
+                    chkWzTg: !!document.getElementById('chk-wz-tg')?.checked,
+                    selWzTgPlan: document.getElementById('sel-wz-tg-plan')?.value,
+                    inpWzTgCh: document.getElementById('inp-wz-tg-ch')?.value,
+                    selWzTgTerm: document.getElementById('sel-wz-tg-term')?.value,
+                    inpWzTgDisc: document.getElementById('inp-wz-tg-disc')?.value,
+                    inpWzTgPrice: document.getElementById('inp-wz-tg-price')?.value,
+
+                    chkWzVk: !!document.getElementById('chk-wz-vk')?.checked,
+                    selWzVkPlan: document.getElementById('sel-wz-vk-plan')?.value,
+                    inpWzVkCh: document.getElementById('inp-wz-vk-ch')?.value,
+                    selWzVkTerm: document.getElementById('sel-wz-vk-term')?.value,
+                    inpWzVkDisc: document.getElementById('inp-wz-vk-disc')?.value,
+                    inpWzVkPrice: document.getElementById('inp-wz-vk-price')?.value,
+
+                    chkSip: !!document.getElementById('chk-sip')?.checked,
+                    selSipPlan: document.getElementById('sel-sip-plan')?.value,
+                    inpSipUsers: document.getElementById('inp-sip-users')?.value,
+                    selSipTerm: document.getElementById('sel-sip-term')?.value,
+                    inpSipDisc: document.getElementById('inp-sip-disc')?.value,
+                    inpSipPrice: document.getElementById('inp-sip-price')?.value,
+
+                    chkServ: !!document.getElementById('chk-serv')?.checked,
+                    selServPkg: document.getElementById('sel-serv-pkg')?.value,
+                    inpServDisc: document.getElementById('inp-serv-disc')?.value,
+                    inpServPrice: document.getElementById('inp-serv-price')?.value,
+
+                    chkSupp: !!document.getElementById('chk-supp')?.checked,
+                    selSuppPlan: document.getElementById('sel-supp-plan')?.value,
+                    selSuppTerm: document.getElementById('sel-supp-term')?.value,
+                    inpSuppDisc: document.getElementById('inp-supp-disc')?.value,
+                    inpSuppPrice: document.getElementById('inp-supp-price')?.value,
+
+                    customRows: JSON.parse(JSON.stringify(customRows))
+                };
+
+                return {
+                    id: 'deal_' + Date.now(),
+                    docNum: docNum,
+                    docDate: docDate,
+                    updatedAt: new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' }),
+                    contractMode: contractMode,
+                    noContract: noContract,
+                    client: {
+                        name: clName,
+                        bin: clBin,
+                        phone: clPhone,
+                        addr: clAddr,
+                        director: clDirector,
+                        bank: clBank,
+                        bik: clBik,
+                        iban: clIban
+                    },
+                    params: {
+                        workDays: workDays,
+                        warrantyDays: warrantyDays,
+                        payTerms: payTerms
+                    },
+                    formState: formState
+                };
+            };
+
+            const saveDealToArchive = (notifyUser = true) => {
+                const deal = captureCurrentDealState();
+                deal.items = (window._lastActiveItems || []).map(it => ({
+                    name: it.name,
+                    price: it.price,
+                    qty: it.qty,
+                    unit: it.unit
+                }));
+                deal.grandTotal = window._lastGrandTotal || 0;
+                deal.netProfit = window._lastNetProfit || 0;
+                deal.vadimSplit = window._lastVadimSplit || 0;
+                deal.esenSplit = window._lastEsenSplit || 0;
+
+                if (deal.items.length === 0) {
+                    if (notifyUser) {
+                        alert('⚠️ В смете нет активных модулей! Включите хотя бы один модуль (amoCRM, Битрикс24, Услуги или др.), чтобы зафиксировать сделку.');
+                    }
+                    return;
+                }
+
+                let list = getArchiveList();
+                const existingIdx = list.findIndex(d => d.docNum.toLowerCase() === deal.docNum.toLowerCase());
+                if (existingIdx >= 0) {
+                    deal.id = list[existingIdx].id;
+                    list[existingIdx] = deal;
+                } else {
+                    list.unshift(deal);
+                }
+
+                saveArchiveList(list);
+                if (notifyUser) {
+                    showToastNotify(`💾 Сделка <b>${deal.docNum}</b> для <b>«${deal.client.name}»</b> сохранена в архив!`);
+                }
+            };
+
+            const loadDealIntoEditor = (dealId, targetTab = 'contract') => {
+                const list = getArchiveList();
+                const deal = list.find(d => d.id === dealId);
+                if (!deal || !deal.formState) {
+                    alert('Не удалось загрузить данные сделки');
+                    return;
+                }
+                const s = deal.formState;
+
+                // Restore contract mode
+                setContractMode(s.contractMode || 'licenses');
+
+                // Restore no-contract checkbox
+                const chkNoCont = document.getElementById('chk-no-contract');
+                if (chkNoCont) chkNoCont.checked = !!s.noContract;
+
+                // Restore doc parameters
+                if (document.getElementById('req-doc-num')) document.getElementById('req-doc-num').value = s.docNum || '';
+                if (document.getElementById('req-doc-date')) document.getElementById('req-doc-date').value = s.docDate || '';
+                if (document.getElementById('req-work-days')) document.getElementById('req-work-days').value = s.workDays || 7;
+                if (document.getElementById('req-warranty-days')) document.getElementById('req-warranty-days').value = s.warrantyDays || 14;
+                if (document.getElementById('req-pay-terms')) document.getElementById('req-pay-terms').value = s.payTerms || '50_50';
+
+                // Restore client requisites
+                if (document.getElementById('req-cl-name')) document.getElementById('req-cl-name').value = s.clName || '';
+                if (document.getElementById('req-cl-bin')) document.getElementById('req-cl-bin').value = s.clBin || '';
+                if (document.getElementById('req-cl-phone')) document.getElementById('req-cl-phone').value = s.clPhone || '';
+                if (document.getElementById('req-cl-addr')) document.getElementById('req-cl-addr').value = s.clAddr || '';
+                if (document.getElementById('req-cl-director')) document.getElementById('req-cl-director').value = s.clDirector || '';
+                if (document.getElementById('req-cl-bank')) document.getElementById('req-cl-bank').value = s.clBank || '';
+                if (document.getElementById('req-cl-bik')) document.getElementById('req-cl-bik').value = s.clBik || '';
+                if (document.getElementById('req-cl-iban')) document.getElementById('req-cl-iban').value = s.clIban || '';
+
+                // Restore module checkboxes and inputs
+                const setCheck = (id, val) => { const el = document.getElementById(id); if (el) { el.checked = !!val; el.closest('.mod-card')?.classList.toggle('active', !!val); el.closest('.wz-channel-box')?.classList.toggle('active', !!val); } };
+                const setVal = (id, val) => { const el = document.getElementById(id); if (el && val !== undefined) el.value = val; };
+
+                setCheck('chk-amo', s.chkAmo);
+                setVal('sel-amo-tariff', s.selAmoTariff);
+                setVal('inp-amo-users', s.inpAmoUsers);
+                setVal('sel-amo-term', s.selAmoTerm);
+                setVal('inp-amo-disc', s.inpAmoDisc);
+                setVal('inp-amo-price', s.inpAmoPrice);
+
+                setCheck('chk-bx', s.chkBx);
+                setVal('sel-bx-tariff', s.selBxTariff);
+                setVal('sel-bx-term', s.selBxTerm);
+                setVal('inp-bx-disc', s.inpBxDisc);
+                setVal('inp-bx-price', s.inpBxPrice);
+
+                setCheck('chk-wz-wa', s.chkWzWa);
+                setVal('sel-wz-wa-plan', s.selWzWaPlan);
+                setVal('inp-wz-wa-ch', s.inpWzWaCh);
+                setVal('sel-wz-wa-term', s.selWzWaTerm);
+                setVal('inp-wz-wa-disc', s.inpWzWaDisc);
+                setVal('inp-wz-wa-price', s.inpWzWaPrice);
+
+                setCheck('chk-wz-ig', s.chkWzIg);
+                setVal('sel-wz-ig-plan', s.selWzIgPlan);
+                setVal('inp-wz-ig-ch', s.inpWzIgCh);
+                setVal('sel-wz-ig-term', s.selWzIgTerm);
+                setVal('inp-wz-ig-disc', s.inpWzIgDisc);
+                setVal('inp-wz-ig-price', s.inpWzIgPrice);
+
+                setCheck('chk-wz-tg', s.chkWzTg);
+                setVal('sel-wz-tg-plan', s.selWzTgPlan);
+                setVal('inp-wz-tg-ch', s.inpWzTgCh);
+                setVal('sel-wz-tg-term', s.selWzTgTerm);
+                setVal('inp-wz-tg-disc', s.inpWzTgDisc);
+                setVal('inp-wz-tg-price', s.inpWzTgPrice);
+
+                setCheck('chk-wz-vk', s.chkWzVk);
+                setVal('sel-wz-vk-plan', s.selWzVkPlan);
+                setVal('inp-wz-vk-ch', s.inpWzVkCh);
+                setVal('sel-wz-vk-term', s.selWzVkTerm);
+                setVal('inp-wz-vk-disc', s.inpWzVkDisc);
+                setVal('inp-wz-vk-price', s.inpWzVkPrice);
+
+                setCheck('chk-sip', s.chkSip);
+                setVal('sel-sip-plan', s.selSipPlan);
+                setVal('inp-sip-users', s.inpSipUsers);
+                setVal('sel-sip-term', s.selSipTerm);
+                setVal('inp-sip-disc', s.inpSipDisc);
+                setVal('inp-sip-price', s.inpSipPrice);
+
+                setCheck('chk-serv', s.chkServ);
+                setVal('sel-serv-pkg', s.selServPkg);
+                setVal('inp-serv-disc', s.inpServDisc);
+                setVal('inp-serv-price', s.inpServPrice);
+
+                setCheck('chk-supp', s.chkSupp);
+                setVal('sel-supp-plan', s.selSuppPlan);
+                setVal('sel-supp-term', s.selSuppTerm);
+                setVal('inp-supp-disc', s.inpSuppDisc);
+                setVal('inp-supp-price', s.inpSuppPrice);
+
+                if (Array.isArray(s.customRows)) {
+                    customRows = JSON.parse(JSON.stringify(s.customRows));
+                    renderCustomRows();
+                }
+
+                // Switch tab
+                const targetBtn = document.querySelector(`.tab-btn[data-tab="${targetTab}"]`);
+                if (targetBtn) {
+                    targetBtn.click();
+                } else {
+                    renderAll();
+                }
+
+                showToastNotify(`📂 Сделка <b>${deal.docNum}</b> («${deal.client.name}») загружена в конфигуратор!`);
+            };
+
+            const deleteDealFromArchive = (dealId) => {
+                let list = getArchiveList();
+                const item = list.find(d => d.id === dealId);
+                if (!item) return;
+                if (!confirm(`Удалить документ ${item.docNum} для «${item.client.name}» из архива?`)) {
+                    return;
+                }
+                list = list.filter(d => d.id !== dealId);
+                saveArchiveList(list);
+                renderArchiveView();
+                showToastNotify(`🗑️ Документ <b>${item.docNum}</b> удален из архива.`);
+            };
+
+            const exportArchiveJson = () => {
+                const list = getArchiveList();
+                if (list.length === 0) {
+                    alert('Архив пуст, нечего экспортировать.');
+                    return;
+                }
+                const jsonStr = JSON.stringify(list, null, 2);
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `nodus_deals_archive_${todayKzIso}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToastNotify(`📥 Резервная копия (${list.length} смет) успешно скачана!`);
+            };
+
+            const importArchiveJson = (file) => {
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const imported = JSON.parse(e.target.result);
+                        if (!Array.isArray(imported)) {
+                            alert('Ошибка формата файла: ожидался массив смет');
+                            return;
+                        }
+                        const current = getArchiveList();
+                        const map = new Map();
+                        imported.forEach(item => { if (item && item.docNum) map.set(item.docNum.toLowerCase(), item); });
+                        current.forEach(item => { if (item && item.docNum && !map.has(item.docNum.toLowerCase())) map.set(item.docNum.toLowerCase(), item); });
+                        const merged = Array.from(map.values());
+                        saveArchiveList(merged);
+                        renderArchiveView();
+                        showToastNotify(`📤 Успешно импортировано! Всего в архиве: <b>${merged.length}</b> смет.`);
+                    } catch (err) {
+                        alert('Ошибка чтения файла: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            };
+
+            let archiveSearchQuery = '';
+            let archiveFilterType = 'all';
+
+            const renderArchiveView = () => {
+                const target = document.getElementById('archive-target');
+                if (!target) return;
+
+                const list = getArchiveList();
+
+                const totalDeals = list.length;
+                let totalRevenue = 0;
+                let totalNetProfit = 0;
+                let totalVadim = 0;
+                let totalEsen = 0;
+
+                list.forEach(d => {
+                    totalRevenue += (d.grandTotal || 0);
+                    totalNetProfit += (d.netProfit || 0);
+                    totalVadim += (d.vadimSplit || 0);
+                    totalEsen += (d.esenSplit || 0);
+                });
+
+                const filtered = list.filter(d => {
+                    if (archiveFilterType === 'licenses' && (d.contractMode !== 'licenses' || d.noContract)) return false;
+                    if (archiveFilterType === 'complex' && (d.contractMode !== 'complex' || d.noContract)) return false;
+                    if (archiveFilterType === 'nocontract' && !d.noContract) return false;
+
+                    if (archiveSearchQuery) {
+                        const q = archiveSearchQuery.toLowerCase();
+                        const cName = (d.client?.name || '').toLowerCase();
+                        const cBin = (d.client?.bin || '').toLowerCase();
+                        const cPhone = (d.client?.phone || '').toLowerCase();
+                        const dNum = (d.docNum || '').toLowerCase();
+                        return cName.includes(q) || cBin.includes(q) || cPhone.includes(q) || dNum.includes(q);
+                    }
+                    return true;
+                });
+
+                const cardsHtml = filtered.length > 0 ? filtered.map(d => {
+                    const badgeHtml = d.noContract
+                        ? `<span class="arch-badge-mode arch-badge-nocont">📄 Без договора (Оферта)</span>`
+                        : (d.contractMode === 'licenses'
+                            ? `<span class="arch-badge-mode arch-badge-lic">🔑 Лицензии / Подписки</span>`
+                            : `<span class="arch-badge-mode arch-badge-cplx">🚀 Внедрение + Подписки</span>`);
+
+                    const itemsListHtml = (d.items || []).map(it => `
+                        <div style="display:flex; justify-content:space-between; gap:8px; padding:2px 0;">
+                            <span>• ${it.name} (${it.qty} ${it.unit})</span>
+                            <span style="font-family:'JetBrains Mono',monospace; font-weight:700; white-space:nowrap;">${fmtKZT(it.price)}</span>
+                        </div>
+                    `).join('');
+
+                    const payTermsText = d.params?.payTerms === '100_pre' 
+                        ? '100% предоплата' 
+                        : (d.params?.payTerms === '30_70' ? '30% аванс / 70% сдача' : '50% аванс / 50% сдача');
+
+                    return `
+                        <div class="arch-deal-card">
+                            <div class="arch-card-head">
+                                <div>
+                                    <div class="arch-card-company">
+                                        <span>🏢 ${d.client?.name || 'Без названия'}</span>
+                                        ${badgeHtml}
+                                    </div>
+                                    <div class="arch-card-meta">
+                                        <span>📑 <b>${d.docNum}</b> от ${d.docDate || d.date || '—'}</span>
+                                        ${d.client?.bin ? `<span>🛡️ БИН: <b>${d.client.bin}</b></span>` : ''}
+                                        ${d.client?.phone ? `<span>📞 ${d.client.phone}</span>` : ''}
+                                        ${d.client?.director ? `<span>👤 ${d.client.director}</span>` : ''}
+                                        <span>⏱️ Сохранено: ${d.updatedAt || '—'}</span>
+                                    </div>
+                                </div>
+                                <div class="arch-btn-group">
+                                    <button type="button" class="btn-arch-act primary btn-load-deal" data-id="${d.id}" title="Загрузить все параметры сделки в конфигуратор">
+                                        📂 В редактор
+                                    </button>
+                                    <button type="button" class="btn-arch-act btn-view-contract" data-id="${d.id}" title="Открыть договор">
+                                        📄 Договор
+                                    </button>
+                                    <button type="button" class="btn-arch-act btn-view-invoice" data-id="${d.id}" title="Открыть счет">
+                                        🧾 Счет
+                                    </button>
+                                    <button type="button" class="btn-arch-act btn-view-proposal" data-id="${d.id}" title="Открыть КП">
+                                        💼 КП
+                                    </button>
+                                    <button type="button" class="btn-arch-act danger btn-del-deal" data-id="${d.id}" title="Удалить из архива">
+                                        🗑️
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="arch-card-specs">
+                                <div style="font-weight:700; color:#38bdf8; font-size:0.75rem; text-transform:uppercase; margin-bottom:4px;">Спецификация модулей и услуг:</div>
+                                ${itemsListHtml || '<div style="color:#64748b;">(Нет выбранных модулей)</div>'}
+                                <div style="margin-top:6px; font-size:0.75rem; color:#94a3b8; border-top:1px dashed rgba(255,255,255,0.08); padding-top:4px; display:flex; gap:14px; flex-wrap:wrap;">
+                                    <span>⏱️ Срок: <b>${d.contractMode === 'licenses' ? '1–3 раб. дня' : `${d.params?.workDays || 7} раб. дней`}</b></span>
+                                    ${d.contractMode !== 'licenses' ? `<span>🛡️ Гарантия: <b>${d.params?.warrantyDays || 14} дней</b></span>` : ''}
+                                    <span>💳 Условия: <b>${payTermsText}</b></span>
+                                </div>
+                            </div>
+
+                            <div class="arch-card-bottom">
+                                <div class="arch-finance-stats">
+                                    <div class="arch-fin-block">
+                                        <div class="arch-fin-lbl">Счет Заказчику:</div>
+                                        <div class="arch-fin-val" style="color:#fff;">${fmtKZT(d.grandTotal || 0)}</div>
+                                    </div>
+                                    <div class="arch-fin-block">
+                                        <div class="arch-fin-lbl">Чистыми на руки:</div>
+                                        <div class="arch-fin-val" style="color:#22c55e;">${fmtKZT(d.netProfit || 0)}</div>
+                                    </div>
+                                    <div class="arch-fin-block">
+                                        <div class="arch-fin-lbl">👤 Вадим (50%):</div>
+                                        <div class="arch-fin-val" style="color:#38bdf8;">${fmtKZT(d.vadimSplit || 0)}</div>
+                                    </div>
+                                    <div class="arch-fin-block">
+                                        <div class="arch-fin-lbl">👤 Есен (50%):</div>
+                                        <div class="arch-fin-val" style="color:#38bdf8;">${fmtKZT(d.esenSplit || 0)}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('') : `
+                    <div style="text-align:center; padding:60px 20px; color:#64748b; background:rgba(255,255,255,0.02); border:1px dashed rgba(255,255,255,0.1); border-radius:14px;">
+                        <div style="font-size:2.4rem; margin-bottom:12px;">📁</div>
+                        <div style="font-size:1.05rem; font-weight:700; color:#cbd5e1;">${archiveSearchQuery ? 'По вашему запросу ничего не найдено' : 'В архиве пока нет сохраненных документов'}</div>
+                        <div style="font-size:0.84rem; margin-top:6px; color:#94a3b8;">
+                            ${archiveSearchQuery ? 'Попробуйте изменить запрос или очистить фильтр.' : 'Сформируйте смету в редакторе и нажмите «💾 Сохранить в архив» или «🖨️ Печать», чтобы зафиксировать сделку в памяти.'}
+                        </div>
+                    </div>
+                `;
+
+                target.innerHTML = `
+                    <div class="arch-stats-grid">
+                        <div class="arch-stat-box highlight">
+                            <div class="arch-stat-label">📁 Сделок в базе</div>
+                            <div class="arch-stat-val" style="color:#fff;">${totalDeals}</div>
+                        </div>
+                        <div class="arch-stat-box">
+                            <div class="arch-stat-label">💼 Сумма смет и счетов</div>
+                            <div class="arch-stat-val" style="color:#f8fafc;">${fmtKZT(totalRevenue)}</div>
+                        </div>
+                        <div class="arch-stat-box">
+                            <div class="arch-stat-label">🔥 Чистая прибыль (Итого)</div>
+                            <div class="arch-stat-val" style="color:#22c55e;">${fmtKZT(totalNetProfit)}</div>
+                        </div>
+                        <div class="arch-stat-box">
+                            <div class="arch-stat-label">👤 Доля Вадима (50%)</div>
+                            <div class="arch-stat-val" style="color:#38bdf8;">${fmtKZT(totalVadim)}</div>
+                        </div>
+                        <div class="arch-stat-box">
+                            <div class="arch-stat-label">👤 Доля Есена (50%)</div>
+                            <div class="arch-stat-val" style="color:#38bdf8;">${fmtKZT(totalEsen)}</div>
+                        </div>
+                    </div>
+
+                    <div class="arch-toolbar">
+                        <div class="arch-search-wrap">
+                            <span class="arch-search-icon">🔍</span>
+                            <input type="text" id="arch-search-input" class="arch-search-inp" placeholder="Поиск по компании, БИН, номеру документа..." value="${archiveSearchQuery}">
+                        </div>
+
+                        <div class="arch-filter-tabs">
+                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'all' ? 'active' : ''}" data-filter="all">Все (${totalDeals})</button>
+                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'licenses' ? 'active' : ''}" data-filter="licenses">🔑 Только подписки</button>
+                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'complex' ? 'active' : ''}" data-filter="complex">🚀 Внедрение</button>
+                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'nocontract' ? 'active' : ''}" data-filter="nocontract">📄 Без договора</button>
+                        </div>
+
+                        <div style="display:flex; gap:8px;">
+                            <button type="button" class="btn-arch-act" id="btn-export-archive" title="Скачать всю базу смет в файл JSON">
+                                📥 Экспорт JSON
+                            </button>
+                            <label class="btn-arch-act" style="cursor:pointer; margin:0;" title="Восстановить архив из файла JSON">
+                                📤 Импорт JSON
+                                <input type="file" id="inp-import-archive" accept=".json" style="display:none;">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="arch-cards-list">
+                        ${cardsHtml}
+                    </div>
+                `;
+
+                // Bind search and filter events in Archive View
+                const searchInp = document.getElementById('arch-search-input');
+                searchInp?.addEventListener('input', (e) => {
+                    archiveSearchQuery = e.target.value;
+                    renderArchiveView();
+                    const newInp = document.getElementById('arch-search-input');
+                    if (newInp) {
+                        newInp.focus();
+                        newInp.setSelectionRange(newInp.value.length, newInp.value.length);
+                    }
+                });
+
+                target.querySelectorAll('.btn-arch-filter').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        archiveFilterType = btn.getAttribute('data-filter');
+                        renderArchiveView();
+                    });
+                });
+
+                target.querySelectorAll('.btn-load-deal').forEach(btn => {
+                    btn.addEventListener('click', () => loadDealIntoEditor(btn.getAttribute('data-id'), 'contract'));
+                });
+
+                target.querySelectorAll('.btn-view-contract').forEach(btn => {
+                    btn.addEventListener('click', () => loadDealIntoEditor(btn.getAttribute('data-id'), 'contract'));
+                });
+
+                target.querySelectorAll('.btn-view-invoice').forEach(btn => {
+                    btn.addEventListener('click', () => loadDealIntoEditor(btn.getAttribute('data-id'), 'invoice'));
+                });
+
+                target.querySelectorAll('.btn-view-proposal').forEach(btn => {
+                    btn.addEventListener('click', () => loadDealIntoEditor(btn.getAttribute('data-id'), 'proposal'));
+                });
+
+                target.querySelectorAll('.btn-del-deal').forEach(btn => {
+                    btn.addEventListener('click', () => deleteDealFromArchive(btn.getAttribute('data-id')));
+                });
+
+                document.getElementById('btn-export-archive')?.addEventListener('click', exportArchiveJson);
+                document.getElementById('inp-import-archive')?.addEventListener('change', (e) => {
+                    if (e.target.files && e.target.files[0]) {
+                        importArchiveJson(e.target.files[0]);
+                    }
+                });
+            };
+
+            // BUTTON: SAVE TO ARCHIVE
+            document.getElementById('btn-save-archive')?.addEventListener('click', () => {
+                saveDealToArchive(true);
             });
 
             // CUSTOM ROWS STATE
@@ -2627,6 +3614,13 @@
                         payTermsText = 'Оплата производится в размере 30% авансового платежа до старта работ и 70% в течение 3 (трех) банковских дней после сдачи системы и подписания Акта приема-передачи.';
                     }
 
+                    // Cache calculation for archive engine
+                    window._lastActiveItems = activeItems;
+                    window._lastGrandTotal = grandTotal;
+                    window._lastNetProfit = netProfit;
+                    window._lastVadimSplit = Math.ceil(netProfit / 2);
+                    window._lastEsenSplit = Math.floor(netProfit / 2);
+
                     const target = document.getElementById('render-target');
 
                     const rowsHtml = activeItems.length > 0 
@@ -2642,47 +3636,60 @@
                         : `<tr><td colspan="5" style="text-align:center; padding:18px; color:#64748b;">(Включите необходимые модули в панели слева, чтобы сформировать спецификацию)</td></tr>`;
 
                     // =========================================================================
-                    // TAB 1: CONTRACT TEMPLATE (ДОГОВОР ПОДРЯДА РК)
+                    // TAB 1: CONTRACT TEMPLATE (ЛИЦЕНЗИОННЫЙ ДОГОВОР ИЛИ ДОГОВОР ПОДРЯДА РК)
                     // =========================================================================
                     if (activeTab === 'contract') {
+                        const isLicOnly = (contractMode === 'licenses');
+
                         target.innerHTML = `
+                            ${noContract ? `
+                                <div style="background:#fffbeb; border:1.5px solid #f59e0b; padding:10px 14px; border-radius:8px; margin-bottom:16px; font-size:11.5px; color:#92400e; line-height:1.4;">
+                                    ⚡ <b>Включен режим «Без договора» (Счет-оферта).</b> В официальном счете на оплату ссылка на договор скрыта (ст. 396 ГК РК). Если Заказчику требуется подписать договор — снимите галочку <i>«Без договора»</i> в параметрах слева.
+                                </div>
+                            ` : ''}
+
                             <div class="brand-header">
                                 <div>
                                     <div class="brand-logo">NODUS<span style="color:#6366f1;">.</span></div>
-                                    <div class="brand-desc">Разработка и интеграция CRM-систем в Республике Казахстан</div>
+                                    <div class="brand-desc">${isLicOnly ? 'Поставка неисключительных прав и лицензий ПО в Республике Казахстан' : 'Разработка и интеграция CRM-систем в Республике Казахстан'}</div>
                                 </div>
                                 <div class="doc-meta-info">
-                                    <div style="font-weight:800; font-size:13px;">ДОГОВОР ПОДРЯДА ${docNum}</div>
+                                    <div style="font-weight:800; font-size:13px;">${isLicOnly ? `ЛИЦЕНЗИОННЫЙ ДОГОВОР ${docNum}` : `ДОГОВОР ПОДРЯДА ${docNum}`}</div>
                                     <div>Дата: <b>${dateFormatted}</b></div>
                                     <div>г. Петропавловск</div>
                                 </div>
                             </div>
 
-                            <div class="doc-title-main">ДОГОВОР ПОДРЯДА ${docNum}</div>
-                            <div class="doc-title-sub">на оказание услуг по внедрению CRM-системы, настройке воронок и передаче неисключительных прав (лицензий)</div>
+                            <div class="doc-title-main">${isLicOnly ? `ДОГОВОР О ПЕРЕДАЧЕ НЕИСКЛЮЧИТЕЛЬНЫХ ПРАВ (ЛИЦЕНЗИЙ) ${docNum}` : `ДОГОВОР ПОДРЯДА И ПЕРЕДАЧИ ПРАВ НА ПО ${docNum}`}</div>
+                            <div class="doc-title-sub">${isLicOnly ? 'на передачу неисключительных имущественных прав использования программного обеспечения (лицензий и продления облачных подписок)' : 'на оказание услуг по внедрению CRM-системы, настройке воронок и передаче неисключительных прав (лицензий)'}</div>
 
                             <div class="clause-p">
-                                <b>${myName}</b>, ИИН/БИН ${myBin}, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clName}</b>${clBinClause}${clDirClause}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», руководствуясь Гражданским кодексом Республики Казахстан, заключили настоящий Договор о нижеследующем:
+                                <b>${myName}</b>, ИИН/БИН ${myBin}, именуемый в дальнейшем <b>«Исполнитель»</b>, с одной стороны, и <b>${clName}</b>${clBinClause}${clDirClause}, именуемый в дальнейшем <b>«Заказчик»</b>, с другой стороны, совместно именуемые «Стороны», руководствуясь ${isLicOnly ? 'ст. 964–966 Гражданского кодекса Республики Казахстан и Законом РК «Об авторском праве и смежных правах»' : 'Гражданским кодексом Республики Казахстан'}, заключили настоящий Договор о нижеследующем:
                             </div>
 
                             <div class="clause-h">1. ПРЕДМЕТ ДОГОВОРА</div>
                             <div class="clause-p">
-                                1.1. Исполнитель обязуется оказать Заказчику комплекс услуг по аудиту бизнес-процессов, проектированию воронок продаж, интеграции мессенджеров, телефонии в CRM-систему Заказчика и передать права на программное обеспечение в соответствии со Спецификацией (Таблица 1), а Заказчик обязуется принять оказанные услуги и оплатить их на условиях настоящего Договора.
+                                ${isLicOnly 
+                                    ? `1.1. Исполнитель (Поставщик прав) обязуется передать Заказчику неисключительные имущественные права использования программного обеспечения (лицензии / продление подписок на облачные сервисы: amoCRM, Битрикс24, Wazzup, Sipuni и др.) в соответствии со Спецификацией (Таблица 1), а Заказчик обязуется принять права и оплатить их на условиях настоящего Договора.<br>
+                                       1.2. Передача прав осуществляется посредством генерации лицензионных ключей, привязки доменов/номеров или активации соответствующего тарифного плана в облачном аккаунте (портале) Заказчика.<br>
+                                       1.3. В рамках настоящего Договора услуги по внедрению, настройке воронок продаж, интеграциям и доработке CRM-системы не оказываются.`
+                                    : `1.1. Исполнитель обязуется оказать Заказчику комплекс услуг по аудиту бизнес-процессов, проектированию воронок продаж, интеграции мессенджеров, телефонии в CRM-систему Заказчика и передать права на программное обеспечение в соответствии со Спецификацией (Таблица 1), а Заказчик обязуется принять оказанные услуги и оплатить их на условиях настоящего Договора.`
+                                }
                             </div>
 
-                            <div class="clause-h">2. СТОИМОСТЬ РАБОТ И ПОРЯДОК ОПЛАТЫ</div>
+                            <div class="clause-h">2. СТОИМОСТЬ ${isLicOnly ? 'ПРАВ' : 'РАБОТ'} И ПОРЯДОК ОПЛАТЫ</div>
                             <div class="clause-p">
                                 2.1. Общая стоимость настоящего Договора составляет: <b>${fmtKZT(grandTotal)} (${numToWordsKZTRu(grandTotal)})</b>, без НДС (Исполнитель не является плательщиком НДС в соответствии с п.1 ст.367 Налогового кодекса РК).<br>
-                                2.2. ${payTermsText}<br>
+                                2.2. ${isLicOnly ? 'Оплата производится Заказчиком в порядке 100% предоплаты (либо согласно выставленному счету на оплату) в течение 3 (трех) банковских дней с момента выставления счета.' : payTermsText}<br>
                                 2.3. Все расчеты производятся в безналичном порядке в национальной валюте Республики Казахстан — тенге (KZT), на расчетный счет Исполнителя на основании выставленного счета на оплату.
                             </div>
 
-                            <div class="clause-h">3. СПЕЦИФИКАЦИЯ УСЛУГ И ЛИЦЕНЗИЙ (ТАБЛИЦА 1)</div>
+                            <div class="clause-h">3. СПЕЦИФИКАЦИЯ ${isLicOnly ? 'ЛИЦЕНЗИЙ И ПОДПИСОК' : 'УСЛУГ И ЛИЦЕНЗИЙ'} (ТАБЛИЦА 1)</div>
                             <table class="data-table">
                                 <thead>
                                     <tr>
                                         <th style="width:4%;">№</th>
-                                        <th style="width:62%;">Наименование товара, работы, услуги</th>
+                                        <th style="width:62%;">Наименование ${isLicOnly ? 'программного обеспечения / подписки' : 'товара, работы, услуги'}</th>
                                         <th style="width:8%;">Ед.</th>
                                         <th style="width:8%;">Кол-во</th>
                                         <th style="width:18%;">Сумма (KZT)</th>
@@ -2699,25 +3706,34 @@
 
                             <div class="clause-h">4. ОСОБЫЕ УСЛОВИЯ: НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ И ПОДПИСОК</div>
                             <div class="clause-p">
-                                4.1. Приобретение и продление лицензий на стороннее программное обеспечение (amoCRM, 1С-Битрикс24, Wazzup, Sipuni) осуществляется Исполнителем у официальных правообладателей (вендоров) по поручению и за счет Заказчика.<br>
-                                4.2. <b>НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ:</b> В соответствии со ст. 386, 683 Гражданского кодекса РК и регламентами правообладателей, с момента генерации лицензионных ключей, привязки лицензий к аккаунту Заказчика либо зачисления подписки, <b>денежные средства, уплаченные за лицензии и подписки на программное обеспечение, ВОЗВРАТУ ИЛИ ПЕРЕРАСЧЕТУ НЕ ПОДЛЕЖАТ НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ</b>, в том числе при досрочном расторжении Договора по инициативе Заказчика.<br>
-                                4.3. <b>НЕВОЗВРАТНОСТЬ АВАНСА:</b> В случае одностороннего немотивированного отказа Заказчика от Договора после старта работ, внесенный авансовый платеж удерживается Исполнителем в полном объеме в качестве фактически понесенных расходов и компенсации за бронирование рабочего времени IT-специалистов.
+                                4.1. Приобретение и продление лицензий на программное обеспечение (amoCRM, 1С-Битрикс24, Wazzup, Sipuni) осуществляется Исполнителем у официальных правообладателей (вендоров) по поручению и за счет Заказчика.<br>
+                                4.2. <b>НЕВОЗВРАТНОСТЬ ЛИЦЕНЗИЙ:</b> В соответствии со ст. 386, 683, 964–966 Гражданского кодекса РК и регламентами правообладателей, обязательства Исполнителя по передаче прав считаются исполненными в полном объеме с момента генерации лицензионных ключей, привязки лицензий к аккаунту Заказчика либо активации тарифа в портале Заказчика. <b>Денежные средства, уплаченные за лицензии и подписки на программное обеспечение, ВОЗВРАТУ ИЛИ ПЕРЕРАСЧЕТУ НЕ ПОДЛЕЖАТ НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ</b>, в том числе при досрочном расторжении Договора по инициативе Заказчика.<br>
+                                ${!isLicOnly ? `4.3. <b>НЕВОЗВРАТНОСТЬ АВАНСА:</b> В случае одностороннего немотивированного отказа Заказчика от Договора после старта работ, внесенный авансовый платеж удерживается Исполнителем в полном объеме в качестве фактически понесенных расходов и компенсации за бронирование рабочего времени IT-специалистов.` : ''}
                             </div>
 
-                            <div class="clause-h">5. СРОКИ И ПОРЯДОК ПРИЕМКИ РАБОТ («МОЛЧАЛИВОЕ СОГЛАСИЕ»)</div>
-                            <div class="clause-p">
-                                5.1. Срок выполнения работ составляет <b>${workDays} рабочих дней</b> с момента внесения аванса и предоставления Заказчиком необходимых доступов.<br>
-                                5.2. По завершении работ Исполнитель передает систему Заказчику и направляет Акт приема-передачи оказанных услуг (АВР) и выписывает ЭСФ.<br>
-                                5.3. <b>ПРАВИЛО ПРИЕМКИ:</b> Заказчик обязан в течение <b>3 (трех) рабочих дней</b> с момента получения Акта подписать его либо направить мотивированный письменный отказ с перечнем конкретных замечаний. <b>В случае ненаправления мотивированного отказа в указанный 3-дневный срок, работы считаются выполненными надлежащим образом и принятыми Заказчиком в полном объеме</b>, а обязательства по оплате подлежат немедленному исполнению.
-                            </div>
+                            ${!isLicOnly ? `
+                                <div class="clause-h">5. СРОКИ И ПОРЯДОК ПРИЕМКИ РАБОТ («МОЛЧАЛИВОЕ СОГЛАСИЕ»)</div>
+                                <div class="clause-p">
+                                    5.1. Срок выполнения работ составляет <b>${workDays} рабочих дней</b> с момента внесения аванса и предоставления Заказчиком необходимых доступов.<br>
+                                    5.2. По завершении работ Исполнитель передает систему Заказчику и направляет Акт приема-передачи оказанных услуг (АВР) и выписывает ЭСФ.<br>
+                                    5.3. <b>ПРАВИЛО ПРИЕМКИ:</b> Заказчик обязан в течение <b>3 (трех) рабочих дней</b> с момента получения Акта подписать его либо направить мотивированный письменный отказ с перечнем конкретных замечаний. <b>В случае ненаправления мотивированного отказа в указанный 3-дневный срок, работы считаются выполненными надлежащим образом и принятыми Заказчиком в полном объеме</b>, а обязательства по оплате подлежат немедленному исполнению.
+                                </div>
 
-                            <div class="clause-h">6. ГАРАНТИЯ И ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ</div>
-                            <div class="clause-p">
-                                6.1. Исполнитель предоставляет гарантийную техническую поддержку в течение <b>${warrantyDays} календарных дней</b> после сдачи проекта.<br>
-                                6.2. Исполнитель не несет ответственности за технические сбои и перебои на стороне серверов третьих лиц (Meta / WhatsApp / Instagram / Телеком-операторы), а также за блокировку телефонных номеров в WhatsApp в случае несоблюдения Заказчиком правил антиспам-политики.
-                            </div>
+                                <div class="clause-h">6. ГАРАНТИЯ И ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ</div>
+                                <div class="clause-p">
+                                    6.1. Исполнитель предоставляет гарантийную техническую поддержку в течение <b>${warrantyDays} календарных дней</b> после сдачи проекта.<br>
+                                    6.2. Исполнитель не несет ответственности за технические сбои и перебои на стороне серверов третьих лиц (Meta / WhatsApp / Instagram / Телеком-операторы), а также за блокировку телефонных номеров в WhatsApp в случае несоблюдения Заказчиком правил антиспам-политики.
+                                </div>
+                            ` : `
+                                <div class="clause-h">5. СРОКИ И ПОРЯДОК АКТИВАЦИИ ПРАВ</div>
+                                <div class="clause-p">
+                                    5.1. Передача прав (активация лицензий и продление облачных подписок) осуществляется Исполнителем в течение <b>1–3 рабочих дней</b> с момента поступления 100% оплаты на расчетный счет Исполнителя.<br>
+                                    5.2. По факту активации Исполнитель направляет Заказчику электронный Акт приема-передачи неисключительных прав и выписывает ЭСФ.<br>
+                                    5.3. Исполнитель не несет ответственности за технические сбои и перебои на стороне серверов правообладателей (вендоров).
+                                </div>
+                            `}
 
-                            <div class="clause-h">7. АДРЕСА, РЕКВИЗИТЫ И ПОДПИСИ СТОРОН</div>
+                            <div class="clause-h">${isLicOnly ? '6' : '7'}. АДРЕСА, РЕКВИЗИТЫ И ПОДПИСИ СТОРОН</div>
                             <div class="signatures-grid">
                                 <div class="sig-col">
                                     <h4>ИСПОЛНИТЕЛЬ:</h4>
@@ -2834,7 +3850,7 @@
                                 </tr>
                                 <tr>
                                     <td style="font-weight:700; vertical-align:top; padding:2px 0;">Договор:</td>
-                                    <td style="vertical-align:top; padding:2px 0;">${noContract ? '<b>Без договора</b>' : `Договор подряда ${docNum} от ${dateFormatted}`}</td>
+                                    <td style="vertical-align:top; padding:2px 0;">${noContract ? '<b>Без договора</b>' : (contractMode === 'licenses' ? `Лицензионный договор ${docNum} от ${dateFormatted}` : `Договор подряда ${docNum} от ${dateFormatted}`)}</td>
                                 </tr>
                             </table>
 
@@ -2888,11 +3904,13 @@
                     // TAB 3: PROPOSAL TEMPLATE (КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ)
                     // =========================================================================
                     else if (activeTab === 'proposal') {
+                        const isLicOnly = (contractMode === 'licenses');
+
                         target.innerHTML = `
                             <div class="brand-header">
                                 <div>
                                     <div class="brand-logo">NODUS<span style="color:#6366f1;">.</span></div>
-                                    <div class="brand-desc">Интеграция CRM-систем и оцифровка продаж в Казахстане</div>
+                                    <div class="brand-desc">${isLicOnly ? 'Поставка неисключительных прав и лицензий ПО в Казахстане' : 'Интеграция CRM-систем и оцифровка продаж в Казахстане'}</div>
                                 </div>
                                 <div class="doc-meta-info">
                                     <div style="font-weight:800;">КП ${docNum}</div>
@@ -2902,10 +3920,10 @@
                             </div>
 
                             <div class="doc-title-main">КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</div>
-                            <div class="doc-title-sub">Комплексная автоматизация и внедрение CRM-конвейера для роста конверсии и LTV</div>
+                            <div class="doc-title-sub">${isLicOnly ? 'Поставка лицензий, продление облачных подписок и официальное подключение сервисов' : 'Комплексная автоматизация и внедрение CRM-конвейера для роста конверсии и LTV'}</div>
 
                             <div class="clause-p">
-                                <b>Уважаемый партнер!</b> Экспертная команда <b>NODUS</b> подготовила индивидуальный расчет и архитектуру проекта. Наша цель — исключить человеческий фактор, устранить потерю лидов из WhatsApp и Instagram, наладить контроль менеджеров и запустить повторные продажи.
+                                <b>Уважаемый партнер!</b> Команда <b>NODUS</b> подготовила индивидуальный расчет спецификации. Наша цель — обеспечить бесперебойную работу вашего бизнеса на передовом программном обеспечении без задержек и переплат.
                             </div>
 
                             <div class="clause-h">СОСТАВ ПРОЕКТА И ИНВЕСТИЦИИ</div>
@@ -2913,7 +3931,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width:5%;">№</th>
-                                        <th>Наименование работ / Программного обеспечения</th>
+                                        <th>Наименование ${isLicOnly ? 'программного обеспечения / лицензий' : 'работ / Программного обеспечения'}</th>
                                         <th style="width:16%;">Объем</th>
                                         <th style="width:20%;">Инвестиции</th>
                                     </tr>
@@ -2921,18 +3939,25 @@
                                 <tbody>
                                     ${rowsHtml}
                                     <tr class="total-row">
-                                        <td colspan="3" style="text-align:right;">ИТОГОВЫЙ БЮДЖЕТ ПРОЕКТА:</td>
+                                        <td colspan="3" style="text-align:right;">ИТОГОВЫЙ БЮДЖЕТ:</td>
                                         <td style="text-align:right; color:#0284c7; font-size:13.5px;">${fmtKZT(grandTotal)}</td>
                                     </tr>
                                 </tbody>
                             </table>
 
-                            <div class="clause-h">РЕЗУЛЬТАТЫ И ПАРАМЕТРЫ ЗАПУСКА</div>
+                            <div class="clause-h">ПАРАМЕТРЫ И ГАРАНТИИ</div>
                             <ul style="padding-left:18px; margin-bottom:12px; font-size:12px; color:#334155;">
-                                <li>Срок реализации и запуска системы под ключ: <b>${workDays} рабочих дней</b>;</li>
-                                <li>Бесплатное гарантийное IT-сопровождение: <b>${warrantyDays} календарных дней</b>;</li>
-                                <li>Персональное обучение сотрудников с видеозаписью регламентов;</li>
-                                <li>100% официальный договор РК, акты выполненных работ и электронные счета-фактуры (ЭСФ).</li>
+                                ${isLicOnly ? `
+                                    <li>Срок активации и передачи ключей доступа: <b>1–3 рабочих дня</b> с момента оплаты;</li>
+                                    <li>Официальные партнерские лицензии напрямую от правообладателей;</li>
+                                    <li>100% официальный договор РК, акты приема-передачи неисключительных прав и ЭСФ;</li>
+                                    <li>Прямая консультационная поддержка при привязке и продлении.</li>
+                                ` : `
+                                    <li>Срок реализации и запуска системы под ключ: <b>${workDays} рабочих дней</b>;</li>
+                                    <li>Бесплатное гарантийное IT-сопровождение: <b>${warrantyDays} календарных дней</b>;</li>
+                                    <li>Персональное обучение сотрудников с видеозаписью регламентов;</li>
+                                    <li>100% официальный договор РК, акты выполненных работ и электронные счета-фактуры (ЭСФ).</li>
+                                `}
                             </ul>
 
                             <div class="clause-h">КОНТАКТЫ ДЛЯ СТАРТА ПРОЕКТА</div>
@@ -3309,12 +4334,14 @@
             document.getElementById('btn-copy')?.addEventListener('click', () => {
                 const text = document.getElementById('print-area').innerText;
                 navigator.clipboard.writeText(text).then(() => {
-                    alert('Текст документа успешно скопирован в буфер обмена!');
+                    saveDealToArchive(false);
+                    showToastNotify('📋 Текст документа скопирован в буфер обмена!');
                 });
             });
 
             // PRINT BUTTON
             document.getElementById('btn-print')?.addEventListener('click', () => {
+                saveDealToArchive(false);
                 window.print();
             });
 
@@ -3322,8 +4349,11 @@
             bindInputs();
             recalculatePrices();
             renderCustomRows();
+            updateArchiveBadge();
             renderAll();
         });
     </script>
+    <!-- Floating Toast Notification for Admin Actions -->
+    <div id="floating-toast-notify" class="floating-toast-notify"></div>
 </body>
 </html>
