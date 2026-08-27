@@ -1674,9 +1674,10 @@
                     <!-- WAZZUP MULTI-CHANNEL SUITE -->
                     <div class="mod-card" id="card-wz-suite">
                         <div class="mod-header">
-                            <span class="mod-title">
+                            <label class="mod-title">
+                                <input type="checkbox" class="mod-checkbox" id="chk-wz">
                                 <span class="badge-vendor b-wz">Wazzup Мессенджеры (50% партнерка)</span>
-                            </span>
+                            </label>
                             <span style="font-size:0.7rem; color:#4ade80;">WA / IG / TG</span>
                         </div>
 
@@ -2106,22 +2107,8 @@
                     <div class="kompra-box">
                         <div class="kompra-header">
                             <div class="kompra-brand">
-                                <span style="font-size:1.1rem;">🎯</span>
-                                <span>Поиск очка клиента</span>
-                                <span class="badge-kompra-live">Kompra / БИН</span>
-                            </div>
-                            <div class="kompra-tools-bar">
-                                <button type="button" class="btn-kompra-sub" id="btn-paste-kompra-json" title="Вставить JSON ответ от Kompra.kz">📋 Вставить JSON</button>
-                                <button type="button" class="btn-kompra-sub" id="btn-toggle-kompra-token" title="Настройки API токена">⚙️ Токен API</button>
-                            </div>
-                        </div>
-
-                        <!-- Collapsible Token Config -->
-                        <div class="kompra-token-drawer" id="kompra-token-drawer" style="display:none;">
-                            <label style="font-size:0.72rem; color:#94a3b8; font-weight:600;">API Token Kompra.kz (сохраняется в браузере):</label>
-                            <div style="display:flex; gap:6px; margin-top:4px;">
-                                <input type="text" id="inp-kompra-token" class="c-input" placeholder="Введи токен или test_API_v2" value="test_API_v2">
-                                <button type="button" class="btn-kompra-sub" id="btn-save-kompra-token" style="background:#0284c7; color:#fff; font-weight:700; white-space:nowrap;">💾 Сохранить</button>
+                                <span style="font-size:1.15rem;">🔍</span>
+                                <span style="font-weight:700; color:#f8fafc;">Поиск клиента по БИН</span>
                             </div>
                         </div>
 
@@ -2129,7 +2116,7 @@
                         <div class="kompra-search-row">
                             <input type="text" id="inp-search-bin" class="c-input kompra-bin-input" placeholder="Введи 12 цифр БИН / ИИН (напр. 170940011140)" maxlength="12">
                             <button type="button" class="btn-kompra-search" id="btn-kompra-search">
-                                <span>🔍 Найти очко клиента</span>
+                                <span>🔍 Найти по БИН</span>
                             </button>
                         </div>
 
@@ -2157,9 +2144,36 @@
                         <div class="form-group"><label>Телефон:</label><input type="text" id="req-cl-phone" class="c-input" placeholder="+7 (7XX) XXX-XX-XX" value=""></div>
                     </div>
                     <div class="form-group"><label>Юр. адрес:</label><input type="text" id="req-cl-addr" class="c-input" placeholder="г. Петропавловск / г. Алматы, ул. ..." value=""></div>
+                    <div class="form-group">
+                        <label>Банк клиента:</label>
+                        <select id="sel-cl-bank" class="c-select" style="margin-bottom:6px;">
+                            <option value="">-- Выберите банк РК (БИК подставится автоматически) --</option>
+                            <option value="АО «Kaspi Bank»" data-bik="CASPKZKA">1. АО «Kaspi Bank» (БИК: CASPKZKA)</option>
+                            <option value="АО «Народный Банк Казахстана»" data-bik="HSBKKZKX">2. АО «Народный Банк Казахстана» / Halyk (БИК: HSBKKZKX)</option>
+                            <option value="АО «ForteBank»" data-bik="IRTYKZKA">3. АО «ForteBank» (БИК: IRTYKZKA)</option>
+                            <option value="АО «Банк ЦентрКредит»" data-bik="CCPRKZKA">4. АО «Банк ЦентрКредит» / BCC (БИК: CCPRKZKA)</option>
+                            <option value="АО «Jusan Bank»" data-bik="TSBNKZ22">5. АО «Jusan Bank» (БИК: TSBNKZ22)</option>
+                            <option value="АО «Евразийский Банк»" data-bik="EURAKZ22">6. АО «Евразийский Банк» (БИК: EURAKZ22)</option>
+                            <option value="АО «Bank RBK»" data-bik="KINCKZKA">7. АО «Bank RBK» (БИК: KINCKZKA)</option>
+                            <option value="АО «Bereke Bank»" data-bik="SABRKZKA">8. АО «Bereke Bank» (БИК: SABRKZKA)</option>
+                            <option value="АО «Банк Фридом Финанс Казахстан»" data-bik="KSBKKZKA">9. АО «Банк Фридом Финанс Казахстан» (БИК: KSBKKZKA)</option>
+                            <option value="АО «Altyn Bank»" data-bik="ATYNKZKA">10. АО «Altyn Bank» (БИК: ATYNKZKA)</option>
+                            <option value="АО «Home Credit Bank»" data-bik="HCBNKZ22">11. АО «Home Credit Bank» (БИК: HCBNKZ22)</option>
+                            <option value="АО «Нурбанк»" data-bik="NURBKZKA">12. АО «Нурбанк» (БИК: NURBKZKA)</option>
+                            <option value="АО «Ситибанк Казахстан»" data-bik="CITIKZKX">13. АО «Ситибанк Казахстан» (БИК: CITIKZKX)</option>
+                            <option value="АО «Шинхан Банк Казахстан»" data-bik="SHBKKZKA">14. АО «Шинхан Банк Казахстан» (БИК: SHBKKZKA)</option>
+                            <option value="АО «Исламский банк Al Hilal»" data-bik="ALHLKZKA">15. АО «Исламский банк Al Hilal» (БИК: ALHLKZKA)</option>
+                            <option value="АО «Исламский Банк «Заман-Банк»" data-bik="ZAMNKZ2A">16. АО «Исламский Банк «Заман-Банк» (БИК: ZAMNKZ2A)</option>
+                            <option value="ДО АО Банк ВТБ (Казахстан)" data-bik="VTBKKZKA">17. ДО АО Банк ВТБ (Казахстан) (БИК: VTBKKZKA)</option>
+                            <option value="АО «Банк Китая в Казахстане»" data-bik="BKCHKZKA">18. АО «Банк Китая в Казахстане» (БИК: BKCHKZKA)</option>
+                            <option value="АО «ТПБ Китая в г. Алматы»" data-bik="ICBKKZKA">19. АО «ТПБ Китая в г. Алматы» / ICBC (БИК: ICBKKZKA)</option>
+                            <option value="АО «Казпочта»" data-bik="KPSTKZ2A">20. АО «Казпочта» (БИК: KPSTKZ2A)</option>
+                            <option value="custom">✍️ Другой банк (ввести вручную)</option>
+                        </select>
+                    </div>
                     <div class="grid-2">
-                        <div class="form-group"><label>Банк клиента:</label><input type="text" id="req-cl-bank" class="c-input" value="" placeholder="АО «... Bank» (необязательно)"></div>
-                        <div class="form-group"><label>БИК:</label><input type="text" id="req-cl-bik" class="c-input" value="" placeholder="БИК банка (необязательно)"></div>
+                        <div class="form-group"><label>Наименование банка:</label><input type="text" id="req-cl-bank" class="c-input" value="" placeholder="АО «... Bank»"></div>
+                        <div class="form-group"><label>БИК банка:</label><input type="text" id="req-cl-bik" class="c-input" value="" placeholder="БИК (напр. CASPKZKA)"></div>
                     </div>
                     <div class="form-group"><label>ИИК (IBAN):</label><input type="text" id="req-cl-iban" class="c-input" value="" placeholder="KZ... (необязательно)"></div>
                     </div>
@@ -2674,6 +2688,7 @@
                     clBank: clBank,
                     clBik: clBik,
                     clIban: clIban,
+                    selClBank: document.getElementById('sel-cl-bank')?.value,
 
                     // Modules
                     chkAmo: !!document.getElementById('chk-amo')?.checked,
@@ -2689,6 +2704,7 @@
                     inpBxDisc: document.getElementById('inp-bx-disc')?.value,
                     inpBxPrice: document.getElementById('inp-bx-price')?.value,
 
+                    chkWz: !!document.getElementById('chk-wz')?.checked,
                     chkWzWa: !!document.getElementById('chk-wz-wa')?.checked,
                     selWzWaPlan: document.getElementById('sel-wz-wa-plan')?.value,
                     inpWzWaCh: document.getElementById('inp-wz-wa-ch')?.value,
@@ -2828,6 +2844,7 @@
                 if (document.getElementById('req-cl-bank')) document.getElementById('req-cl-bank').value = s.clBank || '';
                 if (document.getElementById('req-cl-bik')) document.getElementById('req-cl-bik').value = s.clBik || '';
                 if (document.getElementById('req-cl-iban')) document.getElementById('req-cl-iban').value = s.clIban || '';
+                if (document.getElementById('sel-cl-bank')) document.getElementById('sel-cl-bank').value = s.selClBank || '';
 
                 // Restore module checkboxes and inputs
                 const setCheck = (id, val) => { const el = document.getElementById(id); if (el) { el.checked = !!val; el.closest('.mod-card')?.classList.toggle('active', !!val); el.closest('.wz-channel-box')?.classList.toggle('active', !!val); } };
@@ -2846,6 +2863,7 @@
                 setVal('inp-bx-disc', s.inpBxDisc);
                 setVal('inp-bx-price', s.inpBxPrice);
 
+                setCheck('chk-wz', s.chkWz);
                 setCheck('chk-wz-wa', s.chkWzWa);
                 setVal('sel-wz-wa-plan', s.selWzWaPlan);
                 setVal('inp-wz-wa-ch', s.inpWzWaCh);
@@ -3562,6 +3580,86 @@
                         if (chBox) chBox.classList.toggle('active', e.target.checked);
                         renderAll();
                     });
+                });
+
+                // Master Wazzup Checkbox Logic & Sub-channel Sync
+                const chkWz = document.getElementById('chk-wz');
+                const cardWz = document.getElementById('card-wz-suite');
+                chkWz?.addEventListener('change', (e) => {
+                    const isChecked = e.target.checked;
+                    if (cardWz) cardWz.classList.toggle('active', isChecked);
+                    const chkWa = document.getElementById('chk-wz-wa');
+                    const chkIg = document.getElementById('chk-wz-ig');
+                    const chkTg = document.getElementById('chk-wz-tg');
+                    const boxWa = document.getElementById('box-wz-wa');
+                    const boxIg = document.getElementById('box-wz-ig');
+                    const boxTg = document.getElementById('box-wz-tg');
+                    
+                    if (isChecked) {
+                        if (!chkWa?.checked && !chkIg?.checked && !chkTg?.checked) {
+                            if (chkWa) chkWa.checked = true;
+                            if (boxWa) boxWa.classList.add('active');
+                        }
+                    } else {
+                        if (chkWa) chkWa.checked = false;
+                        if (chkIg) chkIg.checked = false;
+                        if (chkTg) chkTg.checked = false;
+                        if (boxWa) boxWa.classList.remove('active');
+                        if (boxIg) boxIg.classList.remove('active');
+                        if (boxTg) boxTg.classList.remove('active');
+                    }
+                    renderAll();
+                });
+
+                ['chk-wz-wa', 'chk-wz-ig', 'chk-wz-tg'].forEach(id => {
+                    document.getElementById(id)?.addEventListener('change', () => {
+                        const anyActive = !!(document.getElementById('chk-wz-wa')?.checked || 
+                                             document.getElementById('chk-wz-ig')?.checked || 
+                                             document.getElementById('chk-wz-tg')?.checked);
+                        if (chkWz) chkWz.checked = anyActive;
+                        if (cardWz) cardWz.classList.toggle('active', anyActive);
+                    });
+                });
+
+                // Click header to open / toggle card smoothly
+                document.querySelectorAll('.mod-header').forEach(header => {
+                    header.style.cursor = 'pointer';
+                    header.addEventListener('click', (e) => {
+                        if (e.target.tagName === 'INPUT' || e.target.closest('input, button, select, a')) return;
+                        const cb = header.querySelector('.mod-checkbox');
+                        if (cb) {
+                            cb.checked = !cb.checked;
+                            cb.dispatchEvent(new Event('change'));
+                        }
+                    });
+                });
+                document.querySelectorAll('.wz-channel-header').forEach(header => {
+                    header.style.cursor = 'pointer';
+                    header.addEventListener('click', (e) => {
+                        if (e.target.tagName === 'INPUT' || e.target.closest('input, button, select, a')) return;
+                        const cb = header.querySelector('.mod-checkbox');
+                        if (cb) {
+                            cb.checked = !cb.checked;
+                            cb.dispatchEvent(new Event('change'));
+                        }
+                    });
+                });
+
+                // Bank Selection -> Auto-populate Bank Name & BIK
+                const selClBank = document.getElementById('sel-cl-bank');
+                selClBank?.addEventListener('change', () => {
+                    const selected = selClBank.options[selClBank.selectedIndex];
+                    const bankVal = selected?.value;
+                    const bikVal = selected?.getAttribute('data-bik') || '';
+                    if (bankVal && bankVal !== 'custom') {
+                        const inpBank = document.getElementById('req-cl-bank');
+                        const inpBik = document.getElementById('req-cl-bik');
+                        if (inpBank) inpBank.value = bankVal;
+                        if (inpBik) inpBik.value = bikVal;
+                        renderAll();
+                    } else if (bankVal === 'custom') {
+                        document.getElementById('req-cl-bank')?.focus();
+                    }
                 });
 
                 document.querySelectorAll('#inp-amo-price, #inp-bx-price, #inp-wz-wa-price, #inp-wz-ig-price, #inp-wz-tg-price, #inp-sip-price, #inp-serv-price, #inp-supp-price').forEach(el => {

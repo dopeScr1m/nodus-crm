@@ -338,8 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const WZ_PRICES  = {
         wa:  { start: 6000, inbox: 12000, pro: 24000, max: 36000 },
         ig:  { inbox: 12000, max: 24000 },
-        tg:  { start: 6000, inbox: 12000, pro: 24000, max: 36000 },
-        vk:  { free: 0, max: 24000 }
+        tg:  { start: 6000, inbox: 12000, pro: 24000, max: 36000 }
     };
     const NODUS_PRICES = { basic: 100000, standard: 250000, vip: 500000 };
 
@@ -360,8 +359,6 @@ document.addEventListener('DOMContentLoaded', () => {
         igTier: 'inbox',
         tgCount: 0,
         tgTier: 'pro',
-        vkCount: 0,
-        vkTier: 'free',
 
         spEnabled: true,
         spPlan: 'basic',
@@ -493,12 +490,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const selWaTier = getEl('sel-wz-wa-tier');
     const selIgTier = getEl('sel-wz-ig-tier');
     const selTgTier = getEl('sel-wz-tg-tier');
-    const selVkTier = getEl('sel-wz-vk-tier');
 
     if (selWaTier) selWaTier.addEventListener('change', e => { state.waTier = e.target.value; calculateEstimate(); });
     if (selIgTier) selIgTier.addEventListener('change', e => { state.igTier = e.target.value; calculateEstimate(); });
     if (selTgTier) selTgTier.addEventListener('change', e => { state.tgTier = e.target.value; calculateEstimate(); });
-    if (selVkTier) selVkTier.addEventListener('change', e => { state.vkTier = e.target.value; calculateEstimate(); });
 
     // ── Stepper helper with +/- clicks ──
     const bindStepper = (minusId, plusId, valId, getVal, setVal, min = 0, max = 500) => {
@@ -536,7 +531,6 @@ document.addEventListener('DOMContentLoaded', () => {
     bindStepper('btn-wa-minus', 'btn-wa-plus', 'val-wa-count', () => state.waCount, v => state.waCount = v, 0, 30);
     bindStepper('btn-ig-minus', 'btn-ig-plus', 'val-ig-count', () => state.igCount, v => state.igCount = v, 0, 30);
     bindStepper('btn-tg-minus', 'btn-tg-plus', 'val-tg-count', () => state.tgCount, v => state.tgCount = v, 0, 30);
-    bindStepper('btn-vk-minus', 'btn-vk-plus', 'val-vk-count', () => state.vkCount, v => state.vkCount = v, 0, 30);
 
     // ── Bind Wazzup Term Pills ──
     document.querySelectorAll('[data-wz-term]').forEach(btn => {
@@ -676,8 +670,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const channels = [
                 { key: 'wa', name: 'WhatsApp', count: state.waCount, tier: state.waTier },
                 { key: 'ig', name: 'Instagram', count: state.igCount, tier: state.igTier },
-                { key: 'tg', name: 'Telegram', count: state.tgCount, tier: state.tgTier },
-                { key: 'vk', name: 'VK', count: state.vkCount, tier: state.vkTier }
+                { key: 'tg', name: 'Telegram', count: state.tgCount, tier: state.tgTier }
             ];
 
             let monthlyWzTotal = 0;
@@ -788,7 +781,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setFormVal('form-users', state.crm === 'amocrm' ? state.amoUsers : 'portal');
         setFormVal('form-term', state.crm === 'amocrm' ? state.amoTerm : state.bxTerm);
         setFormVal('form-wazzup', state.wzEnabled);
-        setFormVal('form-wazzup-plan', state.wzEnabled ? `WA:${state.waTier}x${state.waCount}, IG:${state.igTier}x${state.igCount}, TG:${state.tgTier}x${state.tgCount}, VK:${state.vkTier}x${state.vkCount}` : 'none');
+        setFormVal('form-wazzup-plan', state.wzEnabled ? `WA:${state.waTier}x${state.waCount}, IG:${state.igTier}x${state.igCount}, TG:${state.tgTier}x${state.tgCount}` : 'none');
         setFormVal('form-sipuni', state.spEnabled);
         setFormVal('form-sipuni-plan', state.spEnabled ? `${state.spPlan} (${state.spUsers} польз.)` : 'none');
         setFormVal('form-turbo', state.turboAddon);

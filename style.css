@@ -1,4 +1,4 @@
-﻿/* ==========================================
+/* ==========================================
    NODUS DESIGN SYSTEM & CUSTOM CSS v6
    ========================================== */
 
@@ -636,74 +636,93 @@ a {
 }
 
 .stages-timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    position: relative;
-    max-width: 860px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
     margin: 0 auto;
+    position: relative;
 }
 
 .stages-timeline::before {
-    content: '';
-    position: absolute;
-    top: 30px;
-    bottom: 30px;
-    left: 29px;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--color-primary), var(--color-cyan));
-    z-index: 1;
+    display: none;
 }
 
 .stage-item {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
-    gap: 28px;
+    gap: 16px;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    z-index: 2;
+    overflow: hidden;
+}
+
+.stage-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-cyan));
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.stage-item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+.stage-item:hover::after {
+    opacity: 1;
 }
 
 .stage-num {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #0d1121;
-    border: 2px solid var(--color-primary);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1.5px solid rgba(99, 102, 241, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 1.25rem;
-    color: #fff;
+    font-size: 1.15rem;
+    color: var(--color-cyan);
     flex-shrink: 0;
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.2);
 }
 
 .stage-content {
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: 24px 28px;
+    background: none;
+    border: none;
+    padding: 0;
     flex: 1;
-    backdrop-filter: blur(12px);
-    transition: var(--transition);
-}
-
-.stage-content:hover {
-    border-color: var(--color-border-hover);
-    transform: translateX(4px);
+    width: 100%;
 }
 
 .stage-content h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
     margin-bottom: 8px;
+    color: #fff;
+    line-height: 1.35;
 }
 
 .stage-content p {
     color: var(--color-text-muted);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     line-height: 1.5;
+    margin: 0;
 }
 
 /* =========================================================================
@@ -889,20 +908,46 @@ a {
 /* Licenses Split Grid */
 .licenses-split-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 991px) {
+    .licenses-split-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .license-split-card {
     border-radius: var(--radius-lg);
     padding: 28px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+}
+
+.license-split-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25), 0 0 24px rgba(99, 102, 241, 0.12);
+    transform: translateY(-4px);
+}
+
+.license-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
 }
 
 .license-logo {
     font-family: var(--font-heading);
-    font-size: 1.3rem;
+    font-size: 1.45rem;
     font-weight: 800;
-    margin-bottom: 6px;
+    line-height: 1.2;
 }
 
 .license-logo.amo { color: var(--color-cyan); }
@@ -910,31 +955,132 @@ a {
 .license-logo.wazzup { color: #22c55e; }
 .license-logo.sipuni { color: #f59e0b; }
 
+.license-partner-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    white-space: nowrap;
+}
+
 .license-desc {
-    font-size: 0.78rem;
-    color: var(--color-text-dark);
-    margin-bottom: 16px;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 18px;
+    line-height: 1.45;
 }
 
 .license-plans-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    flex: 1;
 }
 
-.lic-plan-row {
+.lic-plan-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: all 0.2s ease;
+}
+
+.lic-plan-box:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.lic-plan-box.popular {
+    border-color: rgba(99, 102, 241, 0.4);
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.lic-plan-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 8px;
-    font-size: 0.82rem;
+    gap: 10px;
+    margin-bottom: 6px;
 }
 
-.plan-name { font-weight: 600; color: #fff; }
-.plan-price { font-weight: 700; color: #a5b4fc; }
+.plan-title-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.plan-title-group .plan-name {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #f8fafc;
+}
+
+.plan-hit-pill {
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.plan-rate {
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: #a5b4fc;
+    white-space: nowrap;
+}
+
+.plan-rate small {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+.lic-plan-about {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    line-height: 1.45;
+    margin-bottom: 6px;
+}
+
+.lic-plan-terms {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.license-partner-bonus {
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    border-radius: 10px;
+    font-size: 0.8rem;
+    color: #4ade80;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.license-card-action {
+    margin-top: 16px;
+}
+
+.license-card-action .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.85rem;
+    text-align: center;
+}
 
 /* =========================================================================
    TARIFF DETAILS & COMPARISON MATRIX
@@ -2605,22 +2751,19 @@ select:focus-visible {
         max-height: 44px;
     }
 
-    .stages-timeline::before {
-        left: 20px;
-    }
-
-    .stage-item {
+    .stages-timeline {
+        grid-template-columns: repeat(2, 1fr);
         gap: 16px;
     }
 
-    .stage-num {
-        width: 44px;
-        height: 44px;
-        font-size: 1rem;
+    .stage-item {
+        padding: 20px;
     }
 
-    .stage-content {
-        padding: 18px 20px;
+    @media (max-width: 640px) {
+        .stages-timeline {
+            grid-template-columns: 1fr;
+        }
     }
 
     .pricing-tabs {
