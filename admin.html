@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Client-side PDF Generation & Excel Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
     <style>
         /* RESET & BASE */
         *, *::before, *::after {
@@ -204,19 +207,46 @@
         .section-box {
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             padding-bottom: 16px;
+            transition: all 0.2s ease;
         }
         .section-box:last-child {
             border-bottom: none;
             padding-bottom: 0;
         }
         .section-title {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             font-weight: 700;
             color: #38bdf8;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+            padding: 6px 8px;
+            margin: -4px -8px 8px -8px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .section-title:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #7dd3fc;
+        }
+        .section-title-arrow {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            margin-left: 8px;
+        }
+        .section-box.collapsed .section-title {
+            margin-bottom: 0;
+        }
+        .section-box.collapsed .section-title-arrow {
+            transform: rotate(-90deg);
+        }
+        .section-box.collapsed .section-content {
+            display: none !important;
         }
 
         .form-group {
@@ -289,13 +319,34 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
-            padding: 12px;
+            padding: 10px 12px;
             margin-bottom: 10px;
             transition: all 0.2s ease;
         }
         .mod-card.active {
             border-color: rgba(99, 102, 241, 0.5);
             background: rgba(99, 102, 241, 0.06);
+            padding: 12px;
+        }
+        .mod-card:not(.active) {
+            opacity: 0.85;
+        }
+        .mod-card:not(.active):hover {
+            border-color: rgba(255, 255, 255, 0.18);
+            opacity: 1;
+        }
+        .mod-card:not(.active) > :not(.mod-header) {
+            display: none !important;
+        }
+        .mod-card:not(.active) .mod-header {
+            margin-bottom: 0 !important;
+        }
+        .mod-card.active > :not(.mod-header) {
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .mod-header {
             display: flex;
@@ -342,6 +393,23 @@
         .wz-channel-box.active {
             border-color: rgba(74, 222, 128, 0.4);
             background: rgba(34, 197, 94, 0.05);
+        }
+        .wz-channel-box:not(.active) {
+            padding: 8px 10px;
+            opacity: 0.85;
+        }
+        .wz-channel-box:not(.active):hover {
+            border-color: rgba(255, 255, 255, 0.16);
+            opacity: 1;
+        }
+        .wz-channel-box:not(.active) > :not(.wz-channel-header) {
+            display: none !important;
+        }
+        .wz-channel-box:not(.active) .wz-channel-header {
+            margin-bottom: 0 !important;
+        }
+        .wz-channel-box.active > :not(.wz-channel-header) {
+            animation: fadeIn 0.2s ease-in-out;
         }
         .wz-channel-header {
             display: flex;
@@ -1458,9 +1526,8 @@
             <div class="tabs-nav">
                 <button type="button" class="tab-btn active" data-tab="contract" id="tab-btn-contract">📄 Договор РК</button>
                 <button type="button" class="tab-btn" data-tab="invoice" id="tab-btn-invoice">🧾 Официальный счет РК</button>
-                <button type="button" class="tab-btn" data-tab="proposal" id="tab-btn-proposal">💼 Коммерческое КП</button>
                 <button type="button" class="tab-btn" data-tab="archive" id="tab-btn-archive" style="border-left: 1px solid rgba(255,255,255,0.15); margin-left: 4px;">
-                    📚 Архив смет <span id="archive-badge" style="background:#6366f1; color:#fff; font-size:10px; padding:1px 7px; border-radius:10px; font-weight:700; margin-left:4px;">0</span>
+                    📚 Архив смет и счетов <span id="archive-badge" style="background:#6366f1; color:#fff; font-size:10px; padding:1px 7px; border-radius:10px; font-weight:700; margin-left:4px;">0</span>
                 </button>
                 <button type="button" class="tab-btn btn-exit" id="btn-logout" title="Выйти из системы">🔒 Выйти</button>
             </div>
@@ -1472,11 +1539,15 @@
             <aside class="controls-panel">
                 
                 <!-- 1. Modules & Pricing Configurator -->
-                <div class="section-box">
+                <div class="section-box" id="sec-modules">
                     <div class="section-title">
-                        <span>🛠️ Модули ПО и Услуг (По умолчанию выключены)</span>
-                        <span style="font-size:0.72rem; color:#38bdf8;">Выбирай нужное</span>
+                        <span>🛠️ 1. Выбор софта и модулей CRM</span>
+                        <span style="display:flex; align-items:center; gap:6px;">
+                            <span class="sec-badge" id="badge-sec-modules" style="font-size:0.72rem; color:#38bdf8;">Выбирай нужное</span>
+                            <span class="section-title-arrow">▼</span>
+                        </span>
                     </div>
+                    <div class="section-content">
 
                     <!-- amoCRM -->
                     <div class="mod-card" id="card-amo">
@@ -1606,7 +1677,7 @@
                             <span class="mod-title">
                                 <span class="badge-vendor b-wz">Wazzup Мессенджеры (50% партнерка)</span>
                             </span>
-                            <span style="font-size:0.7rem; color:#4ade80;">WA / IG / TG / VK</span>
+                            <span style="font-size:0.7rem; color:#4ade80;">WA / IG / TG</span>
                         </div>
 
                         <!-- 1. WhatsApp -->
@@ -1802,69 +1873,6 @@
                             </div>
                         </div>
 
-                        <!-- 4. VK -->
-                        <div class="wz-channel-box" id="box-wz-vk">
-                            <div class="wz-channel-header">
-                                <label class="wz-ch-label">
-                                    <input type="checkbox" class="mod-checkbox wz-ch-cb" id="chk-wz-vk">
-                                    <span style="color:#818cf8;">🌐 ВКонтакте (VK)</span>
-                                </label>
-                                <span style="font-size:0.7rem; color:#94a3b8;">50% партнерка</span>
-                            </div>
-                            <div class="grid-3">
-                                <div class="form-group">
-                                    <label>Тариф VK:</label>
-                                    <select id="sel-wz-vk-plan" class="c-select">
-                                        <option value="0" selected>Бесплатный (0 ₸)</option>
-                                        <option value="24000">Макс (24 000 ₸)</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Каналов VK:</label>
-                                    <input type="number" id="inp-wz-vk-ch" class="c-input" value="1" min="1" max="10">
-                                </div>
-                                <div class="form-group">
-                                    <label>Срок VK:</label>
-                                    <select id="sel-wz-vk-term" class="c-select">
-                                        <option value="1">1 мес</option>
-                                        <option value="6" selected>6 мес (-10%)</option>
-                                        <option value="12">12 мес (-20%)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="price-tuning-box">
-                                <span class="tuning-label">Скидка (%):</span>
-                                <input type="number" id="inp-wz-vk-disc" class="c-input inp-disc" value="0" min="0" max="50" placeholder="0%">
-                                <span class="tuning-label">Сумма в счет:</span>
-                                <input type="number" id="inp-wz-vk-price" class="c-input inp-price-override" value="0">
-                            </div>
-                            <div class="mod-econ-strip">
-                                <div class="econ-cell cost">
-                                    <span class="econ-title">Себестоимость (50%):</span>
-                                    <span class="econ-val" id="econ-wz-vk-cost">0 ₸</span>
-                                </div>
-                                <div class="econ-cell margin">
-                                    <span class="econ-title">Партнерка (+50%):</span>
-                                    <span class="econ-val" id="econ-wz-vk-margin">+0 ₸</span>
-                                </div>
-                                <div class="econ-cell net">
-                                    <span class="econ-title">🔥 Чистыми (-3.95%):</span>
-                                    <span class="econ-val" id="econ-wz-vk-net">0 ₸</span>
-                                </div>
-                            </div>
-                            <div class="mod-split-strip">
-                                <div class="split-tag">
-                                    <span class="split-tag-name">🤝 Вадим (50%):</span>
-                                    <span class="split-tag-val" id="split-wz-vk-vadim">0 ₸</span>
-                                </div>
-                                <span class="split-tag-divider">|</span>
-                                <div class="split-tag">
-                                    <span class="split-tag-name">🤝 Есен (50%):</span>
-                                    <span class="split-tag-val" id="split-wz-vk-esen">0 ₸</span>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
                     <!-- Sipuni -->
@@ -2037,47 +2045,62 @@
                                 <span class="split-tag-val" id="split-supp-esen">16 809 ₸</span>
                             </div>
                         </div>
-                    </div>
-
-                </div>
+                    </div> <!-- end card-supp -->
+                    </div> <!-- end Section 1 content -->
+                </div> <!-- end Section 1 box -->
 
                 <!-- 2. Custom Line Items -->
-                <div class="section-box">
+                <div class="section-box collapsed" id="sec-custom">
                     <div class="section-title">
-                        <span>➕ Индивидуальные доработки</span>
+                        <span>➕ 2. Индивидуальные доработки</span>
+                        <span class="section-title-arrow">▼</span>
                     </div>
-                    <div class="custom-items-list" id="custom-container"></div>
-                    <button type="button" class="btn-add-custom" id="btn-add-row">+ Добавить свою строку</button>
+                    <div class="section-content">
+                        <div class="custom-items-list" id="custom-container"></div>
+                        <button type="button" class="btn-add-custom" id="btn-add-row">+ Добавить свою строку</button>
+                    </div>
                 </div>
 
                 <!-- 3. Contractor Requisites -->
-                <div class="section-box">
-                    <div class="section-title"><span>💼 Реквизиты Исполнителя</span></div>
-                    <div class="grid-2">
-                        <div class="form-group"><label>Исполнитель:</label><input type="text" id="req-my-name" class="c-input" value="ИП «NODUS»"></div>
-                        <div class="form-group"><label>Подписант (ФИО):</label><input type="text" id="req-my-signer" class="c-input" value="Мамлютов В.Р."></div>
+                <div class="section-box collapsed" id="sec-contractor">
+                    <div class="section-title">
+                        <span>💼 3. Реквизиты Исполнителя</span>
+                        <span style="display:flex; align-items:center; gap:6px;">
+                            <span style="font-size:0.72rem; color:#94a3b8;">ИП «NODUS»</span>
+                            <span class="section-title-arrow">▼</span>
+                        </span>
                     </div>
-                    <div class="grid-2">
-                        <div class="form-group"><label>ИИН/БИН:</label><input type="text" id="req-my-bin" class="c-input" value="010618550536"></div>
-                        <div class="form-group"><label>КБе:</label><input type="text" id="req-my-kbe" class="c-input" value="19"></div>
-                    </div>
-                    <div class="grid-2">
-                        <div class="form-group"><label>Телефон/WA:</label><input type="text" id="req-my-phone" class="c-input" value="+7 (775) 807-16-95"></div>
-                        <div class="form-group"><label>Банк:</label><input type="text" id="req-my-bank" class="c-input" value="АО «Kaspi Bank»"></div>
-                    </div>
-                    <div class="form-group"><label>Адрес:</label><input type="text" id="req-my-addr" class="c-input" value="г. Петропавловск, ул. 1-я Заречная, 109, кв. 2"></div>
-                    <div class="grid-2">
-                        <div class="form-group"><label>БИК:</label><input type="text" id="req-my-bik" class="c-input" value="CASPKZKA"></div>
-                        <div class="form-group"><label>Счет (IBAN):</label><input type="text" id="req-my-iban" class="c-input" value="KZ03722S000045101199"></div>
+                    <div class="section-content">
+                        <div class="grid-2">
+                            <div class="form-group"><label>Исполнитель:</label><input type="text" id="req-my-name" class="c-input" value="ИП «NODUS»"></div>
+                            <div class="form-group"><label>Подписант (ФИО):</label><input type="text" id="req-my-signer" class="c-input" value="Мамлютов В.Р."></div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group"><label>ИИН/БИН:</label><input type="text" id="req-my-bin" class="c-input" value="010618550536"></div>
+                            <div class="form-group"><label>КБе:</label><input type="text" id="req-my-kbe" class="c-input" value="19"></div>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group"><label>Телефон/WA:</label><input type="text" id="req-my-phone" class="c-input" value="+7 (775) 807-16-95"></div>
+                            <div class="form-group"><label>Банк:</label><input type="text" id="req-my-bank" class="c-input" value="АО «Kaspi Bank»"></div>
+                        </div>
+                        <div class="form-group"><label>Адрес:</label><input type="text" id="req-my-addr" class="c-input" value="г. Петропавловск, ул. 1-я Заречная, 109, кв. 2"></div>
+                        <div class="grid-2">
+                            <div class="form-group"><label>БИК:</label><input type="text" id="req-my-bik" class="c-input" value="CASPKZKA"></div>
+                            <div class="form-group"><label>Счет (IBAN):</label><input type="text" id="req-my-iban" class="c-input" value="KZ03722S000045101199"></div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 4. Client Requisites -->
-                <div class="section-box">
+                <div class="section-box collapsed" id="sec-client">
                     <div class="section-title">
-                        <span>🏢 Реквизиты Заказчика</span>
-                        <span style="font-size:0.72rem; color:#38bdf8;">Автозаполнение по БИН</span>
+                        <span>🏢 4. Реквизиты Заказчика</span>
+                        <span style="display:flex; align-items:center; gap:6px;">
+                            <span style="font-size:0.72rem; color:#38bdf8;">БИН / Поиск</span>
+                            <span class="section-title-arrow">▼</span>
+                        </span>
                     </div>
+                    <div class="section-content">
 
                     <!-- KOMPRA.KZ LIVE SCOUT MODULE -->
                     <div class="kompra-box">
@@ -2139,11 +2162,19 @@
                         <div class="form-group"><label>БИК:</label><input type="text" id="req-cl-bik" class="c-input" value="" placeholder="БИК банка (необязательно)"></div>
                     </div>
                     <div class="form-group"><label>ИИК (IBAN):</label><input type="text" id="req-cl-iban" class="c-input" value="" placeholder="KZ... (необязательно)"></div>
+                    </div>
                 </div>
 
                 <!-- 5. Document Meta Parameters -->
-                <div class="section-box">
-                    <div class="section-title"><span>📑 Параметры документа</span></div>
+                <div class="section-box collapsed" id="sec-params">
+                    <div class="section-title">
+                        <span>📑 5. Параметры документа</span>
+                        <span style="display:flex; align-items:center; gap:6px;">
+                            <span style="font-size:0.72rem; color:#a855f7;">Сроки и режим</span>
+                            <span class="section-title-arrow">▼</span>
+                        </span>
+                    </div>
+                    <div class="section-content">
 
                     <!-- Contract Mode Selector: Licenses Only vs Full Complex Integration -->
                     <div class="form-group" style="margin-bottom: 12px;">
@@ -2201,48 +2232,54 @@
                             <option value="30_70">30% аванс / 70% после сдачи системы</option>
                         </select>
                     </div>
-                </div>
+                    </div> <!-- end Section 5 content -->
+                </div> <!-- end Section 5 box -->
 
                 <!-- 6. Overall Internal Profit Analytics (VERY BOTTOM) -->
-                <div class="section-box" style="border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.03);">
+                <div class="section-box" id="sec-profit" style="border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.03);">
                     <div class="section-title">
-                        <span>📊 Чистая прибыль (Для себя)</span>
-                        <span style="font-size:0.72rem; color:#22c55e;">Итоговый расчет</span>
+                        <span>📊 6. Чистая прибыль (Для себя)</span>
+                        <span style="display:flex; align-items:center; gap:6px;">
+                            <span style="font-size:0.72rem; color:#22c55e;">Итоговый расчет</span>
+                            <span class="section-title-arrow">▼</span>
+                        </span>
                     </div>
-                    <div class="analytics-card">
-                        <div class="stat-row client-bill">
-                            <span>Общий счет клиенту (100%):</span>
-                            <span id="stat-grand-total">0 ₸</span>
-                        </div>
-                        <div class="stat-row profit">
-                            <span>Твои услуги и поддержка (100%):</span>
-                            <span id="stat-serv-profit">0 ₸</span>
-                        </div>
-                        <div class="stat-row profit">
-                            <span>Партнерская выплата с софта:</span>
-                            <span id="stat-vendor-profit">0 ₸</span>
-                        </div>
-                        <div class="stat-row deduct">
-                            <span title="Комиссия перевода поставщику со скидкой из Kaspi на Freedom (0.95%, мин. 200 ₸)">💳 Перевод на Freedom (0.95%, мин. 200 ₸):</span>
-                            <span id="stat-kaspi-fee">−0 ₸</span>
-                        </div>
-                        <div class="stat-row deduct">
-                            <span>🏛️ Налог СНР РК (-3.0%):</span>
-                            <span id="stat-tax-fee">−0 ₸</span>
-                        </div>
-                        <div class="stat-row net">
-                            <span>🔥 ЧИСТЫМИ НА РУКИ:</span>
-                            <span id="stat-net-profit">0 ₸</span>
-                        </div>
-
-                        <div class="stat-split-box">
-                            <div class="stat-split-col">
-                                <div class="stat-split-name">👤 Вадим (50%)</div>
-                                <div class="stat-split-val" id="stat-split-vadim">0 ₸</div>
+                    <div class="section-content">
+                        <div class="analytics-card">
+                            <div class="stat-row client-bill">
+                                <span>Общий счет клиенту (100%):</span>
+                                <span id="stat-grand-total">0 ₸</span>
                             </div>
-                            <div class="stat-split-col">
-                                <div class="stat-split-name">👤 Есен (50%)</div>
-                                <div class="stat-split-val" id="stat-split-esen">0 ₸</div>
+                            <div class="stat-row profit">
+                                <span>Твои услуги и поддержка (100%):</span>
+                                <span id="stat-serv-profit">0 ₸</span>
+                            </div>
+                            <div class="stat-row profit">
+                                <span>Партнерская выплата с софта:</span>
+                                <span id="stat-vendor-profit">0 ₸</span>
+                            </div>
+                            <div class="stat-row deduct">
+                                <span title="Комиссия перевода поставщику со скидкой из Kaspi на Freedom (0.95%, мин. 200 ₸)">💳 Перевод на Freedom (0.95%, мин. 200 ₸):</span>
+                                <span id="stat-kaspi-fee">−0 ₸</span>
+                            </div>
+                            <div class="stat-row deduct">
+                                <span>🏛️ Налог СНР РК (-3.0%):</span>
+                                <span id="stat-tax-fee">−0 ₸</span>
+                            </div>
+                            <div class="stat-row net">
+                                <span>🔥 ЧИСТЫМИ НА РУКИ:</span>
+                                <span id="stat-net-profit">0 ₸</span>
+                            </div>
+
+                            <div class="stat-split-box">
+                                <div class="stat-split-col">
+                                    <div class="stat-split-name">👤 Вадим (50%)</div>
+                                    <div class="stat-split-val" id="stat-split-vadim">0 ₸</div>
+                                </div>
+                                <div class="stat-split-col">
+                                    <div class="stat-split-name">👤 Есен (50%)</div>
+                                    <div class="stat-split-val" id="stat-split-esen">0 ₸</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2256,8 +2293,9 @@
                     <div class="badge-doc-status" id="badge-doc-title">📄 Договор подряда РК (Защищенный)</div>
                     <div class="tool-actions">
                         <button type="button" class="btn-tool btn-save-archive" id="btn-save-archive" title="Сохранить текущую смету в архив сделок">💾 Сохранить в архив</button>
+                        <button type="button" class="btn-tool" id="btn-pdf-export" style="background:#0284c7; color:#fff; font-weight:700; border-color:#0284c7;" title="Скачать документ в PDF с официальным наименованием">📥 Скачать PDF</button>
                         <button type="button" class="btn-tool btn-copy" id="btn-copy">📋 Скопировать текст</button>
-                        <button type="button" class="btn-tool btn-print" id="btn-print">🖨️ Печать / PDF (A4)</button>
+                        <button type="button" class="btn-tool btn-print" id="btn-print">🖨️ Печать (A4)</button>
                     </div>
                 </div>
 
@@ -2523,6 +2561,7 @@
             const printArea = document.getElementById('print-area');
             const archiveArea = document.getElementById('archive-area');
             const btnSaveArchive = document.getElementById('btn-save-archive');
+            const btnPdfExport = document.getElementById('btn-pdf-export');
             const btnCopy = document.getElementById('btn-copy');
             const btnPrint = document.getElementById('btn-print');
 
@@ -2533,10 +2572,8 @@
                         : '📄 Договор подряда РК (Внедрение + ПО)';
                 } else if (activeTab === 'invoice') {
                     badgeDocTitle.textContent = '🧾 Официальный счет на оплату РК (Стандарт 1С)';
-                } else if (activeTab === 'proposal') {
-                    badgeDocTitle.textContent = '💼 Коммерческое предложение (КП)';
                 } else if (activeTab === 'archive') {
-                    badgeDocTitle.textContent = '📚 Архив составленных смет и документов';
+                    badgeDocTitle.textContent = '📚 Архив составленных смет и счетов';
                 }
             };
 
@@ -2551,6 +2588,7 @@
                         if (printArea) printArea.style.display = 'none';
                         if (archiveArea) archiveArea.style.display = 'block';
                         if (btnSaveArchive) btnSaveArchive.style.display = 'none';
+                        if (btnPdfExport) btnPdfExport.style.display = 'none';
                         if (btnCopy) btnCopy.style.display = 'none';
                         if (btnPrint) btnPrint.style.display = 'none';
                         renderArchiveView();
@@ -2558,6 +2596,7 @@
                         if (printArea) printArea.style.display = 'block';
                         if (archiveArea) archiveArea.style.display = 'none';
                         if (btnSaveArchive) btnSaveArchive.style.display = 'inline-flex';
+                        if (btnPdfExport) btnPdfExport.style.display = 'inline-flex';
                         if (btnCopy) btnCopy.style.display = 'inline-flex';
                         if (btnPrint) btnPrint.style.display = 'inline-flex';
                         renderAll();
@@ -2670,13 +2709,6 @@
                     selWzTgTerm: document.getElementById('sel-wz-tg-term')?.value,
                     inpWzTgDisc: document.getElementById('inp-wz-tg-disc')?.value,
                     inpWzTgPrice: document.getElementById('inp-wz-tg-price')?.value,
-
-                    chkWzVk: !!document.getElementById('chk-wz-vk')?.checked,
-                    selWzVkPlan: document.getElementById('sel-wz-vk-plan')?.value,
-                    inpWzVkCh: document.getElementById('inp-wz-vk-ch')?.value,
-                    selWzVkTerm: document.getElementById('sel-wz-vk-term')?.value,
-                    inpWzVkDisc: document.getElementById('inp-wz-vk-disc')?.value,
-                    inpWzVkPrice: document.getElementById('inp-wz-vk-price')?.value,
 
                     chkSip: !!document.getElementById('chk-sip')?.checked,
                     selSipPlan: document.getElementById('sel-sip-plan')?.value,
@@ -2835,13 +2867,6 @@
                 setVal('inp-wz-tg-disc', s.inpWzTgDisc);
                 setVal('inp-wz-tg-price', s.inpWzTgPrice);
 
-                setCheck('chk-wz-vk', s.chkWzVk);
-                setVal('sel-wz-vk-plan', s.selWzVkPlan);
-                setVal('inp-wz-vk-ch', s.inpWzVkCh);
-                setVal('sel-wz-vk-term', s.selWzVkTerm);
-                setVal('inp-wz-vk-disc', s.inpWzVkDisc);
-                setVal('inp-wz-vk-price', s.inpWzVkPrice);
-
                 setCheck('chk-sip', s.chkSip);
                 setVal('sel-sip-plan', s.selSipPlan);
                 setVal('inp-sip-users', s.inpSipUsers);
@@ -2889,48 +2914,98 @@
                 showToastNotify(`🗑️ Документ <b>${item.docNum}</b> удален из архива.`);
             };
 
-            const exportArchiveJson = () => {
+            const exportArchiveExcel = () => {
                 const list = getArchiveList();
                 if (list.length === 0) {
-                    alert('Архив пуст, нечего экспортировать.');
+                    showToastNotify('⚠️ В архиве нет сохраненных смет для экспорта.');
                     return;
                 }
-                const jsonStr = JSON.stringify(list, null, 2);
-                const blob = new Blob([jsonStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `nodus_deals_archive_${todayKzIso}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                showToastNotify(`📥 Резервная копия (${list.length} смет) успешно скачана!`);
-            };
 
-            const importArchiveJson = (file) => {
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const imported = JSON.parse(e.target.result);
-                        if (!Array.isArray(imported)) {
-                            alert('Ошибка формата файла: ожидался массив смет');
-                            return;
-                        }
-                        const current = getArchiveList();
-                        const map = new Map();
-                        imported.forEach(item => { if (item && item.docNum) map.set(item.docNum.toLowerCase(), item); });
-                        current.forEach(item => { if (item && item.docNum && !map.has(item.docNum.toLowerCase())) map.set(item.docNum.toLowerCase(), item); });
-                        const merged = Array.from(map.values());
-                        saveArchiveList(merged);
-                        renderArchiveView();
-                        showToastNotify(`📤 Успешно импортировано! Всего в архиве: <b>${merged.length}</b> смет.`);
-                    } catch (err) {
-                        alert('Ошибка чтения файла: ' + err.message);
-                    }
-                };
-                reader.readAsText(file);
+                const rows = list.map((d, index) => {
+                    const specSummary = (d.items || []).map(it => `${it.name} (${it.qty || 1} ${it.unit || 'шт'} — ${fmtKZT(it.price || 0)})`).join('; ');
+                    const modeTitle = d.contractMode === 'licenses' 
+                        ? 'Лицензионный договор (Только софт)' 
+                        : (d.contractMode === 'nocontract' ? 'Счет-оферта (Без договора)' : 'Договор подряда (Внедрение + Софт)');
+                    
+                    const clientBill = d.grandTotal || 0;
+                    const vendorCost = d.vendorCost || 0;
+                    const freedomFee = d.freedomFee || 0;
+                    const taxFee = d.taxFee || 0;
+                    const netProfit = d.netProfit || 0;
+                    const vadimSplit = d.vadimSplit || Math.ceil(netProfit / 2);
+                    const esenSplit = d.esenSplit || Math.floor(netProfit / 2);
+
+                    const payTermsText = d.params?.payTerms === '100_pre' 
+                        ? '100% предоплата' 
+                        : (d.params?.payTerms === '30_70' ? '30% аванс / 70% сдача' : '50% аванс / 50% сдача');
+
+                    return {
+                        '№': index + 1,
+                        'Номер документа': d.docNum || '—',
+                        'Дата документа': d.docDate || d.date || '—',
+                        'Компания Заказчика': d.client?.name || 'Без названия',
+                        'БИН / ИИН': d.client?.bin || '—',
+                        'Телефон': d.client?.phone || '—',
+                        'Руководитель / Подписант': d.client?.director || '—',
+                        'Тип документа': modeTitle,
+                        'Спецификация (состав)': specSummary || '—',
+                        'Счет Заказчику (₸)': clientBill,
+                        'Себестоимость вендорам (₸)': vendorCost,
+                        'Перевод на Freedom (₸)': freedomFee,
+                        'Налог СНР 3% (₸)': taxFee,
+                        'Чистая прибыль (₸)': netProfit,
+                        'Доля Вадима 50% (₸)': vadimSplit,
+                        'Доля Есена 50% (₸)': esenSplit,
+                        'Условия оплаты': payTermsText,
+                        'Дата сохранения': d.updatedAt || '—'
+                    };
+                });
+
+                const filename = `Реестр_сделок_NODUS_${todayKzIso}.xlsx`;
+
+                if (typeof XLSX !== 'undefined') {
+                    const ws = XLSX.utils.json_to_sheet(rows);
+                    ws['!cols'] = [
+                        { wch: 5 },  // №
+                        { wch: 18 }, // Номер
+                        { wch: 14 }, // Дата
+                        { wch: 28 }, // Компания
+                        { wch: 16 }, // БИН
+                        { wch: 18 }, // Телефон
+                        { wch: 25 }, // Руководитель
+                        { wch: 30 }, // Тип
+                        { wch: 45 }, // Спецификация
+                        { wch: 18 }, // Счет
+                        { wch: 22 }, // Себестоимость
+                        { wch: 20 }, // Freedom
+                        { wch: 16 }, // Налог 3%
+                        { wch: 18 }, // Чистыми
+                        { wch: 18 }, // Вадим
+                        { wch: 18 }, // Есен
+                        { wch: 20 }, // Оплата
+                        { wch: 20 }  // Дата сохранения
+                    ];
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, 'Реестр сделок');
+                    XLSX.writeFile(wb, filename);
+                    showToastNotify(`📊 Реестр (${list.length} сделок) успешно сохранен в Excel: ${filename}`);
+                } else {
+                    // Fallback to CSV with UTF-8 BOM
+                    const headers = Object.keys(rows[0]);
+                    let csvContent = '\uFEFF' + headers.join(';') + '\r\n';
+                    rows.forEach(r => {
+                        const line = headers.map(h => `"${('' + (r[h] ?? '')).replace(/"/g, '""')}"`).join(';');
+                        csvContent += line + '\r\n';
+                    });
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Реестр_сделок_NODUS_${todayKzIso}.csv`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    showToastNotify(`📊 Реестр выгружен в Excel-совместимый файл CSV`);
+                }
             };
 
             let archiveSearchQuery = '';
@@ -3012,11 +3087,8 @@
                                     <button type="button" class="btn-arch-act btn-view-contract" data-id="${d.id}" title="Открыть договор">
                                         📄 Договор
                                     </button>
-                                    <button type="button" class="btn-arch-act btn-view-invoice" data-id="${d.id}" title="Открыть счет">
-                                        🧾 Счет
-                                    </button>
-                                    <button type="button" class="btn-arch-act btn-view-proposal" data-id="${d.id}" title="Открыть КП">
-                                        💼 КП
+                                    <button type="button" class="btn-arch-act btn-view-invoice" data-id="${d.id}" style="background:rgba(2, 132, 199, 0.18); border-color:#0284c7; color:#38bdf8;" title="Открыть официальный счет на оплату">
+                                        🧾 Счет на оплату
                                     </button>
                                     <button type="button" class="btn-arch-act danger btn-del-deal" data-id="${d.id}" title="Удалить из архива">
                                         🗑️
@@ -3104,13 +3176,9 @@
                         </div>
 
                         <div style="display:flex; gap:8px;">
-                            <button type="button" class="btn-arch-act" id="btn-export-archive" title="Скачать всю базу смет в файл JSON">
-                                📥 Экспорт JSON
+                            <button type="button" class="btn-arch-act" id="btn-export-excel" style="background:#16a34a; color:#fff; font-weight:700; border-color:#16a34a;" title="Экспортировать весь архив смет и счетов в Excel (.xlsx)">
+                                📊 Экспорт в Excel (.xlsx)
                             </button>
-                            <label class="btn-arch-act" style="cursor:pointer; margin:0;" title="Восстановить архив из файла JSON">
-                                📤 Импорт JSON
-                                <input type="file" id="inp-import-archive" accept=".json" style="display:none;">
-                            </label>
                         </div>
                     </div>
 
@@ -3150,20 +3218,11 @@
                     btn.addEventListener('click', () => loadDealIntoEditor(btn.getAttribute('data-id'), 'invoice'));
                 });
 
-                target.querySelectorAll('.btn-view-proposal').forEach(btn => {
-                    btn.addEventListener('click', () => loadDealIntoEditor(btn.getAttribute('data-id'), 'proposal'));
-                });
-
                 target.querySelectorAll('.btn-del-deal').forEach(btn => {
                     btn.addEventListener('click', () => deleteDealFromArchive(btn.getAttribute('data-id')));
                 });
 
-                document.getElementById('btn-export-archive')?.addEventListener('click', exportArchiveJson);
-                document.getElementById('inp-import-archive')?.addEventListener('change', (e) => {
-                    if (e.target.files && e.target.files[0]) {
-                        importArchiveJson(e.target.files[0]);
-                    }
-                });
+                document.getElementById('btn-export-excel')?.addEventListener('click', exportArchiveExcel);
             };
 
             // BUTTON: SAVE TO ARCHIVE
@@ -3328,14 +3387,6 @@
                 return Math.round(plan * ch * term * disc);
             };
 
-            const getWzVkBase = () => {
-                const plan = parseFloat(document.getElementById('sel-wz-vk-plan')?.value) || 0;
-                const ch   = parseInt(document.getElementById('inp-wz-vk-ch')?.value) || 1;
-                const term = parseInt(document.getElementById('sel-wz-vk-term')?.value) || 6;
-                const disc = (term === 12) ? 0.80 : ((term === 6) ? 0.90 : 1.0);
-                return Math.round(plan * ch * term * disc);
-            };
-
             const getSipBase = () => {
                 const plan  = parseFloat(document.getElementById('sel-sip-plan')?.value) || 3200;
                 const users = parseInt(document.getElementById('inp-sip-users')?.value) || 3;
@@ -3376,10 +3427,6 @@
                 const tgBase = getWzTgBase();
                 const tgDisc = parseFloat(document.getElementById('inp-wz-tg-disc')?.value) || 0;
                 document.getElementById('inp-wz-tg-price').value = Math.round(tgBase * (1 - tgDisc / 100));
-
-                const vkBase = getWzVkBase();
-                const vkDisc = parseFloat(document.getElementById('inp-wz-vk-disc')?.value) || 0;
-                document.getElementById('inp-wz-vk-price').value = Math.round(vkBase * (1 - vkDisc / 100));
 
                 // 4. Sipuni (50% partner margin)
                 const sipBase = getSipBase();
@@ -3473,17 +3520,6 @@
                 if (document.getElementById('econ-wz-tg-net'))    document.getElementById('econ-wz-tg-net').textContent    = fmtKZT(tgNet);
                 updateSplit('wz-tg', tgNet);
 
-                // VK
-                const vkBase  = getWzVkBase();
-                const vkCost  = Math.round(vkBase * 0.50);
-                const vkPrice = parseFloat(document.getElementById('inp-wz-vk-price')?.value) || 0;
-                const vkMarg  = Math.max(0, Math.round(vkPrice - vkCost));
-                const vkNet   = Math.max(0, Math.round(vkPrice - vkCost - calcFreedomFee(vkCost) - (vkPrice * 0.03)));
-                if (document.getElementById('econ-wz-vk-cost'))   document.getElementById('econ-wz-vk-cost').textContent   = fmtKZT(vkCost);
-                if (document.getElementById('econ-wz-vk-margin')) document.getElementById('econ-wz-vk-margin').textContent = '+' + fmtKZT(vkMarg);
-                if (document.getElementById('econ-wz-vk-net'))    document.getElementById('econ-wz-vk-net').textContent    = fmtKZT(vkNet);
-                updateSplit('wz-vk', vkNet);
-
                 // 4. Sipuni (Fixed 50% partner margin, 50% vendor wholesale cost)
                 const sipBase  = getSipBase();
                 const sipCost  = Math.round(sipBase * 0.50);
@@ -3512,7 +3548,7 @@
 
             // BIND EVENTS FOR RECALCULATING & RENDERING
             const bindInputs = () => {
-                const autoRecalcSelectors = '#sel-amo-tariff, #inp-amo-users, #sel-amo-term, #inp-amo-disc, #sel-bx-tariff, #sel-bx-term, #inp-bx-disc, #sel-wz-wa-plan, #inp-wz-wa-ch, #sel-wz-wa-term, #inp-wz-wa-disc, #sel-wz-ig-plan, #inp-wz-ig-ch, #sel-wz-ig-term, #inp-wz-ig-disc, #sel-wz-tg-plan, #inp-wz-tg-ch, #sel-wz-tg-term, #inp-wz-tg-disc, #sel-wz-vk-plan, #inp-wz-vk-ch, #sel-wz-vk-term, #inp-wz-vk-disc, #sel-sip-plan, #inp-sip-users, #sel-sip-term, #inp-sip-disc, #sel-serv-pkg, #inp-serv-disc, #sel-supp-plan, #sel-supp-term, #inp-supp-disc';
+                const autoRecalcSelectors = '#sel-amo-tariff, #inp-amo-users, #sel-amo-term, #inp-amo-disc, #sel-bx-tariff, #sel-bx-term, #inp-bx-disc, #sel-wz-wa-plan, #inp-wz-wa-ch, #sel-wz-wa-term, #inp-wz-wa-disc, #sel-wz-ig-plan, #inp-wz-ig-ch, #sel-wz-ig-term, #inp-wz-ig-disc, #sel-wz-tg-plan, #inp-wz-tg-ch, #sel-wz-tg-term, #inp-wz-tg-disc, #sel-sip-plan, #inp-sip-users, #sel-sip-term, #inp-sip-disc, #sel-serv-pkg, #inp-serv-disc, #sel-supp-plan, #sel-supp-term, #inp-supp-disc';
                 document.querySelectorAll(autoRecalcSelectors).forEach(el => {
                     el.addEventListener('input', () => { recalculatePrices(); renderAll(); });
                     el.addEventListener('change', () => { recalculatePrices(); renderAll(); });
@@ -3528,7 +3564,7 @@
                     });
                 });
 
-                document.querySelectorAll('#inp-amo-price, #inp-bx-price, #inp-wz-wa-price, #inp-wz-ig-price, #inp-wz-tg-price, #inp-wz-vk-price, #inp-sip-price, #inp-serv-price, #inp-supp-price').forEach(el => {
+                document.querySelectorAll('#inp-amo-price, #inp-bx-price, #inp-wz-wa-price, #inp-wz-ig-price, #inp-wz-tg-price, #inp-sip-price, #inp-serv-price, #inp-supp-price').forEach(el => {
                     el.addEventListener('input', () => { updateModuleEconomics(); renderAll(); });
                     el.addEventListener('change', () => { updateModuleEconomics(); renderAll(); });
                 });
@@ -3654,26 +3690,6 @@
                         vendorRevenue += price;
                     }
 
-                    // VK
-                    if (document.getElementById('chk-wz-vk').checked) {
-                        const price = parseFloat(document.getElementById('inp-wz-vk-price').value) || 0;
-                        const base  = getWzVkBase();
-                        const cost  = Math.round(base * 0.50);
-                        const pVal  = document.getElementById('sel-wz-vk-plan').value;
-                        const pName = (pVal === '0') ? 'Бесплатный' : 'Макс';
-                        const ch    = document.getElementById('inp-wz-vk-ch').value;
-                        const term  = document.getElementById('sel-wz-vk-term').value;
-                        activeItems.push({
-                            code: 'ND-WZ-VK',
-                            name: `Предоставление права использования сервиса (Лицензия / Подписка) Wazzup: ВКонтакте, тариф — «${pName}» (${ch} канал(ов), срок ${term} мес.)`,
-                            unit: 'шт',
-                            qty: 1,
-                            price: price
-                        });
-                        vendorCost    += cost;
-                        vendorRevenue += price;
-                    }
-
                     // 4. Sipuni (50% partner margin)
                     if (document.getElementById('chk-sip').checked) {
                         const price = parseFloat(document.getElementById('inp-sip-price').value) || 0;
@@ -3770,6 +3786,14 @@
                     if (document.getElementById('stat-split-vadim')) document.getElementById('stat-split-vadim').textContent = fmtKZT(vadimTotal);
                     if (document.getElementById('stat-split-esen'))  document.getElementById('stat-split-esen').textContent  = fmtKZT(esenTotal);
 
+                    // Update Section 1 Counter Badge
+                    const badgeSecModules = document.getElementById('badge-sec-modules');
+                    if (badgeSecModules) {
+                        badgeSecModules.textContent = activeItems.length > 0 
+                            ? `выбрано: ${activeItems.length}` 
+                            : 'Выбирай нужное';
+                    }
+
                     // Read Requisites & Parameters
                     const myName   = document.getElementById('req-my-name')?.value || 'ИП «NODUS»';
                     const mySigner = document.getElementById('req-my-signer')?.value || 'Мамлютов В.Р.';
@@ -3805,7 +3829,7 @@
                     // Dynamic KNP calculation based on selected services/software
                     let calculatedKnp = '857';
                     const hasLicensesOrTech = activeItems.some(it => 
-                        /amocrm|битрикс|bitrix|wazzup|sipuni|whatsapp|instagram|telegram|vk|лиценз|виджет|подписк|портал|пользовател/i.test(it.name)
+                        /amocrm|битрикс|bitrix|wazzup|sipuni|whatsapp|instagram|telegram|лиценз|виджет|подписк|портал|пользовател/i.test(it.name)
                     );
                     if (!hasLicensesOrTech && activeItems.length > 0) {
                         calculatedKnp = '859';
@@ -4209,83 +4233,6 @@
                         `;
                     }
 
-                    // =========================================================================
-                    // TAB 3: PROPOSAL TEMPLATE (КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ)
-                    // =========================================================================
-                    else if (activeTab === 'proposal') {
-                        const isLicOnly = (contractMode === 'licenses');
-
-                        target.innerHTML = `
-                            <div class="brand-header">
-                                <div>
-                                    <div class="brand-logo">NODUS<span style="color:#6366f1;">.</span></div>
-                                    <div class="brand-desc">${isLicOnly ? 'Поставка неисключительных прав и лицензий ПО в Казахстане' : 'Интеграция CRM-систем и оцифровка продаж в Казахстане'}</div>
-                                </div>
-                                <div class="doc-meta-info">
-                                    <div style="font-weight:800;">КП ${docNum}</div>
-                                    <div>Дата: <b>${dateFormatted}</b></div>
-                                    <div>Для: <b>${clName}</b></div>
-                                </div>
-                            </div>
-
-                            <div class="doc-title-main">КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</div>
-                            <div class="doc-title-sub">${isLicOnly ? 'Поставка лицензий, продление облачных подписок и официальное подключение сервисов' : 'Комплексная автоматизация и внедрение CRM-конвейера для роста конверсии и LTV'}</div>
-
-                            <div class="clause-p">
-                                <b>Уважаемый партнер!</b> Команда <b>NODUS</b> подготовила индивидуальный расчет спецификации. Наша цель — обеспечить бесперебойную работу вашего бизнеса на передовом программном обеспечении без задержек и переплат.
-                            </div>
-
-                            <div class="clause-h">СОСТАВ ПРОЕКТА И ИНВЕСТИЦИИ</div>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th style="width:5%;">№</th>
-                                        <th>Наименование ${isLicOnly ? 'программного обеспечения / лицензий' : 'работ / Программного обеспечения'}</th>
-                                        <th style="width:16%;">Объем</th>
-                                        <th style="width:20%;">Инвестиции</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${rowsHtml}
-                                    <tr class="total-row">
-                                        <td colspan="3" style="text-align:right;">ИТОГОВЫЙ БЮДЖЕТ:</td>
-                                        <td style="text-align:right; color:#0284c7; font-size:13.5px;">${fmtKZT(grandTotal)}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="clause-h">ПАРАМЕТРЫ И ГАРАНТИИ</div>
-                            <ul style="padding-left:18px; margin-bottom:12px; font-size:12px; color:#334155;">
-                                ${isLicOnly ? `
-                                    <li>Срок активации и передачи ключей доступа: <b>1–3 рабочих дня</b> с момента оплаты;</li>
-                                    <li>Официальные партнерские лицензии напрямую от правообладателей;</li>
-                                    <li>100% официальный договор РК, акты приема-передачи неисключительных прав и ЭСФ;</li>
-                                    <li>Прямая консультационная поддержка при привязке и продлении.</li>
-                                ` : `
-                                    <li>Срок реализации и запуска системы под ключ: <b>${workDays} рабочих дней</b>;</li>
-                                    <li>Бесплатное гарантийное IT-сопровождение: <b>${warrantyDays} календарных дней</b>;</li>
-                                    <li>Персональное обучение сотрудников с видеозаписью регламентов;</li>
-                                    <li>100% официальный договор РК, акты выполненных работ и электронные счета-фактуры (ЭСФ).</li>
-                                `}
-                            </ul>
-
-                            <div class="clause-h">КОНТАКТЫ ДЛЯ СТАРТА ПРОЕКТА</div>
-                            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:12px;">
-                                <div class="clause-p" style="margin:0;">
-                                    Интегратор / Команда: <b>NODUS</b><br>
-                                    Телефон / WhatsApp: <b>${myPhone}</b><br>
-                                    Telegram: <b>@DopeScr1m</b>
-                                </div>
-                                <div style="display:flex; align-items:flex-end; position:relative;">
-                                    <div style="position:relative; width:180px; border-bottom:1.5px solid #0f172a; height:24px;">
-                                        <img src="${NODUS_SIGNATURE_SRC}" alt="Подпись" style="position:absolute; bottom:-23px; left:18px; height:58px; pointer-events:none; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.12));" />
-                                    </div>
-                                    <div style="margin-left:12px; font-weight:700; font-size:12px; padding-bottom:2px;">/ ${mySigner} /</div>
-                                </div>
-                            </div>
-                        `;
-                    }
-
                 } catch (err) {
                     console.error("Render Error:", err.message, err.stack);
                 }
@@ -4639,6 +4586,33 @@
                 }
             });
 
+            // DYNAMIC OFFICIAL DOCUMENT FILENAME GENERATOR
+            const getDynamicPdfFilename = () => {
+                const rawNum = (document.getElementById('req-doc-num')?.value || 'ND-2026/08-27').trim();
+                const cleanNum = rawNum.startsWith('№') ? rawNum : `№ ${rawNum}`;
+                const fileSafeNum = cleanNum.replace(/[/\\:*?"<>|]/g, '-').replace(/\s+/g, ' ');
+
+                const rawDate = document.getElementById('req-doc-date')?.value;
+                let dateNumeric = '27.08.2026';
+                if (rawDate) {
+                    const parts = rawDate.split('-');
+                    if (parts.length === 3) {
+                        dateNumeric = `${parts[2]}.${parts[1]}.${parts[0]}`;
+                    }
+                }
+
+                if (activeTab === 'contract') {
+                    if (contractMode === 'licenses') {
+                        return `ДОГОВОР О ПЕРЕДАЧЕ НЕИСКЛЮЧИТЕЛЬНЫХ ПРАВ (ЛИЦЕНЗИЙ) ${fileSafeNum} от ${dateNumeric}.pdf`;
+                    } else {
+                        return `ДОГОВОР ПОДРЯДА И ПЕРЕДАЧИ ПРАВ ${fileSafeNum} от ${dateNumeric}.pdf`;
+                    }
+                } else if (activeTab === 'invoice') {
+                    return `Счет на оплату ${fileSafeNum} от ${dateNumeric}.pdf`;
+                }
+                return `Документ ${fileSafeNum} от ${dateNumeric}.pdf`;
+            };
+
             // COPY TO CLIPBOARD
             document.getElementById('btn-copy')?.addEventListener('click', () => {
                 const text = document.getElementById('print-area').innerText;
@@ -4648,15 +4622,80 @@
                 });
             });
 
-            // PRINT BUTTON
+            // PDF EXPORT HANDLER
+            document.getElementById('btn-pdf-export')?.addEventListener('click', () => {
+                const filename = getDynamicPdfFilename();
+                const element = document.getElementById('render-target');
+                if (!element || !element.innerHTML.trim()) {
+                    showToastNotify('⚠️ Документ пуст, нечего экспортировать!');
+                    return;
+                }
+
+                showToastNotify('⏳ Формирование официального PDF документа...');
+                saveDealToArchive(false);
+
+                if (typeof html2pdf !== 'undefined') {
+                    const opt = {
+                        margin: [6, 6, 6, 6],
+                        filename: filename,
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true, letterRendering: true, backgroundColor: '#ffffff' },
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                    };
+
+                    const origBg = element.style.background;
+                    const origColor = element.style.color;
+                    element.style.background = '#ffffff';
+                    element.style.color = '#000000';
+
+                    html2pdf().set(opt).from(element).save().then(() => {
+                        element.style.background = origBg;
+                        element.style.color = origColor;
+                        showToastNotify(`📥 Файл «${filename}» успешно сформирован и скачан!`);
+                    }).catch(err => {
+                        console.error('html2pdf error:', err);
+                        element.style.background = origBg;
+                        element.style.color = origColor;
+                        const oldTitle = document.title;
+                        document.title = filename.replace(/\.pdf$/i, '');
+                        window.print();
+                        setTimeout(() => { document.title = oldTitle; }, 2000);
+                    });
+                } else {
+                    const oldTitle = document.title;
+                    document.title = filename.replace(/\.pdf$/i, '');
+                    window.print();
+                    setTimeout(() => { document.title = oldTitle; }, 2000);
+                }
+            });
+
+            // PRINT BUTTON (WITH OFFICIAL FILENAME AS TITLE)
             document.getElementById('btn-print')?.addEventListener('click', () => {
+                const filename = getDynamicPdfFilename();
+                const oldTitle = document.title;
+                document.title = filename.replace(/\.pdf$/i, '');
                 saveDealToArchive(false);
                 window.print();
+                setTimeout(() => { document.title = oldTitle; }, 2000);
+            });
+
+            // ACCORDION / COLLAPSIBLE SIDEBAR SECTIONS
+            document.querySelectorAll('.section-box .section-title').forEach(title => {
+                title.addEventListener('click', (e) => {
+                    if (e.target.closest('button, input, select, a, label')) return;
+                    const box = title.closest('.section-box');
+                    if (box) {
+                        box.classList.toggle('collapsed');
+                    }
+                });
             });
 
             // INITIAL BOOTSTRAP
             window.renderAll = renderAll;
             window.setContractMode = setContractMode;
+            window.getDynamicPdfFilename = getDynamicPdfFilename;
+            window.exportArchiveExcel = exportArchiveExcel;
             bindInputs();
             recalculatePrices();
             renderCustomRows();
