@@ -879,6 +879,28 @@
             flex-wrap: wrap;
             gap: 12px;
         }
+                .btn-scheme-pill {
+            background: transparent;
+            color: #94a3b8;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        .btn-scheme-pill:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .btn-scheme-pill.active {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
+        }
+
         .badge-doc-status {
             display: inline-flex;
             align-items: center;
@@ -2397,6 +2419,22 @@
                     </div>
                 </div>
 
+                <!-- INVOICE SCHEME SWITCHER (Shown only when viewing official invoice) -->
+                <div id="invoice-scheme-bar" style="display: none; align-items: center; justify-content: space-between; gap: 12px; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 10px; padding: 8px 14px; margin-bottom: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 0.82rem; font-weight: 700; color: #f1f5f9;">⚙️ Схема работы:</span>
+                        <span style="font-size: 0.76rem; color: #94a3b8;" id="invoice-scheme-desc">Счет привязан к официальному договору</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px; background: #0f172a; padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+                        <button type="button" id="scheme-btn-contract" class="btn-scheme-pill active" title="Счет выставляется на основании заключенного Договора">
+                            📑 С Договором (Договор + Счет)
+                        </button>
+                        <button type="button" id="scheme-btn-no-contract" class="btn-scheme-pill" title="Быстрая оплата по счету-оферте без бумажного договора">
+                            ⚡ Без договора (Счет-оферта)
+                        </button>
+                    </div>
+                </div>
+
                 <!-- A4 PRINTABLE DOCUMENT CONTAINER -->
                 <div class="doc-sheet" id="print-area">
                     <div id="render-target"></div>
@@ -2646,6 +2684,7 @@
                     }
                 }
                 updateDocTitleBadge();
+                    syncInvoiceSchemeUI();
                 if (activeTab !== 'archive') {
                     renderAll();
                 }
@@ -2683,6 +2722,7 @@
                     btn.classList.add('active');
                     activeTab = btn.getAttribute('data-tab');
                     updateDocTitleBadge();
+                    syncInvoiceSchemeUI();
 
                     if (activeTab === 'archive') {
                         if (printArea) printArea.style.display = 'none';
@@ -4313,28 +4353,39 @@
                             : `<tr><td colspan="6" style="text-align:center; padding:20px; color:#64748b; border:1px solid #000;">(Включите необходимые модули в панели слева, чтобы сформировать спецификацию)</td></tr>`;
 
                         target.innerHTML = `
-                            <!-- OFFICIAL RK BRANDED INVOICE HEADER WITH NODUS LOGO -->
-                            <div class="rk-invoice-top-bar" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid #cbd5e1; padding-bottom:8px; margin-bottom:12px;">
-                                <div>
-                                    <img src="${NODUS_DARK_LOGO_SRC}" alt="NODUS" style="height:30px; display:block;" />
-                                    <div style="font-size:8.5px; color:#64748b; text-transform:uppercase; letter-spacing:0.06em; margin-top:3px; font-weight:600;">CRM Architecture and Automation</div>
-                                </div>
-                                <div style="text-align:right; font-size:10px; color:#475569; line-height:1.4;">
-                                    <div style="font-weight:700; color:#0f172a; font-size:11px;">${myName} · БИН: ${myBin}</div>
-                                    <div>Официальный интегратор CRM в РК</div>
-                                    <div>г. Петропавловск · тел.: ${myPhone}</div>
-                                </div>
+                            <!-- CENTERED NODUS LOGO (OFFICIAL MINIMALIST HEADER) -->
+                            <div class="rk-invoice-top-bar" style="text-align:center; padding-bottom:12px; margin-bottom:14px; border-bottom:1.5px solid #e2e8f0;">
+                                <img src="${NODUS_DARK_LOGO_SRC}" alt="NODUS" style="height:34px; display:inline-block;" />
                             </div>
 
                             ${noContract ? `
-                                <div class="rk-notice-box" style="border:1.5px solid #0284c7; background:#f0f9ff; padding:8px 12px; font-size:10.5px; color:#0c4a6e; margin-bottom:12px; line-height:1.45; border-radius:6px;">
-                                    <b>⚡ ВНИМАНИЕ! СЧЕТ-ОФЕРТА (ст. 152, 395, 396 ГК РК):</b><br>
-                                    Оплата настоящего счета Заказчиком (полная или частичная) означает полное и безоговорочное согласие со всеми условиями поставки и приравнивается к заключению Договора в надлежащей письменной форме. Физическое подписание отдельного Договора на бумаге <b>НЕ ТРЕБУЕТСЯ</b>.<br>
-                                    Обязательства по передаче прав использования ПО считаются исполненными на 100% в момент активации подписки/тарифа в портале Заказчика. Оплаченные средства за активированные лицензии и подписки возврату и перерасчету не подлежат (ст. 386, 683, 964–966 ГК РК).
+                                <div class="rk-notice-box" style="border:1.5px solid #0284c7; background:#f0f9ff; padding:10px 14px; border-radius:6px; margin-bottom:12px; font-size:10.5px; color:#0c4a6e; line-height:1.45;">
+                                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; border-bottom:1px solid #bae6fd; padding-bottom:4px;">
+                                        <span style="font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:0.02em; color:#0369a1; display:flex; align-items:center; gap:5px;">
+                                            ⚡ Условия оплаты и оферты (ст. 152, 395, 396 ГК РК)
+                                        </span>
+                                        <span style="font-size:9.5px; color:#0284c7; font-weight:700; background:#e0f2fe; padding:2px 6px; border-radius:4px;">Бумажный договор не требуется</span>
+                                    </div>
+                                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:10px; line-height:1.4;">
+                                        <div style="display:flex; gap:5px;">
+                                            <span style="color:#0284c7; font-weight:800;">✓</span>
+                                            <div><b>Оплата = Договор:</b> Оплата счета подтверждает согласие с условиями и имеет силу заключенного письменного Договора (ст. 396 ГК РК).</div>
+                                        </div>
+                                        <div style="display:flex; gap:5px;">
+                                            <span style="color:#0284c7; font-weight:800;">✓</span>
+                                            <div><b>Момент исполнения:</b> Обязательства считаются исполненными на 100% при активации лицензий/тарифа в портале Заказчика.</div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:6px; font-size:9.5px; color:#64748b; border-top:1px dashed #cbd5e1; padding-top:4px;">
+                                        Оплаченные средства за активированные лицензии возврату и перерасчету не подлежат (ст. 386, 683, 964–966 ГК РК).
+                                    </div>
                                 </div>
                             ` : `
-                                <div class="rk-notice-box" style="border:1px solid #cbd5e1; background:#f8fafc; padding:7px 12px; font-size:10px; color:#475569; margin-bottom:12px; line-height:1.4; border-radius:4px;">
-                                    <b>Внимание!</b> Оплата настоящего счета производится на основании указанного Договора в соответствии с согласованными Сторонами условиями и сроками. В графе «Назначение платежа» платежного поручения бухгалтерии необходимо строго указывать реквизиты Договора и счета.
+                                <div class="rk-notice-box" style="border:1px solid #cbd5e1; background:#f8fafc; padding:7px 12px; border-radius:6px; margin-bottom:12px; font-size:10px; color:#475569; line-height:1.4; display:flex; align-items:center; gap:8px;">
+                                    <span style="font-size:13px;">📄</span>
+                                    <div>
+                                        <b>Счет к Договору:</b> Оплата производится строго на основании указанного Договора в соответствии с согласованными Сторонами условиями и сроками. В платежном поручении укажите номер Договора и счета.
+                                    </div>
                                 </div>
                             `}
 
@@ -5098,6 +5149,54 @@
                     return false;
                 }
             };
+
+            
+            // INVOICE SCHEME SWITCHER SYNC & HANDLERS
+            const syncInvoiceSchemeUI = () => {
+                const schemeBar = document.getElementById('invoice-scheme-bar');
+                if (!schemeBar) return;
+                if (activeTab === 'invoice') {
+                    schemeBar.style.display = 'flex';
+                } else {
+                    schemeBar.style.display = 'none';
+                    return;
+                }
+
+                const isNoCont = !!document.getElementById('chk-no-contract')?.checked;
+                const btnContract = document.getElementById('scheme-btn-contract');
+                const btnNoContract = document.getElementById('scheme-btn-no-contract');
+                const desc = document.getElementById('invoice-scheme-desc');
+
+                if (isNoCont) {
+                    btnContract?.classList.remove('active');
+                    btnNoContract?.classList.add('active');
+                    if (desc) desc.textContent = 'Быстрая оплата по счету-оферте без бумажного договора';
+                } else {
+                    btnContract?.classList.add('active');
+                    btnNoContract?.classList.remove('active');
+                    if (desc) desc.textContent = 'Счет привязан к официальному договору';
+                }
+            };
+
+            document.getElementById('scheme-btn-contract')?.addEventListener('click', () => {
+                const chk = document.getElementById('chk-no-contract');
+                if (chk) chk.checked = false;
+                syncInvoiceSchemeUI();
+                renderAll();
+                debouncedSaveDraft();
+            });
+
+            document.getElementById('scheme-btn-no-contract')?.addEventListener('click', () => {
+                const chk = document.getElementById('chk-no-contract');
+                if (chk) chk.checked = true;
+                syncInvoiceSchemeUI();
+                renderAll();
+                debouncedSaveDraft();
+            });
+
+            document.getElementById('chk-no-contract')?.addEventListener('change', () => {
+                syncInvoiceSchemeUI();
+            });
 
             // DYNAMIC OFFICIAL DOCUMENT FILENAME GENERATOR
             const getDynamicPdfFilename = () => {
