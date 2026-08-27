@@ -2390,8 +2390,6 @@
                 <div class="preview-toolbar">
                     <div class="badge-doc-status" id="badge-doc-title">📄 Договор подряда РК (Защищенный)</div>
                     <div class="tool-actions">
-                        <span id="draft-save-indicator" style="font-size:0.72rem; color:#4ade80; display:flex; align-items:center; gap:4px; margin-right:6px;" title="Все изменения автоматически сохраняются в памяти браузера"><span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#4ade80;"></span> В памяти</span>
-                        <button type="button" class="btn-tool" id="btn-reset-draft" style="background:rgba(239,68,68,0.12); color:#fca5a5; border-color:rgba(239,68,68,0.3);" title="Очистить черновик и начать новую сделку">🔄 Новый расчет</button>
                         <button type="button" class="btn-tool btn-save-archive" id="btn-save-archive" title="Сохранить текущую смету в архив сделок">💾 Сохранить в архив</button>
                         <button type="button" class="btn-tool" id="btn-pdf-export" style="background:#0284c7; color:#fff; font-weight:700; border-color:#0284c7;" title="Скачать документ в PDF с официальным наименованием">📥 Скачать PDF</button>
                         <button type="button" class="btn-tool btn-copy" id="btn-copy">📋 Скопировать текст</button>
@@ -4314,22 +4312,6 @@
                             : `<tr><td colspan="6" style="text-align:center; padding:20px; color:#64748b; border:1px solid #000;">(Включите необходимые модули в панели слева, чтобы сформировать спецификацию)</td></tr>`;
 
                         target.innerHTML = `
-                            <!-- OFFICIAL RK BRANDED INVOICE HEADER WITH LOGO -->
-                            <div class="rk-invoice-top-bar" style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0f172a; padding-bottom:12px; margin-bottom:14px;">
-                                <div style="display:flex; align-items:center; gap:12px;">
-                                    <div style="width:46px; height:46px; border-radius:10px; background:linear-gradient(135deg, #4f46e5, #06b6d4); display:flex; align-items:center; justify-content:center; color:#fff; font-size:24px; font-weight:900; font-family:'Space Grotesk',sans-serif; box-shadow:0 3px 10px rgba(79,70,229,0.25);">N</div>
-                                    <div>
-                                        <div style="font-size:19px; font-weight:900; font-family:'Space Grotesk',sans-serif; letter-spacing:0.04em; color:#0f172a; line-height:1.1;">NODUS</div>
-                                        <div style="font-size:9.5px; font-weight:700; color:#0284c7; text-transform:uppercase; letter-spacing:0.06em; margin-top:2px;">Digital CRM &amp; Automation Solutions</div>
-                                    </div>
-                                </div>
-                                <div style="text-align:right; font-size:10px; color:#475569; line-height:1.45;">
-                                    <div style="font-weight:700; color:#0f172a; font-size:11px;">${myName} · БИН/ИИН: ${myBin}</div>
-                                    <div>Официальный CRM-интегратор в Республике Казахстан</div>
-                                    <div>г. Петропавловск / г. Алматы · тел.: ${myPhone}</div>
-                                </div>
-                            </div>
-
                             <div class="rk-notice-box" style="border:1.5px solid #0284c7; background:#f0f9ff; padding:10px 14px; font-size:11px; color:#0c4a6e; margin-bottom:14px; line-height:1.5; border-radius:6px;">
                                 <b>⚡ ВНИМАНИЕ! БЕЗОГОВОРОЧНЫЙ АКЦЕПТ ДОГОВОРА-ОФЕРТЫ (ст. 152, 395, 396 ГК РК):</b><br>
                                 Оплата настоящего счета Заказчиком (полная или частичная) означает полное и безоговорочное согласие со всеми условиями поставки, сроками и регламентами, и приравнивается к заключению Договора в надлежащей письменной форме. Физическое подписание Договора на бумаге <b>НЕ ТРЕБУЕТСЯ</b>.<br>
@@ -5097,12 +5079,6 @@
                 }
             };
 
-            document.getElementById('btn-reset-draft')?.addEventListener('click', () => {
-                if (!confirm('Вы уверены, что хотите сбросить текущий черновик и начать новую сделку?')) return;
-                localStorage.removeItem(DRAFT_STORAGE_KEY);
-                location.reload();
-            });
-
             // DYNAMIC OFFICIAL DOCUMENT FILENAME GENERATOR
             const getDynamicPdfFilename = () => {
                 const rawNum = (document.getElementById('req-doc-num')?.value || 'ND-2026/08-27').trim();
@@ -5166,10 +5142,7 @@
                             scale: 2,
                             useCORS: true,
                             letterRendering: true,
-                            backgroundColor: '#ffffff',
-                            scrollX: 0,
-                            scrollY: 0,
-                            windowWidth: 710
+                            backgroundColor: '#ffffff'
                         },
                         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
                         pagebreak: {
