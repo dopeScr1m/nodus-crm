@@ -3828,6 +3828,46 @@
                 document.querySelectorAll('.wz-channel-box').forEach(b => b.classList.remove('active'));
             };
 
+            // SMART LEGAL PAYMENT PURPOSE & KNP GENERATOR (RK TAX & BANKING COMPLIANT)
+            const getSmartPaymentDetails = (docNum, dateStr, noContract, contractMode, hasLicenses, hasServices, hasSupportOnly) => {
+                let knp = '857';
+                let purpose = '';
+
+                if (hasLicenses && !hasServices) {
+                    // Scenario 1: Only Software Subscriptions / Licenses / Renewals
+                    knp = '857';
+                    if (noContract) {
+                        purpose = `Оплата по Счету ${docNum} от ${dateStr} за предоставление неисключительных прав на ПО (лицензий/подписок на CRM), без НДС`;
+                    } else {
+                        purpose = `Оплата по Лицензионному договору ${docNum} от ${dateStr} за предоставление неисключительных прав на ПО (лицензий), без НДС`;
+                    }
+                } else if (hasLicenses && hasServices) {
+                    // Scenario 2: Complex Project (Implementation + Subscriptions)
+                    knp = '859';
+                    if (noContract) {
+                        purpose = `Оплата по Счету ${docNum} от ${dateStr} за внедрение, настройку CRM и предоставление прав на ПО, без НДС`;
+                    } else {
+                        purpose = `Оплата по Договору ${docNum} от ${dateStr} за комплексное внедрение, настройку CRM и предоставление прав на ПО, без НДС`;
+                    }
+                } else if (!hasLicenses && hasServices) {
+                    // Scenario 3: Services Only (Implementation or Support)
+                    knp = '859';
+                    if (hasSupportOnly) {
+                        purpose = `Оплата по Счету ${docNum} от ${dateStr} за услуги технической поддержки и IT-сопровождения CRM, без НДС`;
+                    } else if (noContract) {
+                        purpose = `Оплата по Счету ${docNum} от ${dateStr} за услуги по внедрению и настройке CRM-системы, без НДС`;
+                    } else {
+                        purpose = `Оплата по Договору ${docNum} от ${dateStr} за оказание услуг по внедрению и настройке CRM-системы, без НДС`;
+                    }
+                } else {
+                    // Default Fallback
+                    knp = '857';
+                    purpose = `Оплата по Счету ${docNum} от ${dateStr} за предоставление неисключительных прав на ПО (лицензий), без НДС`;
+                }
+
+                return { knp, purpose };
+            };
+
             // MAIN RENDER FUNCTION
             function renderAll() {
                 try {
@@ -4072,21 +4112,12 @@
                     const clBinClause = clBin ? `, БИН/ИИН ${clBin}` : '';
                     const clDirClause = clDirector ? `, ${clDirector}` : '';
 
-                    // Dynamic Smart Payment Purpose & KNP calculation
-                    const hasLicenses = (vendorRevenue > 0);
-                    const hasServices = (servProfit > 0);
-                    const hasSupportOnly = (!hasLicenses && !document.getElementById('chk-serv')?.checked && document.getElementById('chk-supp')?.checked && customRows.length === 0);
-
-                    const paymentDetails = getSmartPaymentDetails(docNum, dateFormatted, noContract, contractMode, hasLicenses, hasServices, hasSupportOnly);
-                    const calculatedKnp = paymentDetails.knp;
-                    const calculatedPurpose = paymentDetails.purpose;
-
-                    const docNum       = document.getElementById('req-doc-num').value || '№ ND-2026/08-25';
-                    const rawDate      = document.getElementById('req-doc-date').value;
+                    const docNum       = document.getElementById('req-doc-num')?.value || '№ ND-2026/08-25';
+                    const rawDate      = document.getElementById('req-doc-date')?.value;
                     const noContract   = !!document.getElementById('chk-no-contract')?.checked;
-                    const workDays     = document.getElementById('req-work-days').value || '7';
-                    const warrantyDays = document.getElementById('req-warranty-days').value || '14';
-                    const payTerms     = document.getElementById('req-pay-terms').value;
+                    const workDays     = document.getElementById('req-work-days')?.value || '7';
+                    const warrantyDays = document.getElementById('req-warranty-days')?.value || '14';
+                    const payTerms     = document.getElementById('req-pay-terms')?.value || '50_50';
 
                     let dateFormatted = '25 августа 2026 г.';
                     let dateNumeric   = '25.08.2026';
@@ -4098,6 +4129,15 @@
                         const mm = String(d.getMonth() + 1).padStart(2, '0');
                         dateNumeric = `${dd}.${mm}.${d.getFullYear()}`;
                     }
+
+                    // Dynamic Smart Payment Purpose & KNP calculation
+                    const hasLicenses = (vendorRevenue > 0);
+                    const hasServices = (servProfit > 0);
+                    const hasSupportOnly = (!hasLicenses && !document.getElementById('chk-serv')?.checked && document.getElementById('chk-supp')?.checked && customRows.length === 0);
+
+                    const paymentDetails = getSmartPaymentDetails(docNum, dateFormatted, noContract, contractMode, hasLicenses, hasServices, hasSupportOnly);
+                    const calculatedKnp = paymentDetails.knp;
+                    const calculatedPurpose = paymentDetails.purpose;
 
                     let payTermsText = 'Оплата производится в размере 50% авансового платежа в течение 3 (трех) банковских дней с даты подписания Договора, и 50% в течение 3 (трех) банковских дней с момента сдачи настроенной системы и подписания Акта приема-передачи оказанных услуг.';
                     if (payTerms === '100_pre') {
@@ -5208,47 +5248,7 @@
                 syncInvoiceSchemeUI();
             });
 
-                        // SMART LEGAL PAYMENT PURPOSE & KNP GENERATOR (RK TAX & BANKING COMPLIANT)
-            const getSmartPaymentDetails = (docNum, dateStr, noContract, contractMode, hasLicenses, hasServices, hasSupportOnly) => {
-                let knp = '857';
-                let purpose = '';
-
-                if (hasLicenses && !hasServices) {
-                    // Scenario 1: Only Software Subscriptions / Licenses / Renewals
-                    knp = '857';
-                    if (noContract) {
-                        purpose = `Оплата по Счету ${docNum} от ${dateStr} за предоставление неисключительных прав на ПО (лицензий/подписок на CRM), без НДС`;
-                    } else {
-                        purpose = `Оплата по Лицензионному договору ${docNum} от ${dateStr} за предоставление неисключительных прав на ПО (лицензий), без НДС`;
-                    }
-                } else if (hasLicenses && hasServices) {
-                    // Scenario 2: Complex Project (Implementation + Subscriptions)
-                    knp = '859';
-                    if (noContract) {
-                        purpose = `Оплата по Счету ${docNum} от ${dateStr} за внедрение, настройку CRM и предоставление прав на ПО, без НДС`;
-                    } else {
-                        purpose = `Оплата по Договору ${docNum} от ${dateStr} за комплексное внедрение, настройку CRM и предоставление прав на ПО, без НДС`;
-                    }
-                } else if (!hasLicenses && hasServices) {
-                    // Scenario 3: Services Only (Implementation or Support)
-                    knp = '859';
-                    if (hasSupportOnly) {
-                        purpose = `Оплата по Счету ${docNum} от ${dateStr} за услуги технической поддержки и IT-сопровождения CRM, без НДС`;
-                    } else if (noContract) {
-                        purpose = `Оплата по Счету ${docNum} от ${dateStr} за услуги по внедрению и настройке CRM-системы, без НДС`;
-                    } else {
-                        purpose = `Оплата по Договору ${docNum} от ${dateStr} за оказание услуг по внедрению и настройке CRM-системы, без НДС`;
-                    }
-                } else {
-                    // Default Fallback
-                    knp = '857';
-                    purpose = `Оплата по Счету ${docNum} от ${dateStr} за предоставление неисключительных прав на ПО (лицензий), без НДС`;
-                }
-
-                return { knp, purpose };
-            };
-
-            // DYNAMIC OFFICIAL DOCUMENT FILENAME GENERATOR
+                        // DYNAMIC OFFICIAL DOCUMENT FILENAME GENERATOR
             const getDynamicPdfFilename = () => {
                 const rawNum = (document.getElementById('req-doc-num')?.value || 'ND-2026/08-27').trim();
                 const cleanNum = rawNum.startsWith('№') ? rawNum : `№ ${rawNum}`;
