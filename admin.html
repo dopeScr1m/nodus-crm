@@ -1268,6 +1268,10 @@
         .doc-sheet li {
             color: #0f172a !important;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
         }
 
         .doc-sheet .brand-header {
@@ -1446,7 +1450,7 @@
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            .auth-gate, .admin-header, .configurator-panel, .controls-panel, .preview-toolbar, .archive-sheet, .floating-toast-notify {
+            .auth-gate, .admin-header, .configurator-panel, .controls-panel, .preview-toolbar, .archive-sheet, .floating-toast-notify, #invoice-scheme-bar, #recent-clients-wrap {
                 display: none !important;
             }
             .admin-dashboard {
@@ -2413,9 +2417,10 @@
                     <div class="badge-doc-status" id="badge-doc-title">📄 Договор подряда РК (Защищенный)</div>
                     <div class="tool-actions">
                         <button type="button" class="btn-tool btn-save-archive" id="btn-save-archive" title="Сохранить текущую смету в архив сделок">💾 Сохранить в архив</button>
-                        <button type="button" class="btn-tool" id="btn-pdf-export" style="background:#0284c7; color:#fff; font-weight:700; border-color:#0284c7;" title="Скачать документ в PDF с официальным наименованием">📥 Скачать PDF</button>
-                        <button type="button" class="btn-tool btn-copy" id="btn-copy">📋 Скопировать текст</button>
-                        <button type="button" class="btn-tool btn-print" id="btn-print">🖨️ Печать (A4)</button>
+                        <button type="button" class="btn-tool" id="btn-pdf-export" style="background:#0284c7; color:#fff; font-weight:700; border-color:#0284c7;" title="Скачать или сохранить документ в векторный PDF (текст можно копировать)">📥 Скачать PDF (Вектор)</button>
+                        <button type="button" class="btn-tool" id="btn-copy-requisites" style="background:rgba(99, 102, 241, 0.2); color:#a5b4fc; border-color:#6366f1; font-weight:700; display:none;" title="Скопировать структурированные реквизиты для Kaspi Pay / Банка">⚡ Скопировать реквизиты</button>
+                        <button type="button" class="btn-tool btn-copy" id="btn-copy" title="Скопировать весь текст документа">📋 Скопировать текст</button>
+                        <button type="button" class="btn-tool btn-print" id="btn-print" title="Распечатать на принтере A4">🖨️ Печать (A4)</button>
                     </div>
                 </div>
 
@@ -2705,14 +2710,18 @@
             const btnPrint = document.getElementById('btn-print');
 
             const updateDocTitleBadge = () => {
+                const btnCopyReq = document.getElementById('btn-copy-requisites');
                 if (activeTab === 'contract') {
                     badgeDocTitle.textContent = contractMode === 'licenses' 
                         ? '📄 Лицензионный договор РК (Передача прав на ПО)' 
                         : '📄 Договор подряда РК (Внедрение + ПО)';
+                    if (btnCopyReq) btnCopyReq.style.display = 'none';
                 } else if (activeTab === 'invoice') {
                     badgeDocTitle.textContent = '🧾 Официальный счет на оплату РК (Стандарт 1С)';
+                    if (btnCopyReq) btnCopyReq.style.display = 'inline-flex';
                 } else if (activeTab === 'archive') {
                     badgeDocTitle.textContent = '📚 Архив составленных смет и счетов';
+                    if (btnCopyReq) btnCopyReq.style.display = 'none';
                 }
             };
 
@@ -4398,10 +4407,12 @@
                                     <td colspan="2" style="width:52%; vertical-align:top; border:1px solid #000; padding:4px 6px;">
                                         <div style="font-size:10px; color:#475569;">Бенефициар:</div>
                                         <div style="font-weight:700; font-size:12px; margin-top:2px;">${myName}</div>
-                                        <div style="font-size:11px; margin-top:8px;"><b>БИН:</b> ${myBin}</div>
+                                        <div style="font-size:11px; margin-top:8px;" title="Кликните, чтобы скопировать БИН" onclick="navigator.clipboard.writeText('${myBin}'); if(window.showToastNotify) window.showToastNotify('📋 БИН скопирован: ${myBin}');">
+                                            <b>БИН:</b> <span style="font-family:'JetBrains Mono',monospace; font-weight:700;">${myBin}</span>
+                                        </div>
                                     </td>
-                                    <td style="width:30%; vertical-align:top; border:1px solid #000; padding:4px 6px;">
-                                        <div style="font-size:10px; color:#475569; text-align:center;">ИИК</div>
+                                    <td style="width:30%; vertical-align:top; border:1px solid #000; padding:4px 6px; cursor:pointer;" title="Кликните, чтобы скопировать IBAN" onclick="navigator.clipboard.writeText('${myIban}'); if(window.showToastNotify) window.showToastNotify('📋 ИИК (IBAN) скопирован: ${myIban}');">
+                                        <div style="font-size:10px; color:#475569; text-align:center;">ИИК (IBAN)</div>
                                         <div style="font-weight:700; font-size:11px; text-align:center; font-family:'JetBrains Mono',monospace; word-break:break-all; margin-top:6px;">${myIban}</div>
                                     </td>
                                     <td style="width:18%; vertical-align:top; border:1px solid #000; padding:4px 6px;">
@@ -4445,7 +4456,7 @@
                                 <tr>
                                     <td style="font-weight:700; vertical-align:top; padding:4px 0; color:#0f172a;">Назначение платежа:</td>
                                     <td style="vertical-align:top; padding:4px 0;">
-                                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-left:3px solid #0284c7; padding:6px 10px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:#0f172a; line-height:1.45; border-radius:3px;">
+                                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-left:3px solid #0284c7; padding:6px 10px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:#0f172a; line-height:1.45; border-radius:3px; cursor:pointer;" title="Кликните, чтобы скопировать назначение платежа" onclick="navigator.clipboard.writeText(this.innerText.trim()); if(window.showToastNotify) window.showToastNotify('📋 Назначение платежа скопировано в буфер!');">
                                             ${noContract 
                                                 ? `Оплата по Счету ${docNum} от ${dateFormatted} за внедрение и настройку CRM, без НДС` 
                                                 : (contractMode === 'licenses' 
@@ -5237,8 +5248,58 @@
                 });
             });
 
-            // PDF EXPORT HANDLER (PIXEL-PERFECT A4 GEOMETRY)
-            document.getElementById('btn-pdf-export')?.addEventListener('click', async () => {
+            // COPY STRUCTURED BANK REQUISITES (FOR KASPI / ONLINE BANKING)
+            document.getElementById('btn-copy-requisites')?.addEventListener('click', () => {
+                const myName = (document.getElementById('req-my-name')?.value || 'ИП «NODUS»').trim();
+                const myBin = (document.getElementById('req-my-bin')?.value || '010618550536').trim();
+                const myIban = (document.getElementById('req-my-iban')?.value || 'KZ21722C000037851214').trim();
+                const myBank = (document.getElementById('req-my-bank')?.value || 'АО «Kaspi Bank»').trim();
+                const myBik = (document.getElementById('req-my-bik')?.value || 'CASPKZKZ').trim();
+                const myKbe = (document.getElementById('req-my-kbe')?.value || '19').trim();
+                const docNum = (document.getElementById('req-doc-num')?.value || 'ND-2026/08-27').trim();
+                const rawDate = document.getElementById('req-doc-date')?.value;
+                let dateStr = '27.08.2026';
+                if (rawDate) {
+                    const p = rawDate.split('-');
+                    if (p.length === 3) dateStr = `${p[2]}.${p[1]}.${p[0]}`;
+                }
+                const noContract = !!document.getElementById('chk-no-contract')?.checked;
+                const purpose = noContract 
+                    ? `Оплата по Счету ${docNum} от ${dateStr} за внедрение и настройку CRM, без НДС` 
+                    : (contractMode === 'licenses' 
+                        ? `Оплата по Лицензионному договору ${docNum} от ${dateStr} за предоставление неисключительных прав на ПО (лицензий), без НДС` 
+                        : `Оплата по Договору возмездного оказания услуг ${docNum} от ${dateStr} за внедрение и настройку CRM, без НДС`);
+
+                const textToCopy = `Реквизиты для оплаты счета:
+` +
+                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+` +
+                    `Получатель: ${myName}
+` +
+                    `БИН/ИИН: ${myBin}
+` +
+                    `ИИК (IBAN): ${myIban}
+` +
+                    `Банк: ${myBank}
+` +
+                    `БИК: ${myBik}
+` +
+                    `КБе: ${myKbe}
+` +
+                    `КНП: 859
+` +
+                    `Назначение платежа: ${purpose}
+` +
+                    `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    saveDealToArchive(false);
+                    showToastNotify('⚡ Реквизиты для оплаты счета скопированы! Можно вставлять в Kaspi Pay или клиент-банк.', 3500);
+                });
+            });
+
+            // TRUE VECTOR PDF EXPORT & PRINT ENGINE (100% SELECTABLE & COPYABLE TEXT)
+            const exportVectorPdf = () => {
                 const filename = getDynamicPdfFilename();
                 const printArea = document.getElementById('print-area');
                 if (!printArea || !printArea.innerText.trim()) {
@@ -5246,52 +5307,19 @@
                     return;
                 }
 
-                showToastNotify('⏳ Формирование официального PDF документа...');
+                const oldTitle = document.title;
+                document.title = filename.replace(/\.pdf$/i, '');
                 saveDealToArchive(false);
 
-                if (typeof html2pdf !== 'undefined') {
-                    const isInvoice = (activeTab === 'invoice');
-
-                    // Apply precise A4 dimensions to ensure zero clipping on any screen resolution
-                    printArea.classList.add('pdf-export-active');
-                    if (isInvoice) printArea.classList.add('invoice-mode');
-
-                    const opt = {
-                        margin: [8, 8, 8, 8],
-                        filename: filename,
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: {
-                            scale: 2,
-                            useCORS: true,
-                            letterRendering: true,
-                            backgroundColor: '#ffffff'
-                        },
-                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                        pagebreak: {
-                            mode: ['avoid-all', 'css', 'legacy'],
-                            avoid: ['.clause-h', '.brand-header', '.signatures-grid', '.rk-notice-box', '.data-table', 'tr', 'table', '.signature-box']
-                        }
-                    };
-
-                    try {
-                        await html2pdf().set(opt).from(printArea).save();
-                        showToastNotify(`📥 Файл «${filename}» успешно сформирован и скачан!`);
-                    } catch (err) {
-                        console.error('html2pdf error:', err);
-                        const oldTitle = document.title;
-                        document.title = filename.replace(/\.pdf$/i, '');
-                        window.print();
-                        setTimeout(() => { document.title = oldTitle; }, 2000);
-                    } finally {
-                        printArea.classList.remove('pdf-export-active', 'invoice-mode');
-                    }
-                } else {
-                    const oldTitle = document.title;
-                    document.title = filename.replace(/\.pdf$/i, '');
+                showToastNotify(`📄 Открыто окно печати/сохранения. Выберите «Сохранить как PDF» — текст будет 100% векторным и копируемым!`, 4500);
+                
+                setTimeout(() => {
                     window.print();
-                    setTimeout(() => { document.title = oldTitle; }, 2000);
-                }
-            });
+                    setTimeout(() => { document.title = oldTitle; }, 3000);
+                }, 180);
+            };
+
+            document.getElementById('btn-pdf-export')?.addEventListener('click', exportVectorPdf);
 
             // PRINT BUTTON (WITH OFFICIAL FILENAME AS TITLE)
             document.getElementById('btn-print')?.addEventListener('click', () => {
