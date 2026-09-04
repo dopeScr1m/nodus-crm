@@ -1622,7 +1622,7 @@
         
         <header class="admin-header">
             <div class="admin-title-wrap">
-                <div class="admin-badge-tz" id="kz-live-clock-badge">🇰🇿 Астана UTC+5 · <span id="kz-live-date-str">Сегодня</span></div>
+                <div class="admin-badge-tz" id="kz-live-clock-badge"><span id="kz-live-date-str">Сегодня</span></div>
                 <h1>Рабочее пространство <span style="color:#6366f1;">NODUS</span></h1>
             </div>
             <div class="tabs-nav">
@@ -2689,16 +2689,19 @@
                 if (!badge) return;
                 try {
                     const now = new Date();
-                    const dateStr = new Intl.DateTimeFormat('ru-RU', {
+                    const datePart = new Intl.DateTimeFormat('ru-RU', {
                         timeZone: 'Asia/Almaty',
                         day: 'numeric',
                         month: 'long',
-                        year: 'numeric',
+                        year: 'numeric'
+                    }).format(now);
+                    const timePart = new Intl.DateTimeFormat('ru-RU', {
+                        timeZone: 'Asia/Almaty',
                         hour: '2-digit',
                         minute: '2-digit',
                         second: '2-digit'
                     }).format(now);
-                    badge.textContent = `Сегодня: ${dateStr}`;
+                    badge.textContent = `Сегодня: ${datePart} в ${timePart}`;
                 } catch (e) {
                     badge.textContent = `Сегодня: ${todayKzIso}`;
                 }
@@ -2807,12 +2810,105 @@
             // =========================================================================
             const ARCHIVE_STORAGE_KEY = 'nodus_crm_archive_v1';
 
+            // Seed deal for ИП Бейсенова М.Ж. (Wazzup Max 12m, corrected deal price: 330 000 KZT)
+            const defaultBeysenovaDeal = {
+                id: 'deal_beysenova_256',
+                docNum: '№ 256',
+                docDate: '2026-09-03',
+                updatedAt: '03.09.2026, 23:11:22',
+                contractMode: 'licenses',
+                noContract: true,
+                client: {
+                    name: 'ИП Бейсенова М.Ж.',
+                    bin: '921201450486',
+                    phone: '+7 (775) 807-16-95',
+                    addr: 'г. Петропавловск',
+                    director: 'в лице Индивидуального предпринимателя ДОСЫМОВА МАДИНА ЖАНТАСОВНА, действующего на основании Уведомления о начале предпринимательской деятельности',
+                    bank: 'АО «Kaspi Bank»',
+                    bik: 'CASPKZKA',
+                    iban: ''
+                },
+                params: {
+                    startDate: '2026-09-03',
+                    endDate: '',
+                    workDays: 3,
+                    warrantyDays: 0,
+                    payTerms: '100_pre'
+                },
+                items: [
+                    {
+                        name: 'Предоставление права использования сервиса (Лицензия / Подписка) Wazzup: WhatsApp, тариф — «Макс» (1 канал(ов), срок 12 мес.)',
+                        price: 330000,
+                        qty: 1,
+                        unit: 'шт'
+                    }
+                ],
+                grandTotal: 330000,
+                vendorCost: 172800,
+                freedomFee: 1642,
+                taxFee: 9900,
+                netProfit: 145658,
+                vadimSplit: 72829,
+                esenSplit: 72829,
+                formState: {
+                    contractMode: 'licenses',
+                    noContract: true,
+                    docNum: '№ 256',
+                    docDate: '2026-09-03',
+                    startDate: '2026-09-03',
+                    endDate: '',
+                    workDays: 3,
+                    warrantyDays: 0,
+                    payTerms: '100_pre',
+                    clName: 'ИП Бейсенова М.Ж.',
+                    clBin: '921201450486',
+                    clDirector: 'в лице Индивидуального предпринимателя ДОСЫМОВА МАДИНА ЖАНТАСОВНА, действующего на основании Уведомления о начале предпринимательской деятельности',
+                    chkWz: true,
+                    chkWzWa: true,
+                    selWzWaPlan: '36000',
+                    inpWzWaCh: 1,
+                    selWzWaTerm: '12',
+                    inpWzWaDisc: 4.5,
+                    inpWzWaPrice: 330000
+                }
+            };
+
             const getArchiveList = () => {
                 try {
-                    return JSON.parse(localStorage.getItem(ARCHIVE_STORAGE_KEY)) || [];
+                    let list = JSON.parse(localStorage.getItem(ARCHIVE_STORAGE_KEY));
+                    if (!Array.isArray(list) || list.length === 0) {
+                        list = [defaultBeysenovaDeal];
+                        localStorage.setItem(ARCHIVE_STORAGE_KEY, JSON.stringify(list));
+                    } else {
+                        // Check if Бейсенова deal exists in list and update price to 330 000 if needed
+                        let modified = false;
+                        list.forEach(d => {
+                            if ((d.docNum && d.docNum.includes('256')) || (d.client && (d.client.bin === '921201450486' || (d.client.name && d.client.name.includes('Бейсенова'))))) {
+                                if (d.grandTotal !== 330000) {
+                                    d.grandTotal = 330000;
+                                    if (d.items && d.items.length > 0) d.items[0].price = 330000;
+                                    d.vendorCost = 172800;
+                                    d.freedomFee = 1642;
+                                    d.taxFee = 9900;
+                                    d.netProfit = 145658;
+                                    d.vadimSplit = 72829;
+                                    d.esenSplit = 72829;
+                                    if (d.formState) {
+                                        d.formState.inpWzWaPrice = 330000;
+                                        d.formState.inpWzWaDisc = 4.5;
+                                    }
+                                    modified = true;
+                                }
+                            }
+                        });
+                        if (modified) {
+                            localStorage.setItem(ARCHIVE_STORAGE_KEY, JSON.stringify(list));
+                        }
+                    }
+                    return list;
                 } catch (e) {
                     console.error('Failed to read archive:', e);
-                    return [];
+                    return [defaultBeysenovaDeal];
                 }
             };
 
@@ -3245,9 +3341,9 @@
                 });
 
                 const filtered = list.filter(d => {
-                    if (archiveFilterType === 'licenses' && (d.contractMode !== 'licenses' || d.noContract)) return false;
-                    if (archiveFilterType === 'complex' && (d.contractMode !== 'complex' || d.noContract)) return false;
-                    if (archiveFilterType === 'nocontract' && !d.noContract) return false;
+                    if (archiveFilterType === 'contract' && d.noContract) return false; // Договоры
+                    if (archiveFilterType === 'invoice' && !d.noContract) return false;  // Счет на оплату (Оферта / Без договора)
+                    if (archiveFilterType === 'both' && d.noContract) return false;     // Договор + счет на оплату
 
                     if (archiveSearchQuery) {
                         const q = archiveSearchQuery.toLowerCase();
@@ -3255,17 +3351,18 @@
                         const cBin = (d.client?.bin || '').toLowerCase();
                         const cPhone = (d.client?.phone || '').toLowerCase();
                         const dNum = (d.docNum || '').toLowerCase();
-                        return cName.includes(q) || cBin.includes(q) || cPhone.includes(q) || dNum.includes(q);
+                        const cDir = (d.client?.director || '').toLowerCase();
+                        const totStr = String(d.grandTotal || '');
+                        const itStr = (d.items || []).map(it => it.name).join(' ').toLowerCase();
+                        return cName.includes(q) || cBin.includes(q) || cPhone.includes(q) || dNum.includes(q) || cDir.includes(q) || totStr.includes(q) || itStr.includes(q);
                     }
                     return true;
                 });
 
                 const cardsHtml = filtered.length > 0 ? filtered.map(d => {
                     const badgeHtml = d.noContract
-                        ? `<span class="arch-badge-mode arch-badge-nocont">📄 Без договора (Оферта)</span>`
-                        : (d.contractMode === 'licenses'
-                            ? `<span class="arch-badge-mode arch-badge-lic">🔑 Лицензии / Подписки</span>`
-                            : `<span class="arch-badge-mode arch-badge-cplx">🚀 Внедрение + Подписки</span>`);
+                        ? `<span class="arch-badge-mode arch-badge-nocont">🧾 Счет на оплату (Оферта)</span>`
+                        : `<span class="arch-badge-mode arch-badge-lic">📑 Договор + Счет на оплату</span>`;
 
                     const itemsListHtml = (d.items || []).map(it => `
                         <div style="display:flex; justify-content:space-between; gap:8px; padding:2px 0;">
@@ -3384,9 +3481,9 @@
 
                         <div class="arch-filter-tabs">
                             <button type="button" class="btn-arch-filter ${archiveFilterType === 'all' ? 'active' : ''}" data-filter="all">Все (${totalDeals})</button>
-                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'licenses' ? 'active' : ''}" data-filter="licenses">🔑 Только подписки</button>
-                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'complex' ? 'active' : ''}" data-filter="complex">🚀 Внедрение</button>
-                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'nocontract' ? 'active' : ''}" data-filter="nocontract">📄 Без договора</button>
+                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'contract' ? 'active' : ''}" data-filter="contract">📄 Договоры</button>
+                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'invoice' ? 'active' : ''}" data-filter="invoice">🧾 Счет на оплату</button>
+                            <button type="button" class="btn-arch-filter ${archiveFilterType === 'both' ? 'active' : ''}" data-filter="both">📑 Договор + счет на оплату</button>
                         </div>
 
                         <div style="display:flex; gap:8px;">
@@ -3763,6 +3860,34 @@
             // BIND EVENTS FOR RECALCULATING & RENDERING
             const bindInputs = () => {
                 const autoRecalcSelectors = '#sel-amo-tariff, #inp-amo-users, #sel-amo-term, #inp-amo-disc, #sel-bx-tariff, #sel-bx-term, #inp-bx-disc, #sel-wz-wa-plan, #inp-wz-wa-ch, #sel-wz-wa-term, #inp-wz-wa-disc, #sel-wz-ig-plan, #inp-wz-ig-ch, #sel-wz-ig-term, #inp-wz-ig-disc, #sel-wz-tg-plan, #inp-wz-tg-ch, #sel-wz-tg-term, #inp-wz-tg-disc, #sel-sip-plan, #inp-sip-users, #sel-sip-term, #inp-sip-disc, #sel-serv-pkg, #inp-serv-disc, #sel-supp-plan, #sel-supp-term, #inp-supp-disc';
+                                // Direct Price Override Listeners (allows entering any custom deal price)
+                document.querySelectorAll('.inp-price-override').forEach(inp => {
+                    const handlePriceChange = () => {
+                        const id = inp.id;
+                        let base = 0;
+                        let discInp = null;
+                        if (id === 'inp-amo-price') { base = getAmoBase(); discInp = document.getElementById('inp-amo-disc'); }
+                        else if (id === 'inp-bx-price') { base = getBxBase(); discInp = document.getElementById('inp-bx-disc'); }
+                        else if (id === 'inp-wz-wa-price') { base = getWzWaBase(); discInp = document.getElementById('inp-wz-wa-disc'); }
+                        else if (id === 'inp-wz-ig-price') { base = getWzIgBase(); discInp = document.getElementById('inp-wz-ig-disc'); }
+                        else if (id === 'inp-wz-tg-price') { base = getWzTgBase(); discInp = document.getElementById('inp-wz-tg-disc'); }
+                        else if (id === 'inp-sip-price') { base = getSipBase(); discInp = document.getElementById('inp-sip-disc'); }
+                        else if (id === 'inp-serv-price') { base = getServBase(); discInp = document.getElementById('inp-serv-disc'); }
+                        else if (id === 'inp-supp-price') { base = getSuppBase(); discInp = document.getElementById('inp-supp-disc'); }
+
+                        const val = parseFloat(inp.value) || 0;
+                        if (base > 0 && discInp) {
+                            const calculatedDisc = Math.max(0, Math.round((1 - val / base) * 1000) / 10);
+                            discInp.value = calculatedDisc;
+                        }
+                        updateModuleEconomics();
+                        renderAll();
+                        debouncedSaveDraft();
+                    };
+                    inp.addEventListener('input', handlePriceChange);
+                    inp.addEventListener('change', handlePriceChange);
+                });
+
                 document.querySelectorAll(autoRecalcSelectors).forEach(el => {
                     el.addEventListener('input', () => { recalculatePrices(); renderAll(); debouncedSaveDraft(); });
                     el.addEventListener('change', () => { recalculatePrices(); renderAll(); debouncedSaveDraft(); });
