@@ -1257,7 +1257,21 @@
         .doc-sheet h1,
         .doc-sheet h2,
         .doc-sheet h3,
+        .doc-sheet,
+        .doc-sheet * {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        .doc-sheet h1,
+        .doc-sheet h2,
+        .doc-sheet h3,
         .doc-sheet h4,
+        .doc-sheet p,
+        .doc-sheet span,
+        .doc-sheet div,
         .doc-sheet table,
         .doc-sheet thead,
         .doc-sheet tbody,
@@ -1268,10 +1282,6 @@
         .doc-sheet li {
             color: #0f172a !important;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-            -webkit-user-select: text !important;
-            -moz-user-select: text !important;
-            -ms-user-select: text !important;
-            user-select: text !important;
         }
 
         .doc-sheet .brand-header {
@@ -2489,6 +2499,40 @@
                     .replace(/'/g, '&#039;');
             };
 
+            // ROBUST CLIPBOARD HELPER WITH RELIABLE FALLBACK
+            window.safeCopyToClipboard = (text, successMsg) => {
+                const showSuccess = () => {
+                    if (window.showToastNotify) {
+                        window.showToastNotify(successMsg || '📋 Скопировано в буфер обмена!');
+                    }
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(showSuccess).catch(() => {
+                        fallbackCopy(text, showSuccess);
+                    });
+                } else {
+                    fallbackCopy(text, showSuccess);
+                }
+            };
+
+            const fallbackCopy = (text, callback) => {
+                try {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    ta.style.top = '0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    if (callback) callback();
+                } catch (e) {
+                    console.warn('Clipboard fallback failed:', e);
+                }
+            };
+
             // BULLETPROOF AUTHENTICATION GATE
             const AUTH_STORAGE_KEY = 'nodus_admin_auth_token_v2';
             const AUTH_TOKEN_VALUE = 'nodus_auth_token_active_vadim_2026';
@@ -3366,7 +3410,7 @@
 
                     const itemsListHtml = (d.items || []).map(it => `
                         <div style="display:flex; justify-content:space-between; gap:8px; padding:2px 0;">
-                            <span>• ${it.name} (${it.qty} ${it.unit})</span>
+                            <span>• ${escapeHtml(it.name)} (${it.qty} ${escapeHtml(it.unit)})</span>
                             <span style="font-family:'JetBrains Mono',monospace; font-weight:700; white-space:nowrap;">${fmtKZT(it.price)}</span>
                         </div>
                     `).join('');
@@ -3476,7 +3520,7 @@
                     <div class="arch-toolbar">
                         <div class="arch-search-wrap">
                             <span class="arch-search-icon">🔍</span>
-                            <input type="text" id="arch-search-input" class="arch-search-inp" placeholder="Поиск по компании, БИН, номеру документа..." value="${archiveSearchQuery}">
+                            <input type="text" id="arch-search-input" class="arch-search-inp" placeholder="Поиск по компании, БИН, номеру документа..." value="${escapeHtml(archiveSearchQuery)}">
                         </div>
 
                         <div class="arch-filter-tabs">
@@ -3550,7 +3594,7 @@
                     const rowEl = document.createElement('div');
                     rowEl.className = 'custom-row';
                     rowEl.innerHTML = `
-                        <input type="text" class="c-input cr-name" data-idx="${idx}" value="${row.name}" placeholder="Наименование услуги">
+                        <input type="text" class="c-input cr-name" data-idx="${idx}" value="${escapeHtml(row.name)}" placeholder="Наименование услуги">
                         <input type="number" class="c-input cr-price" data-idx="${idx}" value="${row.price}" placeholder="₸">
                         <button type="button" class="btn-del-custom" data-idx="${idx}">&times;</button>
                     `;
@@ -4333,8 +4377,8 @@
                         ? activeItems.map((it, idx) => `
                             <tr>
                                 <td style="text-align:center;">${idx + 1}</td>
-                                <td>${it.name}</td>
-                                <td style="text-align:center;">${it.unit}</td>
+                                <td>${escapeHtml(it.name)}</td>
+                                <td style="text-align:center;">${escapeHtml(it.unit)}</td>
                                 <td style="text-align:center;">${it.qty}</td>
                                 <td style="text-align:right;">${fmtKZT(it.price)}</td>
                             </tr>
@@ -4566,9 +4610,9 @@
                             ? activeItems.map((it, idx) => `
                                 <tr>
                                     <td style="text-align:center; border:1px solid #000; padding:6px 4px;">${idx + 1}</td>
-                                    <td style="border:1px solid #000; padding:6px 8px; line-height:1.4;"><b>${it.name}</b></td>
+                                    <td style="border:1px solid #000; padding:6px 8px; line-height:1.4;"><b>${escapeHtml(it.name)}</b></td>
                                     <td style="text-align:center; border:1px solid #000; padding:6px 4px;">${it.qty}</td>
-                                    <td style="text-align:center; border:1px solid #000; padding:6px 4px;">${it.unit}</td>
+                                    <td style="text-align:center; border:1px solid #000; padding:6px 4px;">${escapeHtml(it.unit)}</td>
                                     <td style="text-align:right; border:1px solid #000; padding:6px 8px; font-family:'JetBrains Mono',monospace; white-space:nowrap;">${fmtKZT(it.price)}</td>
                                     <td style="text-align:right; border:1px solid #000; padding:6px 8px; font-weight:700; font-family:'JetBrains Mono',monospace; white-space:nowrap;">${fmtKZT(it.price)}</td>
                                 </tr>
@@ -4620,28 +4664,28 @@
                                 <tr>
                                     <td colspan="2" style="width:52%; vertical-align:top; border:1px solid #000; padding:4px 6px;">
                                         <div style="font-size:10px; color:#475569;">Бенефициар:</div>
-                                        <div style="font-weight:700; font-size:12px; margin-top:2px;">${myName}</div>
-                                        <div style="font-size:11px; margin-top:8px;" title="Кликните, чтобы скопировать БИН" onclick="navigator.clipboard.writeText('${myBin}'); if(window.showToastNotify) window.showToastNotify('📋 БИН скопирован: ${myBin}');">
-                                            <b>БИН:</b> <span style="font-family:'JetBrains Mono',monospace; font-weight:700;">${myBin}</span>
+                                        <div style="font-weight:700; font-size:12px; margin-top:2px;">${escapeHtml(myName)}</div>
+                                        <div style="font-size:11px; margin-top:8px; cursor:pointer;" title="Кликните, чтобы скопировать БИН" onclick="window.safeCopyToClipboard('${escapeHtml(myBin)}', '📋 БИН скопирован: ${escapeHtml(myBin)}');">
+                                            <b>БИН:</b> <span style="font-family:'JetBrains Mono',monospace; font-weight:700;">${escapeHtml(myBin)}</span>
                                         </div>
                                     </td>
-                                    <td style="width:30%; vertical-align:top; border:1px solid #000; padding:4px 6px; cursor:pointer;" title="Кликните, чтобы скопировать IBAN" onclick="navigator.clipboard.writeText('${myIban}'); if(window.showToastNotify) window.showToastNotify('📋 ИИК (IBAN) скопирован: ${myIban}');">
+                                    <td style="width:30%; vertical-align:top; border:1px solid #000; padding:4px 6px; cursor:pointer;" title="Кликните, чтобы скопировать IBAN" onclick="window.safeCopyToClipboard('${escapeHtml(myIban)}', '📋 ИИК (IBAN) скопирован: ${escapeHtml(myIban)}');">
                                         <div style="font-size:10px; color:#475569; text-align:center;">ИИК (IBAN)</div>
-                                        <div style="font-weight:700; font-size:11px; text-align:center; font-family:'JetBrains Mono',monospace; word-break:break-all; margin-top:6px;">${myIban}</div>
+                                        <div style="font-weight:700; font-size:11px; text-align:center; font-family:'JetBrains Mono',monospace; word-break:break-all; margin-top:6px;">${escapeHtml(myIban)}</div>
                                     </td>
                                     <td style="width:18%; vertical-align:top; border:1px solid #000; padding:4px 6px;">
                                         <div style="font-size:10px; color:#475569; text-align:center;">КБе</div>
-                                        <div style="font-weight:700; font-size:12px; text-align:center; margin-top:6px;">${myKbe}</div>
+                                        <div style="font-weight:700; font-size:12px; text-align:center; margin-top:6px;">${escapeHtml(myKbe)}</div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="vertical-align:top; border:1px solid #000; padding:4px 6px;">
                                         <div style="font-size:10px; color:#475569;">Банк бенефициара:</div>
-                                        <div style="font-weight:700; font-size:11.5px; margin-top:2px;">${myBank}</div>
+                                        <div style="font-weight:700; font-size:11.5px; margin-top:2px;">${escapeHtml(myBank)}</div>
                                     </td>
                                     <td style="vertical-align:top; border:1px solid #000; padding:4px 6px;">
                                         <div style="font-size:10px; color:#475569; text-align:center;">БИК</div>
-                                        <div style="font-weight:700; font-size:12px; text-align:center; font-family:'JetBrains Mono',monospace; margin-top:2px;">${myBik}</div>
+                                        <div style="font-weight:700; font-size:12px; text-align:center; font-family:'JetBrains Mono',monospace; margin-top:2px;">${escapeHtml(myBik)}</div>
                                     </td>
                                     <td style="vertical-align:top; border:1px solid #000; padding:4px 6px;">
                                         <div style="font-size:10px; color:#475569; text-align:center;">Код назначения платежа</div>
@@ -4651,26 +4695,26 @@
                             </table>
 
                             <div style="font-size:16px; font-weight:800; margin:16px 0 10px 0; border-bottom:2px solid #000; padding-bottom:4px;">
-                                Счет на оплату ${docNum} от ${dateNumeric}
+                                Счет на оплату ${escapeHtml(docNum)} от ${escapeHtml(dateNumeric)}
                             </div>
 
                             <table style="width:100%; border-collapse:collapse; margin-bottom:12px; font-size:11.5px; line-height:1.45;">
                                 <tr>
                                     <td style="width:18%; font-weight:700; vertical-align:top; padding:2px 0;">Поставщик:</td>
-                                    <td style="vertical-align:top; padding:2px 0;"><b>${myName}, ${myAddr}, тел.: ${myPhone}</b></td>
+                                    <td style="vertical-align:top; padding:2px 0;"><b>${escapeHtml(myName)}, ${escapeHtml(myAddr)}, тел.: ${escapeHtml(myPhone)}</b></td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:700; vertical-align:top; padding:2px 0;">Покупатель:</td>
-                                    <td style="vertical-align:top; padding:2px 0;"><b>${clName}${clBin ? `, БИН/ИИН: ${clBin}` : ''}${clAddr ? `, ${clAddr}` : ''}${clPhone ? `, тел.: ${clPhone}` : ''}</b></td>
+                                    <td style="vertical-align:top; padding:2px 0;"><b>${escapeHtml(clName)}${clBin ? `, БИН/ИИН: ${escapeHtml(clBin)}` : ''}${clAddr ? `, ${escapeHtml(clAddr)}` : ''}${clPhone ? `, тел.: ${escapeHtml(clPhone)}` : ''}</b></td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:700; vertical-align:top; padding:2px 0;">Договор:</td>
-                                    <td style="vertical-align:top; padding:2px 0;">${noContract ? '<b>Без договора (Счет-оферта)</b>' : (contractMode === 'licenses' ? `Лицензионный договор ${docNum} от ${dateFormatted}` : `Договор подряда ${docNum} от ${dateFormatted}`)}</td>
+                                    <td style="vertical-align:top; padding:2px 0;">${noContract ? '<b>Без договора (Счет-оферта)</b>' : (contractMode === 'licenses' ? `Лицензионный договор ${escapeHtml(docNum)} от ${escapeHtml(dateFormatted)}` : `Договор подряда ${escapeHtml(docNum)} от ${escapeHtml(dateFormatted)}`)}</td>
                                 </tr>
                                 <tr>
                                     <td style="font-weight:700; vertical-align:top; padding:4px 0; color:#0f172a;">Назначение платежа:</td>
                                     <td style="vertical-align:top; padding:4px 0;">
-                                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-left:3px solid #0284c7; padding:6px 10px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:#0f172a; line-height:1.45; border-radius:3px; cursor:pointer;" title="Кликните, чтобы скопировать назначение платежа" onclick="navigator.clipboard.writeText(this.innerText.trim()); if(window.showToastNotify) window.showToastNotify('📋 Назначение платежа скопировано в буфер!');">
+                                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-left:3px solid #0284c7; padding:6px 10px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:#0f172a; line-height:1.45; border-radius:3px; cursor:pointer;" title="Кликните, чтобы скопировать назначение платежа" onclick="window.safeCopyToClipboard(this.innerText.trim(), '📋 Назначение платежа скопировано в буфер!');">
                                             ${calculatedPurpose}
                                         </div>
                                         <div style="font-size:10px; color:#64748b; margin-top:2px;">(В графе «Назначение» в счёте и платежном поручении бухгалтерии указывать строго данную формулировку)</div>
@@ -5431,19 +5475,19 @@
                 syncInvoiceSchemeUI();
             });
 
-                        // DYNAMIC OFFICIAL DOCUMENT FILENAME GENERATOR
+            // DYNAMIC OFFICIAL DOCUMENT FILENAME GENERATOR
             const getDynamicPdfFilename = () => {
                 const rawNum = (document.getElementById('req-doc-num')?.value || 'ND-2026/08-27').trim();
                 const cleanNum = rawNum.startsWith('№') ? rawNum : `№ ${rawNum}`;
                 const fileSafeNum = cleanNum.replace(/[/\\:*?"<>|]/g, '-').replace(/\s+/g, ' ');
 
-                const rawDate = document.getElementById('req-doc-date')?.value;
-                let dateNumeric = '27.08.2026';
-                if (rawDate) {
-                    const parts = rawDate.split('-');
-                    if (parts.length === 3) {
-                        dateNumeric = `${parts[2]}.${parts[1]}.${parts[0]}`;
-                    }
+                const rawDate = document.getElementById('req-doc-date')?.value || getKzToday();
+                let dateNumeric = '';
+                const parts = (rawDate || '').split('-');
+                if (parts.length === 3) {
+                    dateNumeric = `${parts[2]}.${parts[1]}.${parts[0]}`;
+                } else {
+                    dateNumeric = rawDate || '04.09.2026';
                 }
 
                 if (activeTab === 'contract') {
@@ -5461,23 +5505,21 @@
             // COPY TO CLIPBOARD
             document.getElementById('btn-copy')?.addEventListener('click', () => {
                 const text = document.getElementById('print-area').innerText;
-                navigator.clipboard.writeText(text).then(() => {
-                    saveDealToArchive(false);
-                    showToastNotify('📋 Текст документа скопирован в буфер обмена!');
-                });
+                window.safeCopyToClipboard(text, '📋 Текст документа скопирован в буфер обмена!');
+                saveDealToArchive(false);
             });
 
             // COPY STRUCTURED BANK REQUISITES (FOR KASPI / ONLINE BANKING)
             document.getElementById('btn-copy-requisites')?.addEventListener('click', () => {
                 const myName = (document.getElementById('req-my-name')?.value || 'ИП «NODUS»').trim();
                 const myBin = (document.getElementById('req-my-bin')?.value || '010618550536').trim();
-                const myIban = (document.getElementById('req-my-iban')?.value || 'KZ21722C000037851214').trim();
+                const myIban = (document.getElementById('req-my-iban')?.value || 'KZ03722S000045101199').trim();
                 const myBank = (document.getElementById('req-my-bank')?.value || 'АО «Kaspi Bank»').trim();
-                const myBik = (document.getElementById('req-my-bik')?.value || 'CASPKZKZ').trim();
+                const myBik = (document.getElementById('req-my-bik')?.value || 'CASPKZKA').trim();
                 const myKbe = (document.getElementById('req-my-kbe')?.value || '19').trim();
-                const docNum = (document.getElementById('req-doc-num')?.value || 'ND-2026/08-27').trim();
-                const rawDate = document.getElementById('req-doc-date')?.value;
-                let dateStr = '27.08.2026';
+                const docNum = (document.getElementById('req-doc-num')?.value || '№ ND-2026/09-04').trim();
+                const rawDate = document.getElementById('req-doc-date')?.value || getKzToday();
+                let dateStr = '04.09.2026';
                 if (rawDate) {
                     const p = rawDate.split('-');
                     if (p.length === 3) dateStr = `${p[2]}.${p[1]}.${p[0]}`;
@@ -5507,16 +5549,14 @@
 ` +
                     `КБе: ${myKbe}
 ` +
-                    `КНП: 859
+                    `КНП: ${knp}
 ` +
                     `Назначение платежа: ${purpose}
 ` +
                     `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    saveDealToArchive(false);
-                    showToastNotify('⚡ Реквизиты для оплаты счета скопированы! Можно вставлять в Kaspi Pay или клиент-банк.', 3500);
-                });
+                window.safeCopyToClipboard(textToCopy, '⚡ Реквизиты для оплаты счета скопированы! Можно вставлять в Kaspi Pay или клиент-банк.');
+                saveDealToArchive(false);
             });
 
             // TRUE VECTOR PDF EXPORT & PRINT ENGINE (100% SELECTABLE & COPYABLE TEXT)
