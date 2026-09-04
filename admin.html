@@ -2492,6 +2492,23 @@
 
         document.addEventListener('DOMContentLoaded', () => {
 
+            // FLOATING TOAST NOTIFICATION ENGINE
+            let toastTimer = null;
+            const showToastNotify = (htmlMsg, duration = 3500) => {
+                const el = document.getElementById('floating-toast-notify');
+                if (!el) {
+                    console.log('[Toast]', htmlMsg);
+                    return;
+                }
+                el.innerHTML = htmlMsg;
+                el.classList.add('show');
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    el.classList.remove('show');
+                }, duration);
+            };
+            window.showToastNotify = showToastNotify;
+
             // XSS SANITIZATION HELPER
             const escapeHtml = (str) => {
                 if (str === null || str === undefined) return '';
@@ -3558,6 +3575,9 @@
                                     <button type="button" class="btn-arch-act btn-view-invoice" data-id="${d.id}" style="background:rgba(2, 132, 199, 0.18); border-color:#0284c7; color:#38bdf8;" title="Открыть официальный счет на оплату">
                                         🧾 Счет на оплату
                                     </button>
+                                    <button type="button" class="btn-arch-act btn-dl-deal-pdf" data-id="${d.id}" style="background:rgba(16, 185, 129, 0.18); border-color:#10b981; color:#34d399; font-weight:700;" title="Быстро скачать PDF документ">
+                                        📥 Скачать PDF
+                                    </button>
                                     <button type="button" class="btn-arch-act danger btn-del-deal" data-id="${d.id}" title="Удалить из архива">
                                         🗑️
                                     </button>
@@ -3684,6 +3704,17 @@
 
                 target.querySelectorAll('.btn-view-invoice').forEach(btn => {
                     btn.addEventListener('click', () => loadDealIntoEditor(btn.getAttribute('data-id'), 'invoice'));
+                });
+
+                target.querySelectorAll('.btn-dl-deal-pdf').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.getAttribute('data-id');
+                        const list = getArchiveList();
+                        const deal = list.find(d => d.id === id);
+                        const targetTab = (deal && deal.noContract) ? 'invoice' : 'contract';
+                        loadDealIntoEditor(id, targetTab);
+                        await downloadPdfFile();
+                    });
                 });
 
                 target.querySelectorAll('.btn-del-deal').forEach(btn => {
@@ -5680,9 +5711,13 @@
                 }
 
                 // Automatically save current deal state without duplicating
-                saveDealToArchive(false);
+                try {
+                    saveDealToArchive(false);
+                } catch (e) {
+                    console.warn('Auto-save archive error:', e);
+                }
 
-                showToastNotify(`⏳ Формирование PDF файла...`, 3000);
+                showToastNotify(`⏳ Формирование PDF файла «${filename}»...`, 4000);
 
                 if (typeof html2pdf !== 'undefined') {
                     try {
@@ -5705,7 +5740,23 @@
                             pagebreak: { mode: ['css', 'legacy'] }
                         };
 
-                        await html2pdf().set(opt).from(renderTarget).save();
+                        const pdfWorker = html2pdf().set(opt).from(renderTarget);
+                        const pdf = await pdfWorker.toPdf().get('pdf');
+                        const blob = pdf.output('blob');
+                        const blobUrl = URL.createObjectURL(blob);
+
+                        const link = document.createElement('a');
+                        link.href = blobUrl;
+                        link.download = filename.endsWith('.pdf') ? filename : `${filename}.pdf`;
+                        link.style.display = 'none';
+                        document.body.appendChild(link);
+                        link.click();
+
+                        setTimeout(() => {
+                            if (link.parentNode) link.parentNode.removeChild(link);
+                            URL.revokeObjectURL(blobUrl);
+                        }, 2000);
+
                         showToastNotify(`✅ Файл «${filename}» успешно скачан!`, 4000);
                         return;
                     } catch (err) {
@@ -5761,6 +5812,7 @@
             window.loadDealIntoEditor = loadDealIntoEditor;
             window.createNewDeal = createNewDeal;
             window.downloadPdfFile = downloadPdfFile;
+            window.getActiveTab = () => activeTab;
             bindInputs();
             loadDraftFromStorage();
             renderRecentClients();
